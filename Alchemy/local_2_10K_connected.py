@@ -259,6 +259,8 @@ for _ in range(5):
 
 
     best_val_error = None
+    test_error = None
+    test_error_log = None
     for epoch in range(1, 500):
         lr = scheduler.optimizer.param_groups[0]['lr']
         loss = train()
