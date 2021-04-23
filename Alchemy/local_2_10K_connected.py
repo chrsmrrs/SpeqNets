@@ -181,8 +181,8 @@ class NetGIN(torch.nn.Module):
 
         self.set2set = Set2Set(1 * dim, processing_steps=8)
         self.fc1 = Linear(2 * dim, dim)
-        self.fc2 = Linear(2 * dim, dim)
-        self.fc3 = Linear(2 * dim, dim)
+        self.fc2 = Linear(1 * dim, dim)
+        self.fc3 = Linear(1 * dim, dim)
         self.fc4 = Linear(dim, 12)
 
     def forward(self, data):
@@ -212,6 +212,7 @@ class NetGIN(torch.nn.Module):
         x_2 = F.relu(self.conv6_2(x_5_r, data.edge_index_2))
         x_6_r = self.mlp_6(torch.cat([x_1, x_2], dim=-1))
 
+        # TODO
         x_1 = F.relu(self.conv7_1(x_6_r, data.edge_index_1))
         x_2 = F.relu(self.conv7_2(x_6_r, data.edge_index_2))
         x_7_r = self.mlp_7(torch.cat([x_1, x_2], dim=-1))
@@ -228,7 +229,7 @@ class NetGIN(torch.nn.Module):
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
         x = self.fc4(x)
-        
+
         return x
 
 
