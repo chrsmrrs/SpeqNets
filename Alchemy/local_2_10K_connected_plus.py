@@ -215,7 +215,8 @@ class NetGIN(torch.nn.Module):
 
         x = x_6_r
 
-        x_all = self.set2set_all(x_all, data.batch_all.to(torch.long))
+        print(x_all.size())
+        x_all = self.set2set_all(x_all, data.batch_all)
         x = self.set2set(x, data.batch)
 
         print(x.size(), x_all.size())
