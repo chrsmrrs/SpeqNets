@@ -63,7 +63,8 @@ class Alchemy(InMemoryDataset):
         targets.extend(tmp_3)
 
         node_labels = pre.get_all_node_labels_connected_2("alchemy_full", True, True, indices_train, indices_val, indices_test)
-        node_labels_all = pre.get_all_node_labels_2("alchemy_full", True, True, indices_train, indices_val, indices_test)
+        node_labels_all = pre.get_all_node_labels_2("alchemy_full", True, True, indices_train, indices_val,
+                                                    indices_test)
 
         matrices = pre.get_all_matrices_local_connected_2("alchemy_full", indices_train)
         matrices.extend(pre.get_all_matrices_local_connected_2("alchemy_full", indices_val))
@@ -246,7 +247,6 @@ class NetGIN(torch.nn.Module):
 
         x_all = self.set2set_all(x_all, data.batch_all)
         x = self.set2set(x, data.batch)
-
 
         x = torch.cat([x, x_all], dim=-1)
 
