@@ -56,7 +56,7 @@ class ZINC(InMemoryDataset):
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
 
-        dp.get_dataset("ZINC_full")
+        targets = dp.get_dataset("ZINC_full")
         dp.get_dataset("ZINC_train")
         dp.get_dataset("ZINC_test")
         dp.get_dataset("ZINC_val")
@@ -64,13 +64,17 @@ class ZINC(InMemoryDataset):
         node_labels_all = pre.get_all_node_labels_2("ZINC_full", True, True, indices_train, indices_val,
                                                     indices_test)
 
-        targets = pre.read_targets("ZINC_train", indices_train)
-        targets.extend(pre.read_targets("ZINC_val", indices_val))
-        targets.extend(pre.read_targets("ZINC_test", indices_test))
+        tmp_1 = targets[indices_train].tolist()
+        tmp_2 = targets[indices_val].tolist()
+        tmp_3 = targets[indices_test].tolist()
+        targets = tmp_1
+        targets.extend(tmp_2)
+        targets.extend(tmp_3)
 
-        matrices = pre.get_all_matrices_local_connected_2("ZINC_train", indices_train)
-        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_val", indices_val))
-        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_test", indices_test))
+
+        matrices = pre.get_all_matrices_local_connected_2("ZINC_full", indices_train)
+        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_full", indices_val))
+        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_full", indices_test))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
