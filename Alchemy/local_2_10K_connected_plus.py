@@ -120,8 +120,8 @@ class NetGIN(torch.nn.Module):
 
         num_features = 49
 
-        self.nn_all = Sequential(Linear(83, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
-                           torch.nn.BatchNorm1d(dim), ReLU())
+        #self.nn_all = Sequential(Linear(83, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+        #                   torch.nn.BatchNorm1d(dim), ReLU())
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
