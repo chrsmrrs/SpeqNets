@@ -78,7 +78,6 @@ class ZINC(InMemoryDataset):
         targets.extend(tmp_2)
         targets.extend(tmp_3)
 
-
         matrices = pre.get_all_matrices_local_connected_2("ZINC_full", indices_train)
         matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_full", indices_val))
         matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_full", indices_test))
