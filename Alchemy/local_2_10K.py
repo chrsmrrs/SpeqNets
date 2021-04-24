@@ -62,13 +62,11 @@ class Alchemy(InMemoryDataset):
         targets.extend(tmp_2)
         targets.extend(tmp_3)
 
-        node_labels = pre.get_all_node_labels_2("alchemy_train", True, True, indices_train, [], [])
-        node_labels.append(pre.get_all_node_labels_2("alchemy_val", True, True, [], indices_val, []))
-        node_labels.append(pre.get_all_node_labels_2("alchemy_test", True, True, [], [], indices_test))
+        node_labels = pre.get_all_node_labels_2("alchemy_full", True, True, indices_train, indices_val, indices_test)
 
-        matrices = pre.get_all_matrices_local_2("alchemy_train", indices_train)
-        matrices.extend(pre.get_all_matrices_local_2("alchemy_val", indices_val))
-        matrices.extend(pre.get_all_matrices_local_2("alchemy_test", indices_test))
+        matrices = pre.get_all_matrices_local_2("alchemy_full", indices_train)
+        matrices.extend(pre.get_all_matrices_local_2("alchemy_full", indices_val))
+        matrices.extend(pre.get_all_matrices_local_2("alchemy_full", indices_test))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
