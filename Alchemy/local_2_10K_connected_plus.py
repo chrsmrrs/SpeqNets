@@ -218,6 +218,9 @@ class NetGIN(torch.nn.Module):
         x_all = self.set2set_all(x_all, data.batch_all.to(torch.long))
         x = self.set2set(x, data.batch)
 
+        print(x.size(), x_all.size())
+        exit()
+
         x = torch.cat([x, x_all], dim=-1)
 
         x = F.relu(self.fc1(x))
