@@ -268,7 +268,7 @@ vector <pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_
 }
 
 
-vector <pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_local_connected_2(string name, const std::vector<int> &indices) {
+vector <pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_local_connected_2(const string name, const std::vector<int> &indices) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
 
     gdb.erase(gdb.begin()+ 0);
@@ -288,11 +288,11 @@ vector <pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_
 }
 
 
-vector <vector<unsigned long>> get_all_node_labels_allchem_2(const bool use_node_labels, const bool use_edge_labels,
+vector <vector<unsigned long>> get_all_node_labels_2(const string dataset, const bool use_node_labels, const bool use_edge_labels,
                                                            const std::vector<int> &indices_train,
                                                            const std::vector<int> &indices_val,
                                                            const std::vector<int> &indices_test) {
-    GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file("alchemy_full");
+    GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file(dataset);
     gdb_1.erase(gdb_1.begin() + 0);
 
     GraphDatabase gdb_new_1;
@@ -346,11 +346,11 @@ vector <vector<unsigned long>> get_all_node_labels_allchem_2(const bool use_node
 }
 
 
-vector <vector<unsigned long>> get_all_node_labels_allchem_connected_2(const bool use_node_labels, const bool use_edge_labels,
+vector <vector<unsigned long>> get_all_node_labels_connected_2(const string dataset, const bool use_node_labels, const bool use_edge_labels,
                                                            const std::vector<int> &indices_train,
                                                            const std::vector<int> &indices_val,
                                                            const std::vector<int> &indices_test) {
-    GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file("alchemy_full");
+    GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file(dataset);
     gdb_1.erase(gdb_1.begin() + 0);
 
     GraphDatabase gdb_new_1;
@@ -407,7 +407,7 @@ vector <vector<unsigned long>> get_all_node_labels_allchem_connected_2(const boo
 PYBIND11_MODULE(preprocessing, m) {
     m.def("get_all_matrices_local_2", &get_all_matrices_local_2);
     m.def("get_all_matrices_local_connected_2", &get_all_matrices_local_connected_2);
-    m.def("get_all_node_labels_allchem_2", &get_all_node_labels_allchem_2);
-    m.def("get_all_node_labels_allchem_connected_2", &get_all_node_labels_allchem_connected_2);
+    m.def("get_all_node_labels_2", &get_all_node_labels_2);
+    m.def("get_all_node_labels_connected_2", &get_all_node_labels_connected_2);
 
 }
