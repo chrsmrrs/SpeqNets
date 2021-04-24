@@ -56,21 +56,27 @@ class ZINC(InMemoryDataset):
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
 
-        targets = dp.get_dataset("ZINC_full")
-        dp.get_dataset("ZINC_train")
-        dp.get_dataset("ZINC_test")
-        dp.get_dataset("ZINC_val")
-        node_labels = pre.get_all_node_labels_connected_2("ZINC_full", True, True, indices_train, indices_val, indices_test)
-        node_labels_all = pre.get_all_node_labels_2("ZINC_full", True, True, indices_train, indices_val,
-                                                    indices_test)
+        dp.get_dataset("ZINC_full")
+        targets_train = dp.get_dataset("ZINC_train")
+        targets_test = dp.get_dataset("ZINC_test")
+        targets_val = dp.get_dataset("ZINC_val")
+        all = list(range(0, len(targets)))
+        node_labels = pre.get_all_node_labels_connected_2("ZINC_full", True, True, all, [], [])
 
-        tmp_1 = targets[indices_train].tolist()
-        tmp_2 = targets[indices_val].tolist()
-        tmp_3 = targets[indices_test].tolist()
+        node_labels_train = node_labels[0:220011][indices_train]
+        node_labels_test = node_labels[220011:225011][indices_test]
+        node_labels_val = node_labels[225011:249456][indices_val]
+
+        node_labels = node_labels_train
+        node_labels.append(node_labels_val)
+        node_labels.append(node_labels_test)
+
+        tmp_1 = targets_train[indices_train].tolist()
+        tmp_2 = targets_val[indices_val].tolist()
+        tmp_3 = targets_val[indices_test].tolist()
         targets = tmp_1
         targets.extend(tmp_2)
         targets.extend(tmp_3)
-
 
         matrices = pre.get_all_matrices_local_connected_2("ZINC_full", indices_train)
         matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_full", indices_val))
