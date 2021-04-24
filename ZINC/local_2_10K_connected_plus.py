@@ -78,9 +78,9 @@ class ZINC(InMemoryDataset):
         targets.extend(tmp_2)
         targets.extend(tmp_3)
 
-        matrices = pre.get_all_matrices_local_connected_2("ZINC_full", indices_train)
-        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_full", indices_val))
-        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_full", indices_test))
+        matrices = pre.get_all_matrices_local_connected_2("ZINC_train", indices_train)
+        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_val", indices_val))
+        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_test", indices_test))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
