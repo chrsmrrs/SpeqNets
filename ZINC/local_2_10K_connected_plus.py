@@ -103,7 +103,7 @@ class ZINC(InMemoryDataset):
             one_hot = np.eye(242)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
 
-            one_hot = np.eye(652)[node_labels_all[i]]
+            one_hot = np.eye(445)[node_labels_all[i]]
             data.x_all = torch.from_numpy(one_hot).to(torch.float)
 
             n = one_hot.shape[0]
@@ -140,7 +140,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 158
+        num_features = 242
 
         #self.nn_all = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
         #                   torch.nn.BatchNorm1d(dim), ReLU())
@@ -173,7 +173,7 @@ class NetGIN(torch.nn.Module):
         self.bn4 = torch.nn.BatchNorm1d(dim)
         self.mlp_4 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.fc1 = Linear(4 * dim + 652, dim)
+        self.fc1 = Linear(4 * dim + 445, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
         self.fc4 = Linear(dim, 1)
@@ -288,4 +288,5 @@ print("########################")
 print(results)
 results = np.array(results)
 print(results.mean(), results.std())
+
 
