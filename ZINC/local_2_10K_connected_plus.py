@@ -68,7 +68,7 @@ class ZINC(InMemoryDataset):
         node_labels_train = node_labels[0:220011][indices_train]
         node_labels_test = node_labels[220011:225011][indices_test]
         node_labels_val = node_labels[225011:249456][indices_val]
-        
+
         node_labels_train_all = node_labels_all[0:220011][indices_train]
         node_labels_test_all = node_labels_all[220011:225011][indices_test]
         node_labels_val_all = node_labels_all[225011:249456][indices_val]
@@ -100,7 +100,7 @@ class ZINC(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(158)[node_labels[i]]
+            one_hot = np.eye(242)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
 
             one_hot = np.eye(445)[node_labels_all[i]]
@@ -109,7 +109,6 @@ class ZINC(InMemoryDataset):
             n = one_hot.shape[0]
             data.num_all = n
             data.batch_all = torch.from_numpy(np.zeros(n)).to(torch.long)
-
 
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
