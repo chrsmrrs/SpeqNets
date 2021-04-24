@@ -172,7 +172,21 @@ class NetGIN(torch.nn.Module):
         self.bn4 = torch.nn.BatchNorm1d(dim)
         self.mlp_4 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.fc1 = Linear(4 * dim + dim, dim)
+        nn5_1 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
+        nn5_2 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
+        self.conv5_1 = GINConv(nn5_1, train_eps=True)
+        self.conv5_2 = GINConv(nn5_2, train_eps=True)
+        self.bn5 = torch.nn.BatchNorm1d(dim)
+        self.mlp_5 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+
+        nn6_1 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
+        nn6_2 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
+        self.conv6_1 = GINConv(nn6_1, train_eps=True)
+        self.conv6_2 = GINConv(nn6_2, train_eps=True)
+        self.bn6 = torch.nn.BatchNorm1d(dim)
+        self.mlp_6 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+
+        self.fc1 = Linear(6 * dim + dim, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
         self.fc4 = Linear(dim, 1)
@@ -202,7 +216,17 @@ class NetGIN(torch.nn.Module):
         x_4_r = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
         x_4_r = self.bn4(x_4_r)
 
-        x = torch.cat([x_1_r, x_2_r, x_3_r, x_4_r], dim=-1)
+        x_1 = F.relu(self.conv5_1(x_4_r, data.edge_index_1))
+        x_2 = F.relu(self.conv5_2(x_4_r, data.edge_index_2))
+        x_5_r = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
+        x_5_r = self.bn5(x_5_r)
+
+        x_1 = F.relu(self.conv6_1(x_5_r, data.edge_index_1))
+        x_2 = F.relu(self.conv6_2(x_5_r, data.edge_index_2))
+        x_6_r = self.mlp_6(torch.cat([x_1, x_2], dim=-1))
+        x_6_r = self.bn4(x_6_r)
+
+        x = torch.cat([x_1_r, x_2_r, x_3_r, x_4_r, x_5_r, x_6_r], dim=-1)
         x = global_mean_pool(x, data.batch)
         x_all = self.nn_all(x_all)
         x_all = global_mean_pool(x_all, data.batch_all)
