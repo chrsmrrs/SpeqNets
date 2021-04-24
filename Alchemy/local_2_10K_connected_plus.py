@@ -23,11 +23,11 @@ class Alchemy(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "alchemy10__"
+        return "alchemy10___"
 
     @property
     def processed_file_names(self):
-        return "alchemy10__"
+        return "alchemy10___"
 
     def download(self):
         pass
@@ -83,7 +83,7 @@ class Alchemy(InMemoryDataset):
             one_hot = np.eye(83)[node_labels_all[i]]
             data.x_all = torch.from_numpy(one_hot).to(torch.float)
 
-            n = one_hot.shape[-1]
+            n = one_hot.shape[0]
             data.num_all = n
             data.batch_all = torch.from_numpy(np.zeros(n)).to(torch.long)
 
