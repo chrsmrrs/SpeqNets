@@ -176,6 +176,24 @@ class NetGIN(torch.nn.Module):
         self.mlp_6 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                                 torch.nn.BatchNorm1d(dim), ReLU())
 
+        nn7_1 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        nn7_2 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        self.conv7_1 = GINConv(nn7_1, train_eps=True)
+        self.conv7_2 = GINConv(nn7_2, train_eps=True)
+        self.mlp_7 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                                torch.nn.BatchNorm1d(dim), ReLU())
+
+        nn8_1 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        nn8_2 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        self.conv8_1 = GINConv(nn8_1, train_eps=True)
+        self.conv8_2 = GINConv(nn8_2, train_eps=True)
+        self.mlp_8 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                                torch.nn.BatchNorm1d(dim), ReLU())
+
         self.set2set = Set2Set(1 * dim, processing_steps=6)
         self.set2set_all = Set2Set(1 * 83, processing_steps=6)
         self.fc1 = Linear(2 * dim + 2 * 83, dim)
@@ -214,7 +232,16 @@ class NetGIN(torch.nn.Module):
         x_2 = F.relu(self.conv6_2(x_5_r, data.edge_index_2))
         x_6_r = self.mlp_6(torch.cat([x_1, x_2], dim=-1))
 
-        x = x_6_r
+        # TODO
+        x_1 = F.relu(self.conv7_1(x_6_r, data.edge_index_1))
+        x_2 = F.relu(self.conv7_2(x_6_r, data.edge_index_2))
+        x_7_r = self.mlp_7(torch.cat([x_1, x_2], dim=-1))
+
+        x_1 = F.relu(self.conv6_1(x_7_r, data.edge_index_1))
+        x_2 = F.relu(self.conv6_2(x_7_r, data.edge_index_2))
+        x_8_r = self.mlp_8(torch.cat([x_1, x_2], dim=-1))
+
+        x = x_8_r
 
 
         x_all = self.set2set_all(x_all, data.batch_all)
