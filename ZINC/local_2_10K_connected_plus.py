@@ -65,13 +65,13 @@ class ZINC(InMemoryDataset):
         node_labels_all = pre.get_all_node_labels_2("ZINC_full", True, True, all, [], [])
 
 
-        node_labels_train = node_labels[0:220011][indices_train]
-        node_labels_test = node_labels[220011:225011][indices_test]
-        node_labels_val = node_labels[225011:249456][indices_val]
+        node_labels_train = (np.array(node_labels[0:220011])[indices_train]).tolist()
+        node_labels_test = (np.array(node_labels[220011:225011])[indices_test]).tolist()
+        node_labels_val = (np.array(node_labels[225011:249456])[indices_val]).tolist()
 
-        node_labels_train_all = node_labels_all[0:220011][indices_train]
-        node_labels_test_all = node_labels_all[220011:225011][indices_test]
-        node_labels_val_all = node_labels_all[225011:249456][indices_val]
+        node_labels_train_all = (np.array(node_labels_all[0:220011])[indices_train]).tolist()
+        node_labels_test_all = (np.array(node_labels_all[220011:225011])[indices_test]).tolist()
+        node_labels_val_all = (np.array(node_labels_all[225011:249456])[indices_val]).tolist()
 
         node_labels = node_labels_train
         node_labels.append(node_labels_val)
@@ -103,7 +103,7 @@ class ZINC(InMemoryDataset):
             one_hot = np.eye(242)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
 
-            one_hot = np.eye(445)[node_labels_all[i]]
+            one_hot = np.eye(652)[node_labels_all[i]]
             data.x_all = torch.from_numpy(one_hot).to(torch.float)
 
             n = one_hot.shape[0]
@@ -173,7 +173,7 @@ class NetGIN(torch.nn.Module):
         self.bn4 = torch.nn.BatchNorm1d(dim)
         self.mlp_4 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.fc1 = Linear(5 * dim, dim)
+        self.fc1 = Linear(4 * dim + 652, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
         self.fc4 = Linear(dim, 1)
