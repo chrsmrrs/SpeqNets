@@ -100,7 +100,7 @@ class MyData(Data):
         if key in ['edge_index_1', 'edge_index_2']:
             return self.num_nodes
         if key in ['batch_all']:
-            return self.num_all
+            return 1
         else:
             return 0
 
