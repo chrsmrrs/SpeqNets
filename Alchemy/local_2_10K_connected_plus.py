@@ -85,7 +85,7 @@ class Alchemy(InMemoryDataset):
 
             n = one_hot.shape[-1]
             data.num_all = n
-            data.batch_all = torch.from_numpy(np.zeros(n))
+            data.batch_all = torch.from_numpy(np.zeros(n)).to(torch.long)
 
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
@@ -215,7 +215,7 @@ class NetGIN(torch.nn.Module):
 
         x = x_6_r
 
-        x_all = self.set2set_all(x_all, data.batch_all.to(torch.int))
+        x_all = self.set2set_all(x_all, data.batch_all.to(torch.long))
         x = self.set2set(x, data.batch)
 
         x = torch.cat([x, x_all], dim=-1)
