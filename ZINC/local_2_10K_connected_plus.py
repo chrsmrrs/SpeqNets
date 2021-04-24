@@ -73,7 +73,7 @@ class ZINC(InMemoryDataset):
 
         tmp_1 = targets_train[indices_train].tolist()
         tmp_2 = targets_val[indices_val].tolist()
-        tmp_3 = targets_val[indices_test].tolist()
+        tmp_3 = targets_test[indices_test].tolist()
         targets = tmp_1
         targets.extend(tmp_2)
         targets.extend(tmp_3)
@@ -279,3 +279,4 @@ print("########################")
 print(results)
 results = np.array(results)
 print(results.mean(), results.std())
+
