@@ -73,12 +73,12 @@ class ZINC(InMemoryDataset):
         node_labels_val_all = node_labels_all[225011:249456]
 
         node_labels = [node_labels_train[i] for i in indices_train]
-        node_labels.append([node_labels_val[i] for i in indices_val])
-        node_labels.append([node_labels_test[i] for i in indices_test])
+        node_labels.extend([node_labels_val[i] for i in indices_val])
+        node_labels.extend([node_labels_test[i] for i in indices_test])
 
         node_labels_all = [node_labels_train_all[i] for i in indices_train]
-        node_labels_all.append([node_labels_val_all[i] for i in indices_val])
-        node_labels_all.append([node_labels_test_all[i] for i in indices_test])
+        node_labels_all.extend([node_labels_val_all[i] for i in indices_val])
+        node_labels_all.extend([node_labels_test_all[i] for i in indices_test])
 
         tmp_1 = targets_train[indices_train].tolist()
         tmp_2 = targets_val[indices_val].tolist()
