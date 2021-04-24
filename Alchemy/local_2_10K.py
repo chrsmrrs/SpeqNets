@@ -62,7 +62,7 @@ class Alchemy(InMemoryDataset):
         targets.extend(tmp_2)
         targets.extend(tmp_3)
 
-        node_labels = pre.get_all_node_labels_allchem_2(True, True, indices_train, indices_val, indices_test)
+        node_labels = pre.get_all_node_labels_2("alchemy_full", True, True, indices_train, indices_val, indices_test)
 
         matrices = pre.get_all_matrices_local_2("alchemy_full", indices_train)
         matrices.extend(pre.get_all_matrices_local_2("alchemy_full", indices_val))
