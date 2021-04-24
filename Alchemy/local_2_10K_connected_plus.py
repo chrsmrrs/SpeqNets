@@ -23,11 +23,11 @@ class Alchemy(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "alchemy10"
+        return "alchemy10__"
 
     @property
     def processed_file_names(self):
-        return "alchemy10"
+        return "alchemy10__"
 
     def download(self):
         pass
@@ -63,6 +63,7 @@ class Alchemy(InMemoryDataset):
         targets.extend(tmp_3)
 
         node_labels = pre.get_all_node_labels_allchem_connected_2(True, True, indices_train, indices_val, indices_test)
+        node_labels_all = pre.get_all_node_labels_allchem_2(True, True, indices_train, indices_val, indices_test)
 
         matrices = pre.get_all_matrices_local_connected_2("alchemy_full", indices_train)
         matrices.extend(pre.get_all_matrices_local_connected_2("alchemy_full", indices_val))
@@ -78,6 +79,14 @@ class Alchemy(InMemoryDataset):
 
             one_hot = np.eye(49)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
+
+            one_hot = np.eye(83)[node_labels_all[i]]
+            data.x_all = torch.from_numpy(one_hot).to(torch.float)
+
+            n = one_hot.shape[-1]
+            data.num_all = n
+            data.batch_all = torch.from_numpy(np.zeros(n))
+
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
@@ -88,9 +97,12 @@ class Alchemy(InMemoryDataset):
 
 class MyData(Data):
     def __inc__(self, key, value):
-        return self.num_nodes if key in [
-            'edge_index_1', 'edge_index_2'
-        ] else 0
+        if key in ['edge_index_1', 'edge_index_2']:
+            return self.num_nodes
+        if key in ['batch_all']:
+            return self.num_all
+        else:
+            return 0
 
 
 class MyTransform(object):
@@ -105,8 +117,10 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        # TODO
         num_features = 83
+
+        nn_all = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
@@ -181,13 +195,17 @@ class NetGIN(torch.nn.Module):
                                 torch.nn.BatchNorm1d(dim), ReLU())
 
         self.set2set = Set2Set(1 * dim, processing_steps=8)
-        self.fc1 = Linear(2 * dim, dim)
+        self.set2set_all = Set2Set(1 * dim, processing_steps=8)
+        self.fc1 = Linear(4 * dim, dim)
         self.fc2 = Linear(1 * dim, dim)
         self.fc3 = Linear(1 * dim, dim)
         self.fc4 = Linear(dim, 12)
 
     def forward(self, data):
         x = data.x
+        x_all = data.x_all
+
+        x_all = self.nn_all(x_all)
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
@@ -224,7 +242,10 @@ class NetGIN(torch.nn.Module):
 
         x = x_8_r
 
+        x_all = self.set2set_all(x_all, data.batch_all)
         x = self.set2set(x, data.batch)
+
+        x = torch.cat([x, x_all], dim=-1)
 
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))

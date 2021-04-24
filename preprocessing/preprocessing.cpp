@@ -217,7 +217,6 @@ vector<unsigned long> get_node_labels_local_2(const Graph &g, const bool use_lab
 
     for (Node i = 0; i < num_nodes; ++i) {
         for (Node j = 0; j < num_nodes; ++j) {
-
             Label c_i = 1;
             Label c_j = 2;
             if (use_labels) {
