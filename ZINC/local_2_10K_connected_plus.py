@@ -80,10 +80,10 @@ class ZINC(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(445)[node_labels[i]]
+            one_hot = np.eye(158)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
 
-            one_hot = np.eye(83)[node_labels_all[i]]
+            one_hot = np.eye(445)[node_labels_all[i]]
             data.x_all = torch.from_numpy(one_hot).to(torch.float)
 
             n = one_hot.shape[0]
@@ -121,7 +121,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 445
+        num_features = 158
 
         #self.nn_all = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
         #                   torch.nn.BatchNorm1d(dim), ReLU())
