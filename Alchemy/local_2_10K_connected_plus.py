@@ -178,7 +178,7 @@ class NetGIN(torch.nn.Module):
 
         self.set2set = Set2Set(1 * dim, processing_steps=6)
         self.set2set_all = Set2Set(1 * 83, processing_steps=6)
-        self.fc1 = Linear(4 * dim, dim)
+        self.fc1 = Linear(2 * dim + 2 * 83, dim)
         self.fc2 = Linear(1 * dim, dim)
         self.fc3 = Linear(1 * dim, dim)
         self.fc4 = Linear(dim, 12)
