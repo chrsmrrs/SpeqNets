@@ -56,6 +56,7 @@ class ZINC(InMemoryDataset):
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
 
+        dp.get_dataset("ZINC_full")
         dp.get_dataset("ZINC_train")
         dp.get_dataset("ZINC_test")
         dp.get_dataset("ZINC_val")
