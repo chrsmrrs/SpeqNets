@@ -37,59 +37,12 @@ class ZINC(InMemoryDataset):
     def process(self):
         data_list = []
 
-        indices_train = []
-        indices_val = []
-        indices_test = []
-
-        infile = open("test.index.txt", "r")
-        for line in infile:
-            indices_test = line.split(",")
-            indices_test = [int(i) for i in indices_test]
-
-        infile = open("val.index.txt", "r")
-        for line in infile:
-            indices_val = line.split(",")
-            indices_val = [int(i) for i in indices_val]
-
-        infile = open("train.index.txt", "r")
-        for line in infile:
-            indices_train = line.split(",")
-            indices_train = [int(i) for i in indices_train]
-
         targets = dp.get_dataset("ZINC_full")
-        targets_train = dp.get_dataset("ZINC_train")
-        targets_test = dp.get_dataset("ZINC_test")
-        targets_val = dp.get_dataset("ZINC_val")
         all = list(range(0, len(targets)))
         node_labels = pre.get_all_node_labels_connected_2("ZINC_full", True, True, all, [], [])
         node_labels_all = pre.get_all_node_labels_2("ZINC_full", True, True, all, [], [])
 
-        node_labels_train = node_labels[0:220011]
-        node_labels_test = node_labels[220011:225011]
-        node_labels_val = node_labels[225011:249456]
-
-        node_labels_train_all = node_labels_all[0:220011]
-        node_labels_test_all = node_labels_all[220011:225011]
-        node_labels_val_all = node_labels_all[225011:249456]
-
-        node_labels = [node_labels_train[i] for i in indices_train]
-        node_labels.extend([node_labels_val[i] for i in indices_val])
-        node_labels.extend([node_labels_test[i] for i in indices_test])
-
-        node_labels_all = [node_labels_train_all[i] for i in indices_train]
-        node_labels_all.extend([node_labels_val_all[i] for i in indices_val])
-        node_labels_all.extend([node_labels_test_all[i] for i in indices_test])
-
-        tmp_1 = targets_train[indices_train].tolist()
-        tmp_2 = targets_val[indices_val].tolist()
-        tmp_3 = targets_test[indices_test].tolist()
-        targets = tmp_1
-        targets.extend(tmp_2)
-        targets.extend(tmp_3)
-
-        matrices = pre.get_all_matrices_local_connected_2("ZINC_train", indices_train)
-        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_val", indices_val))
-        matrices.extend(pre.get_all_matrices_local_connected_2("ZINC_test", indices_test))
+        matrices = pre.get_all_matrices_local_connected_2("ZINC_full", all)
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
