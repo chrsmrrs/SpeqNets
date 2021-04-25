@@ -195,6 +195,7 @@ class NetGIN(torch.nn.Module):
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ZINC')
 dataset = ZINC(path, transform=MyTransform())
+exit()
 
 train_dataset = dataset[0:10000].shuffle()
 val_dataset = dataset[10000:11000].shuffle()
