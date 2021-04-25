@@ -213,19 +213,19 @@ class NetGIN(torch.nn.Module):
         x_4_r = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
         x_4_r = self.bn4(x_4_r)
 
-        # x_1 = F.relu(self.conv5_1(x_4_r, data.edge_index_1))
-        # x_2 = F.relu(self.conv5_2(x_4_r, data.edge_index_2))
-        # x_5_r = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
-        # x_5_r = self.bn5(x_5_r)
-        #
-        # x_1 = F.relu(self.conv6_1(x_5_r, data.edge_index_1))
-        # x_2 = F.relu(self.conv6_2(x_5_r, data.edge_index_2))
-        # x_6_r = self.mlp_6(torch.cat([x_1, x_2], dim=-1))
-        # x_6_r = self.bn4(x_6_r)
+        x_1 = F.relu(self.conv5_1(x_4_r, data.edge_index_1))
+        x_2 = F.relu(self.conv5_2(x_4_r, data.edge_index_2))
+        x_5_r = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
+        x_5_r = self.bn5(x_5_r)
 
-        x = torch.cat([x_1_r, x_2_r, x_3_r, x_4_r], dim=-1)
+        x_1 = F.relu(self.conv6_1(x_5_r, data.edge_index_1))
+        x_2 = F.relu(self.conv6_2(x_5_r, data.edge_index_2))
+        x_6_r = self.mlp_6(torch.cat([x_1, x_2], dim=-1))
+        x_6_r = self.bn4(x_6_r)
+
+        x = torch.cat([x_1_r, x_2_r, x_3_r, x_4_r, x_5_r, x_6_r], dim=-1)
         x = global_mean_pool(x, data.batch)
-        #x_all = self.nn_all(x_all)
+        x_all = self.nn_all(x_all)
         x_all = global_mean_pool(x_all, data.batch_all)
 
         x = torch.cat([x, x_all], dim=-1)
