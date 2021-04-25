@@ -183,7 +183,7 @@ class NetGIN(torch.nn.Module):
         self.bn6 = torch.nn.BatchNorm1d(dim)
         self.mlp_6 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.fc1 = Linear(4 * dim + 652, dim)
+        self.fc1 = Linear(6 * dim + dim, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
         self.fc4 = Linear(dim, 1)
