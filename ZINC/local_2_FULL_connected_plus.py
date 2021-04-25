@@ -197,9 +197,9 @@ path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ZINC')
 dataset = ZINC(path, transform=MyTransform())
 exit()
 
-train_dataset = dataset[0:10000].shuffle()
-val_dataset = dataset[10000:11000].shuffle()
-test_dataset = dataset[11000:].shuffle()
+train_dataset = dataset[0:220011].shuffle()
+val_dataset = dataset[225011:249456].shuffle()
+test_dataset = dataset[220011:225011].shuffle()
 
 batch_size = 25
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
