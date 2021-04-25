@@ -221,7 +221,7 @@ class NetGIN(torch.nn.Module):
         x_1 = F.relu(self.conv6_1(x_5_r, data.edge_index_1))
         x_2 = F.relu(self.conv6_2(x_5_r, data.edge_index_2))
         x_6_r = self.mlp_6(torch.cat([x_1, x_2], dim=-1))
-        x_6_r = self.bn4(x_6_r)
+        x_6_r = self.bn6(x_6_r)
 
         x = torch.cat([x_1_r, x_2_r, x_3_r, x_4_r, x_5_r, x_6_r], dim=-1)
         x = global_mean_pool(x, data.batch)
