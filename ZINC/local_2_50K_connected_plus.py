@@ -138,8 +138,8 @@ class NetGIN(torch.nn.Module):
 
         num_features = 242
 
-        self.nn_all = Sequential(Linear(652, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
-                           torch.nn.BatchNorm1d(dim), ReLU())
+        #self.nn_all = Sequential(Linear(652, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+        #                   torch.nn.BatchNorm1d(dim), ReLU())
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
@@ -197,7 +197,7 @@ class NetGIN(torch.nn.Module):
         self.bn8 = torch.nn.BatchNorm1d(dim)
         self.mlp_8 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.fc1 = Linear(8 * dim + dim, dim)
+        self.fc1 = Linear(8 * dim + 652, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
         self.fc4 = Linear(dim, 1)
@@ -249,7 +249,7 @@ class NetGIN(torch.nn.Module):
 
         x = torch.cat([x_1_r, x_2_r, x_3_r, x_4_r, x_5_r, x_6_r, x_7_r, x_8_r], dim=-1)
         x = global_mean_pool(x, data.batch)
-        x_all = self.nn_all(x_all)
+        #x_all = self.nn_all(x_all)
         x_all = global_mean_pool(x_all, data.batch_all)
 
         x = torch.cat([x, x_all], dim=-1)
