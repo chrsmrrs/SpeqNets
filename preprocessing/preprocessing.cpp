@@ -300,9 +300,9 @@ vector <tuple<vector < vector < uint>>, vector <vector<uint>>, vector <vector<ui
 
     vector <tuple<vector < vector < uint>>, vector <vector<uint>>, vector <vector<uint>>>> matrices;
 
-    for (auto &g: gdb_new) {
-        matrices.push_back(generate_local_connected_sparse_am_3(g, false, false));
-    }
+//    for (auto &g: gdb_new) {
+//        matrices.push_back(generate_local_connected_sparse_am_3(g, false, false));
+//    }
 
     return matrices;
 }
