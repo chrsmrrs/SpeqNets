@@ -196,8 +196,8 @@ class NetGIN(torch.nn.Module):
                                 torch.nn.BatchNorm1d(dim), ReLU())
 
         self.set2set = Set2Set(1 * dim, processing_steps=6)
-        self.set2set_all = Set2Set(1 * 83, processing_steps=6)
-        self.fc1 = Linear(2 * dim + 2 * 83, dim)
+        self.set2set_all = Set2Set(1 * 684, processing_steps=6)
+        self.fc1 = Linear(2 * dim + 2 * 684, dim)
         self.fc2 = Linear(1 * dim, dim)
         self.fc3 = Linear(1 * dim, dim)
         self.fc4 = Linear(dim, 12)
