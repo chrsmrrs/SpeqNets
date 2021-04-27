@@ -367,7 +367,7 @@ vector <pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_
 }
 
 
-vector <pair<vector < vector < uint>>, pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_local_connected_3(const string name, const std::vector<int> &indices) {
+vector <tuple<vector < vector < uint>>, pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_local_connected_3(const string name, const std::vector<int> &indices) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
 
     gdb.erase(gdb.begin()+ 0);
@@ -377,10 +377,10 @@ vector <pair<vector < vector < uint>>, pair<vector < vector < uint>>, vector <ve
         gdb_new.push_back(gdb[int(i)]);
     }
 
-    vector <pair<vector < vector < uint>>, vector <vector<uint>>>> matrices;
+    vector <tuple<vector < vector < uint>>, vector <vector<uint>>, vector <vector<uint>>   >> matrices;
 
     for (auto &g: gdb_new) {
-        matrices.push_back(generate_local_connected_sparse_am_2(g, false, false));
+        matrices.push_back(generate_local_connected_sparse_am_3(g, false, false));
     }
 
     return matrices;
