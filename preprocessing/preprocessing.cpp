@@ -342,59 +342,61 @@ vector<unsigned long> get_node_labels_3(const Graph &g) {
     for (Node i = 0; i < num_nodes; ++i) {
         for (Node j = 0; j < num_nodes; ++j) {
             for (Node k = 0; k < num_nodes; ++k) {
-                Label c_i = 1;
-                Label c_j = 2;
-                Label c_k = 3;
+                if ((g.has_edge(i,j) + g.has_edge(i,k) + g.has_edge(j,k) >= 2) or (i == j and j == k)) {
+                    Label c_i = 1;
+                    Label c_j = 2;
+                    Label c_k = 3;
 
-                c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
-                c_j = AuxiliaryMethods::pairing(labels[j] + 1, c_j);
-                c_k = AuxiliaryMethods::pairing(labels[k] + 1, c_k);
+                    c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
+                    c_j = AuxiliaryMethods::pairing(labels[j] + 1, c_j);
+                    c_k = AuxiliaryMethods::pairing(labels[k] + 1, c_k);
 
-                Label a, b, c;
-                if (g.has_edge(i, j)) {
-                    a = 1;
-                    auto s = edge_labels.find(make_tuple(i, j));
-                    a = AuxiliaryMethods::pairing(a, s->second);
-                    a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
-                } else if (not g.has_edge(i, j)) {
-                    a = 2;
-                    a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
-                } else {
-                    a = 3;
-                    a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
+                    Label a, b, c;
+                    if (g.has_edge(i, j)) {
+                        a = 1;
+                        auto s = edge_labels.find(make_tuple(i, j));
+                        a = AuxiliaryMethods::pairing(a, s->second);
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
+                    } else if (not g.has_edge(i, j)) {
+                        a = 2;
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
+                    } else {
+                        a = 3;
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
+                    }
+
+                    if (g.has_edge(i, k)) {
+                        b = 1;
+
+                        auto s = edge_labels.find(make_tuple(i, k));
+                        b = AuxiliaryMethods::pairing(b, s->second);
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
+                    } else if (not g.has_edge(i, k)) {
+                        b = 2;
+
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
+                    } else {
+                        b = 3;
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
+                    }
+
+                    if (g.has_edge(j, k)) {
+                        c = 1;
+                        auto s = edge_labels.find(make_tuple(j, k));
+                        c = AuxiliaryMethods::pairing(c, s->second);
+
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
+                    } else if (not g.has_edge(j, k)) {
+                        c = 2;
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
+                    } else {
+                        c = 3;
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
+                    }
+
+                    Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
+                    tuple_labels.push_back(new_color);
                 }
-
-                if (g.has_edge(i, k)) {
-                    b = 1;
-
-                    auto s = edge_labels.find(make_tuple(i, k));
-                    b = AuxiliaryMethods::pairing(b, s->second);
-                    b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
-                } else if (not g.has_edge(i, k)) {
-                    b = 2;
-
-                    b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
-                } else {
-                    b = 3;
-                    b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
-                }
-
-                if (g.has_edge(j, k)) {
-                    c = 1;
-                    auto s = edge_labels.find(make_tuple(j, k));
-                    c = AuxiliaryMethods::pairing(c, s->second);
-
-                    c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
-                } else if (not g.has_edge(j, k)) {
-                    c = 2;
-                    c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
-                } else {
-                    c = 3;
-                    c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
-                }
-
-                Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
-                tuple_labels.push_back(new_color);
             }
         }
     }
@@ -521,7 +523,7 @@ vector <vector<unsigned long>> get_all_node_labels_2(const string dataset, const
 }
 
 
-vector <vector<unsigned long>> get_all_node_labels_3(const string dataset, const bool use_node_labels, const bool use_edge_labels,
+vector <vector<unsigned long>> get_all_node_labels_connected_3(const string dataset, const bool use_node_labels, const bool use_edge_labels,
                                                            const std::vector<int> &indices_train,
                                                            const std::vector<int> &indices_val,
                                                            const std::vector<int> &indices_test) {
@@ -644,7 +646,7 @@ PYBIND11_MODULE(preprocessing, m) {
     m.def("get_all_matrices_local_connected_3", &get_all_matrices_local_connected_3);
 
     m.def("get_all_node_labels_2", &get_all_node_labels_2);
-    m.def("get_all_node_labels_3", &get_all_node_labels_3);
+    m.def("get_all_node_labels_connected_3", &get_all_node_labels__connected_3);
     m.def("get_all_node_labels_connected_2", &get_all_node_labels_connected_2);
 
 }
