@@ -81,7 +81,7 @@ class Alchemy(InMemoryDataset):
             one_hot = np.eye(444)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
 
-            one_hot = np.eye(83)[node_labels_all[i]]
+            one_hot = np.eye(684)[node_labels_all[i]]
             data.x_all = torch.from_numpy(one_hot).to(torch.float)
 
             n = one_hot.shape[0]
