@@ -10,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Alchemy/local_3_10K_connected.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/preprocessing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/preprocessing.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,7 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ZINC" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Alchemy" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -44,6 +45,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Alchemy" />
       <recent name="$PROJECT_DIR$/ZINC" />
     </key>
   </component>
@@ -70,7 +72,7 @@
       <option name="presentableId" value="Default" />
       <updated>1619222809695</updated>
       <workItem from="1619222812604" duration="1052000" />
-      <workItem from="1619474695895" duration="8769000" />
+      <workItem from="1619474695895" duration="9064000" />
     </task>
     <task id="LOCAL-00001" summary="MC.">
       <created>1619474883536</created>
@@ -177,7 +179,21 @@
       <option name="project" value="LOCAL" />
       <updated>1619487967958</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="MC.">
+      <created>1619488001476</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1619488001476</updated>
+    </task>
+    <task id="LOCAL-00017" summary="MC.">
+      <created>1619488145198</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1619488145198</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,20 +204,20 @@
     <option name="LAST_COMMIT_MESSAGE" value="MC." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="156" y="32" key="CommitChangelistDialog2" timestamp="1619488001296">
+    <state x="156" y="32" key="CommitChangelistDialog2" timestamp="1619488145019">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="117" y="31" key="CommitChangelistDialog2/0.25.1440.875@0.25.1440.875" timestamp="1619484984959" />
-    <state x="156" y="32" key="CommitChangelistDialog2/0.25.1920.1055@0.25.1920.1055" timestamp="1619488001296" />
+    <state x="156" y="32" key="CommitChangelistDialog2/0.25.1920.1055@0.25.1920.1055" timestamp="1619488145019" />
     <state x="432" y="183" key="MultipleFileMergeDialog" timestamp="1619475247320">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="432" y="183" key="MultipleFileMergeDialog/0.25.1440.875@0.25.1440.875" timestamp="1619475247320" />
-    <state x="427" y="237" key="Vcs.Push.Dialog.v2" timestamp="1619488002834">
+    <state x="427" y="237" key="Vcs.Push.Dialog.v2" timestamp="1619488146416">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="320" y="201" key="Vcs.Push.Dialog.v2/0.25.1440.875@0.25.1440.875" timestamp="1619484986307" />
-    <state x="427" y="237" key="Vcs.Push.Dialog.v2/0.25.1920.1055@0.25.1920.1055" timestamp="1619488002834" />
+    <state x="427" y="237" key="Vcs.Push.Dialog.v2/0.25.1920.1055@0.25.1920.1055" timestamp="1619488146416" />
     <state x="375" y="293" key="com.intellij.ide.util.TipDialog" timestamp="1619474752453">
       <screen x="0" y="25" width="1440" height="875" />
     </state>

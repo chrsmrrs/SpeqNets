@@ -326,7 +326,7 @@ vector<unsigned long> get_node_labels_local_2(const Graph &g, const bool use_lab
 }
 
 
-vector<unsigned long> get_node_labels_3(const Graph &g) {
+vector<unsigned long> get_node_labels_connected_3(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
 
     // Create a node for each two set.
@@ -558,7 +558,7 @@ vector <vector<unsigned long>> get_all_node_labels_connected_3(const string data
     unordered_map<int, int> m_label_to_index;
 
     for (auto &g: gdb_new_1) {
-        vector<unsigned long> colors = get_node_labels_3(g);
+        vector<unsigned long> colors = get_node_labels_connected_3(g);
         vector<unsigned long> new_color;
 
         for (auto &c: colors) {
