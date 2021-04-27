@@ -149,16 +149,16 @@ generate_local_connected_sparse_am_2(const Graph &g, const bool use_labels, cons
 }
 
 
-tuple <vector<vector < uint>>, vector <vector<uint>>, vector <vector<uint>>>
+tuple <vector<vector < uint>>, vector <vector<uint>>, vector <vector<uint>> >
 generate_local_connected_sparse_am_3(const Graph &g, const bool use_labels, const bool use_edge_labels) {
     size_t num_nodes = g.get_num_nodes();
     // New graph to be generated.
     Graph three_tuple_graph(false);
 
     // Maps node in two set graph to corresponding two tuple.
-    unordered_map <Node, TwoTuple> node_to_three_tuple;
+    unordered_map <Node, ThreeTuple> node_to_three_tuple;
     // Inverse of the above map.
-    unordered_map <TwoTuple, Node> three_tuple_to_node;
+    unordered_map <ThreeTuple, Node> three_tuple_to_node;
     // Manages edges labels.
     unordered_map <Edge, uint> edge_type;
     // Manages vertex ids
@@ -185,12 +185,12 @@ generate_local_connected_sparse_am_3(const Graph &g, const bool use_labels, cons
     vector <vector<uint >> nonzero_compenents_2;
     vector <vector<uint >> nonzero_compenents_3;
 
-    for (Node i = 0; i < num_two_tuples; ++i) {
+    for (Node i = 0; i < num_three_tuples; ++i) {
         // Get nodes of original graph corresponding to two tuple i.
         TwoTuple p = node_to_three_tuple.find(i)->second;
         Node v = std::get<0>(p);
         Node w = std::get<1>(p);
-        Node u = std::get<1>(p);
+        Node u = std::get<2>(p);
 
         // Exchange first node.
         Nodes v_neighbors = g.get_neighbours(v);
