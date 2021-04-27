@@ -178,6 +178,7 @@ generate_local_connected_sparse_am_3(const Graph &g, const bool use_labels, cons
                     three_tuple_to_node.insert({{make_tuple(i, j, k), num_three_tuples}});
                     num_three_tuples++;
                 }
+            }
         }
     }
 
