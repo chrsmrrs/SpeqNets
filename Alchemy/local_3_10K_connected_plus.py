@@ -62,13 +62,13 @@ class Alchemy(InMemoryDataset):
         targets.extend(tmp_2)
         targets.extend(tmp_3)
 
-        node_labels = pre.get_all_node_labels_connected_2("alchemy_full", True, True, indices_train, indices_val, indices_test)
-        node_labels_all = pre.get_all_node_labels_2("alchemy_full", True, True, indices_train, indices_val,
+        node_labels = pre.get_all_node_labels_connected_3("alchemy_full", True, True, indices_train, indices_val, indices_test)
+        node_labels_all = pre.get_all_node_labels_3("alchemy_full", True, True, indices_train, indices_val,
                                                     indices_test)
 
-        matrices = pre.get_all_matrices_local_connected_2("alchemy_full", indices_train)
-        matrices.extend(pre.get_all_matrices_local_connected_2("alchemy_full", indices_val))
-        matrices.extend(pre.get_all_matrices_local_connected_2("alchemy_full", indices_test))
+        matrices = pre.get_all_matrices_local_connected_3("alchemy_full", indices_train)
+        matrices.extend(pre.get_all_matrices_local_connected_3("alchemy_full", indices_val))
+        matrices.extend(pre.get_all_matrices_local_connected_3("alchemy_full", indices_test))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -78,7 +78,7 @@ class Alchemy(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(49)[node_labels[i]]
+            one_hot = np.eye(444)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
 
             one_hot = np.eye(83)[node_labels_all[i]]
@@ -118,7 +118,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 49
+        num_features = 444
 
         #self.nn_all = Sequential(Linear(83, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
         #                   torch.nn.BatchNorm1d(dim), ReLU())
