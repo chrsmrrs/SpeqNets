@@ -326,6 +326,82 @@ vector<unsigned long> get_node_labels_local_2(const Graph &g, const bool use_lab
 }
 
 
+vector<unsigned long> get_node_labels_3(const Graph &g) {
+    size_t num_nodes = g.get_num_nodes();
+
+    // Create a node for each two set.
+    Labels labels;
+    vector<unsigned long> tuple_labels;
+
+    labels = g.get_labels();
+
+    EdgeLabels edge_labels;
+    edge_labels = g.get_edge_labels();
+
+    size_t num_three_tuples = 0;
+    for (Node i = 0; i < num_nodes; ++i) {
+        for (Node j = 0; j < num_nodes; ++j) {
+            for (Node k = 0; k < num_nodes; ++k) {
+                Label c_i = 1;
+                Label c_j = 2;
+                Label c_k = 3;
+
+                c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
+                c_j = AuxiliaryMethods::pairing(labels[j] + 1, c_j);
+                c_k = AuxiliaryMethods::pairing(labels[k] + 1, c_k);
+
+                Label a, b, c;
+                if (g.has_edge(i, j)) {
+                    a = 1;
+                    auto s = edge_labels.find(make_tuple(i, j));
+                    a = AuxiliaryMethods::pairing(a, s->second);
+                    a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
+                } else if (not g.has_edge(i, j)) {
+                    a = 2;
+                    a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
+                } else {
+                    a = 3;
+                    a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), a);
+                }
+
+                if (g.has_edge(i, k)) {
+                    b = 1;
+
+                    auto s = edge_labels.find(make_tuple(i, k));
+                    b = AuxiliaryMethods::pairing(b, s->second);
+                    b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
+                } else if (not g.has_edge(i, k)) {
+                    b = 2;
+
+                    b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
+                } else {
+                    b = 3;
+                    b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
+                }
+
+                if (g.has_edge(j, k)) {
+                    c = 1;
+                    auto s = edge_labels.find(make_tuple(j, k));
+                    c = AuxiliaryMethods::pairing(c, s->second);
+
+                    c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
+                } else if (not g.has_edge(j, k)) {
+                    c = 2;
+                    c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
+                } else {
+                    c = 3;
+                    c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
+                }
+
+                Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
+                tuple_labels.push_back(new_color);
+            }
+        }
+    }
+
+    return tuple_labels;
+}
+
 
 vector <pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_local_2(string name, const std::vector<int> &indices) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
@@ -387,7 +463,6 @@ vector <tuple<vector < vector < uint>>, vector <vector<uint>>, vector <vector<ui
 }
 
 
-
 vector <vector<unsigned long>> get_all_node_labels_2(const string dataset, const bool use_node_labels, const bool use_edge_labels,
                                                            const std::vector<int> &indices_train,
                                                            const std::vector<int> &indices_val,
@@ -444,6 +519,65 @@ vector <vector<unsigned long>> get_all_node_labels_2(const string dataset, const
     cout << m_num_labels << endl;
     return node_labels;
 }
+
+
+vector <vector<unsigned long>> get_all_node_labels_3(const string dataset, const bool use_node_labels, const bool use_edge_labels,
+                                                           const std::vector<int> &indices_train,
+                                                           const std::vector<int> &indices_val,
+                                                           const std::vector<int> &indices_test) {
+    GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file(dataset);
+    gdb_1.erase(gdb_1.begin() + 0);
+
+    GraphDatabase gdb_new_1;
+    for (auto i : indices_train) {
+        gdb_new_1.push_back(gdb_1[int(i)]);
+    }
+    cout << gdb_new_1.size() << endl;
+    cout << "$$$" << endl;
+
+
+    for (auto i : indices_val) {
+        gdb_new_1.push_back(gdb_1[int(i)]);
+    }
+    cout << gdb_new_1.size() << endl;
+    cout << "$$$" << endl;
+
+
+    for (auto i : indices_test) {
+        gdb_new_1.push_back(gdb_1[int(i)]);
+    }
+    cout << gdb_new_1.size() << endl;
+    cout << "$$$" << endl;
+
+
+    vector <vector<unsigned long>> node_labels;
+
+    uint m_num_labels = 0;
+    unordered_map<int, int> m_label_to_index;
+
+    for (auto &g: gdb_new_1) {
+        vector<unsigned long> colors = get_node_labels_3(g, use_node_labels, use_edge_labels);
+        vector<unsigned long> new_color;
+
+        for (auto &c: colors) {
+            const auto it(m_label_to_index.find(c));
+            if (it == m_label_to_index.end()) {
+                m_label_to_index.insert({{c, m_num_labels}});
+                new_color.push_back(m_num_labels);
+
+                m_num_labels++;
+            } else {
+                new_color.push_back(it->second);
+            }
+        }
+
+        node_labels.push_back(new_color);
+    }
+
+    cout << m_num_labels << endl;
+    return node_labels;
+}
+
 
 
 vector <vector<unsigned long>> get_all_node_labels_connected_2(const string dataset, const bool use_node_labels, const bool use_edge_labels,
@@ -510,5 +644,7 @@ PYBIND11_MODULE(preprocessing, m) {
     m.def("get_all_matrices_local_connected_3", &get_all_matrices_local_connected_3);
 
     m.def("get_all_node_labels_2", &get_all_node_labels_2);
+    m.def("get_all_node_labels_3", &get_all_node_labels_3);
     m.def("get_all_node_labels_connected_2", &get_all_node_labels_connected_2);
+
 }
