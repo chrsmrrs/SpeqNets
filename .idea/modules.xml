@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SeqGN.iml" filepath="$PROJECT_DIR$/.idea/SeqGN.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../sparsewl/.idea/sparsewl.iml" filepath="$PROJECT_DIR$/../sparsewl/.idea/sparsewl.iml" />
     </modules>
   </component>
 </project>

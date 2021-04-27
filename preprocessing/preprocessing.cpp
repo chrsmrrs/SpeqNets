@@ -149,6 +149,85 @@ generate_local_connected_sparse_am_2(const Graph &g, const bool use_labels, cons
 }
 
 
+
+tuple <vector<vector < uint>>, vector <vector<uint>>, vector <vector<uint>>>
+generate_local_connected_sparse_am_3(const Graph &g, const bool use_labels, const bool use_edge_labels) {
+    size_t num_nodes = g.get_num_nodes();
+    // New graph to be generated.
+    Graph three_tuple_graph(false);
+
+    // Maps node in two set graph to corresponding two tuple.
+    unordered_map <Node, TwoTuple> node_to_three_tuple;
+    // Inverse of the above map.
+    unordered_map <TwoTuple, Node> three_tuple_to_node;
+    // Manages edges labels.
+    unordered_map <Edge, uint> edge_type;
+    // Manages vertex ids
+    unordered_map <Edge, uint> vertex_id;
+    unordered_map <Edge, uint> local;
+
+    // Create a node for each two set.
+    Node num_three_tuples = 0;
+    for (Node i = 0; i < num_nodes; ++i) {
+        for (Node j = 0; j < num_nodes; ++j) {
+            for (Node k = 0; k < num_nodes; ++k) {
+                if ((g.has_edge(i,j) + g.has_edge(i,j) + g.has_edge(j,k) > 1) or (i == j and j == k)) {
+                    three_tuple_graph.add_node();
+
+                    // Map each pair to node in two set graph and also inverse.
+                    node_to_three_tuple.insert({{num_three_tuples, make_tuple(i, j)}});
+                    three_tuple_to_node.insert({{make_tuple(i, j, k), num_three_tuples}});
+                    num_three_tuples++;
+                }
+        }
+    }
+
+    vector <vector<uint >> nonzero_compenents_1;
+    vector <vector<uint >> nonzero_compenents_2;
+    vector <vector<uint >> nonzero_compenents_3;
+
+    for (Node i = 0; i < num_two_tuples; ++i) {
+        // Get nodes of original graph corresponding to two tuple i.
+        TwoTuple p = node_to_three_tuple.find(i)->second;
+        Node v = std::get<0>(p);
+        Node w = std::get<1>(p);
+        Node u = std::get<1>(p);
+
+        // Exchange first node.
+        Nodes v_neighbors = g.get_neighbours(v);
+        for (Node v_n: v_neighbors) {
+            unordered_map<ThreeTuple, Node>::const_iterator t = three_tuple_to_node.find(make_tuple(v_n, w, u));
+
+            if (t != three_tuple_to_node.end()) {
+                nonzero_compenents_1.push_back({{i, t->second}});
+            }
+        }
+
+        // Exchange second node.
+        Nodes w_neighbors = g.get_neighbours(w);
+        for (Node w_n: w_neighbors) {
+            unordered_map<ThreeTuple, Node>::const_iterator t = three_tuple_to_node.find(make_tuple(v, w_n, u));
+
+            if (t != three_tuple_to_node.end()) {
+                nonzero_compenents_2.push_back({{i, t->second}});
+            }
+        }
+
+        // Exchange third node.
+        Nodes u_neighbors = g.get_neighbours(u);
+        for (Node u_n: u_neighbors) {
+            unordered_map<ThreeTuple, Node>::const_iterator t = three_tuple_to_node.find(make_tuple(v, w, u_n));
+
+            if (t != three_tuple_to_node.end()) {
+                nonzero_compenents_3.push_back({{i, t->second}});
+            }
+        }
+    }
+
+    return std::make_tuple(nonzero_compenents_1, nonzero_compenents_2, nonzero_compenents_3);
+}
+
+
 vector<unsigned long>
 get_node_labels_local_connected_2(const Graph &g, const bool use_labels, const bool use_edge_labels) {
    size_t num_nodes = g.get_num_nodes();
@@ -288,6 +367,27 @@ vector <pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_
 }
 
 
+vector <pair<vector < vector < uint>>, pair<vector < vector < uint>>, vector <vector<uint>>>> get_all_matrices_local_connected_3(const string name, const std::vector<int> &indices) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+
+    gdb.erase(gdb.begin()+ 0);
+    GraphDatabase gdb_new;
+
+    for (auto i: indices) {
+        gdb_new.push_back(gdb[int(i)]);
+    }
+
+    vector <pair<vector < vector < uint>>, vector <vector<uint>>>> matrices;
+
+    for (auto &g: gdb_new) {
+        matrices.push_back(generate_local_connected_sparse_am_2(g, false, false));
+    }
+
+    return matrices;
+}
+
+
+
 vector <vector<unsigned long>> get_all_node_labels_2(const string dataset, const bool use_node_labels, const bool use_edge_labels,
                                                            const std::vector<int> &indices_train,
                                                            const std::vector<int> &indices_val,
@@ -407,7 +507,8 @@ vector <vector<unsigned long>> get_all_node_labels_connected_2(const string data
 PYBIND11_MODULE(preprocessing, m) {
     m.def("get_all_matrices_local_2", &get_all_matrices_local_2);
     m.def("get_all_matrices_local_connected_2", &get_all_matrices_local_connected_2);
+    m.def("get_all_matrices_local_connected_3", &get_all_matrices_local_connected_3);
+
     m.def("get_all_node_labels_2", &get_all_node_labels_2);
     m.def("get_all_node_labels_connected_2", &get_all_node_labels_connected_2);
-
 }
