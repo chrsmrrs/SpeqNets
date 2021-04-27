@@ -10,8 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Alchemy/local_3_10K_connected_plus.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/local_3_10K_connected.py" beforeDir="false" afterPath="$PROJECT_DIR$/Alchemy/local_3_10K_connected.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/preprocessing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/preprocessing.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1619222809695</updated>
       <workItem from="1619222812604" duration="1052000" />
-      <workItem from="1619474695895" duration="9764000" />
+      <workItem from="1619474695895" duration="12202000" />
     </task>
     <task id="LOCAL-00001" summary="MC.">
       <created>1619474883536</created>
@@ -214,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619488549983</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="MC.">
+      <created>1619489002805</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1619489002805</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,27 +233,27 @@
     <option name="LAST_COMMIT_MESSAGE" value="MC." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="156" y="32" key="CommitChangelistDialog2" timestamp="1619488549795">
+    <state x="156" y="32" key="CommitChangelistDialog2" timestamp="1619489002389">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="117" y="31" key="CommitChangelistDialog2/0.25.1440.875@0.25.1440.875" timestamp="1619484984959" />
-    <state x="156" y="32" key="CommitChangelistDialog2/0.25.1920.1055@0.25.1920.1055" timestamp="1619488549795" />
+    <state x="156" y="32" key="CommitChangelistDialog2/0.25.1920.1055@0.25.1920.1055" timestamp="1619489002389" />
     <state x="432" y="183" key="MultipleFileMergeDialog" timestamp="1619475247320">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="432" y="183" key="MultipleFileMergeDialog/0.25.1440.875@0.25.1440.875" timestamp="1619475247320" />
-    <state x="427" y="237" key="Vcs.Push.Dialog.v2" timestamp="1619488551624">
+    <state x="427" y="237" key="Vcs.Push.Dialog.v2" timestamp="1619489004266">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="320" y="201" key="Vcs.Push.Dialog.v2/0.25.1440.875@0.25.1440.875" timestamp="1619484986307" />
-    <state x="427" y="237" key="Vcs.Push.Dialog.v2/0.25.1920.1055@0.25.1920.1055" timestamp="1619488551624" />
+    <state x="427" y="237" key="Vcs.Push.Dialog.v2/0.25.1920.1055@0.25.1920.1055" timestamp="1619489004266" />
     <state x="375" y="293" key="com.intellij.ide.util.TipDialog" timestamp="1619474752453">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="375" y="293" key="com.intellij.ide.util.TipDialog/0.25.1440.875@0.25.1440.875" timestamp="1619474752453" />
-    <state x="749" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1619485981634">
+    <state x="749" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1619491273224">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
-    <state x="749" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1920.1055@0.25.1920.1055" timestamp="1619485981634" />
+    <state x="749" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1920.1055@0.25.1920.1055" timestamp="1619491273224" />
   </component>
 </project>
