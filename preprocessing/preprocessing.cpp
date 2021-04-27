@@ -300,9 +300,9 @@ vector <tuple<vector < vector < uint>>, vector <vector<uint>>, vector <vector<ui
 
     vector <tuple<vector < vector < uint>>, vector <vector<uint>>, vector <vector<uint>>>> matrices;
 
-//    for (auto &g: gdb_new) {
-//        matrices.push_back(generate_local_connected_sparse_am_2(g, false, false));
-//    }
+    for (auto &g: gdb_new) {
+        matrices.push_back(generate_local_connected_sparse_am_3(g, false, false));
+    }
 
     return matrices;
 }
@@ -428,7 +428,7 @@ vector <vector<unsigned long>> get_all_node_labels_connected_2(const string data
 PYBIND11_MODULE(preprocessing, m) {
     m.def("get_all_matrices_local_2", &get_all_matrices_local_2);
     m.def("get_all_matrices_local_connected_2", &get_all_matrices_local_connected_2);
-    // m.def("get_all_matrices_local_connected_3", &get_all_matrices_local_connected_3);
+    m.def("get_all_matrices_local_connected_3", &get_all_matrices_local_connected_3);
 
     m.def("get_all_node_labels_2", &get_all_node_labels_2);
     m.def("get_all_node_labels_connected_2", &get_all_node_labels_connected_2);
