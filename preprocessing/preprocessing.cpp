@@ -646,7 +646,7 @@ PYBIND11_MODULE(preprocessing, m) {
     m.def("get_all_matrices_local_connected_3", &get_all_matrices_local_connected_3);
 
     m.def("get_all_node_labels_2", &get_all_node_labels_2);
-    m.def("get_all_node_labels_connected_3", &get_all_node_labels__connected_3);
+    m.def("get_all_node_labels_connected_3", &get_all_node_labels_connected_3);
     m.def("get_all_node_labels_connected_2", &get_all_node_labels_connected_2);
 
 }
