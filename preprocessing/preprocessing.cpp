@@ -556,7 +556,7 @@ vector <vector<unsigned long>> get_all_node_labels_3(const string dataset, const
     unordered_map<int, int> m_label_to_index;
 
     for (auto &g: gdb_new_1) {
-        vector<unsigned long> colors = get_node_labels_3(g, use_node_labels, use_edge_labels);
+        vector<unsigned long> colors = get_node_labels_3(g);
         vector<unsigned long> new_color;
 
         for (auto &c: colors) {
