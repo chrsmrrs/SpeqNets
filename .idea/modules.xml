@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SeqGN.iml" filepath="$PROJECT_DIR$/.idea/SeqGN.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../sparsewl/.idea/sparsewl.iml" filepath="$PROJECT_DIR$/../sparsewl/.idea/sparsewl.iml" />
+      <module fileurl="file://$USER_HOME$/mipGNN/.idea/mipGNN.iml" filepath="$USER_HOME$/mipGNN/.idea/mipGNN.iml" />
+      <module fileurl="file://$USER_HOME$/sparsewl/.idea/sparsewl.iml" filepath="$USER_HOME$/sparsewl/.idea/sparsewl.iml" />
     </modules>
   </component>
 </project>

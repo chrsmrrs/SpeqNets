@@ -195,8 +195,8 @@ class NetGIN(torch.nn.Module):
         self.mlp_8 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                                 torch.nn.BatchNorm1d(dim), ReLU())
 
-        self.set2set = Set2Set(1 * dim, processing_steps=6)
-        self.set2set_all = Set2Set(1 * 684, processing_steps=6)
+        self.set2set = Set2Set(1 * dim, processing_steps=8)
+        self.set2set_all = Set2Set(1 * 684, processing_steps=8)
         self.fc1 = Linear(2 * dim + 2 * 684, dim)
         self.fc2 = Linear(1 * dim, dim)
         self.fc3 = Linear(1 * dim, dim)
@@ -278,6 +278,7 @@ test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
 results = []
 results_log = []
+
 for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = NetGIN(64).to(device)

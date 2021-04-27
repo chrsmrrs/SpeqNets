@@ -367,13 +367,11 @@ vector<unsigned long> get_node_labels_connected_3(const Graph &g) {
 
                     if (g.has_edge(i, k)) {
                         b = 1;
-
                         auto s = edge_labels.find(make_tuple(i, k));
                         b = AuxiliaryMethods::pairing(b, s->second);
                         b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
                     } else if (not g.has_edge(i, k)) {
                         b = 2;
-
                         b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), b);
                     } else {
                         b = 3;
@@ -384,7 +382,6 @@ vector<unsigned long> get_node_labels_connected_3(const Graph &g) {
                         c = 1;
                         auto s = edge_labels.find(make_tuple(j, k));
                         c = AuxiliaryMethods::pairing(c, s->second);
-
                         c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), c);
                     } else if (not g.has_edge(j, k)) {
                         c = 2;
