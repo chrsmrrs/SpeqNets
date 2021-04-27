@@ -76,7 +76,7 @@ class Alchemy(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(49)[node_labels[i]]
+            one_hot = np.eye(444)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
@@ -106,7 +106,7 @@ class NetGIN(torch.nn.Module):
         super(NetGIN, self).__init__()
 
         # TODO
-        num_features = 83
+        num_features = 444
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
