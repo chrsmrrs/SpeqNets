@@ -10,6 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Alchemy/datasets/val_al_50.index" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Alchemy/local_2_50K_connected_plus.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Alchemy/test_al_50.index" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Alchemy/train_al_50.index" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +40,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ZINC" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Alchemy/datasets" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -46,8 +50,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/ZINC" />
+      <recent name="$PROJECT_DIR$/Alchemy/datasets" />
       <recent name="$PROJECT_DIR$/Alchemy" />
+      <recent name="$PROJECT_DIR$/ZINC" />
     </key>
   </component>
   <component name="ServiceViewManager">
@@ -77,7 +82,7 @@
       <workItem from="1619474695895" duration="18461000" />
       <workItem from="1619535601853" duration="1156000" />
       <workItem from="1619543751683" duration="197000" />
-      <workItem from="1619557763435" duration="14546000" />
+      <workItem from="1619557763435" duration="15307000" />
     </task>
     <task id="LOCAL-00001" summary="MC.">
       <created>1619474883536</created>
@@ -303,7 +308,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619576625656</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="MC.">
+      <created>1619578243582</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1619578243583</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
