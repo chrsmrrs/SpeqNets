@@ -125,8 +125,8 @@ class NetGIN(torch.nn.Module):
 
         num_features = 3666
 
-        self.nn_all = Sequential(Linear(652, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
-                           torch.nn.BatchNorm1d(dim), ReLU())
+        # self.nn_all = Sequential(Linear(652, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+        #                    torch.nn.BatchNorm1d(dim), ReLU())
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
@@ -165,7 +165,7 @@ class NetGIN(torch.nn.Module):
     def forward(self, data):
         x = data.x
 
-        x_all = data.x_all
+        # x_all = data.x_all
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
