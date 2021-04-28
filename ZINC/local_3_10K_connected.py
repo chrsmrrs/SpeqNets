@@ -67,10 +67,6 @@ class ZINC(InMemoryDataset):
         node_labels_test = node_labels[220011:225011]
         node_labels_val = node_labels[225011:249456]
 
-        node_labels_train_all = node_labels_all[0:220011]
-        node_labels_test_all = node_labels_all[220011:225011]
-        node_labels_val_all = node_labels_all[225011:249456]
-
         node_labels = [node_labels_train[i] for i in indices_train]
         node_labels.extend([node_labels_val[i] for i in indices_val])
         node_labels.extend([node_labels_test[i] for i in indices_test])
