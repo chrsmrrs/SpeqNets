@@ -109,7 +109,7 @@ class ZINC(InMemoryDataset):
             data.num_all = n
             data.batch_all = torch.from_numpy(np.zeros(n)).to(torch.long)
 
-            data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
+            data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
 
