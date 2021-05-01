@@ -10,7 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../mipGNN/.idea/mipGNN.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sparsewl/.idea/sparsewl.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sparsewl/neural_baselines/.idea/neural_baselines.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../wl-attention-gnns/.idea/wl-attention-gnns.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SeqGN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SeqGN.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wl-attention-gnns/wl_gnn_distance/mutag_gin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wl-attention-gnns/wl_gnn_distance/mutag_gin.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +32,15 @@
   <component name="FavoritesManager">
     <favorites_list name="SeqGN" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../wl-attention-gnns" />
   </component>
   <component name="ProjectId" id="1rVOVPN1ztAxAl1yoPXaHBcQgNE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -43,6 +59,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -50,6 +67,35 @@
       <recent name="$PROJECT_DIR$/Alchemy/datasets" />
       <recent name="$PROJECT_DIR$/ZINC" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="mutag_gin" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="wl-attention-gnns" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../miniconda3/envs/gc/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../wl-attention-gnns/wl_gnn_distance" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../wl-attention-gnns/wl_gnn_distance/mutag_gin.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.mutag_gin" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -80,6 +126,7 @@
       <workItem from="1619543751683" duration="197000" />
       <workItem from="1619557763435" duration="17479000" />
       <workItem from="1619624122516" duration="41000" />
+      <workItem from="1619797489466" duration="14584000" />
     </task>
     <task id="LOCAL-00001" summary="MC.">
       <created>1619474883536</created>
@@ -333,7 +380,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619581029258</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Started implementing distance stuff.&#10;Need to check.">
+      <created>1619838479022</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1619838479023</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -341,6 +395,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="MC." />
-    <option name="LAST_COMMIT_MESSAGE" value="MC." />
+    <MESSAGE value="Started implementing distance stuff.&#10;Need to check." />
+    <option name="LAST_COMMIT_MESSAGE" value="Started implementing distance stuff.&#10;Need to check." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SeqGN$mutag_gin.coverage" NAME="mutag_gin Coverage Results" MODIFIED="1619838851310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../wl-attention-gnns/wl_gnn_distance" />
   </component>
 </project>

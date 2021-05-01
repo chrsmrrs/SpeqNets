@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$USER_HOME$/mipGNN" vcs="Git" />
+    <mapping directory="$USER_HOME$/wl-attention-gnns" vcs="Git" />
   </component>
 </project>
