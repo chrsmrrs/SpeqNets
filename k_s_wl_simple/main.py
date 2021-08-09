@@ -1,71 +1,184 @@
 from itertools import product
 
-from graph_tool.all import *
 import numpy as np
+from graph_tool.all import *
 
-g = Graph(directed=False)
-g.add_vertex()
-g.add_vertex()
-g.add_vertex()
-g.add_vertex()
 
-g.add_edge(0,1)
-g.add_edge(1,2)
-g.add_edge(2,3)
-g.add_edge(3,0)
+# Naive implementation of the (k,s)-WL.
+def compute_k_s_tuple_graph(graphs, k, s):
+    tupled_graphs = []
+    node_labels_all = []
+    edge_labels_all = []
 
-# TODO: Iso types.
-# TODO: Add self-loops?
-def compute_ktuple_graph(g, k=2):
-    # New k-tuple graph.
-    ktuple_graph = Graph(directed=False)
+    # Manage atomic types.
+    atomic_type = {}
+    atomic_counter = 0
 
-    # Create iterator over all k-tuples.
-    tuples = product(g.vertices(), repeat = k)
+    for g in graphs:
+        # k-tuple graph.
+        k_tuple_graph = Graph(directed=False)
 
-    # Map from tuple back to node in k-tuple graph.
-    tuple_to_node = {}
-    # Inverse of above.
-    node_to_tuple = {}
+        # Create iterator over all k-tuples of the graph g.
+        tuples = product(g.vertices(), repeat=k)
 
-    # Create a node for each k-set.
-    node_labels = {}
-    for s in tuples:
-        v = ktuple_graph.add_vertex()
+        # Map from tuple back to node in k-tuple graph.
+        tuple_to_node = {}
+        # Inverse of above.
+        node_to_tuple = {}
 
-        # TODO: Iso types.
-        node_labels[v] = 42
+        # Manages node_labels, i.e., atomic types.
+        node_labels = {}
+        tuple_exists = {}
 
-        # Manage mappings.
-        node_to_tuple[v] = s
-        tuple_to_node[tuple([s[i] for i in range(0,k)])] = v
+        # Create nodes for k-tuples.
+        for t in tuples:
 
-    # Iterate over nodes and add edges.
-    edge_to_i = {}
-    for m in ktuple_graph.vertices():
-        # Get corresponding tuple.
-        s = list(node_to_tuple[m])
+            # Ordered set of nodes of tuple t.
+            node_set = [i for i in t]
 
-        # Iterate over components of s.
-        for i in range(0, k):
-            # Node to be exchanged.
-            v = s[i]
+            # Create graph induced by tuple t.
+            vfilt = g.new_vertex_property('bool')
+            for v in t:
+                vfilt[v] = True
+            k_graph = GraphView(g, vfilt)
 
-            # Iterate over neighbors of node v in original graph.
-            for e in v.out_neighbors():
-                # Copy tuple s.
-                n = s[:]
-                # Exchange node v by e.
-                n[i] = e
-                w = tuple_to_node[tuple(n)]
+            # Compute number of components.
+            components, _ = graph_tool.topology.label_components(k_graph)
+            num_components = components.a.max() + 1
 
-                # Insert edge.
-                ktuple_graph.add_edge(m,w)
-                edge_to_i[(m,w)] = i
+            # Check if tuple t induces less than s+1 components.
+            if num_components <= s:
+                tuple_exists[tuple(node_set)] = True
+            else:
+                tuple_exists[tuple(node_set)] = False
+                # Skip.
+                continue
 
-    return (ktuple_graph, node_labels, edge_to_i)
+            # Add vertex to k-tuple graph representing tuple t.
+            v = k_tuple_graph.add_vertex()
 
-def compute_wl(graph_db, it, node_labels, edge_to_i):
+            # Compute atomic type.
+            raw_type = compute_atomic_type(g, node_set)
+
+            if raw_type in atomic_type:
+                # Atomic type seen before.
+                node_labels[v] = atomic_type[raw_type]
+            else:
+                # Atomic type seen not seen before.
+                node_labels[v] = atomic_counter
+                atomic_type[raw_type] = atomic_counter
+                atomic_counter += 1
+
+            # Manage mappings, back and forth.
+            node_to_tuple[v] = t
+            tuple_to_node[tuple(node_set)] = v
+
+        # Iterate over nodes and add edges.
+        edge_labels = {}
+        for m in k_tuple_graph.vertices():
+            # Get corresponding tuple.
+            t = list(node_to_tuple[m])
+
+            # Iterate over components of t.
+            for i in range(0, k):
+                # Node to be exchanged.
+                v = t[i]
+
+                # Iterate over neighbors of node v in the original graph.
+                for ex in v.out_neighbors():
+                    # Copy tuple t.
+                    n = t[:]
+                    # Exchange node v by node ex in n (i.e., t).
+                    n[i] = ex
+
+                    # Check if tuple exists.
+                    if tuple_exists[tuple(n)]:
+                        w = tuple_to_node[tuple(n)]
+
+                        # Insert edge.
+                        k_tuple_graph.add_edge(m, w)
+                        edge_labels[(m, w)] = i
+
+                # Add self-loops.
+                k_tuple_graph.add_edge(m, m)
+                edge_labels[(m, m)] = i
+
+        tupled_graphs.append(k_tuple_graph)
+        node_labels_all.append(node_labels)
+        edge_labels_all.append(edge_labels)
+
+    return tupled_graphs, node_labels_all, edge_labels_all
+
+
+# Create cycle counterexamples.
+def create_pair(k):
+    # Graph 1.
+    # First cycle.
+    c_1 = Graph(directed=False)
+
+    for i in range(0, k + 1):
+        c_1.add_vertex()
+
+    for i in range(0, k + 1):
+        c_1.add_edge(i, (i + 1) % (k + 1))
+
+    # Second cycle.
+    c_2 = Graph(directed=False)
+    for i in range(0, k + 1):
+        c_2.add_vertex()
+
+    for i in range(0, k + 1):
+        c_2.add_edge(i, (i + 1) % (k + 1))
+
+    cycle_union_1 = graph_union(c_1, c_2)
+    cycle_union_1.add_edge(0, k + 1)
+
+    c_3 = Graph(directed=False)
+    for i in range(0, k + 2):
+        c_3.add_vertex()
+
+    for i in range(0, k + 2):
+        c_3.add_edge(i, (i + 1) % (k + 2))
+
+    c_4 = Graph(directed=False)
+    for i in range(0, k + 2):
+        c_4.add_vertex()
+
+    for i in range(0, k + 1):
+        c_4.add_edge(i, (i + 1))
+
+    merge = c_4.new_vertex_property("int")
+    for v in c_4.vertices():
+        merge[v] = -1
+
+    merge[0] = 0
+    merge[k + 1] = 1
+
+    cycle_union_2 = graph_union(c_3, c_4, intersection=merge)
+
+    return (cycle_union_1, cycle_union_2)
+
+
+# Compute atomic type for ordered set of vertices of graph g.
+def compute_atomic_type(g, vertices):
+    edge_list = []
+
+    # Loop over all pairs of vertices.
+    for i, v in enumerate(vertices):
+        for j, w in enumerate(vertices):
+            # Check if edge or self loop.
+            if g.edge(v, w):
+                edge_list.append((i, j, 1))
+            if v == w:
+                edge_list.append((i, j, 2))
+
+    edge_list.sort()
+
+    return hash(tuple(edge_list))
+
+
+# Simple implementation of 1-WL for edge and node-labeled graphs.
+def compute_wl(graph_db, node_labels, edge_labels):
     # Create one empty feature vector for each graph.
     feature_vectors = []
     for _ in graph_db:
@@ -79,44 +192,41 @@ def compute_wl(graph_db, it, node_labels, edge_to_i):
         offset += g.num_vertices()
 
     colors = []
-    for g in graph_db:
+    for i, g in enumerate(graph_db):
         for v in g.vertices():
-            colors.append(node_labels[v])
+            colors.append(node_labels[i][v])
 
     max_all = int(np.amax(colors) + 1)
     feature_vectors = [
         np.concatenate((feature_vectors[i], np.bincount(colors[index[0]:index[1] + 1], minlength=max_all))) for
         i, index in enumerate(graph_indices)]
 
-    stable = False
-    dim = 0
+    dim = feature_vectors[0].shape[-1]
 
-    i = 0
-    while i < it:
+    c = 0
+    while True:
         colors = []
 
-        for g in graph_db:
+        for i, g in enumerate(graph_db):
             for v in g.vertices():
                 neighbors = []
 
-                nei = g.get_out_edges(v).tolist()
-                for (_, w) in nei:
-                    neighbors.append(hash(tuple([node_labels[w], edge_to_i[(v,w)]])))
+                out_edges_v = g.get_out_edges(v).tolist()
+                for (_, w) in out_edges_v:
+                    neighbors.append(hash(tuple([node_labels[i][w], edge_labels[i][(v, w)]])))
 
                 neighbors.sort()
-                neighbors.append(node_labels[v])
+                neighbors.append(node_labels[i][v])
                 colors.append(hash(tuple(neighbors)))
 
         _, colors = np.unique(colors, return_inverse=True)
 
         # Assign new colors to vertices.
         q = 0
-        cl = []
-        for g in graph_db:
+        for i, g in enumerate(graph_db):
             for v in g.vertices():
-                node_labels[v] = colors[q]
+                node_labels[i][v] = colors[q]
                 q += 1
-                cl.append(node_labels[v])
 
         max_all = int(np.amax(colors) + 1)
 
@@ -126,17 +236,28 @@ def compute_wl(graph_db, it, node_labels, edge_to_i):
         dim_new = feature_vectors[0].shape[-1]
 
         if dim_new == dim:
-            stable = True
             break
+        dim = dim_new
 
-        i += 1
+        c += 1
+
+    print(c)
 
     feature_vectors = np.array(feature_vectors)
 
     return feature_vectors
 
 
-k_tuple_graph, node_labels, edge_to_i = compute_ktuple_graph(g, k=2)
-print(k_tuple_graph.num_vertices(), k_tuple_graph.num_edges())
-print("Gg")
-compute_wl([k_tuple_graph], 5, node_labels, edge_to_i)
+k = 5
+
+# Create the pairs.
+graphs = create_pair(k+1)
+print("###")
+tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k, 1)
+print("###")
+feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
+
+if np.array_equal(feature_vectors[0], feature_vectors[1]):
+    print("Not distinguished.")
+else:
+    print("Distinguished.")
