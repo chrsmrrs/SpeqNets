@@ -4,6 +4,73 @@ import numpy as np
 from graph_tool.all import *
 
 
+# Create cycle counter examples.
+def create_pair(k):
+    # Graph 1.
+    # First cycle.
+    c_1 = Graph(directed=False)
+
+    for i in range(0, k + 1):
+        c_1.add_vertex()
+
+    for i in range(0, k + 1):
+        c_1.add_edge(i, (i + 1) % (k + 1))
+
+    # Second cycle.
+    c_2 = Graph(directed=False)
+    for i in range(0, k + 1):
+        c_2.add_vertex()
+
+    for i in range(0, k + 1):
+        c_2.add_edge(i, (i + 1) % (k + 1))
+
+    cycle_union_1 = graph_union(c_1, c_2)
+    cycle_union_1.add_edge(0, k + 1)
+
+    c_3 = Graph(directed=False)
+    for i in range(0, k + 2):
+        c_3.add_vertex()
+
+    for i in range(0, k + 2):
+        c_3.add_edge(i, (i + 1) % (k + 2))
+
+    c_4 = Graph(directed=False)
+    for i in range(0, k + 2):
+        c_4.add_vertex()
+
+    for i in range(0, k + 1):
+        c_4.add_edge(i, (i + 1))
+
+    merge = c_4.new_vertex_property("int")
+    for v in c_4.vertices():
+        merge[v] = -1
+
+    merge[0] = 0
+    merge[k + 1] = 1
+
+    cycle_union_2 = graph_union(c_3, c_4, intersection=merge)
+
+    return (cycle_union_1, cycle_union_2)
+
+
+# Compute atomic type for ordered set of vertices of graph g.
+def compute_atomic_type(g, vertices):
+    edge_list = []
+
+    # Loop over all pairs of vertices.
+    for i, v in enumerate(vertices):
+        for j, w in enumerate(vertices):
+            # Check if edge or self loop.
+            if g.edge(v, w):
+                edge_list.append((i, j, 1))
+            if v == w:
+                edge_list.append((i, j, 2))
+
+    edge_list.sort()
+
+    return hash(tuple(edge_list))
+
+
 # Naive implementation of the (k,s)-WL.
 def compute_k_s_tuple_graph(graphs, k, s):
     tupled_graphs = []
@@ -110,73 +177,6 @@ def compute_k_s_tuple_graph(graphs, k, s):
     return tupled_graphs, node_labels_all, edge_labels_all
 
 
-# Create cycle counterexamples.
-def create_pair(k):
-    # Graph 1.
-    # First cycle.
-    c_1 = Graph(directed=False)
-
-    for i in range(0, k + 1):
-        c_1.add_vertex()
-
-    for i in range(0, k + 1):
-        c_1.add_edge(i, (i + 1) % (k + 1))
-
-    # Second cycle.
-    c_2 = Graph(directed=False)
-    for i in range(0, k + 1):
-        c_2.add_vertex()
-
-    for i in range(0, k + 1):
-        c_2.add_edge(i, (i + 1) % (k + 1))
-
-    cycle_union_1 = graph_union(c_1, c_2)
-    cycle_union_1.add_edge(0, k + 1)
-
-    c_3 = Graph(directed=False)
-    for i in range(0, k + 2):
-        c_3.add_vertex()
-
-    for i in range(0, k + 2):
-        c_3.add_edge(i, (i + 1) % (k + 2))
-
-    c_4 = Graph(directed=False)
-    for i in range(0, k + 2):
-        c_4.add_vertex()
-
-    for i in range(0, k + 1):
-        c_4.add_edge(i, (i + 1))
-
-    merge = c_4.new_vertex_property("int")
-    for v in c_4.vertices():
-        merge[v] = -1
-
-    merge[0] = 0
-    merge[k + 1] = 1
-
-    cycle_union_2 = graph_union(c_3, c_4, intersection=merge)
-
-    return (cycle_union_1, cycle_union_2)
-
-
-# Compute atomic type for ordered set of vertices of graph g.
-def compute_atomic_type(g, vertices):
-    edge_list = []
-
-    # Loop over all pairs of vertices.
-    for i, v in enumerate(vertices):
-        for j, w in enumerate(vertices):
-            # Check if edge or self loop.
-            if g.edge(v, w):
-                edge_list.append((i, j, 1))
-            if v == w:
-                edge_list.append((i, j, 2))
-
-    edge_list.sort()
-
-    return hash(tuple(edge_list))
-
-
 # Simple implementation of 1-WL for edge and node-labeled graphs.
 def compute_wl(graph_db, node_labels, edge_labels):
     # Create one empty feature vector for each graph.
@@ -248,12 +248,25 @@ def compute_wl(graph_db, node_labels, edge_labels):
     return feature_vectors
 
 
-k = 5
+k = 7
+s = 1
 
 # Create the pairs.
-graphs = create_pair(k+1)
+graphs = create_pair(k + 1)
 print("###")
-tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k, 1)
+tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k, s)
+print("###")
+feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
+
+if np.array_equal(feature_vectors[0], feature_vectors[1]):
+    print("Not distinguished.")
+else:
+    print("Distinguished.")
+
+# Create the pairs.
+graphs = create_pair(k + 1)
+print("###")
+tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k + 1, s)
 print("###")
 feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
 
