@@ -274,7 +274,6 @@ if np.array_equal(feature_vectors[0], feature_vectors[1]):
 else:
     print("Distinguished.")
 
-
 # Create the pairs.
 graphs = create_pair(k+1)
 print("###")
