@@ -1,6 +1,7 @@
 from itertools import product
 
 import numpy as np
+import copy
 from graph_tool.all import *
 
 
@@ -161,14 +162,15 @@ def compute_k_s_tuple_graph(graphs, k, s):
                 for ex in v.out_neighbors():
                     # Copy tuple t.
                     n = t[:]
+
                     # Exchange node v by node ex in n (i.e., t).
                     n[i] = ex
 
-                    # Check if tuple exists.
+                    # Check if tuple exists, otherwise ignore.
                     if tuple_exists[tuple(n)]:
                         w = tuple_to_node[tuple(n)]
 
-                        # Insert edge, avoid unidirected multi edges.
+                        # Insert edge, avoid undirected multi-edges.
                         if not k_tuple_graph.edge(w, m):
                             k_tuple_graph.add_edge(m, w)
                             edge_labels[(m, w)] = i + 1
@@ -221,7 +223,7 @@ def compute_wl(graph_db, node_labels, edge_labels):
 
                 out_edges_v = g.get_out_edges(v).tolist()
                 for (_, w) in out_edges_v:
-                    neighbors.append(hash(tuple([node_labels[i][w], edge_labels[i][(v, w)]])))
+                    neighbors.append(hash((node_labels[i][w], edge_labels[i][(v, w)])))
 
                 neighbors.sort()
                 neighbors.append(node_labels[i][v])

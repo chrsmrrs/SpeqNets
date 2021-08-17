@@ -3,9 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SeqGN.iml" filepath="$PROJECT_DIR$/.idea/SeqGN.iml" />
-      <module fileurl="file://$USER_HOME$/mipGNN/.idea/mipGNN.iml" filepath="$USER_HOME$/mipGNN/.idea/mipGNN.iml" />
-      <module fileurl="file://$USER_HOME$/sparsewl/.idea/sparsewl.iml" filepath="$USER_HOME$/sparsewl/.idea/sparsewl.iml" />
-      <module fileurl="file://$USER_HOME$/wl-attention-gnns/.idea/wl-attention-gnns.iml" filepath="$USER_HOME$/wl-attention-gnns/.idea/wl-attention-gnns.iml" />
     </modules>
   </component>
 </project>

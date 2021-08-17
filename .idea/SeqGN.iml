@@ -4,8 +4,5 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.8 (gc)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="sparsewl" />
-    <orderEntry type="module" module-name="mipGNN" />
-    <orderEntry type="module" module-name="wl-attention-gnns" />
   </component>
 </module>
