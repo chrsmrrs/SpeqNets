@@ -50,6 +50,12 @@ def create_pair(k):
 
     cycle_union_2 = graph_union(c_3, c_4, intersection=merge)
 
+    #Draw for visual inspection.
+    position = sfdp_layout(cycle_union_1)
+    graph_draw(cycle_union_1, pos=position, output="g_1.pdf")
+    position = sfdp_layout(cycle_union_2)
+    graph_draw(cycle_union_2, pos=position, output="g_2.pdf")
+
     return (cycle_union_1, cycle_union_2)
 
 
@@ -57,6 +63,7 @@ def create_pair(k):
 def compute_atomic_type(g, vertices):
     edge_list = []
 
+    # TODO: Iterator over edges.
     # Loop over all pairs of vertices.
     for i, v in enumerate(vertices):
         for j, w in enumerate(vertices):
@@ -95,13 +102,13 @@ def compute_k_s_tuple_graph(graphs, k, s):
 
         # Manages node_labels, i.e., atomic types.
         node_labels = {}
+        # True if tuples exsits in k-tuple graph.
         tuple_exists = {}
 
         # Create nodes for k-tuples.
         for t in tuples:
-
             # Ordered set of nodes of tuple t.
-            node_set = [i for i in t]
+            node_set = list(t)
 
             # Create graph induced by tuple t.
             vfilt = g.new_vertex_property('bool')
@@ -115,10 +122,10 @@ def compute_k_s_tuple_graph(graphs, k, s):
 
             # Check if tuple t induces less than s+1 components.
             if num_components <= s:
-                tuple_exists[tuple(node_set)] = True
+                tuple_exists[t] = True
             else:
-                tuple_exists[tuple(node_set)] = False
-                # Skip.
+                tuple_exists[t] = False
+                # Skip tuple.
                 continue
 
             # Add vertex to k-tuple graph representing tuple t.
@@ -127,18 +134,17 @@ def compute_k_s_tuple_graph(graphs, k, s):
             # Compute atomic type.
             raw_type = compute_atomic_type(g, node_set)
 
+            # Atomic type seen before.
             if raw_type in atomic_type:
-                # Atomic type seen before.
                 node_labels[v] = atomic_type[raw_type]
-            else:
-                # Atomic type seen not seen before.
+            else:  # Atomic type not seen before.
                 node_labels[v] = atomic_counter
                 atomic_type[raw_type] = atomic_counter
                 atomic_counter += 1
 
             # Manage mappings, back and forth.
             node_to_tuple[v] = t
-            tuple_to_node[tuple(node_set)] = v
+            tuple_to_node[t] = v
 
         # Iterate over nodes and add edges.
         edge_labels = {}
@@ -162,13 +168,15 @@ def compute_k_s_tuple_graph(graphs, k, s):
                     if tuple_exists[tuple(n)]:
                         w = tuple_to_node[tuple(n)]
 
-                        # Insert edge.
-                        k_tuple_graph.add_edge(m, w)
-                        edge_labels[(m, w)] = i
+                        # Insert edge, avoid unidirected multi edges.
+                        if not k_tuple_graph.edge(w, m):
+                            k_tuple_graph.add_edge(m, w)
+                            edge_labels[(m, w)] = i + 1
+                            edge_labels[(w, m)] = i + 1
 
-                # Add self-loops.
-                k_tuple_graph.add_edge(m, m)
-                edge_labels[(m, m)] = i
+            # Add self-loops, only once.
+            k_tuple_graph.add_edge(m, m)
+            edge_labels[(m, m)] = 0
 
         tupled_graphs.append(k_tuple_graph)
         node_labels_all.append(node_labels)
@@ -248,11 +256,12 @@ def compute_wl(graph_db, node_labels, edge_labels):
     return feature_vectors
 
 
-k = 7
+# Specify.
+k = 4
 s = 1
 
 # Create the pairs.
-graphs = create_pair(k + 1)
+graphs = create_pair(k+1)
 print("###")
 tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k, s)
 print("###")
@@ -263,10 +272,11 @@ if np.array_equal(feature_vectors[0], feature_vectors[1]):
 else:
     print("Distinguished.")
 
+
 # Create the pairs.
-graphs = create_pair(k + 1)
+graphs = create_pair(k+1)
 print("###")
-tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k + 1, s)
+tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k, s+1)
 print("###")
 feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
 
@@ -274,3 +284,5 @@ if np.array_equal(feature_vectors[0], feature_vectors[1]):
     print("Not distinguished.")
 else:
     print("Distinguished.")
+
+
