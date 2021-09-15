@@ -461,6 +461,185 @@ def compute_k_1_tuple_graph(graphs, k):
 
         sets = two_sets
 
+        # Generate (k,1)-set
+        for _ in range(2, k-1):
+            new_sets = []
+            for set in sets:
+                for v in set:
+                    for w in v.out_neighbors():
+                        new_set = list(set[:])
+                        new_set.append(w)
+                        new_set.sort()
+
+                        # Check if set already exits to avoid duplicates.
+                        if not (tuple(new_set) in set_exists):
+                            set_exists[tuple(new_set)] = True
+                            new_sets.append(new_set)
+
+                    new_set = list(set[:])
+                    new_set.append(v)
+                    new_set.sort()
+
+                    # Check if set already exits to avoid duplicates.
+                    if not (tuple(new_set) in set_exists):
+                        set_exists[tuple(new_set)] = True
+                        new_sets.append(new_set)
+
+            sets = new_sets
+
+        # Generate (k,1)=graph.
+        for set in sets:
+            for v in set:
+                for w in v.out_neighbors():
+                    new_set = set[:]
+                    new_set.append(w)
+                    new_set.sort()
+
+                    # Check if set already exits to avoid duplicates.
+                    if not (tuple(new_set) in set_exists):
+                        set_exists[tuple(new_set)] = True
+
+                        # Create all permutations of set.
+                        perm = itertools.permutations(new_set)
+
+                        # Iterate over permutations of set.
+                        for t in perm:
+
+                            if t not in tuple_exists:
+                                k_tuples.append(t)
+                                tuple_exists[t] = True
+
+                                # Add vertex to k-tuple graph representing tuple t.
+                                t_v = k_tuple_graph.add_vertex()
+
+                                # Compute atomic type.
+                                raw_type = compute_atomic_type(g, t)
+
+                                # Atomic type seen before.
+                                if raw_type in atomic_type:
+                                    node_labels[t_v] = atomic_type[raw_type]
+                                else:  # Atomic type not seen before.
+                                    node_labels[t_v] = atomic_counter
+                                    atomic_type[raw_type] = atomic_counter
+                                    atomic_counter += 1
+
+                                # Manage mappings, back and forth.
+                                node_to_tuple[t_v] = t
+                                tuple_to_node[t] = t_v
+
+                new_set = set[:]
+                new_set.append(v)
+                new_set.sort()
+                perm = itertools.permutations(new_set)
+
+                for t in perm:
+                    if t not in tuple_exists:
+                        k_tuples.append(t)
+                        tuple_exists[t] = True
+
+                        # Add vertex to k-tuple graph representing tuple t.
+                        v_t = k_tuple_graph.add_vertex()
+
+                        # Compute atomic type.
+                        raw_type = compute_atomic_type(g, t)
+
+                        # Atomic type seen before.
+                        if raw_type in atomic_type:
+                            node_labels[v_t] = atomic_type[raw_type]
+                        else:  # Atomic type not seen before.
+                            node_labels[v_t] = atomic_counter
+                            atomic_type[raw_type] = atomic_counter
+                            atomic_counter += 1
+
+                        # Manage mappings, back and forth.
+                        node_to_tuple[v_t] = t
+                        tuple_to_node[t] = v_t
+
+
+
+        # Iterate over nodes and add edges.
+        edge_labels = {}
+
+        for c, m in enumerate(k_tuple_graph.vertices()):
+
+            # Get corresponding tuple.
+            t = list(node_to_tuple[m])
+
+            # Iterate over components of t.
+            for i in range(0, 3):
+                # Node to be exchanged.
+                v = t[i]
+
+                # Iterate over neighbors of node v in the original graph.
+                for ex in v.out_neighbors():
+                    # Copy tuple t.
+                    n = t[:]
+
+                    # Exchange node v by node ex in n (i.e., t).
+                    n[i] = ex
+
+                    # Check if tuple exists, otherwise ignore.
+                    if tuple(n) in tuple_exists:
+                        w = tuple_to_node[tuple(n)]
+
+                        # Insert edge, avoid undirected multi-edges.
+                        if not k_tuple_graph.edge(w, m):
+                            k_tuple_graph.add_edge(m, w)
+                            edge_labels[(m, w)] = i + 1
+                            edge_labels[(w, m)] = i + 1
+
+            # Add self-loops, only once.
+            k_tuple_graph.add_edge(m, m)
+            edge_labels[(m, m)] = 0
+
+        tupled_graphs.append(k_tuple_graph)
+        node_labels_all.append(node_labels)
+        edge_labels_all.append(edge_labels)
+
+    return tupled_graphs, node_labels_all, edge_labels_all
+
+
+# Implementation of the (k,1)-WL.
+def compute_k_s_tuple_graph_fast(graphs, s, k):
+    tupled_graphs = []
+    node_labels_all = []
+    edge_labels_all = []
+
+    # Manage atomic types.
+    atomic_type = {}
+    atomic_counter = 0
+
+    for g in graphs:
+        # (k,1)-tuple graph.
+        k_tuple_graph = Graph(directed=False)
+
+        # Map from tuple back to node in k-tuple graph.
+        tuple_to_node = {}
+        # Inverse of above.
+        node_to_tuple = {}
+
+        # Manages node_labels, i.e., atomic types.
+        node_labels = {}
+        # True if tuple exists in k-tuple graph.
+        tuple_exists = {}
+        # True if connected multi-set has been found already.
+        set_exists = {}
+        # List of s-multisets.
+        two_sets = []
+        # List of connected k-tuples.
+        k_tuples = []
+
+        # Generate s-multisets.
+        for
+
+
+        for a in g.vertices():
+            two_sets.append([a, a])
+
+        for (a, b) in g.edges():
+            two_sets.append([a, b])
+
+        sets = two_sets
 
         # Generate (k,1)-set
         for _ in range(2, k-1):
@@ -671,24 +850,8 @@ def compute_wl(graph_db, node_labels, edge_labels):
     return feature_vectors
 
 
-graphs = gen.create_gaurav_graphs(k=3)
-
 # start = time.time()
-# tupled_graphs, node_labels, edge_labels = compute_k_1_tuple_graph(graphs, 6)
-# end = time.time()
-# print(end - start)
-#
-# feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
-#
-# if np.array_equal(feature_vectors[0], feature_vectors[1]):
-#     print("Not distinguished.")
-# else:
-#     print("Distinguished.")
-#
-# exit()
 
-# start = time.time()
-# #tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, 3, 2)
 # end = time.time()
 # print(end - start)
 #
@@ -704,7 +867,7 @@ graphs = gen.create_gaurav_graphs(k=3)
 # # graphs = connect(graphs, 2, 2)
 
 
-graphs = gen.create_gaurav_graphs(k=3)
+
 print("###")
 tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, 3, 3)
 
@@ -768,46 +931,4 @@ exit()
 # else:
 #     print("Distinguished.")
 
-# k = 2
-# s = 1
-# cycles = create_cycle_pair(5)
-#
-# position = sfdp_layout(cycles[0])
-# graph_draw(cycles[0], pos=position, output="cycle_1.pdf")
-#
-# position = sfdp_layout(cycles[1])
-# graph_draw(cycles[1], pos=position, output="cycle_2.pdf")
-#
-# tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(cycles, k, s)
-# feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
-#
-# if np.array_equal(feature_vectors[0], feature_vectors[1]):
-#     print("Not distinguished.")
-# else:
-#     print("Distinguished.")
-#
-# position = sfdp_layout(tupled_graphs[0])
-# graph_draw(tupled_graphs[0], pos=position, output="cycle_1_1.pdf")
-#
-# position = sfdp_layout(tupled_graphs[1])
-# graph_draw(tupled_graphs[1], pos=position, output="cycle_2_1.pdf")
 
-
-# k = 3
-# s = 2
-# directed = True
-# cycles = create_cycle_pair(5)
-#
-# tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(cycles, k, s)
-# feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
-#
-# if np.array_equal(feature_vectors[0], feature_vectors[1]):
-#     print("Not distinguished.")
-# else:
-#     print("Distinguished.")
-#
-# position = sfdp_layout(tupled_graphs[0])
-# graph_draw(tupled_graphs[0], pos=position, output="cycle_1_2.pdf")
-#
-# position = sfdp_layout(tupled_graphs[1])
-# graph_draw(tupled_graphs[1], pos=position, output="cycle_2_2.pdf")

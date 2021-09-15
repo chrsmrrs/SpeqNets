@@ -189,6 +189,53 @@ def create_cycle_pair(k):
     return (cycle_1, cycle_2)
 
 
+def create_cycle_com_pair(k):
+    # One large cycle.
+    cycle_1 = Graph(directed=False)
+
+    for i in range(0, 12):
+        cycle_1.add_vertex()
+
+    for i in range(0, 12):
+        cycle_1.add_edge(i, (i + 1) % (12))
+
+    tw = cycle_1.add_vertex()
+    th = cycle_1.add_vertex()
+    fo = cycle_1.add_vertex()
+    fi = cycle_1.add_vertex()
+
+    cycle_1.add_edge(0, tw)
+    cycle_1.add_edge(tw, th)
+    cycle_1.add_edge(th, 3)
+
+    cycle_1.add_edge(9, fo)
+    cycle_1.add_edge(fo, fi)
+    cycle_1.add_edge(fi, 6)
+
+    cycle_2 = Graph(directed=False)
+
+    for i in range(0, 12):
+        cycle_2.add_vertex()
+
+    for i in range(0, 12):
+        cycle_2.add_edge(i, (i + 1) % (12))
+
+    tw = cycle_2.add_vertex()
+    th = cycle_2.add_vertex()
+    fo = cycle_2.add_vertex()
+    fi = cycle_2.add_vertex()
+
+    cycle_2.add_edge(0, tw)
+    cycle_2.add_edge(tw, th)
+    cycle_2.add_edge(th, 6)
+
+    cycle_2.add_edge(9, fo)
+    cycle_2.add_edge(fo, fi)
+    cycle_2.add_edge(fi, 3)
+
+    return (cycle_1, cycle_2)
+
+
 # Create cycle counter examples.
 def create_pair(k):
     # Graph 1.
