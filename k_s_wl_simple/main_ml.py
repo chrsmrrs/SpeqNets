@@ -13,20 +13,28 @@ import time
 
 
 # Compute atomic type for ordered set of vertices of graph g.
-def compute_atomic_type(g, vertices):
+def compute_atomic_type(g, vertices, node_label):
     edge_list = []
 
-    # TODO: Iterator over edges.
     # Loop over all pairs of vertices.
     for i, v in enumerate(vertices):
         for j, w in enumerate(vertices):
             # Check if edge or self loop.
             if g.edge(v, w):
-                edge_list.append((i, j, 1))
+                if node_label:
+                    edge_list.append((i, j, 1, g.vp.nl[v], g.vp.nl[w]))
+                else:
+                    edge_list.append((i, j, 1))
             elif not g.edge(v, w):
-                edge_list.append((i, j, 2))
+                if node_label:
+                    edge_list.append((i, j, 2, g.vp.nl[v], g.vp.nl[w]))
+                else:
+                    edge_list.append((i, j, 2))
             elif v == w:
-                edge_list.append((i, j, 3))
+                if node_label:
+                    edge_list.append((i, j, 3, g.vp.nl[v], g.vp.nl[w]))
+                else:
+                    edge_list.append((i, j, 3))
 
     edge_list.sort()
 
@@ -34,7 +42,7 @@ def compute_atomic_type(g, vertices):
 
 
 # Naive implementation of the (k,s)-WL.
-def compute_k_s_tuple_graph(graphs, k, s):
+def compute_k_s_tuple_graph(graphs, k, s, node_label):
     tupled_graphs = []
     node_labels_all = []
     edge_labels_all = []
@@ -58,7 +66,7 @@ def compute_k_s_tuple_graph(graphs, k, s):
         node_to_tuple = {}
 
         # Manages node_labels, i.e., atomic types.
-        node_labels = {}
+        node_labels = k_tuple_graph.new_vertex_property("int")
         # True if tuples exsits in k-tuple graph.
         tuple_exists = {}
 
@@ -90,7 +98,7 @@ def compute_k_s_tuple_graph(graphs, k, s):
             v = k_tuple_graph.add_vertex()
 
             # Compute atomic type.
-            raw_type = compute_atomic_type(g, node_set)
+            raw_type = compute_atomic_type(g, node_set, node_label)
 
             # Atomic type seen before.
             if raw_type in atomic_type:
@@ -105,9 +113,8 @@ def compute_k_s_tuple_graph(graphs, k, s):
             tuple_to_node[t] = v
 
         # Iterate over nodes and add edges.
-        edge_labels = {}
+        edge_labels = k_tuple_graph.new_edge_property("int")
 
-        num_vertices = k_tuple_graph.vertices()
         for c, m in enumerate(k_tuple_graph.vertices()):
 
             # Get corresponding tuple.
@@ -140,256 +147,18 @@ def compute_k_s_tuple_graph(graphs, k, s):
             k_tuple_graph.add_edge(m, m)
             edge_labels[(m, m)] = 0
 
-        # min_0 = -1
-        # min_tuple = None
-        # deg = []
-        # for v in k_tuple_graph.vertices():
-        #     d = v.out_degree()
-        #     deg.append(d)
-        #
-        #     # if min_0 == -1 or d < min_0:
-        #     #
-        #     #     min_0 = d
-        #     #     min_tuple = node_to_tuple[v]
-        #
-        #     #print(d)
-        #     #print(min_tuple)
-        #
-        # degrees.append(deg)
-        #
-        # print(min_tuple)
-        # print(min_0)
-
-        # for w in k_tuple_graph.vertices():
-        #     print(w.out_degree())
-
-
-
+        k_tuple_graph.vp.node_labels = node_labels
         tupled_graphs.append(k_tuple_graph)
-        node_labels_all.append(node_labels)
-        edge_labels_all.append(edge_labels)
 
-
-    return tupled_graphs, node_labels_all, edge_labels_all
-
-
-# Simple implementation of the non-oblivious k-WL.
-def compute_k_tuple_graph(graphs, k):
-    tupled_graphs = []
-    node_labels_all = []
-    edge_labels_all = []
-
-    # Manage atomic types.
-    atomic_type = {}
-    atomic_counter = 0
-
-    for g in graphs:
-        # k-tuple graph.
-        k_tuple_graph = Graph(directed=False)
-
-        # Create iterator over all k-tuples of the graph g.
-        tuples = product(g.vertices(), repeat=k)
-
-        # Map from tuple back to node in k-tuple graph.
-        tuple_to_node = {}
-        # Inverse of above.
-        node_to_tuple = {}
-
-        # Manages node_labels, i.e., atomic types.
-        node_labels = {}
-        # True if tuples exsits in k-tuple graph.
-        tuple_exists = {}
-
-        # Create nodes for k-tuples.
-        for c, t in enumerate(tuples):
-
-            # Ordered set of nodes of tuple t.
-            node_set = list(t)
-            tuple_exists[t] = True
-
-            # Add vertex to k-tuple graph representing tuple t.
-            v = k_tuple_graph.add_vertex()
-
-            # Compute atomic type.
-            raw_type = compute_atomic_type(g, node_set)
-
-            # Atomic type seen before.
-            if raw_type in atomic_type:
-                node_labels[v] = atomic_type[raw_type]
-            else:  # Atomic type not seen before.
-                node_labels[v] = atomic_counter
-                atomic_type[raw_type] = atomic_counter
-                atomic_counter += 1
-
-            # Manage mappings, back and forth.
-            node_to_tuple[v] = t
-            tuple_to_node[t] = v
-
-        # Iterate over nodes and add edges.
-        edge_labels = {}
-
-        for c, m in enumerate(k_tuple_graph.vertices()):
-
-            # Get corresponding tuple.
-            t = list(node_to_tuple[m])
-
-            # Iterate over components of t.
-            for i in range(0, k):
-                # Node to be exchanged.
-                v = t[i]
-
-                # Iterate over neighbors of node v in the original graph.
-                for ex in g.vertices():
-                    # Copy tuple t.
-                    n = t[:]
-
-                    # Exchange node v by node ex in n (i.e., t).
-                    n[i] = ex
-
-                    # Check if tuple exists, otherwise ignore.
-                    if tuple_exists[tuple(n)]:
-                        w = tuple_to_node[tuple(n)]
-
-                        # Insert edge, avoid undirected multi-edges.
-                        if not k_tuple_graph.edge(w, m):
-                            k_tuple_graph.add_edge(m, w)
-                            edge_labels[(m, w)] = i + 1
-                            edge_labels[(w, m)] = i + 1
-
-            # Add self-loops, only once.
-            k_tuple_graph.add_edge(m, m)
-            edge_labels[(m, m)] = 0
-
-        min_0 = -1
-        min_tuple = None
-        for v in k_tuple_graph.vertices():
-            d = v.out_degree()
-            if min_0 == -1 or d > min_0:
-                min_0 = d
-                min_tuple = node_to_tuple[v]
-                print(min_tuple)
-
-        print(min_tuple)
-        print(min_0)
-
-        tupled_graphs.append(k_tuple_graph)
-        node_labels_all.append(node_labels)
-        edge_labels_all.append(edge_labels)
-
-    return tupled_graphs, node_labels_all, edge_labels_all
+    return tupled_graphs
 
 
 
-# Naive implementation of the (k,s)-WL.
-def compute_3_set_graph(graphs, k):
-    set_graphs = []
-    node_labels_all = []
-    edge_labels_all = []
-
-    # Manage atomic types.
-    atomic_type = {}
-    atomic_counter = 0
-
-    for g in graphs:
-        # k-set graph.
-        k_set_graph = Graph(directed=False)
-
-        # Create iterator over all k-set of the graph g.
-        sets = combinations(g.vertices(), r=k)
-
-        # Map from tuple back to node in k-tuple graph.
-        set_to_node = {}
-        # Inverse of above.
-        node_to_set = {}
-
-        # Manages node_labels, i.e., atomic types.
-        node_labels = {}
-        # True if tuples exsits in k-tuple graph.
-        set_exists = {}
-
-        # Create nodes for k-tuples.
-        for c, t in enumerate(sets):
-            # Create graph induced by set t.
-            vfilt = g.new_vertex_property('bool')
-            for v in t:
-                vfilt[v] = True
-            k_graph = GraphView(g, vfilt)
-
-            # Compute number of components.
-            components, _ = graph_tool.topology.label_components(k_graph)
-            num_components = components.a.max() + 1
-
-            # Check if set t induces less than s+1 components.
-            if num_components == 1:
-                set_exists[t] = True
-            else:
-                set_exists[t] = False
-                # Skip set.
-                continue
-
-            # Add vertex to k-tuple graph representing tuple t.
-            v = k_set_graph.add_vertex()
-
-            # Compute atomic type.
-            # TODO Fix
-            raw_type = k_graph.num_edges()
-
-            # Atomic type seen before.
-            if raw_type in atomic_type:
-                node_labels[v] = atomic_type[raw_type]
-            else:  # Atomic type not seen before.
-                node_labels[v] = atomic_counter
-                atomic_type[raw_type] = atomic_counter
-                atomic_counter += 1
-
-            # Manage mappings, back and forth.
-            node_to_set[v] = t
-            set_to_node[t] = v
-
-        # Iterate over nodes and add edges.
-        edge_labels = {}
-
-        for c, m in enumerate(k_set_graph.vertices()):
-            # Get corresponding tuple.
-            t = list(node_to_set[m])
-
-            # Iterate over components of t.
-            for i in range(0, k):
-                # Node to be exchanged.
-                v = t[i]
-
-                # Iterate over neighbors of node v in the original graph.
-                for ex in v.out_neighbors():
-                    # Copy tuple t.
-                    n = t[:]
-
-                    # Exchange node v by node ex in n (i.e., t).
-                    n[i] = ex
-                    # Sort as they are sets and not tuples.
-                    n.sort()
-
-                    # Check if tuple exists, otherwise ignore.
-                    if tuple(n) in set_to_node:
-                        w = set_to_node[tuple(n)]
-
-                        # Insert edge, avoid undirected multi-edges.
-                        if not k_set_graph.edge(w, m):
-                            k_set_graph.add_edge(m, w)
-                            edge_labels[(m, w)] = 1
-                            edge_labels[(w, m)] = 1
-
-
-
-        set_graphs.append(k_set_graph)
-        node_labels_all.append(node_labels)
-        edge_labels_all.append(edge_labels)
-
-    return set_graphs, node_labels_all, edge_labels_all
 
 
 
 # Implementation of the (k,s)-WL.
-def compute_k_s_tuple_graph_fast(graphs, k, s):
+def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
     tupled_graphs = []
     node_labels_all = []
     edge_labels_all = []
@@ -469,7 +238,7 @@ def compute_k_s_tuple_graph_fast(graphs, k, s):
                     t_v = k_tuple_graph.add_vertex()
 
                     # Compute atomic type.
-                    raw_type = compute_atomic_type(g, t)
+                    raw_type = compute_atomic_type(g, t, node_label)
 
                     # Atomic type seen before.
                     if raw_type in atomic_type:
@@ -600,93 +369,9 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
 name = "ENZYMES"
 _ = get_dataset(name)
 graphs, classes = read_txt(name)
-tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=2, s=1)
+tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k=2, s=1, node_label=True)
 kernel = compute_wl(tupled_graphs, node_labels, edge_labels, num_it=4)
 kernel = normalize_gram_matrix(kernel)
 
 
 print(linear_svm_evaluation([kernel], classes))
-
-
-# k = 2
-# s = 1
-# graphs = gen.create_cycle_pair(k+2)
-#
-# tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k=k+1, s=1)
-#
-# position = sfdp_layout(tupled_graphs[0])
-# graph_draw(tupled_graphs[0], pos=position, output="cycle_1_1.pdf")
-#
-# position = sfdp_layout(tupled_graphs[1])
-# graph_draw(tupled_graphs[1], pos=position, output="cycle_2_1.pdf")
-
-# min_0 = -1
-# for v in tupled_graphs[0].vertices():
-#     d = v.out_degree()
-#     if min_0 == -1 or d < min_0:
-#         min_0 = d
-#
-# print(min_0)
-#
-# min_0 = -1
-# for v in tupled_graphs[1].vertices():
-#     d = v.out_degree()
-#     if min_0 == -1 or d < min_0:
-#         min_0 = d
-#
-# print(min_0)
-#
-# feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
-#
-# if np.array_equal(feature_vectors[0], feature_vectors[1]):
-#     print("Not distinguished.")
-# else:
-#     print("Distinguished.")
-#
-
-
-# k = 3
-# s = 1
-# graphs = gen.create_cycle_pair(5)
-#
-#
-# position = sfdp_layout(graphs[0])
-# graph_draw(graphs[0], pos=position, output="cycle_1_1.pdf")
-#
-# position = sfdp_layout(graphs[1])
-# graph_draw(graphs[1], pos=position, output="cycle_2_1.pdf")
-#
-#
-# start = time.time()
-# tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k=k, s=s)
-# feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
-# end = time.time()
-
-# print(end-start)
-#
-# start = time.time()
-# tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=k, s=s+1)
-# feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
-# end = time.time()
-#
-# print(end-start)
-#
-# start = time.time()
-# tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=k, s=s+2)
-# feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
-# end = time.time()
-#
-# print(end-start)
-
-
-
-# position = sfdp_layout(tupled_graphs[0])
-# graph_draw(tupled_graphs[0], pos=position, output="cycle_1_1.pdf")
-#
-# position = sfdp_layout(tupled_graphs[1])
-# graph_draw(tupled_graphs[1], pos=position, output="cycle_2_1.pdf")
-
-# if np.array_equal(feature_vectors[0], feature_vectors[1]):
-#     print("Not distinguished.")
-# else:
-#     print("Distinguished.")
