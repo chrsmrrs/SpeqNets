@@ -189,53 +189,6 @@ def create_cycle_pair(k):
     return (cycle_1, cycle_2)
 
 
-def create_cycle_com_pair(k):
-    # One large cycle.
-    cycle_1 = Graph(directed=False)
-
-    for i in range(0, 12):
-        cycle_1.add_vertex()
-
-    for i in range(0, 12):
-        cycle_1.add_edge(i, (i + 1) % (12))
-
-    tw = cycle_1.add_vertex()
-    th = cycle_1.add_vertex()
-    fo = cycle_1.add_vertex()
-    fi = cycle_1.add_vertex()
-
-    cycle_1.add_edge(0, tw)
-    cycle_1.add_edge(tw, th)
-    cycle_1.add_edge(th, 3)
-
-    cycle_1.add_edge(9, fo)
-    cycle_1.add_edge(fo, fi)
-    cycle_1.add_edge(fi, 6)
-
-    cycle_2 = Graph(directed=False)
-
-    for i in range(0, 12):
-        cycle_2.add_vertex()
-
-    for i in range(0, 12):
-        cycle_2.add_edge(i, (i + 1) % (12))
-
-    tw = cycle_2.add_vertex()
-    th = cycle_2.add_vertex()
-    fo = cycle_2.add_vertex()
-    fi = cycle_2.add_vertex()
-
-    cycle_2.add_edge(0, tw)
-    cycle_2.add_edge(tw, th)
-    cycle_2.add_edge(th, 6)
-
-    cycle_2.add_edge(9, fo)
-    cycle_2.add_edge(fo, fi)
-    cycle_2.add_edge(fi, 3)
-
-    return (cycle_1, cycle_2)
-
-
 # Create cycle counter examples.
 def create_pair(k):
     # Graph 1.
@@ -289,3 +242,48 @@ def create_pair(k):
     graph_draw(cycle_union_2, pos=position, output="g_2.pdf")
 
     return (cycle_union_1, cycle_union_2)
+
+
+# Create cycle counter examples.
+def create_pair_four():
+    g_1 = Graph(directed=False)
+    g_1.add_vertex()
+    g_1.add_vertex()
+    g_1.add_vertex()
+    g_1.add_vertex()
+    g_1.add_vertex()
+    g_1.add_vertex()
+    g_1.add_vertex()
+    g_1.add_vertex()
+
+    g_1.add_edge(0, 1)
+    g_1.add_edge(1, 2)
+    g_1.add_edge(2, 3)
+    g_1.add_edge(3, 0)
+    g_1.add_edge(3, 4)
+    g_1.add_edge(4, 5)
+    g_1.add_edge(5, 6)
+    g_1.add_edge(6, 7)
+    g_1.add_edge(7, 4)
+
+    g_2 = Graph(directed=False)
+    g_2.add_vertex()
+    g_2.add_vertex()
+    g_2.add_vertex()
+    g_2.add_vertex()
+    g_2.add_vertex()
+    g_2.add_vertex()
+    g_2.add_vertex()
+    g_2.add_vertex()
+
+    g_2.add_edge(0, 1)
+    g_2.add_edge(1, 2)
+    g_2.add_edge(2, 3)
+    g_2.add_edge(3, 4)
+    g_2.add_edge(4, 0)
+    g_2.add_edge(3, 5)
+    g_2.add_edge(5, 6)
+    g_2.add_edge(6, 7)
+    g_2.add_edge(7, 2)
+
+    return [g_1, g_2]

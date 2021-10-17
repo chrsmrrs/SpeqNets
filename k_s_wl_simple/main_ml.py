@@ -169,8 +169,6 @@ def compute_k_s_tuple_graph(graphs, k, s):
         node_labels_all.append(node_labels)
         edge_labels_all.append(edge_labels)
 
-    #print(sorted(degrees[0]))
-    #print(sorted(degrees[1]))
 
     return tupled_graphs, node_labels_all, edge_labels_all
 
