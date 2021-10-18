@@ -1,15 +1,12 @@
 import itertools
-from itertools import product, combinations, combinations_with_replacement
+from itertools import product, combinations_with_replacement
 
 import numpy as np
 from graph_tool.all import *
-from data_set_parser import read_txt, get_dataset
-from svm import linear_svm_evaluation, kernel_svm_evaluation
-from aux import normalize_gram_matrix, normalize_feature_vector
-from scipy import sparse as sp
 
-import graph_generator as gen
-import time
+from aux import normalize_gram_matrix
+from data_set_parser import read_txt, get_dataset
+from svm import kernel_svm_evaluation
 
 
 # Compute atomic type for ordered set of vertices of graph g.
@@ -44,14 +41,10 @@ def compute_atomic_type(g, vertices, node_label):
 # Naive implementation of the (k,s)-WL.
 def compute_k_s_tuple_graph(graphs, k, s, node_label):
     tupled_graphs = []
-    node_labels_all = []
-    edge_labels_all = []
 
     # Manage atomic types.
     atomic_type = {}
     atomic_counter = 0
-
-    degrees = []
 
     for g in graphs:
         # k-tuple graph.
@@ -72,10 +65,6 @@ def compute_k_s_tuple_graph(graphs, k, s, node_label):
 
         # Create nodes for k-tuples.
         for c, t in enumerate(tuples):
-
-            # Ordered set of nodes of tuple t.
-            node_set = list(t)
-
             # Create graph induced by tuple t.
             vfilt = g.new_vertex_property('bool')
             for v in t:
@@ -97,8 +86,12 @@ def compute_k_s_tuple_graph(graphs, k, s, node_label):
             # Add vertex to k-tuple graph representing tuple t.
             v = k_tuple_graph.add_vertex()
 
+            # Manage mappings, back and forth.
+            node_to_tuple[v] = t
+            tuple_to_node[t] = v
+
             # Compute atomic type.
-            raw_type = compute_atomic_type(g, node_set, node_label)
+            raw_type = compute_atomic_type(g, t, node_label)
 
             # Atomic type seen before.
             if raw_type in atomic_type:
@@ -107,10 +100,6 @@ def compute_k_s_tuple_graph(graphs, k, s, node_label):
                 node_labels[v] = atomic_counter
                 atomic_type[raw_type] = atomic_counter
                 atomic_counter += 1
-
-            # Manage mappings, back and forth.
-            node_to_tuple[v] = t
-            tuple_to_node[t] = v
 
         # Iterate over nodes and add edges.
         edge_labels = k_tuple_graph.new_edge_property("int")
@@ -140,34 +129,29 @@ def compute_k_s_tuple_graph(graphs, k, s, node_label):
                         # Insert edge, avoid undirected multi-edges.
                         if not k_tuple_graph.edge(w, m):
                             k_tuple_graph.add_edge(m, w)
-                            edge_labels[(m, w)] = 1 #i + 1
-                            edge_labels[(w, m)] = 1 #i + 1
+                            edge_labels[k_tuple_graph.edge(m, w)] = i + 1
+                            edge_labels[k_tuple_graph.edge(w, m)] = i + 1
 
             # Add self-loops, only once.
             k_tuple_graph.add_edge(m, m)
-            edge_labels[(m, m)] = 0
+            edge_labels[k_tuple_graph.edge(m, m)] = 0
 
-        k_tuple_graph.vp.node_labels = node_labels
+        k_tuple_graph.vp.nl = node_labels
+        k_tuple_graph.ep.el = edge_labels
         tupled_graphs.append(k_tuple_graph)
 
     return tupled_graphs
 
 
-
-
-
-
 # Implementation of the (k,s)-WL.
 def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
     tupled_graphs = []
-    node_labels_all = []
-    edge_labels_all = []
 
     # Manage atomic types.
     atomic_type = {}
     atomic_counter = 0
 
-    for y,g in enumerate(graphs):
+    for y, g in enumerate(graphs):
         # (k,s)-tuple graph.
         k_tuple_graph = Graph(directed=False)
 
@@ -177,14 +161,13 @@ def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
         node_to_tuple = {}
 
         # Manages node_labels, i.e., atomic types.
-        node_labels = {}
-        # True if tuple exists in k-tuple graph.
-        tuple_exists = {}
+        node_labels = k_tuple_graph.new_vertex_property("int")
+
         # True if connected multi-set has been found already.
         multiset_exists = {}
 
         # List of s-multisets.
-        k_multisets = combinations_with_replacement(g.vertices(), r = s)
+        k_multisets = combinations_with_replacement(g.vertices(), r=s)
 
         # Generate (k,s)-multisets.
         for _ in range(s, k):
@@ -220,7 +203,9 @@ def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
 
         if k == s:
             k_multisets = list(k_multisets)
-            #print(len(k_multisets))
+
+        # True if tuple exists in k-tuple graph.
+        tuple_exists = {}
 
         # Generate nodes of (k,s)-graph.
         # Iterate of (k,s)-multisets.
@@ -230,7 +215,7 @@ def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
 
             # Iterate over permutations of multiset.
             for t in permutations:
-                # Check if tuple t aready exists. # TODO: Needed?
+                # Check if tuple t already exists. # TODO: Needed?
                 if t not in tuple_exists:
                     tuple_exists[t] = True
 
@@ -253,7 +238,7 @@ def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
                     tuple_to_node[t] = t_v
 
         # Iterate over nodes and add edges.
-        edge_labels = {}
+        edge_labels = k_tuple_graph.new_edge_property("int")
         for c, m in enumerate(k_tuple_graph.vertices()):
 
             # Get corresponding tuple.
@@ -279,22 +264,22 @@ def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
                         # Insert edge, avoid undirected multi-edges.
                         if not k_tuple_graph.edge(w, m):
                             k_tuple_graph.add_edge(m, w)
-                            edge_labels[(m, w)] = i + 1
-                            edge_labels[(w, m)] = i + 1
+                            edge_labels[k_tuple_graph.edge(m, w)] = i + 1
+                            edge_labels[k_tuple_graph.edge(w, m)] = i + 1
 
             # Add self-loops, only once.
             k_tuple_graph.add_edge(m, m)
-            edge_labels[(m, m)] = 0
+            edge_labels[k_tuple_graph.edge(m, m)] = 0
 
+        k_tuple_graph.vp.nl = node_labels
+        k_tuple_graph.ep.el = edge_labels
         tupled_graphs.append(k_tuple_graph)
-        node_labels_all.append(node_labels)
-        edge_labels_all.append(edge_labels)
 
-    return tupled_graphs, node_labels_all, edge_labels_all
+    return tupled_graphs
 
 
 # Simple implementation of 1-WL for edge and node-labeled graphs.
-def compute_wl(graph_db, node_labels, edge_labels, num_it):
+def compute_wl(graph_db, num_it, edge_label):
     # Create one empty feature vector for each graph.
     feature_vectors = []
     for _ in graph_db:
@@ -310,18 +295,15 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
     colors = []
     for i, g in enumerate(graph_db):
         for v in g.vertices():
-            colors.append(node_labels[i][v])
+            colors.append(g.vp.nl[v])
 
     max_all = int(np.amax(colors) + 1)
     feature_vectors = [
         np.concatenate((feature_vectors[i], np.bincount(colors[index[0]:index[1] + 1], minlength=max_all))) for
         i, index in enumerate(graph_indices)]
 
-    dim = feature_vectors[0].shape[-1]
-
     c = 0
-    #while True:
-    while c <= num_it:
+    while c < num_it:
         colors = []
 
         for i, g in enumerate(graph_db):
@@ -330,10 +312,13 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
 
                 out_edges_v = g.get_out_edges(v).tolist()
                 for (_, w) in out_edges_v:
-                    neighbors.append(hash((node_labels[i][w], edge_labels[i][(v, w)])))
+                    if edge_label:
+                        neighbors.append(hash((g.vp.nl[w], g.ep.el[g.edge(v, w)])))
+                    else:
+                        neighbors.append(hash((g.vp.nl[w])))
 
                 neighbors.sort()
-                neighbors.append(node_labels[i][v])
+                neighbors.append(g.vp.nl[v])
                 colors.append(hash(tuple(neighbors)))
 
         _, colors = np.unique(colors, return_inverse=True)
@@ -342,25 +327,18 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
         q = 0
         for i, g in enumerate(graph_db):
             for v in g.vertices():
-                node_labels[i][v] = colors[q]
+                g.vp.nl[v] = colors[q]
                 q += 1
 
         max_all = int(np.amax(colors) + 1)
 
-        feature_vectors = [np.bincount(colors[index[0]:index[1] + 1], minlength=max_all) for i, index in
-                           enumerate(graph_indices)]
-
-        dim_new = feature_vectors[0].shape[-1]
-
-        # if dim_new == dim:
-        #     break
-        dim = dim_new
+        feature_vectors = [
+            np.concatenate((feature_vectors[i], np.bincount(colors[index[0]:index[1] + 1], minlength=max_all))) for
+            i, index in enumerate(graph_indices)]
 
         c += 1
 
-    #print(c)
-
-    feature_vectors = np.array(feature_vectors)
+    feature_vectors = np.array(feature_vectors, dtype=np.float64)
     gram_matrix = np.dot(feature_vectors, feature_vectors.transpose())
 
     return gram_matrix
@@ -369,9 +347,12 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
 name = "ENZYMES"
 _ = get_dataset(name)
 graphs, classes = read_txt(name)
-tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k=2, s=1, node_label=True)
-kernel = compute_wl(tupled_graphs, node_labels, edge_labels, num_it=4)
-kernel = normalize_gram_matrix(kernel)
+tupled_graphs = compute_k_s_tuple_graph_fast(graphs, k=2, s=2, node_label=True)
 
+matrices = []
+for i in [3]:
+    kernel = compute_wl(tupled_graphs, num_it=i, edge_label=True)
+    kernel = normalize_gram_matrix(kernel)
+    matrices.append(kernel)
 
-print(linear_svm_evaluation([kernel], classes))
+print(kernel_svm_evaluation(matrices, classes))
