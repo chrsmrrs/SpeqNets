@@ -163,8 +163,8 @@ def read_txt(ds_name):
             g.ep.ea = l_ea[g_id]
 
     # Classes
-    with open("../datasets/" + ds_name + "/" + ds_name + "/raw/" + ds_name + "_graph_labels.txt", "r") as f:
-        classes = [int(i) for i in list(f)]
-    f.closed
+    # with open("../datasets/" + ds_name + "/" + ds_name + "/raw/" + ds_name + "_graph_labels.txt", "r") as f:
+    #     classes = [int(i) for i in list(f)]
+    # f.closed
 
-    return graph_db, np.array(classes)
+    return graph_db

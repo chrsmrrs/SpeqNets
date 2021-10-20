@@ -1,12 +1,15 @@
 import itertools
 from itertools import product, combinations_with_replacement
+import timeit
+
 
 import numpy as np
 from graph_tool.all import *
 
-from aux import normalize_gram_matrix
+from aux import normalize_gram_matrix, normalize_feature_vector
 from data_set_parser import read_txt, get_dataset
-from svm import kernel_svm_evaluation
+from svm import kernel_svm_evaluation, linear_svm_evaluation
+from scipy import sparse
 
 
 # Compute atomic type for ordered set of vertices of graph g.
@@ -151,7 +154,8 @@ def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
     atomic_type = {}
     atomic_counter = 0
 
-    for y, g in enumerate(graphs):
+    for i, g in enumerate(graphs):
+        print(i)
         # (k,s)-tuple graph.
         k_tuple_graph = Graph(directed=False)
 
@@ -279,7 +283,7 @@ def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
 
 
 # Simple implementation of 1-WL for edge and node-labeled graphs.
-def compute_wl(graph_db, num_it, edge_label):
+def compute_wl(graph_db, num_it, edge_label, linear):
     # Create one empty feature vector for each graph.
     feature_vectors = []
     for _ in graph_db:
@@ -338,21 +342,32 @@ def compute_wl(graph_db, num_it, edge_label):
 
         c += 1
 
-    feature_vectors = np.array(feature_vectors, dtype=np.float64)
-    gram_matrix = np.dot(feature_vectors, feature_vectors.transpose())
+    if linear:
+        feature_vectors = sparse.csr_matrix(feature_vectors)
 
-    return gram_matrix
+        return feature_vectors
+    else:
+        feature_vectors = np.array(feature_vectors, dtype=np.float64)
+        gram_matrix = np.dot(feature_vectors, feature_vectors.transpose())
+
+        return gram_matrix
 
 
 name = "ENZYMES"
-_ = get_dataset(name)
-graphs, classes = read_txt(name)
-tupled_graphs = compute_k_s_tuple_graph_fast(graphs, k=2, s=2, node_label=True)
+classes = get_dataset(name)
+print("###")
 
-matrices = []
-for i in [3]:
-    kernel = compute_wl(tupled_graphs, num_it=i, edge_label=True)
-    kernel = normalize_gram_matrix(kernel)
-    matrices.append(kernel)
+graphs = read_txt(name)
 
-print(kernel_svm_evaluation(matrices, classes))
+print("###")
+
+start = timeit.default_timer()
+tupled_graphs = compute_k_s_tuple_graph_fast(graphs, k=3, s=1, node_label=True)
+kernel = compute_wl(tupled_graphs, num_it=3, edge_label=True, linear=False)
+end = timeit.default_timer()
+print(end-start)
+
+print("WL computation done.")
+kernel = normalize_gram_matrix(kernel)
+
+print(kernel_svm_evaluation([kernel], classes))

@@ -10,10 +10,72 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-BINARY/IMDB-BINARY_A.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-BINARY/IMDB-BINARY_graph_indicator.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-BINARY/IMDB-BINARY_graph_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-MULTI/IMDB-MULTI_A.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-MULTI/IMDB-MULTI_graph_indicator.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-MULTI/IMDB-MULTI_graph_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/NCI1_A.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/NCI1_graph_indicator.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/NCI1_graph_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/NCI1_node_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_A.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_graph_indicator.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_graph_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_node_attributes.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_node_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_A.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_edge_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_graph_indicator.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_graph_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_node_labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/ColorRefinementKernel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/ColorRefinementKernel.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateThree.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateThree.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateTwo.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateTwo.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SeqGN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SeqGN.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_simple/aux.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_simple/aux.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/auxiliarymethods/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/auxiliarymethods/datasets.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/datasets/val_al_50.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/local_2_10K.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/local_2_10K_connected.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/local_2_10K_connected_plus_W.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/local_2_50K_connected_plus_W.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/local_3_10K_connected.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/local_3_10K_connected_plus.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/test_al_10.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/test_al_50.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/train_al_10.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/train_al_50.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/val_al_10.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Alchemy/val_al_50.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/auxiliarymethods/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/auxiliarymethods/datasets.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/local_2_10K_connected_plus.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/local_2_50K.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/local_2_50K_connected_plus.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/local_3_10K_connected.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/test.index.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/train.index.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/train_50.index.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/val.index.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ZINC/val_50.index.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k_s_wl_simple/data_set_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_simple/data_set_parser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k_s_wl_simple/main_ml.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_simple/main_ml.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_simple/svm.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_simple/svm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/preprocessing.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/src/AuxiliaryMethods.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/AuxiliaryMethods.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/src/AuxiliaryMethods.h" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/AuxiliaryMethods.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/src/Graph.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/Graph.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/src/Graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/Graph.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +131,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/k_s_wl_simple" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -80,6 +142,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/k_s_wl_cpp" />
       <recent name="$PROJECT_DIR$/k_s_wl_simple" />
       <recent name="$PROJECT_DIR$/Alchemy" />
       <recent name="$PROJECT_DIR$/Alchemy/datasets" />
@@ -87,6 +150,11 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.main_ml">
+    <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$/k_s_wl_cpp" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="main_kernel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SeqGN" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -153,6 +221,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="svm" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="SeqGN" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/k_s_wl_cpp/svm" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SeqGN" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -176,14 +266,16 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.main_ml" />
       <item itemvalue="Python.main_kernel" />
+      <item itemvalue="Python.main_ml" />
       <item itemvalue="Python.mutag_gin" />
       <item itemvalue="Python.test" />
+      <item itemvalue="Python.svm" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main_ml" />
+        <item itemvalue="Python.svm" />
         <item itemvalue="Python.main_kernel" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.mutag_gin" />
@@ -235,14 +327,12 @@
       <workItem from="1631416920470" duration="86824000" />
       <workItem from="1632363835876" duration="28378000" />
       <workItem from="1632704249670" duration="9101000" />
-      <workItem from="1634327638899" duration="25726000" />
-    </task>
-    <task id="LOCAL-00001" summary="MC.">
-      <created>1619474883536</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1619474883536</updated>
+      <workItem from="1634327638899" duration="35147000" />
+      <workItem from="1634588822533" duration="1946000" />
+      <workItem from="1634595582241" duration="98000" />
+      <workItem from="1634595684417" duration="4700000" />
+      <workItem from="1634607850782" duration="81000" />
+      <workItem from="1634608239961" duration="21301000" />
     </task>
     <task id="LOCAL-00002" summary="MC.">
       <created>1619475298650</created>
@@ -580,7 +670,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634445172009</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Implemnted machine learning version.">
+      <created>1634515336083</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1634515336088</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -592,7 +689,8 @@
     <MESSAGE value="Add (k,s)-WL." />
     <MESSAGE value="Started implementing distance stuff.&#10;Need to check." />
     <MESSAGE value="Started to implement faster variant of (k,s)-WL." />
-    <option name="LAST_COMMIT_MESSAGE" value="Started to implement faster variant of (k,s)-WL." />
+    <MESSAGE value="Implemnted machine learning version." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemnted machine learning version." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -606,8 +704,10 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/SeqGN$main_kernel.coverage" NAME="main_kernel Coverage Results" MODIFIED="1629762585170" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../reconstruction-gnns/recon_wl" />
-    <SUITE FILE_PATH="coverage/SeqGN$main.coverage" NAME="main_ml Coverage Results" MODIFIED="1634515118076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
+    <SUITE FILE_PATH="coverage/SeqGN$main_ml.coverage" NAME="main_ml Coverage Results" MODIFIED="1634692201473" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
+    <SUITE FILE_PATH="coverage/SeqGN$main_kernel.coverage" NAME="main_kernel Coverage Results" MODIFIED="1634597519830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../reconstruction-gnns/recon_wl" />
+    <SUITE FILE_PATH="coverage/SeqGN$main.coverage" NAME="main_ml Coverage Results" MODIFIED="1634584737641" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
     <SUITE FILE_PATH="coverage/SeqGN$test.coverage" NAME="test Coverage Results" MODIFIED="1628386011618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
+    <SUITE FILE_PATH="coverage/SeqGN$svm.coverage" NAME="svm Coverage Results" MODIFIED="1634691026023" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_cpp/svm" />
   </component>
 </project>
