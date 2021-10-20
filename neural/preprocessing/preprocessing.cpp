@@ -1,4 +1,4 @@
-
+/**/
 #include <cstdio>
 #include "src/AuxiliaryMethods.h"
 #include "src/Graph.h"
@@ -6,12 +6,12 @@
 
 
 #ifdef __linux__
-//#include <pybind11/pybind11.h>
-//#include <pybind11/eigen.h>
-//#include <pybind11/stl.h>
-#include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
-#include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
-#include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/eigen.h>
+#include <pybind11/stl.h>
+//#include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
+//#include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
+//#include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
 #else
 // MacOS.
 #include </usr/local/include/pybind11/pybind11.h>
@@ -27,21 +27,21 @@ using namespace GraphLibrary;
 
 using namespace std;
 
-pair <vector<vector < uint>>, vector <vector<uint>>>
+pair<vector<vector<uint>>, vector<vector<uint>>>
 generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_edge_labels) {
     size_t num_nodes = g.get_num_nodes();
     // New graph to be generated.
     Graph two_tuple_graph(false);
 
     // Maps node in two set graph to corresponding two tuple.
-    unordered_map <Node, TwoTuple> node_to_two_tuple;
+    unordered_map<Node, TwoTuple> node_to_two_tuple;
     // Inverse of the above map.
-    unordered_map <TwoTuple, Node> two_tuple_to_node;
+    unordered_map<TwoTuple, Node> two_tuple_to_node;
     // Manages edges labels.
-    unordered_map <Edge, uint> edge_type;
+    unordered_map<Edge, uint> edge_type;
     // Manages vertex ids
-    unordered_map <Edge, uint> vertex_id;
-    unordered_map <Edge, uint> local;
+    unordered_map<Edge, uint> vertex_id;
+    unordered_map<Edge, uint> local;
 
     // Create a node for each two set.
     Labels labels;
@@ -91,8 +91,8 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
         }
     }
 
-    vector <vector<uint >> nonzero_compenents_1;
-    vector <vector<uint >> nonzero_compenents_2;
+    vector<vector<uint >> nonzero_compenents_1;
+    vector<vector<uint >> nonzero_compenents_2;
 
     for (Node i = 0; i < num_two_tuples; ++i) {
         // Get nodes of original graph corresponding to two tuple i.
@@ -130,17 +130,15 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
 }
 
 
-vector <vector<uint>> generate_local_sparse_am_1(const Graph &g) {
+vector<vector<uint>> generate_local_sparse_am_1(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
 
-    vector <vector<uint >> nonzero_compenents;
+    vector<vector<uint >> nonzero_compenents;
 
     for (Node v = 0; v < num_nodes; ++v) {
         // Exchange first node.
         Nodes v_neighbors = g.get_neighbours(v);
         for (Node v_n: v_neighbors) {
-
-
             nonzero_compenents.push_back({{v, v_n}});
         }
     }
@@ -149,21 +147,20 @@ vector <vector<uint>> generate_local_sparse_am_1(const Graph &g) {
 }
 
 
-
-pair <vector<int>, vector<int>> get_edge_labels(const Graph &g, const bool use_labels, const bool use_edge_labels) {
+pair<vector<int>, vector<int>> get_edge_labels(const Graph &g, const bool use_labels, const bool use_edge_labels) {
     size_t num_nodes = g.get_num_nodes();
     // New graph to be generated.
     Graph two_tuple_graph(false);
 
     // Maps node in two set graph to corresponding two tuple.
-    unordered_map <Node, TwoTuple> node_to_two_tuple;
+    unordered_map<Node, TwoTuple> node_to_two_tuple;
     // Inverse of the above map.
-    unordered_map <TwoTuple, Node> two_tuple_to_node;
+    unordered_map<TwoTuple, Node> two_tuple_to_node;
     // Manages edges labels.
-    unordered_map <Edge, uint> edge_type;
+    unordered_map<Edge, uint> edge_type;
     // Manages vertex ids
-    unordered_map <Edge, uint> vertex_id;
-    unordered_map <Edge, uint> local;
+    unordered_map<Edge, uint> vertex_id;
+    unordered_map<Edge, uint> local;
 
     // Create a node for each two set.
     Labels labels;
@@ -342,265 +339,148 @@ vector<int> get_edge_labels_1(const Graph &g) {
 }
 
 
+vector<pair<vector<vector<uint>>, vector<vector<uint>>>> get_all_matrices(string name, const std::vector<int> &indices) {
 
-vector <pair<vector < vector < uint>>,vector <vector<uint>>>>
-get_all_matrices(string
-name,
-const std::vector<int> &indices
-) {
-GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
-gdb.
-erase(gdb
-.
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
 
-begin()
+    GraphDatabase gdb_new;
 
-+ 0);
+    for (auto i: indices) {
+        gdb_new.push_back(gdb[int(i)]);
+    }
 
-GraphDatabase gdb_new;
+    vector<pair<vector<vector<uint>>, vector<vector<uint>>>> matrices;
 
-for (
-auto i
-: indices) {
-gdb_new.
-push_back(gdb[int(i)]);
+    for (auto &g: gdb_new) {
+        matrices.push_back(generate_local_sparse_am(g, false, false));
+    }
+
+    return matrices;
 }
 
-vector <pair<vector < vector < uint>>,vector <vector<uint>>>>
-matrices;
+vector<vector<vector<uint>>> get_all_matrices_1(string name const std::vector<int> &indices) {
 
-for (
-auto &g
-: gdb_new) {
-matrices.
-push_back(generate_local_sparse_am(g, false, false)
-);
-}
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
 
-return
-matrices;
-}
+    GraphDatabase gdb_new;
 
-vector <vector<vector < uint>>>
-get_all_matrices_1(string
-name,
-const std::vector<int> &indices
-) {
+    for (auto i: indices) {
+        gdb_new.push_back(gdb[int(i)]);
+    }
 
-GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
-gdb.
-erase(gdb
-.
+    vector<vector<vector<uint>>> matrices;
 
-begin()
+    for (auto &g: gdb_new) {
+        matrices.push_back(generate_local_sparse_am_1(g));
+    }
 
-+ 0);
-
-GraphDatabase gdb_new;
-
-for (
-auto i
-: indices) {
-gdb_new.
-push_back(gdb[int(i)]);
-}
-
-vector <vector<vector < uint>>>
-matrices;
-
-for (
-auto &g
-: gdb_new) {
-matrices.
-push_back(generate_local_sparse_am_1(g)
-);
-}
-
-return
-matrices;
+    return matrices;
 }
 
 
-vector <vector<int>> get_all_edge_labels_1(string
-name) {
-GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
-gdb.
-erase(gdb
-.
+vector<vector<int>> get_all_edge_labels_1(string name) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
 
-begin()
+    vector<vector<int>> edge_labels;
 
-+ 0);
+    uint m_num_labels = 0;
+    unordered_map<int, int> m_label_to_index;
 
+    for (auto &g: gdb) {
+        vector<int> colors = get_edge_labels_1(g);
+        vector<int> new_color;
 
-vector <vector<int>> edge_labels;
+        for (auto &c: colors) {
+            const auto it(m_label_to_index.find(c));
+            if (it == m_label_to_index.end()) {
+                m_label_to_index.insert({{ c, m_num_labels}});
+                new_color.push_back(m_num_labels);
 
-uint m_num_labels = 0;
-unordered_map<int, int> m_label_to_index;
+                m_num_labels++;
+            } else {
+                new_color.push_back(it->second);
+            }
+        }
 
-for (
-auto &g
-: gdb) {
-vector<int> colors = get_edge_labels_1(g);
-vector<int> new_color;
+        edge_labels.push_back(new_color);
+    }
 
-for (
-auto &c
-: colors) {
-const auto it(m_label_to_index.find(c));
-if (it == m_label_to_index.
+    cout << m_num_labels << endl;
 
-end()
-
-) {
-m_label_to_index.insert({
-{
-c, m_num_labels}});
-new_color.
-push_back(m_num_labels);
-
-m_num_labels++;
-} else {
-new_color.
-push_back(it
-->second);
-}
-}
-
-edge_labels.
-push_back(new_color);
-}
-
-cout << m_num_labels <<
-endl;
-
-return
-edge_labels;
+    return edge_labels;
 }
 
 
-vector <vector<unsigned long>> get_all_node_labels(string
-name,
-const bool use_node_labels,
-const bool use_edge_labels
-) {
-GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
-gdb.
-erase(gdb
-.
+vector<vector<unsigned long>> get_all_node_labels(string name, const bool use_node_labels, const bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
 
-begin()
+    vector<vector<unsigned long>> node_labels;
 
-+ 0);
+    uint m_num_labels = 0;
+    unordered_map<int, int> m_label_to_index;
 
-vector <vector<unsigned long>> node_labels;
+    for (auto &g: gdb) {
+        vector<unsigned long> colors = get_node_labels(g, use_node_labels, use_edge_labels);
+        vector<unsigned long> new_color;
 
-uint m_num_labels = 0;
-unordered_map<int, int> m_label_to_index;
+        for (auto &c: colors) {
+            const auto it(m_label_to_index.find(c));
+            if (it == m_label_to_index.end()) {
+                m_label_to_index.insert({{c, m_num_labels}});
+                new_color.push_back(m_num_labels);
 
-for (
-auto &g
-: gdb) {
-vector<unsigned long> colors = get_node_labels(g, use_node_labels, use_edge_labels);
-vector<unsigned long> new_color;
+                m_num_labels++;
+            } else {
+                new_color.push_back(it->second);
+            }
+        }
 
-for (
-auto &c
-: colors) {
-const auto it(m_label_to_index.find(c));
-if (it == m_label_to_index.
+        node_labels.push_back(new_color);
+    }
 
-end()
-
-) {
-m_label_to_index.insert({
-{
-c, m_num_labels}});
-new_color.
-push_back(m_num_labels);
-
-m_num_labels++;
-} else {
-new_color.
-push_back(it
-->second);
-}
+    cout << m_num_labels << endl;
+    return node_labels;
 }
 
 
-node_labels.
-push_back(new_color);
-}
+vector<vector<unsigned long>> get_all_node_labels_1(string name, const bool use_node_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin()+ 0);
 
-cout << m_num_labels <<
-endl;
-return
-node_labels;
+    vector<vector<unsigned long>> node_labels;
 
-}
+    uint m_num_labels = 0;
+    unordered_map<int, int> m_label_to_index;
 
+    for (auto &g: gdb) {
+        vector<unsigned long> colors = get_node_labels_1(g, use_node_labels);
+        vector<unsigned long> new_color;
 
-vector <vector<unsigned long>> get_all_node_labels_1(string
-name,
-const bool use_node_labels
-) {
-GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
-gdb.
-erase(gdb
-.
+        for (auto &c: colors) {
+            const auto it(m_label_to_index.find(c));
+            if (it == m_label_to_index.end()) {
+                m_label_to_index.insert({{c, m_num_labels}});
+                new_color.push_back(m_num_labels);
 
-begin()
+                m_num_labels++;
+            } else {
+                new_color.push_back(it->second);
+            }
+        }
 
-+ 0);
+        node_labels.push_back(new_color);
+    }
 
-vector <vector<unsigned long>> node_labels;
-
-uint m_num_labels = 0;
-unordered_map<int, int> m_label_to_index;
-
-for (
-auto &g
-: gdb) {
-vector<unsigned long> colors = get_node_labels_1(g, use_node_labels);
-vector<unsigned long> new_color;
-
-for (
-auto &c
-: colors) {
-const auto it(m_label_to_index.find(c));
-if (it == m_label_to_index.
-
-end()
-
-) {
-m_label_to_index.insert({
-{
-c, m_num_labels}});
-new_color.
-push_back(m_num_labels);
-
-m_num_labels++;
-} else {
-new_color.
-push_back(it
-->second);
-}
+    cout << m_num_labels << endl;
+    return node_labels;
 }
 
 
-node_labels.
-push_back(new_color);
-}
-
-cout << m_num_labels <<
-endl;
-return
-node_labels;
-
-}
-
-
-vector <vector<unsigned long>>
+vector<vector<unsigned long>>
 get_all_node_labels_ZINC(const bool use_node_labels, const bool use_edge_labels, const std::vector<int> &indices_train,
                          const std::vector<int> &indices_val, const std::vector<int> &indices_test) {
     GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file("ZINC_train");
@@ -633,7 +513,7 @@ get_all_node_labels_ZINC(const bool use_node_labels, const bool use_edge_labels,
     cout << gdb_new_3.size() << endl;
     cout << "$$$" << endl;
 
-    vector <vector<unsigned long>> node_labels;
+    vector<vector<unsigned long>> node_labels;
 
     uint m_num_labels = 0;
     unordered_map<int, int> m_label_to_index;
@@ -699,10 +579,10 @@ get_all_node_labels_ZINC(const bool use_node_labels, const bool use_edge_labels,
     return node_labels;
 }
 
-vector <vector<unsigned long>> get_all_node_labels_ZINC_1(const bool use_node_labels, const bool use_edge_labels,
-                                                          const std::vector<int> &indices_train,
-                                                          const std::vector<int> &indices_val,
-                                                          const std::vector<int> &indices_test) {
+vector<vector<unsigned long>> get_all_node_labels_ZINC_1(const bool use_node_labels, const bool use_edge_labels,
+                                                         const std::vector<int> &indices_train,
+                                                         const std::vector<int> &indices_val,
+                                                         const std::vector<int> &indices_test) {
     GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file("ZINC_train");
     gdb_1.erase(gdb_1.begin() + 0);
 
@@ -733,7 +613,7 @@ vector <vector<unsigned long>> get_all_node_labels_ZINC_1(const bool use_node_la
     cout << gdb_new_3.size() << endl;
     cout << "$$$" << endl;
 
-    vector <vector<unsigned long>> node_labels;
+    vector<vector<unsigned long>> node_labels;
 
     uint m_num_labels = 0;
     unordered_map<int, int> m_label_to_index;
@@ -801,10 +681,10 @@ vector <vector<unsigned long>> get_all_node_labels_ZINC_1(const bool use_node_la
 }
 
 
-vector <vector<int>> get_all_edge_labels_ZINC_1(const bool use_node_labels, const bool use_edge_labels,
-                                                const std::vector<int> &indices_train,
-                                                const std::vector<int> &indices_val,
-                                                const std::vector<int> &indices_test) {
+vector<vector<int>> get_all_edge_labels_ZINC_1(const bool use_node_labels, const bool use_edge_labels,
+                                               const std::vector<int> &indices_train,
+                                               const std::vector<int> &indices_val,
+                                               const std::vector<int> &indices_test) {
     GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file("ZINC_train");
     gdb_1.erase(gdb_1.begin() + 0);
 
@@ -836,7 +716,7 @@ vector <vector<int>> get_all_edge_labels_ZINC_1(const bool use_node_labels, cons
     cout << "$$$" << endl;
 
 
-    vector <vector<int>> edge_labels;
+    vector<vector<int>> edge_labels;
 
     uint m_num_labels = 0;
     unordered_map<int, int> m_label_to_index;
@@ -906,32 +786,19 @@ vector <vector<int>> get_all_edge_labels_ZINC_1(const bool use_node_labels, cons
 }
 
 
-
-
-vector<int> read_classes(string
-data_set_name) {
-return
-AuxiliaryMethods::read_classes(data_set_name);
+vector<int> read_classes(string data_set_name) {
+    return AuxiliaryMethods::read_classes(data_set_name);
 }
 
-vector<float> read_targets(string
-data_set_name,
-const std::vector<int> &indices
-) {
+vector<float> read_targets(string data_set_name, const std::vector<int> &indices) {
+    vector<float> targets = AuxiliaryMethods::read_targets(data_set_name);
 
-vector<float> targets = AuxiliaryMethods::read_targets(data_set_name);
+    vector<float> new_targets;
+    for (auto i: indices) {
+        new_targets.push_back(targets[i]);
+    }
 
-vector<float> new_targets;
-for (
-auto i
-: indices) {
-new_targets.
-push_back(targets[i]);
-}
-
-return
-new_targets;
-
+    return new_targets;
 }
 
 PYBIND11_MODULE(preprocessing, m) {

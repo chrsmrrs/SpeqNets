@@ -10,72 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-BINARY/IMDB-BINARY_A.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-BINARY/IMDB-BINARY_graph_indicator.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-BINARY/IMDB-BINARY_graph_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-MULTI/IMDB-MULTI_A.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-MULTI/IMDB-MULTI_graph_indicator.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/IMDB-MULTI/IMDB-MULTI_graph_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/NCI1_A.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/NCI1_graph_indicator.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/NCI1_graph_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/NCI1_node_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/NCI1/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_A.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_graph_indicator.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_graph_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_node_attributes.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/PROTEINS_node_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PROTEINS/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_A.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_edge_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_graph_indicator.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_graph_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/PTC_FM_node_labels.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/datasets/PTC_FM/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/ColorRefinementKernel.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/ColorRefinementKernel.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateThree.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateThree.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateTwo.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateTwo.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/neural/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/SeqGN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SeqGN.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/auxiliarymethods/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/auxiliarymethods/datasets.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/datasets/val_al_50.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/local_2_10K.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/local_2_10K_connected.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/local_2_10K_connected_plus_W.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/local_2_50K_connected_plus_W.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/local_3_10K_connected.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/local_3_10K_connected_plus.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/test_al_10.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/test_al_50.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/train_al_10.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/train_al_50.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/val_al_10.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Alchemy/val_al_50.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/auxiliarymethods/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/auxiliarymethods/datasets.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/local_2_10K_connected_plus.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/local_2_50K.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/local_2_50K_connected_plus.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/local_3_10K_connected.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/test.index.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/train.index.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/train_50.index.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/val.index.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZINC/val_50.index.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_simple/data_set_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_simple/data_set_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_simple/main_ml.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_simple/main_ml.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/preprocessing.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/src/AuxiliaryMethods.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/AuxiliaryMethods.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/src/AuxiliaryMethods.h" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/AuxiliaryMethods.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/src/Graph.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/Graph.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/src/Graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/Graph.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,14 +268,7 @@
       <workItem from="1634595582241" duration="98000" />
       <workItem from="1634595684417" duration="4700000" />
       <workItem from="1634607850782" duration="81000" />
-      <workItem from="1634608239961" duration="21301000" />
-    </task>
-    <task id="LOCAL-00002" summary="MC.">
-      <created>1619475298650</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1619475298650</updated>
+      <workItem from="1634608239961" duration="26213000" />
     </task>
     <task id="LOCAL-00003" summary="MC.">
       <created>1619475322601</created>
@@ -677,7 +606,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634515336088</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Started implementing neural version.">
+      <created>1634751472289</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1634751472290</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -690,7 +626,8 @@
     <MESSAGE value="Started implementing distance stuff.&#10;Need to check." />
     <MESSAGE value="Started to implement faster variant of (k,s)-WL." />
     <MESSAGE value="Implemnted machine learning version." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemnted machine learning version." />
+    <MESSAGE value="Started implementing neural version." />
+    <option name="LAST_COMMIT_MESSAGE" value="Started implementing neural version." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
