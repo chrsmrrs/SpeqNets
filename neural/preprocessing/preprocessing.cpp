@@ -359,7 +359,7 @@ vector<pair<vector<vector<uint>>, vector<vector<uint>>>> get_all_matrices(string
     return matrices;
 }
 
-vector<vector<vector<uint>>> get_all_matrices_1(string name const std::vector<int> &indices) {
+vector<vector<vector<uint>>> get_all_matrices_1(string name, const std::vector<int> &indices) {
 
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
     gdb.erase(gdb.begin() + 0);
