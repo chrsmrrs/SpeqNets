@@ -12,15 +12,14 @@ import torch
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.nn import global_mean_pool, GINConv, MessagePassing
 
-from torch_geometric.data import (InMemoryDataset, Data)
+from torch_geometric.data import InMemoryDataset, Data
 from torch_geometric.loader import DataLoader
 import torch.nn.functional as F
 
 
 class ZINCbase(InMemoryDataset):
-    def __init__(self, root, transform=None, pre_transform=None,
-                 pre_filter=None):
-        super(ZINCbase, self).__init__(root, transform, pre_transform, pre_filter)
+    def __init__(self, root, transform=None, pre_transform=None):
+        super(ZINCbase, self).__init__(root, transform, pre_transform)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
@@ -29,7 +28,7 @@ class ZINCbase(InMemoryDataset):
 
     @property
     def processed_file_names(self):
-        return "ZINfC_adsflldf1s0kdd"
+        return ['data.pt']
 
     def download(self):
         pass
