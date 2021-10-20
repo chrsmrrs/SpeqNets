@@ -6,7 +6,7 @@
 #ifdef __linux__
 #include <eigen3/Eigen/Sparse>
 #else
-#include "/usr/local/include/eigen3/Eigen/Sparse"
+#include "./eigen-3.4.0/Eigen/Sparse"
 #endif
 #include <unordered_set>
 #include <unordered_map>
