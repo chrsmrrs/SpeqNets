@@ -95,7 +95,6 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
 
         node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, i)}});
         two_tuple_to_node.insert({{make_tuple(i, i), num_two_tuples}});
-        num_two_tuples++;
 
         num_two_tuples++;
         Label c_i = 1;
@@ -107,8 +106,6 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
 
         Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
         tuple_labels.push_back(new_color);
-
-
     }
 
     vector<vector<uint >> nonzero_compenents_1;
