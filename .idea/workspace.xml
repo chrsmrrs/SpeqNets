@@ -268,21 +268,7 @@
       <workItem from="1634595582241" duration="98000" />
       <workItem from="1634595684417" duration="4700000" />
       <workItem from="1634607850782" duration="81000" />
-      <workItem from="1634608239961" duration="32907000" />
-    </task>
-    <task id="LOCAL-00007" summary="MC.">
-      <created>1619484783113</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1619484783113</updated>
-    </task>
-    <task id="LOCAL-00008" summary="MC.">
-      <created>1619484863166</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1619484863167</updated>
+      <workItem from="1634608239961" duration="36057000" />
     </task>
     <task id="LOCAL-00009" summary="MC.">
       <created>1619484955529</created>
@@ -613,7 +599,21 @@
       <option name="project" value="LOCAL" />
       <updated>1634772319847</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Started implementing neural version.">
+      <created>1634778255055</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1634778255055</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Started implementing neural version.">
+      <created>1634778808366</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1634778808366</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

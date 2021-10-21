@@ -57,7 +57,11 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
 
     Node num_two_tuples = 0;
     for (Node i = 0; i < num_nodes; ++i) {
-        for (Node j = 0; j < num_nodes; ++j) {
+        Nodes neighbors = g.get_neighbours(i);
+
+        for (Node j: neighbors) {
+
+
             two_tuple_graph.add_node();
 
             // Map each pair to node in two set graph and also inverse.
@@ -104,23 +108,28 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
         Nodes v_neighbors = g.get_neighbours(v);
         for (Node v_n: v_neighbors) {
             unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v_n, w));
-            two_tuple_graph.add_edge(i, t->second);
-            edge_type.insert({{make_tuple(i, t->second), 1}});
-            vertex_id.insert({{make_tuple(i, t->second), v_n}});
-            local.insert({{make_tuple(i, t->second), 1}});
 
-            nonzero_compenents_1.push_back({{i, t->second}});
+            if (t != two_tuple_to_node.end()) {
+                two_tuple_graph.add_edge(i, t->second);
+                edge_type.insert({{make_tuple(i, t->second), 1}});
+                vertex_id.insert({{make_tuple(i, t->second), v_n}});
+                local.insert({{make_tuple(i, t->second), 1}});
+
+                nonzero_compenents_1.push_back({{i, t->second}});
+            }
         }
 
         // Exchange second node.
         Nodes w_neighbors = g.get_neighbours(w);
         for (Node w_n: w_neighbors) {
             unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v, w_n));
-            two_tuple_graph.add_edge(i, t->second);
-            edge_type.insert({{make_tuple(i, t->second), 2}});
-            vertex_id.insert({{make_tuple(i, t->second), w_n}});
-            local.insert({{make_tuple(i, t->second), 1}});
 
+            if (t != two_tuple_to_node.end()) {
+                two_tuple_graph.add_edge(i, t->second);
+                edge_type.insert({{make_tuple(i, t->second), 2}});
+                vertex_id.insert({{make_tuple(i, t->second), w_n}});
+                local.insert({{make_tuple(i, t->second), 1}});
+            }
 
             nonzero_compenents_2.push_back({{i, t->second}});
         }
@@ -274,9 +283,9 @@ vector<unsigned long> get_node_labels(const Graph &g, const bool use_labels, con
     }
 
     for (Node i = 0; i < num_nodes; ++i) {
-        for (Node j = 0; j < num_nodes; ++j) {
+            Nodes neighbors = g.get_neighbours(i);
 
-
+        for (Node j: neighbors) {
             Label c_i = 1;
             Label c_j = 2;
             if (use_labels) {
