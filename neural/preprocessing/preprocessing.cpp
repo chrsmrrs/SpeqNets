@@ -854,8 +854,8 @@ m.def("get_all_edge_labels_1", &get_all_edge_labels_1);
 
 m.def("get_all_node_labels_ZINC_2_1", &get_all_node_labels_ZINC_2_1);
 m.def("get_all_node_labels_ZINC_2_2", &get_all_node_labels_ZINC_2_2);
-m.def("get_all_node_labels_ZINC_1", &get_all_node_labels_ZINC_1);
 
+m.def("get_all_node_labels_ZINC_1", &get_all_node_labels_ZINC_1);
 m.def("get_all_edge_labels_ZINC_1", &get_all_edge_labels_ZINC_1);
 
 m.def("read_targets", &read_targets);
