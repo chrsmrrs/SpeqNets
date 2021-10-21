@@ -68,44 +68,13 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
             two_tuple_to_node.insert({{make_tuple(i, j), num_two_tuples}});
             num_two_tuples++;
 
-            Label c_i = 1;
-            Label c_j = 2;
-            if (use_labels) {
-                c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
-                c_j = AuxiliaryMethods::pairing(labels[j] + 1, c_j);
-            }
-
-            Label c;
-            if (g.has_edge(i, j)) {
-                if (use_edge_labels) {
-                    auto s = edge_labels.find(make_tuple(i, j));
-                    c = AuxiliaryMethods::pairing(3, s->second);
-                } else {
-                    c = 3;
-                }
-            } else if (i == j) {
-                c = 1;
-            } else {
-                c = 2;
-            }
-
-            Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
-            tuple_labels.push_back(new_color);
         }
 
         node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, i)}});
         two_tuple_to_node.insert({{make_tuple(i, i), num_two_tuples}});
 
         num_two_tuples++;
-        Label c_i = 1;
-        Label c_j = 2;
-        if (use_labels) {
-            c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
-            c_j = AuxiliaryMethods::pairing(labels[i] + 1, c_j);
-        }
 
-        Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
-        tuple_labels.push_back(new_color);
     }
 
     vector<vector<uint >> nonzero_compenents_1;
@@ -123,11 +92,6 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
             unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v_n, w));
 
             if (t != two_tuple_to_node.end()) {
-                two_tuple_graph.add_edge(i, t->second);
-                edge_type.insert({{make_tuple(i, t->second), 1}});
-                vertex_id.insert({{make_tuple(i, t->second), v_n}});
-                local.insert({{make_tuple(i, t->second), 1}});
-
                 nonzero_compenents_1.push_back({{i, t->second}});
             }
         }
@@ -138,13 +102,8 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
             unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v, w_n));
 
             if (t != two_tuple_to_node.end()) {
-                two_tuple_graph.add_edge(i, t->second);
-                edge_type.insert({{make_tuple(i, t->second), 2}});
-                vertex_id.insert({{make_tuple(i, t->second), w_n}});
-                local.insert({{make_tuple(i, t->second), 1}});
+                nonzero_compenents_2.push_back({{i, t->second}});
             }
-
-            nonzero_compenents_2.push_back({{i, t->second}});
         }
     }
 
