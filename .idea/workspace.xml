@@ -11,7 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/ZINC/local_2_2_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/ZINC/local_2_2_10K.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -269,14 +268,7 @@
       <workItem from="1634595582241" duration="98000" />
       <workItem from="1634595684417" duration="4700000" />
       <workItem from="1634607850782" duration="81000" />
-      <workItem from="1634608239961" duration="49206000" />
-    </task>
-    <task id="LOCAL-00024" summary="MC.">
-      <created>1619492165306</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1619492165306</updated>
+      <workItem from="1634608239961" duration="51299000" />
     </task>
     <task id="LOCAL-00025" summary="MC.">
       <created>1619492376522</created>
@@ -614,7 +606,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634855307036</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="Started implementing neural version.">
+      <created>1634856261707</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1634856261708</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

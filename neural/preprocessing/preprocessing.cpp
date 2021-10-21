@@ -227,8 +227,7 @@ vector<unsigned long> get_node_labels_2_2(const Graph &g, const bool use_labels,
             } else if (i == j) {
                 c = 1;
             } else {
-                cout << "ERROR: Non edges should not appear." << endl;
-                exit(-1);
+                c = 2;
             }
 
             Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
