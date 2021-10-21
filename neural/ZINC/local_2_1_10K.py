@@ -13,7 +13,7 @@ from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.nn import global_mean_pool, GINConv
 
 from torch_geometric.data import (InMemoryDataset, Data)
-from torch_geometric.data import DataLoader
+from torch_geometric.loader import DataLoader
 import torch.nn.functional as F
 
 
@@ -77,7 +77,7 @@ class ZINC(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(445)[node_labels[i]]
+            one_hot = np.eye(159)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
@@ -88,7 +88,7 @@ class ZINC(InMemoryDataset):
 
 
 class MyData(Data):
-    def __inc__(self, key, value):
+    def __inc__(self, key, value, *args, **kwargs):
         return self.num_nodes if key in [
             'edge_index_1', 'edge_index_2'
         ] else 0
@@ -106,7 +106,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 445
+        num_features = 159
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
@@ -241,6 +241,7 @@ for _ in range(5):
             break
 
     results.append(test_error)
+    print("########################")
 
 print("########################")
 print(results)

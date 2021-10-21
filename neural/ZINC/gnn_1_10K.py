@@ -13,8 +13,7 @@ from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.nn import global_mean_pool, GINConv, MessagePassing
 
 from torch_geometric.data import InMemoryDataset, Data
-#from torch_geometric.loader import DataLoader
-from torch_geometric.data import DataLoader
+from torch_geometric.loader import DataLoader
 import torch.nn.functional as F
 
 
