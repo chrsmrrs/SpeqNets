@@ -113,7 +113,7 @@ vector<unsigned long> get_node_labels_2_1(const Graph &g, const bool use_labels,
                 c = 1;
             } else {
                 cout << "ERROR: Non edges should not appear." << endl;
-                exit(-1)
+                exit(-1);
             }
 
             Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
@@ -158,10 +158,10 @@ vector<unsigned long> get_node_labels_1(const Graph &g) {
 }
 
 // Get edge labels of graph g.
-vector<unsigned long> get_edge_labels_1(const Graph &g) {
+vector<int> get_edge_labels_1(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
     EdgeLabels edge_labels = g.get_edge_labels();
-    vector<unsigned long> labels;
+    vector<int> labels;
 
     for (Node v = 0; v < num_nodes; ++v) {
         Nodes v_neighbors = g.get_neighbours(v);
