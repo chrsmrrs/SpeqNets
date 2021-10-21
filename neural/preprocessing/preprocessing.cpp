@@ -312,7 +312,7 @@ vector<vector<int>> get_all_edge_labels_1(string name) {
 
 
 vector<vector<unsigned long>>
-get_all_node_labels_2_1_ZINC(const bool use_node_labels, const bool use_edge_labels,
+get_all_node_labels_ZINC_2_1(const bool use_node_labels, const bool use_edge_labels,
                              const std::vector<int> &indices_train,
                              const std::vector<int> &indices_val, const std::vector<int> &indices_test) {
     GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file("ZINC_train");
