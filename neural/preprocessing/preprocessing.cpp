@@ -195,7 +195,7 @@ get_all_matrices_2_1(string name, const std::vector<int> &indices) {
 
 
 // Get all node labels of two-tuple graphs in graph database.
-vector<vector<unsigned long>> get_all_node_labels(string name, const bool use_node_labels, const bool use_edge_labels) {
+vector<vector<unsigned long>> get_all_node_labels_2_1(string name, const bool use_node_labels, const bool use_edge_labels) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
     gdb.erase(gdb.begin() + 0);
     vector<vector<unsigned long>> node_labels;
