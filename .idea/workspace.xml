@@ -10,7 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural/ZINC/local_2_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/ZINC/local_2_1_10K.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural/ZINC/val_50.index.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,21 +268,7 @@
       <workItem from="1634595582241" duration="98000" />
       <workItem from="1634595684417" duration="4700000" />
       <workItem from="1634607850782" duration="81000" />
-      <workItem from="1634608239961" duration="45036000" />
-    </task>
-    <task id="LOCAL-00016" summary="MC.">
-      <created>1619488001476</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1619488001476</updated>
-    </task>
-    <task id="LOCAL-00017" summary="MC.">
-      <created>1619488145198</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1619488145198</updated>
+      <workItem from="1634608239961" duration="45360000" />
     </task>
     <task id="LOCAL-00018" summary="MC.">
       <created>1619488295265</created>
@@ -612,7 +599,21 @@
       <option name="project" value="LOCAL" />
       <updated>1634851428491</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Started implementing neural version.">
+      <created>1634851555035</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1634851555035</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Started implementing neural version.">
+      <created>1634851662147</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1634851662147</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
