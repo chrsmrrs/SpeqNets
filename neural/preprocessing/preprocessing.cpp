@@ -61,7 +61,6 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
 
         for (Node j: neighbors) {
 
-
             two_tuple_graph.add_node();
 
             // Map each pair to node in two set graph and also inverse.
@@ -93,6 +92,23 @@ generate_local_sparse_am(const Graph &g, const bool use_labels, const bool use_e
             Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
             tuple_labels.push_back(new_color);
         }
+
+        node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, i)}});
+        two_tuple_to_node.insert({{make_tuple(i, i), num_two_tuples}});
+        num_two_tuples++;
+
+        num_two_tuples++;
+        Label c_i = 1;
+        Label c_j = 2;
+        if (use_labels) {
+            c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
+            c_j = AuxiliaryMethods::pairing(labels[i] + 1, c_j);
+        }
+
+        Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+        tuple_labels.push_back(new_color);
+
+
     }
 
     vector<vector<uint >> nonzero_compenents_1;
@@ -310,6 +326,16 @@ vector<unsigned long> get_node_labels(const Graph &g, const bool use_labels, con
             Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
             tuple_labels.push_back(new_color);
         }
+
+        Label c_i = 1;
+        Label c_j = 2;
+        if (use_labels) {
+            c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
+            c_j = AuxiliaryMethods::pairing(labels[i] + 1, c_j);
+        }
+
+        Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+        tuple_labels.push_back(new_color);
     }
 
     return tuple_labels;
