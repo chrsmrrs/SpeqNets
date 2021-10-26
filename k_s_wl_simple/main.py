@@ -3,7 +3,7 @@ from itertools import product, combinations, combinations_with_replacement
 
 import numpy as np
 from graph_tool.all import *
-from data_set_parser import read_txt, get_dataset
+#from data_set_parser import read_txt, get_dataset
 from svm import linear_svm_evaluation, kernel_svm_evaluation
 from aux import normalize_gram_matrix, normalize_feature_vector
 from scipy import sparse as sp
@@ -552,7 +552,7 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
 
     dim = feature_vectors[0].shape[-1]
 
-    c = 0
+    c = 1
     #while True:
     while c <= num_it:
         colors = []
@@ -585,8 +585,8 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
 
         dim_new = feature_vectors[0].shape[-1]
 
-        # if dim_new == dim:
-        #     break
+        if dim_new == dim:
+            break
         dim = dim_new
 
         c += 1
@@ -599,28 +599,28 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
     return gram_matrix
 
 
-name = "ENZYMES"
-_ = get_dataset(name)
-graphs, classes = read_txt(name)
-tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=2, s=1)
-kernel = compute_wl(tupled_graphs, node_labels, edge_labels, num_it=4)
-kernel = normalize_gram_matrix(kernel)
-
-
-print(linear_svm_evaluation([kernel], classes))
-
-
-# k = 2
-# s = 1
-# graphs = gen.create_cycle_pair(k+2)
+# name = "ENZYMES"
+# _ = get_dataset(name)
+# graphs, classes = read_txt(name)
+# tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=2, s=1)
+# kernel = compute_wl(tupled_graphs, node_labels, edge_labels, num_it=4)
+# kernel = normalize_gram_matrix(kernel)
 #
-# tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph(graphs, k=k+1, s=1)
 #
-# position = sfdp_layout(tupled_graphs[0])
-# graph_draw(tupled_graphs[0], pos=position, output="cycle_1_1.pdf")
-#
-# position = sfdp_layout(tupled_graphs[1])
-# graph_draw(tupled_graphs[1], pos=position, output="cycle_2_1.pdf")
+# print(linear_svm_evaluation([kernel], classes))
+
+
+k = 2
+s = 2
+graphs = gen.create_cycle_pair(2)
+
+tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=2, s=2)
+
+position = sfdp_layout(tupled_graphs[0])
+graph_draw(tupled_graphs[0], pos=position, output="cycle_1_1.pdf")
+
+position = sfdp_layout(tupled_graphs[1])
+graph_draw(tupled_graphs[1], pos=position, output="cycle_2_1.pdf")
 
 # min_0 = -1
 # for v in tupled_graphs[0].vertices():
@@ -638,13 +638,13 @@ print(linear_svm_evaluation([kernel], classes))
 #
 # print(min_0)
 #
-# feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels)
-#
-# if np.array_equal(feature_vectors[0], feature_vectors[1]):
-#     print("Not distinguished.")
-# else:
-#     print("Distinguished.")
-#
+feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels, 6)
+
+if np.array_equal(feature_vectors[0], feature_vectors[1]):
+    print("Not distinguished.")
+else:
+    print("Distinguished.")
+
 
 
 # k = 3
