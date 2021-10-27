@@ -612,23 +612,28 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
 
 k = 2
 s = 2
-graphs = gen.create_cycle_pair(2)
+graphs = gen.create_cycle_pair(5)
+
+print(graphs[0].num_vertices())
 
 tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=2, s=2)
-
 position = sfdp_layout(tupled_graphs[0])
 graph_draw(tupled_graphs[0], pos=position, output="cycle_1_1.pdf")
 
 position = sfdp_layout(tupled_graphs[1])
 graph_draw(tupled_graphs[1], pos=position, output="cycle_2_1.pdf")
 
-# min_0 = -1
-# for v in tupled_graphs[0].vertices():
-#     d = v.out_degree()
-#     if min_0 == -1 or d < min_0:
-#         min_0 = d
-#
-# print(min_0)
+
+
+min_0 = -1
+for v in tupled_graphs[1].vertices():
+    d = v.out_degree()
+
+    print(d)
+    if min_0 == -1 or d > min_0:
+        min_0 = d
+
+print(min_0)
 #
 # min_0 = -1
 # for v in tupled_graphs[1].vertices():
@@ -638,7 +643,7 @@ graph_draw(tupled_graphs[1], pos=position, output="cycle_2_1.pdf")
 #
 # print(min_0)
 #
-feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels, 6)
+feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels, 3)
 
 if np.array_equal(feature_vectors[0], feature_vectors[1]):
     print("Not distinguished.")
