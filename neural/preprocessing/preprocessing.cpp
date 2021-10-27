@@ -217,7 +217,7 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
             Attribute e_attr_ij;
             if (g.has_edge(i, j)) {
                 e_attr_ij = edge_attributes.find(std::make_pair(i, j))->second;
-                //cout << attr_i.size() << " " << e_attr_ij.size() << endl;
+                cout << attr_i.size() << " " << e_attr_ij.size() << endl;
             } else {
                 e_attr_ij = vector<float>({{0, 0, 0, 0}});
             }
