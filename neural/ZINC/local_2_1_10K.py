@@ -25,11 +25,11 @@ class ZINC(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "zinc50k"
+        return "zinc10k_NL"
 
     @property
     def processed_file_names(self):
-        return "zinc50k"
+        return "zinc10k_NL"
 
     def download(self):
         pass
@@ -40,18 +40,19 @@ class ZINC(InMemoryDataset):
         indices_train = []
         indices_val = []
         indices_test = list(range(5000))
+        indices_test = []
 
-        # infile = open("test.index.txt", "r")
-        # for line in infile:
-        #     indices_test = line.split(",")
-        #     indices_test = [int(i) for i in indices_test]
+        infile = open("test.index.txt", "r")
+        for line in infile:
+            indices_test = line.split(",")
+            indices_test = [int(i) for i in indices_test]
 
-        infile = open("val_50.index.txt", "r")
+        infile = open("val.index.txt", "r")
         for line in infile:
             indices_val = line.split(",")
             indices_val = [int(i) for i in indices_val]
 
-        infile = open("train_50.index.txt", "r")
+        infile = open("train.index.txt", "r")
         for line in infile:
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
@@ -59,7 +60,7 @@ class ZINC(InMemoryDataset):
         dp.get_dataset("ZINC_train")
         dp.get_dataset("ZINC_test")
         dp.get_dataset("ZINC_val")
-        node_labels = pre.get_all_node_labels_ZINC_2_1(True, True, indices_train, indices_val, indices_test)
+        node_labels = pre.get_all_node_labels_ZINC_2_1(False, False, indices_train, indices_val, indices_test)
 
         targets = pre.read_targets("ZINC_train", indices_train)
         targets.extend(pre.read_targets("ZINC_val", indices_val))

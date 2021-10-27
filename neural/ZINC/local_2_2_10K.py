@@ -60,7 +60,7 @@ class ZINC(InMemoryDataset):
         dp.get_dataset("ZINC_train")
         dp.get_dataset("ZINC_test")
         dp.get_dataset("ZINC_val")
-        node_labels = pre.get_all_node_labels_ZINC_2_2(True, True, indices_train, indices_val, indices_test)
+        node_labels = pre.get_all_node_labels_ZINC_2_2(False, False, indices_train, indices_val, indices_test)
 
         targets = pre.read_targets("ZINC_train", indices_train)
         targets.extend(pre.read_targets("ZINC_val", indices_val))
