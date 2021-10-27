@@ -1,10 +1,14 @@
 import sys
 
 sys.path.insert(0, '..')
+sys.path.insert(0, '../..')
 sys.path.insert(0, '.')
+
 
 import auxiliarymethods.datasets as dp
 import preprocessing as pre
+
+
 
 import os.path as osp
 import numpy as np
