@@ -191,6 +191,47 @@ vector<unsigned long> get_node_labels_2_1(const Graph &g, const bool use_labels,
 }
 
 
+// Get node attributes for two-tuple graph of graph g.
+tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
+    size_t num_nodes = g.get_num_nodes();
+
+    // Get continious node and edge information.
+    Attributes attributes;
+    attributes = g.get_attributes();
+
+    EdgeAttributes edge_attributes;
+    edge_attributes = g.get_edge_attributes();
+
+    Attributes first;
+    Attributes second;
+    Attributes third;
+
+    Node num_two_tuples = 0;
+      for (Node i = 0; i < num_nodes; ++i) {
+        Nodes neighbors = g.get_neighbours(i);
+
+        for (Node j: neighbors) {
+            Attribute attr_i = attributes[i];
+            Attribute attr_j = attributes[j];
+
+            Attribute e_attr_ij;
+            if (g.has_edge(i, j)) {
+                e_attr_ij = edge_attributes.find(std::make_pair(i, j))->second;
+                //cout << attr_i.size() << " " << e_attr_ij.size() << endl;
+            } else {
+                e_attr_ij = vector<float>({{0, 0, 0, 0}});
+            }
+
+            first.push_back(attr_i);
+            second.push_back(attr_j);
+            third.push_back(e_attr_ij);
+        }
+    }
+
+    return std::make_tuple(first, second, third);
+}
+
+
 // Generate node labels for two-tuple graph of graph g.
 vector<unsigned long> get_node_labels_2_2(const Graph &g, const bool use_labels, const bool use_edge_labels) {
     // Get node and edge labels.
@@ -349,6 +390,23 @@ vector<vector<unsigned long>> get_all_node_labels_2_1(string name, const bool us
     cout << "Number of different labels: " << m_num_labels << endl;
     return node_labels;
 }
+
+
+// Get all node attributes of two-tuple graphs in graph database.
+vector <tuple<Attributes, Attributes, Attributes>> get_all_attributes_2_1(string name) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
+
+    vector <tuple<Attributes, Attributes, Attributes>> attributes;
+    uint i = 1;
+
+    for (auto &g: gdb) {
+        attributes.push_back(get_attributes_2_1(g));
+    }
+
+    return attributes;
+}
+
 
 
 // Get all node labels of two-tuple graphs in graph database.
@@ -850,6 +908,8 @@ m.def("get_all_node_labels_2_1", &get_all_node_labels_2_1);
 m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
 m.def("get_all_node_labels_1", &get_all_node_labels_1);
 m.def("get_all_edge_labels_1", &get_all_edge_labels_1);
+
+m.def("get_all_attributes_2_1", &get_all_attributes_2_1);
 
 m.def("get_all_node_labels_ZINC_2_1", &get_all_node_labels_ZINC_2_1);
 m.def("get_all_node_labels_ZINC_2_2", &get_all_node_labels_ZINC_2_2);
