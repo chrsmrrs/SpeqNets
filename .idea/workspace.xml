@@ -9,10 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,7 +64,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/neural/ZINC" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/neural/QM9" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -78,11 +75,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/neural/QM9" />
       <recent name="$PROJECT_DIR$/neural/ZINC" />
       <recent name="$PROJECT_DIR$/k_s_wl_cpp" />
       <recent name="$PROJECT_DIR$/k_s_wl_simple" />
       <recent name="$PROJECT_DIR$/Alchemy" />
-      <recent name="$PROJECT_DIR$/Alchemy/datasets" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -272,14 +269,7 @@
       <workItem from="1634872913227" duration="5090000" />
       <workItem from="1635272499308" duration="905000" />
       <workItem from="1635273831617" duration="186000" />
-      <workItem from="1635274075546" duration="29091000" />
-    </task>
-    <task id="LOCAL-00046" summary="Started implementing distance stuff.&#10;Need to check.">
-      <created>1631419898113</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1631419898113</updated>
+      <workItem from="1635274075546" duration="29400000" />
     </task>
     <task id="LOCAL-00047" summary="Started to implement faster variant of (k,s)-WL.">
       <created>1631728920509</created>
@@ -617,7 +607,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635362545566</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="Started implementing neural version.">
+      <created>1635365205997</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1635365205997</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

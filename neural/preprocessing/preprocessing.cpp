@@ -281,7 +281,7 @@ vector<unsigned long> get_node_labels_2_2(const Graph &g, const bool use_labels,
 
 
 // Generate sparse adjacency matrix representation of graph g.
-vector<vector<uint>> generate_local_sparse_am_1w(const Graph &g) {
+vector<vector<uint>> generate_local_sparse_am_1(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
     vector<vector<uint>> nonzero_compenents;
 
