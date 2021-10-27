@@ -25,11 +25,11 @@ class ZINC(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "zinc50k_2_2"
+        return "zink_2_2_NL"
 
     @property
     def processed_file_names(self):
-        return "zinc50k_2_2"
+        return "zink_2_2_NL"
 
     def download(self):
         pass
@@ -40,19 +40,19 @@ class ZINC(InMemoryDataset):
         indices_train = []
         indices_val = []
         indices_test = []
-        indices_test = list(range(5000))
+        #indices_test = list(range(5000))
 
-        # infile = open("test.index.txt", "r")
-        # for line in infile:
-        #     indices_test = line.split(",")
-        #     indices_test = [int(i) for i in indices_test]
+        infile = open("test.index.txt", "r")
+        for line in infile:
+            indices_test = line.split(",")
+            indices_test = [int(i) for i in indices_test]
 
-        infile = open("val_50.index.txt", "r")
+        infile = open("val.index.txt", "r")
         for line in infile:
             indices_val = line.split(",")
             indices_val = [int(i) for i in indices_val]
 
-        infile = open("train_50.index.txt", "r")
+        infile = open("train.index.txt", "r")
         for line in infile:
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
@@ -78,7 +78,7 @@ class ZINC(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(492)[node_labels[i]]
+            one_hot = np.eye(445)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
@@ -107,7 +107,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 492
+        num_features = 445
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))

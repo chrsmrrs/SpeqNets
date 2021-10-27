@@ -43,7 +43,7 @@ pair<vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_2_1(co
     vector<vector<uint>> nonzero_compenents_2;
 
     for (Node i = 0; i < num_two_tuples; ++i) {
-        // Get nodes of original graph corresponding to two tuple i.
+        // Get nodes of original graph making up the two tuple i.
         TwoTuple p = node_to_two_tuple.find(i)->second;
         Node v = std::get<0>(p);
         Node w = std::get<1>(p);
