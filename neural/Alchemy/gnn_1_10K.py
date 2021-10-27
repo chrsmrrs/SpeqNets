@@ -92,10 +92,11 @@ class Alchemy_gnn(InMemoryDataset):
 
 
 class MyData(Data):
-    def __inc__(self, key, value):
+    def __inc__(self, key, value, *args, **kwargs):
         return self.num_nodes if key in [
             'edge_index'
         ] else 0
+
 
 
 class MyTransform(object):
