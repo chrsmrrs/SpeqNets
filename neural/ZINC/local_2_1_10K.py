@@ -25,11 +25,11 @@ class ZINC(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "zinc10k"
+        return "zinc50k"
 
     @property
     def processed_file_names(self):
-        return "zinc10k"
+        return "zinc50k"
 
     def download(self):
         pass
@@ -39,19 +39,19 @@ class ZINC(InMemoryDataset):
 
         indices_train = []
         indices_val = []
-        indices_test = []
+        indices_test = list(range(5000))
 
-        infile = open("test.index.txt", "r")
-        for line in infile:
-            indices_test = line.split(",")
-            indices_test = [int(i) for i in indices_test]
+        # infile = open("test.index.txt", "r")
+        # for line in infile:
+        #     indices_test = line.split(",")
+        #     indices_test = [int(i) for i in indices_test]
 
-        infile = open("val.index.txt", "r")
+        infile = open("val_50.index.txt", "r")
         for line in infile:
             indices_val = line.split(",")
             indices_val = [int(i) for i in indices_val]
 
-        infile = open("train.index.txt", "r")
+        infile = open("train_50.index.txt", "r")
         for line in infile:
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
