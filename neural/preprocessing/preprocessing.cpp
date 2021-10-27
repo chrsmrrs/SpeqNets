@@ -706,7 +706,7 @@ vector <vector<unsigned long>> get_all_node_labels_alchem_1(const bool use_node_
     unordered_map<int, int> m_label_to_index;
 
     for (auto &g: gdb_new_1) {
-        vector<unsigned long> colors = get_node_labels_1(g, use_node_labels);
+        vector<unsigned long> colors = get_node_labels_1(g);
         vector<unsigned long> new_color;
 
         for (auto &c: colors) {
