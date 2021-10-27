@@ -10,5 +10,6 @@
     <orderEntry type="jdk" jdkName="Python 3.9 (gt)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Python 3.8 (gc) interpreter library" level="application" />
+    <orderEntry type="module" module-name="sparsewl" />
   </component>
 </module>
