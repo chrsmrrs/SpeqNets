@@ -200,7 +200,10 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
     attributes = g.get_attributes();
 
     EdgeAttributes edge_attributes;
+
+    cout << "C" << endl;
     edge_attributes = g.get_edge_attributes();
+    cout << "D" << endl;
 
     Attributes first;
     Attributes second;
