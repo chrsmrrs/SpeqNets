@@ -207,7 +207,7 @@ namespace AuxiliaryMethods {
         vector<vector<float>> targets;
 
         ifstream myfile(
-                path + "/data_sets/" + data_set_name + "/" + data_set_name +
+                path + "/datasets/" + data_set_name + "/" + data_set_name +
                 "_graph_attributes.txt");
         if (myfile.is_open()) {
             while (getline(myfile, line)) {
