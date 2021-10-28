@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=test
+#SBATCH --job-name=malkin
 #SBATCH --ntasks=1
-#SBATCH --time=0:10:00
-#SBATCH --mem=48G
+#SBATCH --time=12:00:00
+#SBATCH --mem=32G
 #SBATCH --gres=gpu:32gb:1
 #SBATCH --partition=main
 
@@ -10,4 +10,4 @@ export PYTHONUNBUFFERED=1
 module load cuda/10.2
 module load anaconda
 conda activate gc
-python malkin_2_1_10K.py
+python gnn_1_10K.py
