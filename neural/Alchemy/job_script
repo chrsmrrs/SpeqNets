@@ -1,9 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=test
-#SBATCH --output=job_output.txt
-#SBATCH --error=job_error.txt
 #SBATCH --ntasks=1
-#SBATCH --time=0:10:00
+#SBATCH --time=0:01:00
 #SBATCH --mem=48G
 #SBATCH --gres=gpu:32gb:1
 #SBATCH --partition=main
