@@ -426,7 +426,7 @@ get_all_matrices_2_1_malkin(string name, const std::vector<int> &indices) {
         gdb_new.push_back(gdb[i]);
     }
 
-    vector<pair<vector<vector<uint>>, vector<vector<uint>>>> matrices;
+    vector<tuple <vector<vector < uint>>, vector <vector<uint>>, vector <vector<uint>>, vector <vector<uint>>>> matrices;
     for (auto &g: gdb_new) {
         matrices.push_back(generate_malkin_sparse_am_2_1(g));
     }
