@@ -10,7 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/neural/Alchemy/malkin_2_1_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/Alchemy/malkin_2_1_10K.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural/Alchemy/local_2_1_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/Alchemy/local_2_1_10K.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,21 +271,7 @@
       <workItem from="1634872913227" duration="5090000" />
       <workItem from="1635272499308" duration="905000" />
       <workItem from="1635273831617" duration="186000" />
-      <workItem from="1635274075546" duration="39550000" />
-    </task>
-    <task id="LOCAL-00064" summary="Started implementing neural version.">
-      <created>1634851428491</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1634851428491</updated>
-    </task>
-    <task id="LOCAL-00065" summary="Started implementing neural version.">
-      <created>1634851555035</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1634851555035</updated>
+      <workItem from="1635274075546" duration="39976000" />
     </task>
     <task id="LOCAL-00066" summary="Started implementing neural version.">
       <created>1634851662147</created>
@@ -616,7 +602,21 @@
       <option name="project" value="LOCAL" />
       <updated>1635383510716</updated>
     </task>
-    <option name="localTasksCounter" value="113" />
+    <task id="LOCAL-00113" summary="Started implementing neural version.">
+      <created>1635383905320</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1635383905332</updated>
+    </task>
+    <task id="LOCAL-00114" summary="Started implementing neural version.">
+      <created>1635384059948</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1635384059950</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
