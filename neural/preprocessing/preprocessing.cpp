@@ -76,6 +76,79 @@ pair<vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_2_1(co
 
 
 // Generate sparse adjacency matrix representation of two-tuple graph of graph g.
+tuple <vector<vector < uint>>, vector <vector<uint>>, vector <vector<uint>>, vector <vector<uint>>> generate_malkin_sparse_am_2_1(const Graph &g) {
+    size_t num_nodes = g.get_num_nodes();
+
+    // Maps node in two-tuple graph to corresponding two tuple.
+    unordered_map<Node, TwoTuple> node_to_two_tuple;
+    // Inverse of the above map.
+    unordered_map<TwoTuple, Node> two_tuple_to_node;
+
+    Node num_two_tuples = 0;
+    // Generate all tuples that induce connected graphs on at most two vertices.
+    for (Node i = 0; i < num_nodes; ++i) {
+        Nodes neighbors = g.get_neighbours(i);
+
+        for (Node j: neighbors) {
+            // Map each pair to node in two set graph and also inverse.
+            node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, j)}});
+            two_tuple_to_node.insert({{make_tuple(i, j), num_two_tuples}});
+            num_two_tuples++;
+        }
+
+        node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, i)}});
+        two_tuple_to_node.insert({{make_tuple(i, i), num_two_tuples}});
+
+        num_two_tuples++;
+    }
+
+    vector <vector<uint >> nonzero_compenents_1_l;
+    vector <vector<uint >> nonzero_compenents_1_g;
+    vector <vector<uint >> nonzero_compenents_2_l;
+    vector <vector<uint >> nonzero_compenents_2_g;
+
+    for (Node i = 0; i < num_two_tuples; ++i) {
+        // Get nodes of orginal graph corresponding to two set i.
+        TwoTuple p = node_to_two_tuple.find(i)->second;
+        Node v = std::get<0>(p);
+        Node w = std::get<1>(p);
+
+        // Exchange first node.
+        // Iterate over nodes.
+        for (Node v_i = 0; v_i < num_nodes; ++v_i) {
+            unordered_map<TwoTuple, Node>::const_iterator t;
+            t = two_tuple_to_node.find(make_tuple(v_i, w));
+
+            // Local vs. global edge.
+            if (g.has_edge(v, v_i)) {
+                nonzero_compenents_1_l.push_back({{i, t->second}});
+
+            } else {
+                nonzero_compenents_1_g.push_back({{i, t->second}});
+            }
+        }
+        // Exchange second node.
+        // Iterate over nodes.
+        for (Node v_i = 0; v_i < num_nodes; ++v_i) {
+            unordered_map<TwoTuple, Node>::const_iterator t;
+            t = two_tuple_to_node.find(make_tuple(v, v_i));
+
+            // Local vs. global edge.
+            if (g.has_edge(w, v_i)) {
+                nonzero_compenents_2_l.push_back({{i, t->second}});
+
+            } else {
+                nonzero_compenents_2_g.push_back({{i, t->second}});
+            }
+        }
+    }
+
+    return std::make_tuple(nonzero_compenents_1_l, nonzero_compenents_1_g, nonzero_compenents_2_l,
+                           nonzero_compenents_2_g);
+}
+
+
+// Generate sparse adjacency matrix representation of two-tuple graph of graph g.
 pair<vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_2_2(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
 
@@ -336,6 +409,26 @@ get_all_matrices_2_1(string name, const std::vector<int> &indices) {
     vector<pair<vector<vector<uint>>, vector<vector<uint>>>> matrices;
     for (auto &g: gdb_new) {
         matrices.push_back(generate_local_sparse_am_2_1(g));
+    }
+
+    return matrices;
+}
+
+
+// Get all sparse adjacency matrix representations of two-tuple graphs in graph database.
+vector<tuple <vector<vector < uint>>, vector <vector<uint>>, vector <vector<uint>>, vector <vector<uint>>>>
+get_all_matrices_2_1_malkin(string name, const std::vector<int> &indices) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
+
+    GraphDatabase gdb_new;
+    for (int i: indices) {
+        gdb_new.push_back(gdb[i]);
+    }
+
+    vector<pair<vector<vector<uint>>, vector<vector<uint>>>> matrices;
+    for (auto &g: gdb_new) {
+        matrices.push_back(generate_malkin_sparse_am_2_1(g));
     }
 
     return matrices;
@@ -1070,8 +1163,13 @@ vector<float> read_targets(string data_set_name, const std::vector<int> &indices
 PYBIND11_MODULE(preprocessing, m
 ) {
 m.def("get_all_matrices_2_1", &get_all_matrices_2_1);
+m.def("get_all_matrices_2_1_malkin", &get_all_matrices_2_1_malkin);
+
 m.def("get_all_matrices_2_2", &get_all_matrices_2_2);
 m.def("get_all_matrices_1", &get_all_matrices_1);
+
+
+
 
 m.def("get_all_node_labels_2_1", &get_all_node_labels_2_1);
 m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
