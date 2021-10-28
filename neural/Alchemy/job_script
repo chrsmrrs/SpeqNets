@@ -6,6 +6,7 @@
 #SBATCH --gres=gpu:32gb:1
 #SBATCH --partition=main
 
+export PYTHONUNBUFFERED=1
 module load cuda/10.2
 module load anaconda
 conda activate gc
