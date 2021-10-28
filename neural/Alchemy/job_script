@@ -4,7 +4,7 @@
 #SBATCH --error=job_error.txt
 #SBATCH --ntasks=1
 #SBATCH --time=02:00:00
-#SBATCH --mem=648G
+#SBATCH --mem=48G
 #SBATCH --gres=gpu:32gb:1
 
 module load cuda/10.2
