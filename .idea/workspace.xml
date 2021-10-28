@@ -9,10 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/Alchemy/job_script" beforeDir="false" afterPath="$PROJECT_DIR$/neural/Alchemy/job_script" afterDir="false" />
-    </list>
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -272,28 +269,7 @@
       <workItem from="1634872913227" duration="5090000" />
       <workItem from="1635272499308" duration="905000" />
       <workItem from="1635273831617" duration="186000" />
-      <workItem from="1635274075546" duration="60916000" />
-    </task>
-    <task id="LOCAL-00071" summary="Started implementing neural version.">
-      <created>1634854995570</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1634854995571</updated>
-    </task>
-    <task id="LOCAL-00072" summary="Started implementing neural version.">
-      <created>1634855307036</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1634855307036</updated>
-    </task>
-    <task id="LOCAL-00073" summary="Started implementing neural version.">
-      <created>1634856261707</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1634856261708</updated>
+      <workItem from="1635274075546" duration="61216000" />
     </task>
     <task id="LOCAL-00074" summary="Started implementing neural version.">
       <created>1634858353652</created>
@@ -617,7 +593,28 @@
       <option name="project" value="LOCAL" />
       <updated>1635452596932</updated>
     </task>
-    <option name="localTasksCounter" value="120" />
+    <task id="LOCAL-00120" summary="Started implementing neural version.">
+      <created>1635452782341</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1635452782342</updated>
+    </task>
+    <task id="LOCAL-00121" summary="Started implementing neural version.">
+      <created>1635452836541</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1635452836541</updated>
+    </task>
+    <task id="LOCAL-00122" summary="Started implementing neural version.">
+      <created>1635453055381</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1635453055384</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
