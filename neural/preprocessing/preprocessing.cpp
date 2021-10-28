@@ -119,12 +119,13 @@ tuple <vector<vector < uint>>, vector <vector<uint>>, vector <vector<uint>>, vec
             unordered_map<TwoTuple, Node>::const_iterator t;
             t = two_tuple_to_node.find(make_tuple(v_i, w));
 
-            // Local vs. global edge.
-            if (g.has_edge(v, v_i)) {
-                nonzero_compenents_1_l.push_back({{i, t->second}});
-
-            } else {
-                nonzero_compenents_1_g.push_back({{i, t->second}});
+            if (t != two_tuple_to_node.end()) {
+                // Local vs. global edge.
+                if (g.has_edge(v, v_i)) {
+                    nonzero_compenents_1_l.push_back({{i, t->second}});
+                } else {
+                    nonzero_compenents_1_g.push_back({{i, t->second}});
+                }
             }
         }
         // Exchange second node.
@@ -133,12 +134,13 @@ tuple <vector<vector < uint>>, vector <vector<uint>>, vector <vector<uint>>, vec
             unordered_map<TwoTuple, Node>::const_iterator t;
             t = two_tuple_to_node.find(make_tuple(v, v_i));
 
-            // Local vs. global edge.
-            if (g.has_edge(w, v_i)) {
-                nonzero_compenents_2_l.push_back({{i, t->second}});
-
-            } else {
-                nonzero_compenents_2_g.push_back({{i, t->second}});
+            if (t != two_tuple_to_node.end()) {
+                // Local vs. global edge.
+                if (g.has_edge(w, v_i)) {
+                    nonzero_compenents_2_l.push_back({{i, t->second}});
+                } else {
+                    nonzero_compenents_2_g.push_back({{i, t->second}});
+                }
             }
         }
     }
