@@ -244,7 +244,7 @@ for _ in range(5):
     results.append(test_error)
     results_log.append(test_error_log)
 
-print("###########g#############")
+print("#######################")
 print(results)
 results = np.array(results)
 print(results.mean(), results.std())

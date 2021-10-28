@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --job-name=test
+#SBATCH --output=job_output.txt
+#SBATCH --error=job_error.txt
+#SBATCH --ntasks=1
+#SBATCH --time=02:00:00
+#SBATCH --mem=65Gb
+#SBATCH --mem=65Gb
+#SBATCH --gres=gpu:32Gb
+
+module load cuda/10.2
+module load anaconda
+conda activate gc
+python malkin_2_1_10K.py
