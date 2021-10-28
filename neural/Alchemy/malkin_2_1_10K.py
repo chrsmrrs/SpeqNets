@@ -63,7 +63,7 @@ class Alchemy_malkin(InMemoryDataset):
         targets.extend(tmp3)
         print(len(targets))
 
-        node_labels = pre.get_all_node_labels_allchem(True, True, indices_train, indices_val, indices_test)
+        node_labels = pre.get_all_node_labels_allchem_2_1(True, True, indices_train, indices_val, indices_test)
 
         print("###")
         matrices = pre.get_all_matrices_2_1_malkin("alchemy_full", indices_train)
