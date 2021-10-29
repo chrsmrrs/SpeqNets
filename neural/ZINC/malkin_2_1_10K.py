@@ -66,8 +66,6 @@ class ZINC(InMemoryDataset):
         dp.get_dataset("ZINC_val")
         node_labels = pre.get_all_node_labels_ZINC_2_1(True, True, indices_train, indices_val, indices_test)
 
-        exit()
-
         targets = pre.read_targets("ZINC_train", indices_train)
         targets.extend(pre.read_targets("ZINC_val", indices_val))
         targets.extend(pre.read_targets("ZINC_test", indices_test))
@@ -86,7 +84,7 @@ class ZINC(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(256)[node_labels[i]]
+            one_hot = np.eye(180)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
@@ -115,7 +113,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 21
+        num_features = 180
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
