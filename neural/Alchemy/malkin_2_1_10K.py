@@ -275,8 +275,6 @@ test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 results = []
 results_log = []
 for _ in range(5):
-    print("ewfjioweghwk")
-
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = NetGIN(64).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)

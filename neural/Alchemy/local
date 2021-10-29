@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=gnn
+#SBATCH --job-name=local
 #SBATCH --ntasks=1
 #SBATCH --time=12:00:00
 #SBATCH --mem=16G
@@ -10,4 +10,4 @@ export PYTHONUNBUFFERED=1
 module load cuda/10.2
 module load anaconda
 conda activate gc
-python gnn_1_10K.py
+python malkin_2_1_10K.py
