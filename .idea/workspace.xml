@@ -9,9 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/neural/ZINC/malkin_2_1_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/ZINC/malkin_2_1_10K.py" afterDir="false" />
-    </list>
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="Started implementing neural version." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -271,14 +269,7 @@
       <workItem from="1634872913227" duration="5090000" />
       <workItem from="1635272499308" duration="905000" />
       <workItem from="1635273831617" duration="186000" />
-      <workItem from="1635274075546" duration="77287000" />
-    </task>
-    <task id="LOCAL-00087" summary="Started implementing neural version.">
-      <created>1635352235332</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1635352235334</updated>
+      <workItem from="1635274075546" duration="77665000" />
     </task>
     <task id="LOCAL-00088" summary="Started implementing neural version.">
       <created>1635352496043</created>
@@ -616,7 +607,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635524893988</updated>
     </task>
-    <option name="localTasksCounter" value="136" />
+    <task id="LOCAL-00136" summary="Started implementing neural version.">
+      <created>1635525333807</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1635525333815</updated>
+    </task>
+    <option name="localTasksCounter" value="137" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
