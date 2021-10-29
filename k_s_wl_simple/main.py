@@ -601,11 +601,11 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
 
 k = 2
 s = 2
-graphs = gen.create_gaurav_graphs(4)
+graphs = gen.create_pair(5)
 
 
 
-tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=4, s=2)
+tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_malkin(graphs, k=4, s=1)
 #position = sfdp_layout(tupled_graphs[0])
 #graph_draw(tupled_graphs[0], pos=position, output="cycle_1_1.pdf")
 

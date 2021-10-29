@@ -10,8 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/ZINC/malkin_2_1_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/ZINC/malkin_2_1_10K.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k_s_wl_simple/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_simple/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,14 +271,7 @@
       <workItem from="1634872913227" duration="5090000" />
       <workItem from="1635272499308" duration="905000" />
       <workItem from="1635273831617" duration="186000" />
-      <workItem from="1635274075546" duration="74061000" />
-    </task>
-    <task id="LOCAL-00083" summary="Started implementing neural version.">
-      <created>1635297462634</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1635297462634</updated>
+      <workItem from="1635274075546" duration="74404000" />
     </task>
     <task id="LOCAL-00084" summary="Started implementing neural version.">
       <created>1635302585979</created>
@@ -617,7 +609,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635521696858</updated>
     </task>
-    <option name="localTasksCounter" value="132" />
+    <task id="LOCAL-00132" summary="Started implementing neural version.">
+      <created>1635522027662</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1635522027662</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -647,7 +646,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SeqGN$main_ml.coverage" NAME="main_ml Coverage Results" MODIFIED="1634692201473" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
     <SUITE FILE_PATH="coverage/SeqGN$main_kernel.coverage" NAME="main_kernel Coverage Results" MODIFIED="1634597519830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../reconstruction-gnns/recon_wl" />
-    <SUITE FILE_PATH="coverage/SeqGN$main.coverage" NAME="main Coverage Results" MODIFIED="1635452163500" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
+    <SUITE FILE_PATH="coverage/SeqGN$main.coverage" NAME="main Coverage Results" MODIFIED="1635522340121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
     <SUITE FILE_PATH="coverage/SeqGN$test.coverage" NAME="test Coverage Results" MODIFIED="1628386011618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
     <SUITE FILE_PATH="coverage/SeqGN$svm.coverage" NAME="svm Coverage Results" MODIFIED="1634691026023" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_cpp/svm" />
   </component>
