@@ -29,11 +29,11 @@ class ZINC(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "zinc50ke"
+        return "zinc50dke"
 
     @property
     def processed_file_names(self):
-        return "zinc50ke"
+        return "zinc50ske"
 
     def download(self):
         pass
@@ -56,7 +56,7 @@ class ZINC(InMemoryDataset):
             indices_val = line.split(",")
             indices_val = [int(i) for i in indices_val]
 
-        infile = open("train.index.txt", "r")
+        infile = open("val.index.txt", "r")
         for line in infile:
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
@@ -142,21 +142,6 @@ class NetGIN(torch.nn.Module):
         self.bn4 = torch.nn.BatchNorm1d(dim)
         self.mlp_4 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        # TODO: Change bakc
-        nn5_1 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
-        nn5_2 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
-        self.conv5_1 = GINConv(nn5_1, train_eps=True)
-        self.conv5_2 = GINConv(nn5_2, train_eps=True)
-        self.bn5 = torch.nn.BatchNorm1d(dim)
-        self.mlp_5 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
-
-        nn6_1 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
-        nn6_2 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
-        self.conv6_1 = GINConv(nn6_1, train_eps=True)
-        self.conv6_2 = GINConv(nn6_2, train_eps=True)
-        self.bn6 = torch.nn.BatchNorm1d(dim)
-        self.mlp_6 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
-
         self.fc1 = Linear(4 * dim, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
@@ -184,7 +169,6 @@ class NetGIN(torch.nn.Module):
         x_2 = F.relu(self.conv4_2(x_3_r, data.edge_index_2))
         x_4_r = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
         x_4_r = self.bn4(x_4_r)
-
 
         x = torch.cat([x_1_r, x_2_r, x_3_r, x_4_r], dim=-1)
         x = global_mean_pool(x, data.batch)
