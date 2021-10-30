@@ -61,9 +61,9 @@ namespace GenerateThree {
         Graph tuple_graph(false);
         if (algorithm == "local" or algorithm == "localp") {
             tuple_graph = generate_local_graph(g, use_labels);
-        } else if (algorithm == "local1") {
-            tuple_graph = generate_local_graph_1(g, use_labels);}
-        else if (algorithm == "local2") {
+        } else if (algorithm == "local1" or algorithm == "local1p") {
+            tuple_graph = generate_local_graph_1(g, use_labels);
+        } else if (algorithm == "local2" or algorithm == "local2p") {
             tuple_graph = generate_local_graph_2(g, use_labels);
         } else if (algorithm == "wl") {
             tuple_graph = generate_global_graph(g, use_labels);
@@ -77,7 +77,7 @@ namespace GenerateThree {
 
 
         unordered_map<Node, ThreeTuple> node_to_three_tuple;
-        if (algorithm == "localp") {
+        if (algorithm == "localp" or algorithm == "local1p" or algorithm == "local2p") {
             node_to_three_tuple = tuple_graph.get_node_to_three_tuple();
         }
 
@@ -101,7 +101,7 @@ namespace GenerateThree {
         unordered_map<Label, bool> check_3;
 
 
-        if (algorithm == "localp" and num_iterations == 0) {
+        if ((algorithm == "localp" or algorithm == "local1p" or algorithm == "local2p") and num_iterations == 0) {
             for (Node v = 0; v < num_nodes; ++v) {
                 Nodes neighbors(tuple_graph.get_neighbours(v));
 
@@ -196,7 +196,7 @@ namespace GenerateThree {
         for (Node v = 0; v < num_nodes; ++v) {
             Label new_color = coloring[v];
 
-            if (algorithm == "localp" and num_iterations == 0) {
+            if ((algorithm == "localp" or algorithm == "local1p" or algorithm == "local2p") and num_iterations == 0) {
                 new_color = AuxiliaryMethods::pairing(coloring[v], color_map_1.find(coloring[v])->second);
                 new_color = AuxiliaryMethods::pairing(new_color, color_map_2.find(coloring[v])->second);
                 new_color = AuxiliaryMethods::pairing(new_color, color_map_3.find(coloring[v])->second);
@@ -250,7 +250,8 @@ namespace GenerateThree {
 
 
                     if (label == 1) {
-                        if (algorithm == "localp" and num_iterations == h) {
+                        if ((algorithm == "localp" or algorithm == "local1p" or algorithm == "local2p") and
+                            num_iterations == h) {
                             set_m_local[0].push_back(
                                     AuxiliaryMethods::pairing(coloring[n], color_map_1.find(coloring[n])->second));
                         } else {
@@ -258,7 +259,8 @@ namespace GenerateThree {
                         }
                     }
                     if (label == 2) {
-                        if (algorithm == "localp" and num_iterations == h) {
+                        if ((algorithm == "localp" or algorithm == "local1p" or algorithm == "local2p") and
+                            num_iterations == h) {
                             set_m_local[1].push_back(
                                     AuxiliaryMethods::pairing(coloring[n], color_map_2.find(coloring[n])->second));
                         } else {
@@ -266,7 +268,8 @@ namespace GenerateThree {
                         }
                     }
                     if (label == 3) {
-                        if (algorithm == "localp" and num_iterations == h) {
+                        if ((algorithm == "localp" or algorithm == "local1p" or algorithm == "local2p") and
+                            num_iterations == h) {
                             set_m_local[2].push_back(
                                     AuxiliaryMethods::pairing(coloring[n], color_map_3.find(coloring[n])->second));
                         } else {
@@ -340,7 +343,7 @@ namespace GenerateThree {
             unordered_map<Label, bool> check_2;
             unordered_map<Label, bool> check_3;
 
-            if (algorithm == "localp" and num_iterations == h) {
+            if ((algorithm == "localp" or algorithm == "local1p" or algorithm == "local2p") and num_iterations == h) {
                 for (Node v = 0; v < num_nodes; ++v) {
                     Nodes neighbors(tuple_graph.get_neighbours(v));
 
@@ -621,10 +624,8 @@ namespace GenerateThree {
         for (vector<Node> ms: two_multiset) {
             for (Node v: ms) {
 
-
                 for (Node w: g.get_neighbours(v)) {
-                    vector<Node> new_multiset = {ms[0], ms[1]};
-                    new_multiset.push_back(w);
+                    vector<Node> new_multiset = {ms[0], ms[1], w};
 
                     std::sort(new_multiset.begin(), new_multiset.end());
 
@@ -638,8 +639,7 @@ namespace GenerateThree {
                     }
                 }
 
-                vector<Node> new_multiset = {ms[0], ms[1]};
-                new_multiset.push_back(v);
+                vector<Node> new_multiset = {ms[0], ms[1], v};
 
                 std::sort(new_multiset.begin(), new_multiset.end());
 
@@ -653,7 +653,6 @@ namespace GenerateThree {
                 }
             }
         }
-
 
         vector<vector<Node>> three_tuples;
         for (vector<Node> ms: three_multiset) {
@@ -833,17 +832,12 @@ namespace GenerateThree {
                     two_multiset.push_back(new_multiset);
                 }
             }
-
-//            vector<Node> new_multiset = {v, v};
-//            two_multiset.push_back(new_multiset);
         }
 
         vector<vector<Node>> three_multiset;
         unordered_map<vector<Node>, bool, VectorHasher> three_multiset_exits;
         for (vector<Node> ms: two_multiset) {
             for (Node v: ms) {
-
-
                 for (Node w: g.get_neighbours(v)) {
                     vector<Node> new_multiset = {ms[0], ms[1]};
                     new_multiset.push_back(w);

@@ -19,14 +19,16 @@ def read_classes(ds_name):
 
 def main():
 
-    path = "./GM/EXP/"
-    dataset = [["ENZYMES", True]]
-    algorithms = ["LWL_3_1"]
+    path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
+    dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["NCI109", True], ["PROTEINS", True],
+               ["PTC_FM", True], ["REDDIT-BINARY", False]]
+    dataset = [["PROTEINS", True]]
+    algorithms = ["LWL3_1"]
 
     for a in algorithms:
         for d, use_labels in dataset:
             gram_matrices = []
-            for i in [3]:
+            for i in [0,1,2,3,5]:
                 if not pth.exists(path + d + "__" + a + "_" + str(i) + ".gram"):
                     continue
                 else:
@@ -39,6 +41,7 @@ def main():
                 acc, acc_train, s_1 = kernel_svm_evaluation(gram_matrices, classes, num_repetitions=10)
                 print(a, d, acc, acc_train, s_1)
 
+    print("###")
     exit()
     
 

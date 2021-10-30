@@ -23,10 +23,10 @@ using namespace GraphLibrary;
 //#include <eigen3/Eigen/Sparse>
 //#include <eigen3/unsupported/Eigen/src/SparseExtra/MarketIO.h>
 //#else
-#include "./eigen-3.4.0/Eigen/Dense"
-#include "./eigen-3.4.0/Eigen/Sparse"
-#include "./eigen-3.4.0/unsupported/Eigen/src/SparseExtra/MarketIO.h"
-#endif
+#include "../eigen-3.4.0/Eigen/Dense"
+#include "../eigen-3.4.0/Eigen/Sparse"
+#include "../eigen-3.4.0/unsupported/Eigen/src/SparseExtra/MarketIO.h"
+//#endif
 
 
 namespace AuxiliaryMethods {
