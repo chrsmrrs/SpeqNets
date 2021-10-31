@@ -44,10 +44,10 @@ class QM9(InMemoryDataset):
     def process(self):
         data_list = []
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
-        attributes = pre.get_all_attributes("QM9")
+        attributes = pre.get_all_attributes_2_1("QM9")
 
-        node_labels = pre.get_all_node_labels("QM9", False, False)
-        matrices = pre.get_all_matrices("QM9", list(range(129433)))
+        node_labels = pre.get_all_node_labels_2_1("QM9", True, True)
+        matrices = pre.get_all_matrices_2_1("QM9", list(range(129433)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
