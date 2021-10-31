@@ -19,10 +19,11 @@ def read_classes(ds_name):
 
 def main():
 
+
     path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
     dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["NCI109", True], ["PROTEINS", True],
                ["PTC_FM", True], ["REDDIT-BINARY", False]]
-    dataset = [["NCI109", True]]
+
     algorithms = ["LWL2_1", "LWLP2_1"]
 
     for a in algorithms:
