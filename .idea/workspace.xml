@@ -9,11 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/QM9/local_2_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/QM9/local_2_1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -274,14 +270,7 @@
       <workItem from="1635272499308" duration="905000" />
       <workItem from="1635273831617" duration="186000" />
       <workItem from="1635274075546" duration="83621000" />
-      <workItem from="1635629082340" duration="13833000" />
-    </task>
-    <task id="LOCAL-00106" summary="Started implementing neural version.">
-      <created>1635371776046</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1635371776048</updated>
+      <workItem from="1635629082340" duration="14235000" />
     </task>
     <task id="LOCAL-00107" summary="Started implementing neural version.">
       <created>1635371861550</created>
@@ -619,7 +608,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635645376887</updated>
     </task>
-    <option name="localTasksCounter" value="155" />
+    <task id="LOCAL-00155" summary="w">
+      <created>1635646581864</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1635646581865</updated>
+    </task>
+    <option name="localTasksCounter" value="156" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
