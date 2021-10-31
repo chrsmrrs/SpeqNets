@@ -114,7 +114,6 @@ namespace AuxiliaryMethods {
                 new_graph.set_attributes(attr);
             }
 
-            Graph new_graph(false, s, edge_list, l);
             graph_database.push_back(new_graph);
         }
 
