@@ -14,11 +14,16 @@ import os.path as osp
 import numpy as np
 import torch
 from torch.nn import Sequential, Linear, ReLU
+from torch.nn import Linear as Lin
 from torch_geometric.nn import global_mean_pool, GINConv
 
 from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.loader import DataLoader
 import torch.nn.functional as F
+
+
+
+
 
 
 class ZINC(InMemoryDataset):
@@ -69,7 +74,6 @@ class ZINC(InMemoryDataset):
         targets = pre.read_targets("ZINC_train", indices_train)
         targets.extend(pre.read_targets("ZINC_val", indices_val))
         targets.extend(pre.read_targets("ZINC_test", indices_test))
-
 
         matrices = pre.get_all_matrices_2_1_malkin("ZINC_train", indices_train)
         matrices.extend(pre.get_all_matrices_2_1_malkin("ZINC_val", indices_val))
@@ -209,7 +213,7 @@ class NetGIN(torch.nn.Module):
 
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ZINC')
-dataset = ZINC_malkin(path, transform=MyTransform())
+dataset = ZINC(path, transform=MyTransform())
 
 train_dataset = dataset[0:10000].shuffle()
 val_dataset = dataset[10000:11000].shuffle()
