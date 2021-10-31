@@ -71,7 +71,7 @@ namespace AuxiliaryMethods {
         string attribute;
         Attributes node_attributes;
         ifstream attributes(
-                path  + data_set_name + "/" + data_set_name + "_node_attributes.txt");
+                path + "/datasets/"+ data_set_name +  "/"  + data_set_name + "/raw/" + data_set_name + "_node_attributes.txt");
         if (attributes.is_open()) {
             while (getline(attributes, attribute)) {
                 node_attributes.push_back(split_string_float(attribute));
@@ -139,7 +139,7 @@ namespace AuxiliaryMethods {
 
         bool edge_attribute_data = true;
         Attributes edge_attributes;
-        ifstream eattr(path + data_set_name + "/" + data_set_name + "_edge_attributes.txt");
+        ifstream eattr(path + "/datasets/"+ data_set_name +  "/"  + data_set_name + "/raw/" + data_set_name + "_edge_attributes.txt");
         if (eattr.is_open()) {
             while (getline(eattr, label)) {
                 edge_attributes.push_back(split_string_float(label));
