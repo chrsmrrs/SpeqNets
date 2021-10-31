@@ -272,11 +272,15 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
 
     // Get continious node and edge information.
     Attributes attributes;
+    cout << "AA" << endl;
     attributes = g.get_attributes();
+    cout << "BB" << endl;
 
     EdgeAttributes edge_attributes;
 
+    cout << "CC" << endl;
     edge_attributes = g.get_edge_attributes();
+    cout << "DD" << endl;
 
     Attributes first;
     Attributes second;
