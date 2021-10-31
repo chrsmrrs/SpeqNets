@@ -11,6 +11,11 @@
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural/QM9/local_2_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/QM9/local_2_1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/neural/preprocessing/preprocessing.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural/preprocessing/src/AuxiliaryMethods.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/neural/preprocessing/src/AuxiliaryMethods.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +89,7 @@
       <recent name="$PROJECT_DIR$/k_s_wl_simple" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_ml">
+  <component name="RunManager" selected="Python.svm">
     <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$/k_s_wl_cpp" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -209,9 +214,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.svm" />
         <item itemvalue="Python.main_ml" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.svm" />
         <item itemvalue="Python.main_kernel" />
         <item itemvalue="Python.test" />
       </list>
@@ -272,14 +277,7 @@
       <workItem from="1635272499308" duration="905000" />
       <workItem from="1635273831617" duration="186000" />
       <workItem from="1635274075546" duration="83621000" />
-      <workItem from="1635629082340" duration="4830000" />
-    </task>
-    <task id="LOCAL-00094" summary="Started implementing neural version.">
-      <created>1635362545566</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1635362545566</updated>
+      <workItem from="1635629082340" duration="10190000" />
     </task>
     <task id="LOCAL-00095" summary="Started implementing neural version.">
       <created>1635365205997</created>
@@ -617,7 +615,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635632887572</updated>
     </task>
-    <option name="localTasksCounter" value="143" />
+    <task id="LOCAL-00143" summary="w">
+      <created>1635637305437</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1635637305437</updated>
+    </task>
+    <option name="localTasksCounter" value="144" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -650,6 +655,6 @@
     <SUITE FILE_PATH="coverage/SeqGN$main_kernel.coverage" NAME="main_kernel Coverage Results" MODIFIED="1634597519830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../reconstruction-gnns/recon_wl" />
     <SUITE FILE_PATH="coverage/SeqGN$main.coverage" NAME="main Coverage Results" MODIFIED="1635522340121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
     <SUITE FILE_PATH="coverage/SeqGN$test.coverage" NAME="test Coverage Results" MODIFIED="1628386011618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
-    <SUITE FILE_PATH="coverage/SeqGN$svm.coverage" NAME="svm Coverage Results" MODIFIED="1634691026023" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_cpp/svm" />
+    <SUITE FILE_PATH="coverage/SeqGN$svm.coverage" NAME="svm Coverage Results" MODIFIED="1635638564612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_cpp/svm" />
   </component>
 </project>

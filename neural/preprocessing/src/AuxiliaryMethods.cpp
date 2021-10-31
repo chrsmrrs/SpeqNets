@@ -66,6 +66,22 @@ namespace AuxiliaryMethods {
             label_data = false;
         }
 
+        // Get node attributes from for each node.
+        bool attribute_data = true;
+        string attribute;
+        Attributes node_attributes;
+        ifstream attributes(
+                path  + data_set_name + "/" + data_set_name + "_node_attributes.txt");
+        if (attributes.is_open()) {
+            while (getline(attributes, attribute)) {
+                node_attributes.push_back(split_string_float(attribute));
+            }
+            myfile.close();
+        } else {
+            attribute_data = false;
+        }
+
+
         GraphDatabase graph_database;
         unordered_map<int, int> offset;
         int num_nodes = 0;
@@ -83,8 +99,20 @@ namespace AuxiliaryMethods {
                 }
             }
 
+            Attributes attr;
+            if (attribute_data) {
+                for (unsigned long j = num_nodes; j < s + num_nodes; ++j) {
+                    attr.push_back(node_attributes[j]);
+                }
+            }
+
             num_nodes += s;
             EdgeList edge_list;
+
+            Graph new_graph(false, s, edge_list, l);
+            if (attribute_data) {
+                new_graph.set_attributes(attr);
+            }
 
             Graph new_graph(false, s, edge_list, l);
             graph_database.push_back(new_graph);
@@ -110,6 +138,23 @@ namespace AuxiliaryMethods {
             edge_label_vector.push_back(EdgeLabels());
         }
 
+        bool edge_attribute_data = true;
+        Attributes edge_attributes;
+        ifstream eattr(path + data_set_name + "/" + data_set_name + "_edge_attributes.txt");
+        if (eattr.is_open()) {
+            while (getline(eattr, label)) {
+                edge_attributes.push_back(split_string_float(label));
+            }
+            myfile.close();
+        } else {
+            edge_attribute_data = false;
+        }
+
+        // Insert edges for each graph.
+        vector<EdgeAttributes> edge_attribute_vector;
+        for (uint i = 0; i < num_graphs; ++i) {
+            edge_attribute_vector.push_back(EdgeAttributes());
+        }
 
         uint c = 0;
         vector<int> edges;
@@ -132,6 +177,11 @@ namespace AuxiliaryMethods {
                     edge_label_vector[graph_num].insert({{make_tuple(w, v), edge_labels[c]}});
                 }
 
+                if (edge_attribute_data) {
+                    edge_attribute_vector[graph_num].insert({{make_tuple(v, w), edge_attributes[c]}});
+                    edge_attribute_vector[graph_num].insert({{make_tuple(w, v), edge_attributes[c]}});
+                }
+
                 edges.push_back(stoi(line));
                 c++;
 
@@ -145,6 +195,12 @@ namespace AuxiliaryMethods {
         if (edge_label_data) {
             for (uint i = 0; i < num_graphs; ++i) {
                 graph_database[i].set_edge_labels(edge_label_vector[i]);
+            }
+        }
+
+        if (edge_attribute_data) {
+            for (uint i = 0; i < num_graphs; ++i) {
+                graph_database[i].set_edge_attributes(edge_attribute_vector[i]);
             }
         }
 

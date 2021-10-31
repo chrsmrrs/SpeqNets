@@ -2,12 +2,12 @@ from __future__ import division
 
 import sys
 
+import auxiliarymethods.datasets as dp
+import preprocessing as pre
+
 sys.path.insert(0, '..')
 sys.path.insert(0, '../..')
 sys.path.insert(0, '.')
-
-import auxiliarymethods.datasets as dp
-import preprocessing as pre
 
 import os.path as osp
 import torch
@@ -40,13 +40,10 @@ class QM9(InMemoryDataset):
     def process(self):
         data_list = []
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
-        attributes = pre.get_all_attributes_2_1("QM9")
-        print("#")
+        attributes = pre.get_all_attributes("QM9")
 
-        node_labels = pre.get_all_node_labels_2_1("QM9", False, False)
-        print("##")
-        matrices = pre.get_all_matrices_2_1("QM9", list(range(129433)))
-        print("###")
+        node_labels = pre.get_all_node_labels("QM9", False, False)
+        matrices = pre.get_all_matrices("QM9", list(range(129433)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -76,7 +73,7 @@ class QM9(InMemoryDataset):
 
 
 class MyData(Data):
-    def __inc__(self, key, value, *args, **kwargs):
+    def __inc__(self, key, value):
         return self.num_nodes if key in [
             'edge_index_1', 'edge_index_2'
         ] else 0

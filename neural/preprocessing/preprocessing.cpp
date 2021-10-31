@@ -276,9 +276,7 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
 
     EdgeAttributes edge_attributes;
 
-    cout << "C" << endl;
     edge_attributes = g.get_edge_attributes();
-    cout << "D" << endl;
 
     Attributes first;
     Attributes second;
@@ -1169,9 +1167,6 @@ m.def("get_all_matrices_2_1_malkin", &get_all_matrices_2_1_malkin);
 
 m.def("get_all_matrices_2_2", &get_all_matrices_2_2);
 m.def("get_all_matrices_1", &get_all_matrices_1);
-
-
-
 
 m.def("get_all_node_labels_2_1", &get_all_node_labels_2_1);
 m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
