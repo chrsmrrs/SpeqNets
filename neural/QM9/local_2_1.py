@@ -45,10 +45,8 @@ class QM9(InMemoryDataset):
         data_list = []
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
 
-        print("eee")
         attributes = pre.get_all_attributes_2_1("QM9")
 
-        print("###")
 
         node_labels = pre.get_all_node_labels_2_1("QM9", True, True)
         matrices = pre.get_all_matrices_2_1("QM9", list(range(129433)))
