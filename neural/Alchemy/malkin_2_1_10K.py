@@ -342,3 +342,5 @@ print(results.mean(), results.std())
 print(results_log)
 results_log = np.array(results_log)
 print(results_log.mean(), results_log.std())
+
+print("GNN 2 1 M 10K")
