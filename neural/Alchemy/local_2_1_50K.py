@@ -23,11 +23,11 @@ class Alchemy(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "alchemy10"
+        return "alchemy5550"
 
     @property
     def processed_file_names(self):
-        return "alchemy10"
+        return "alchemy1550"
 
     def download(self):
         pass
@@ -39,17 +39,17 @@ class Alchemy(InMemoryDataset):
         indices_val = []
         indices_test = []
 
-        infile = open("test_al_10.index", "r")
+        infile = open("test_al_50.index", "r")
         for line in infile:
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]
 
-        infile = open("val_al_10.index", "r")
+        infile = open("val_al_50.index", "r")
         for line in infile:
             indices_val = line.split(",")
             indices_val = [int(i) for i in indices_val]
 
-        infile = open("train_al_10.index", "r")
+        infile = open("train_al_50.index", "r")
         for line in infile:
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
@@ -211,9 +211,9 @@ std = dataset.data.y.std(dim=0, keepdim=True)
 dataset.data.y = (dataset.data.y - mean) / std
 mean, std = mean.to(device), std.to(device)
 
-train_dataset = dataset[0:10000].shuffle()
-val_dataset = dataset[10000:11000].shuffle()
-test_dataset = dataset[11000:12000].shuffle()
+train_dataset = dataset[0:50000].shuffle()
+val_dataset = dataset[50000:55000].shuffle()
+test_dataset = dataset[55000:60000].shuffle()
 
 batch_size = 64
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)

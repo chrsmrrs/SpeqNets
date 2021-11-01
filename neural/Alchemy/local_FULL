@@ -10,4 +10,4 @@ export PYTHONUNBUFFERED=1
 module load cuda/10.2
 module load anaconda
 conda activate gc
-python malkin_2_1_10K.py
+python local_2_1_FULL.py

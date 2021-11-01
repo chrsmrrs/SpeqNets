@@ -28,11 +28,11 @@ class Alchemy_gnn(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "alchemy_1_1_10K"
+        return "alchemy_1_1_FULL"
 
     @property
     def processed_file_names(self):
-        return "alchemy_1_1_10K"
+        return "alchemy_1_1_FULL"
 
     def download(self):
         pass
@@ -40,39 +40,12 @@ class Alchemy_gnn(InMemoryDataset):
     def process(self):
         data_list = []
 
-        indices_train = []
-        indices_val = []
-        indices_test = []
-
-        infile = open("test_al_10.index", "r")
-        for line in infile:
-            indices_test = line.split(",")
-            indices_test = [int(i) for i in indices_test]
-
-        infile = open("val_al_10.index", "r")
-        for line in infile:
-            indices_val = line.split(",")
-            indices_val = [int(i) for i in indices_val]
-
-        infile = open("train_al_10.index", "r")
-        for line in infile:
-            indices_train = line.split(",")
-            indices_train = [int(i) for i in indices_train]
-
         targets = dp.get_dataset("alchemy_full", multigregression=True)
-        tmp1 = targets[indices_train].tolist()
-        tmp2 = targets[indices_val].tolist()
-        tmp3 = targets[indices_test].tolist()
-        targets = tmp1
-        targets.extend(tmp2)
-        targets.extend(tmp3)
 
-        node_labels = pre.get_all_node_labels_alchem_1(True, True, indices_train, indices_val, indices_test)
-        edge_labels = pre.get_all_edge_labels_alchem_1(True, True, indices_train, indices_val, indices_test)
-
-        matrices = pre.get_all_matrices_1("alchemy_full", indices_train)
-        matrices.extend(pre.get_all_matrices_1("alchemy_full", indices_val))
-        matrices.extend(pre.get_all_matrices_1("alchemy_full", indices_test))
+        node_labels = pre.get_all_node_labels_1("alchemy_full", True)
+        edge_labels = pre.get_all_edge_labels_1("alchemy_full"
+                                                )
+        matrices = pre.get_all_matrices_1("alchemy_full", list(range(202579)))
 
         for i, m in enumerate(matrices):
             data = Data()
@@ -96,6 +69,7 @@ class MyData(Data):
         return self.num_nodes if key in [
             'edge_index'
         ] else 0
+
 
 
 class MyTransform(object):
@@ -172,9 +146,9 @@ std = dataset.data.y.std(dim=0, keepdim=True)
 dataset.data.y = (dataset.data.y - mean) / std
 mean, std = mean.to(device), std.to(device)
 
-train_dataset = dataset[0:10000].shuffle()
-val_dataset = dataset[10000:11000].shuffle()
-test_dataset = dataset[11000:12000].shuffle()
+train_dataset = dataset[0:162063].shuffle()
+val_dataset = dataset[162063:182321].shuffle()
+test_dataset = dataset[182321:].shuffle()
 
 batch_size = 64
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
@@ -190,7 +164,6 @@ for _ in range(5):
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=10,
                                                            min_lr=0.0000001)
-
 
     def train():
         model.train()
@@ -224,7 +197,7 @@ for _ in range(5):
 
 
     best_val_error = None
-    for epoch in range(1, 501):
+    for epoch in range(1, 1001):
         lr = scheduler.optimizer.param_groups[0]['lr']
         loss = train()
         val_error, _ = test(val_loader)
