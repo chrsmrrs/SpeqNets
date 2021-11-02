@@ -7,7 +7,7 @@ import numpy as np
 from graph_tool.all import *
 
 from aux import normalize_gram_matrix, normalize_feature_vector
-from data_set_parser import read_txt, get_dataset
+from data_set_parser import read_txt #, get_dataset
 from svm import kernel_svm_evaluation, linear_svm_evaluation
 from scipy import sparse
 
@@ -147,7 +147,7 @@ def compute_k_s_tuple_graph(graphs, k, s, node_label):
 
 
 # Implementation of the (k,s)-WL.
-def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
+def compute_k_s_tuple_graph_fast(graphs, k, s, node_label, star_node):
     tupled_graphs = []
 
     # Manage atomic types.
@@ -155,6 +155,14 @@ def compute_k_s_tuple_graph_fast(graphs, k, s, node_label):
     atomic_counter = 0
 
     for i, g in enumerate(graphs):
+
+        if star_node:
+            star = g.add_vertex()
+
+            for v in g.vertices():
+                g.add_edge(star, v)
+
+
         print(i)
         # (k,s)-tuple graph.
         k_tuple_graph = Graph(directed=False)
@@ -354,15 +362,15 @@ def compute_wl(graph_db, num_it, edge_label, linear):
 
 
 name = "ENZYMES"
-classes = get_dataset(name)
+#classes = get_dataset(name)
 print("###")
 
-graphs = read_txt(name)
+graphs, classes = read_txt(name)
 
 print("###")
 
 start = timeit.default_timer()
-tupled_graphs = compute_k_s_tuple_graph_fast(graphs, k=3, s=1, node_label=True)
+tupled_graphs = compute_k_s_tuple_graph_fast(graphs, k=3, s=1, node_label=True, star_node=True)
 kernel = compute_wl(tupled_graphs, num_it=3, edge_label=True, linear=False)
 end = timeit.default_timer()
 print(end-start)

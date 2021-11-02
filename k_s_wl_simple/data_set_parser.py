@@ -5,7 +5,7 @@ import os.path as path
 import os.path as osp
 
 import numpy as np
-from torch_geometric.datasets import TUDataset
+#from torch_geometric.datasets import TUDataset
 
 
 # Return classes as a numpy array.
@@ -163,8 +163,8 @@ def read_txt(ds_name):
             g.ep.ea = l_ea[g_id]
 
     # Classes
-    # with open("../datasets/" + ds_name + "/" + ds_name + "/raw/" + ds_name + "_graph_labels.txt", "r") as f:
-    #     classes = [int(i) for i in list(f)]
-    # f.closed
+    with open("../datasets/" + ds_name + "/" + ds_name + "/raw/" + ds_name + "_graph_labels.txt", "r") as f:
+        classes = [int(i) for i in list(f)]
+    f.closed
 
-    return graph_db
+    return graph_db, np.array(classes)

@@ -736,9 +736,9 @@ def compute_wl(graph_db, node_labels, edge_labels, num_it):
 # print(linear_svm_evaluation([kernel], classes))
 
 
-k = 4
+k = 2
 s = 2
-graphs = gen.create_gaurav_graphs(4)
+graphs = gen.create_gaurav_graphs(2)
 
 tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k=k, s=s)
 #position = sfdp_layout(tupled_graphs[0])
@@ -747,7 +747,36 @@ tupled_graphs, node_labels, edge_labels = compute_k_s_tuple_graph_fast(graphs, k
 #position = sfdp_layout(tupled_graphs[1])
 #graph_draw(tupled_graphs[1], pos=position, output="cycle_2_1.pdf")
 
-print("ddd")
+print("###")
+
+seq_0 = []
+for v in tupled_graphs[0].vertices():
+
+    m = 0
+    for w in v.out_neighbors():
+        if w.out_degree() < m:
+            m = w.out_degree()
+
+    seq_0.append((v.out_degree(), m))
+
+seq_1 = []
+for v in tupled_graphs[1].vertices():
+
+    m = 0
+    for w in v.out_neighbors():
+        if w.out_degree() < m:
+            m = w.out_degree()
+
+    seq_1.append((v.out_degree(), m))
+
+
+seq_0.sort()
+seq_1.sort()
+
+print(seq_0)
+print(seq_1)
+
+print(seq_0 == seq_1)
 
 # min_0 = -1
 #
@@ -779,7 +808,7 @@ print("ddd")
 #
 # print(min_0)
 #
-feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels, 5)
+feature_vectors = compute_wl(tupled_graphs, node_labels, edge_labels, 2)
 
 if np.array_equal(feature_vectors[0], feature_vectors[1]):
     print("Not distinguished.")
