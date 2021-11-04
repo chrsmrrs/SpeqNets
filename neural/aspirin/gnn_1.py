@@ -22,6 +22,34 @@ from torch_geometric.datasets import TUDataset
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
+# class GINConv(MessagePassing):
+#     def __init__(self, emb_dim, dim1, dim2):
+#         super(GINConv, self).__init__(aggr="add")
+#
+#         self.bond_encoder = Sequential(Linear(emb_dim, dim1), torch.nn.BatchNorm1d(dim1), ReLU(), Linear(dim1, dim1),
+#                                        torch.nn.BatchNorm1d(dim1), ReLU())
+#
+#         self.mlp = Sequential(Linear(dim1, dim2), torch.nn.BatchNorm1d(dim2), ReLU(), Linear(dim2, dim2),
+#                               torch.nn.BatchNorm1d(dim2), ReLU())
+#
+#         self.eps = torch.nn.Parameter(torch.Tensor([0]))
+#
+#     def forward(self, x, edge_index, edge_attr):
+#
+#
+#         edge_embedding = self.bond_encoder(edge_attr)
+#
+#         out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x, edge_attr=edge_embedding))
+#
+#         return out
+#
+#     def message(self, x_j, edge_attr):
+#         return F.relu(x_j + edge_attr)
+#
+#     def update(self, aggr_out):
+#         return aggr_out
+
+
 class GINConv(MessagePassing):
     def __init__(self, emb_dim, dim1, dim2):
         super(GINConv, self).__init__(aggr="add")
@@ -34,17 +62,17 @@ class GINConv(MessagePassing):
 
         self.eps = torch.nn.Parameter(torch.Tensor([0]))
 
-    def forward(self, x, edge_index, edge_attr):
+    def forward(self, x, edge_index):
 
 
-        edge_embedding = self.bond_encoder(edge_attr)
+        #edge_embedding = self.bond_encoder(edge_attr)
 
-        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x, edge_attr=edge_embedding))
+        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x))
 
         return out
 
-    def message(self, x_j, edge_attr):
-        return F.relu(x_j + edge_attr)
+    def message(self, x_j):
+        return x_j
 
     def update(self, aggr_out):
         return aggr_out
@@ -73,16 +101,24 @@ class NetGINE(torch.nn.Module):
     def forward(self, data):
         x = data.x
 
-        print(x.size())
-        print(data.edge_attr.size())
-        exit()
+        #print(x.size())
+        #print(data.edge_attr.size())
+        #exit()
 
-        x_1 = F.relu(self.conv1(x, data.edge_index, data.edge_attr))
-        x_2 = F.relu(self.conv2(x_1, data.edge_index, data.edge_attr))
-        x_3 = F.relu(self.conv3(x_2, data.edge_index, data.edge_attr))
-        x_4 = F.relu(self.conv4(x_3, data.edge_index, data.edge_attr))
-        x_5 = F.relu(self.conv5(x_4, data.edge_index, data.edge_attr))
-        x_6 = F.relu(self.conv6(x_5, data.edge_index, data.edge_attr))
+        # x_1 = F.relu(self.conv1(x, data.edge_index, data.edge_attr))
+        # x_2 = F.relu(self.conv2(x_1, data.edge_index, data.edge_attr))
+        # x_3 = F.relu(self.conv3(x_2, data.edge_index, data.edge_attr))
+        # x_4 = F.relu(self.conv4(x_3, data.edge_index, data.edge_attr))
+        # x_5 = F.relu(self.conv5(x_4, data.edge_index, data.edge_attr))
+        # x_6 = F.relu(self.conv6(x_5, data.edge_index, data.edge_attr))
+        # x = x_6
+
+        x_1 = F.relu(self.conv1(x, data.edge_index))
+        x_2 = F.relu(self.conv2(x_1, data.edge_index))
+        x_3 = F.relu(self.conv3(x_2, data.edge_index))
+        x_4 = F.relu(self.conv4(x_3, data.edge_index))
+        x_5 = F.relu(self.conv5(x_4, data.edge_index))
+        x_6 = F.relu(self.conv6(x_5, data.edge_index))
         x = x_6
 
         x = self.set2set(x, data.batch)
@@ -92,30 +128,30 @@ class NetGINE(torch.nn.Module):
         return x.view(-1)
 
 
-class Complete(object):
-    def __call__(self, data):
-        device = data.edge_index.device
-
-        row = torch.arange(data.num_nodes, dtype=torch.long, device=device)
-        col = torch.arange(data.num_nodes, dtype=torch.long, device=device)
-
-        row = row.view(-1, 1).repeat(1, data.num_nodes).view(-1)
-        col = col.repeat(data.num_nodes)
-        edge_index = torch.stack([row, col], dim=0)
-
-        edge_attr = None
-        if data.edge_attr is not None:
-            idx = data.edge_index[0] * data.num_nodes + data.edge_index[1]
-            size = list(data.edge_attr.size())
-            size[0] = data.num_nodes * data.num_nodes
-            edge_attr = data.edge_attr.new_zeros(size)
-            edge_attr[idx] = data.edge_attr
-
-        edge_index, edge_attr = remove_self_loops(edge_index, edge_attr)
-        data.edge_attr = edge_attr
-        data.edge_index = edge_index
-
-        return data
+# class Complete(object):
+#     def __call__(self, data):
+#         device = data.edge_index.device
+#
+#         row = torch.arange(data.num_nodes, dtype=torch.long, device=device)
+#         col = torch.arange(data.num_nodes, dtype=torch.long, device=device)
+#
+#         row = row.view(-1, 1).repeat(1, data.num_nodes).view(-1)
+#         col = col.repeat(data.num_nodes)
+#         edge_index = torch.stack([row, col], dim=0)
+#
+#         edge_attr = None
+#         if data.edge_attr is not None:
+#             idx = data.edge_index[0] * data.num_nodes + data.edge_index[1]
+#             size = list(data.edge_attr.size())
+#             size[0] = data.num_nodes * data.num_nodes
+#             edge_attr = data.edge_attr.new_zeros(size)
+#             edge_attr[idx] = data.edge_attr
+#
+#         edge_index, edge_attr = remove_self_loops(edge_index, edge_attr)
+#         data.edge_attr = edge_attr
+#         data.edge_index = edge_index
+#
+#         return data
 
 
 results = []
