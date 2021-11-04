@@ -61,7 +61,7 @@ class uracil(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(12)[node_labels[i]]
+            one_hot = np.eye(20)[node_labels[i]]
 
             one_hot = np.concatenate([one_hot, attributes[i][0], attributes[i][1]], axis=1)
 
