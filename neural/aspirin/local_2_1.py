@@ -46,6 +46,7 @@ class aspirin(InMemoryDataset):
         data_list = []
         targets = dp.get_dataset("aspirin").tolist()
 
+        print("##@")
         attributes = pre.get_all_attributes_2_1("aspirin")
 
         print("##")
