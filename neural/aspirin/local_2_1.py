@@ -46,10 +46,7 @@ class aspirin(InMemoryDataset):
         data_list = []
         targets = dp.get_dataset("aspirin").tolist()
 
-        print("##@")
         attributes = pre.get_all_attributes_2_1("aspirin")
-
-        print("##")
 
         node_labels = pre.get_all_node_labels_2_1("aspirin", True, False)
         matrices = pre.get_all_matrices_2_1("aspirin", list(range(111763)))
@@ -64,12 +61,9 @@ class aspirin(InMemoryDataset):
             data.edge_index_1 = edge_index_1
             data.edge_index_2 = edge_index_2
 
-            one_hot = np.eye(3)[node_labels[i]]
+            one_hot = np.eye(12)[node_labels[i]]
 
-            one_hot = np.concatenate([one_hot, attributes[i]], axis=1)
-
-            print(one_hot.size())
-            exit()
+            one_hot = np.concatenate([one_hot, attributes[i][0], attributes[i][1]], axis=1)
 
             data.x = torch.from_numpy(one_hot).to(torch.float)
 
@@ -175,20 +169,15 @@ class NetGIN(torch.nn.Module):
         self.fc4 = Linear(dim, 1)
 
     def forward(self, data):
-        first, second, edge_attr, dist =  data.first, data.second, data.edge_attr, data.dist
 
         node_labels = data.x
         node_labels = self.type_encoder(node_labels)
 
-        node_attributes = torch.cat([first, second], dim=-1)
-        node_attributes = self.node_attribute_encoder(node_attributes)
-
-        edge_attributes = torch.cat([edge_attr, dist], dim=-1)
-        edge_attributes = self.edge_encoder(edge_attributes)
+        x = self.node_attribute_encoder(node_labels)
 
 
-        x = torch.cat([node_labels, node_attributes, edge_attributes], dim=-1)
-        x = self.mlp(x)
+
+
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
