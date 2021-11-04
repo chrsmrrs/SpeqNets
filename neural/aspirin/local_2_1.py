@@ -32,12 +32,12 @@ class aspirin(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "aspirin"
+        return "aspirinr"
 
 
     @property
     def processed_file_names(self):
-        return "aspirin"
+        return "aspirinr"
 
     def download(self):
         pass
@@ -46,10 +46,14 @@ class aspirin(InMemoryDataset):
         data_list = []
         targets = dp.get_dataset("aspirin", multigregression=True).tolist()
 
-        attributes = pre.get_all_attributes_2_1("aspirin")
+        attributes = pre.get_all_attributes_2_1("aspirin")\
+
+        print("##")
 
         node_labels = pre.get_all_node_labels_2_1("aspirin", True, False)
         matrices = pre.get_all_matrices_2_1("aspirin", list(range(111763)))
+
+        print("##")
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
