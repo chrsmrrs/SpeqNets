@@ -47,7 +47,7 @@ main() {
                         gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1", true);
                     }
 
-                    AuxiliaryMethods::write_sparse_gram_matrix(gm,"/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXPSPARSE/" + ds + "__" + kernel + "_" + to_string(i));
+                    AuxiliaryMethods::write_sparse_gram_matrix(gm,"./svm/GM/EXPSPARSE/" + ds + "__" + kernel + "_" + to_string(i));
                 }
             }
 
@@ -76,7 +76,7 @@ main() {
                         gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1p", true);
                     }
 
-                    AuxiliaryMethods::write_sparse_gram_matrix(gm,"/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXPSPARSE/" + ds + "__" + kernel + "_" + to_string(i));
+                    AuxiliaryMethods::write_sparse_gram_matrix(gm,"./svm/GM/EXPSPARSE/" + ds + "__" + kernel + "_" + to_string(i));
                 }
             }
         }
