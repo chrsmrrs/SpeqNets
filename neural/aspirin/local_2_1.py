@@ -22,6 +22,7 @@ import numpy as np
 from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.data import DataLoader
 import torch.nn.functional as F
+from torch_geometric.datasets import TUDataset
 
 class aspirin(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
@@ -221,9 +222,9 @@ results = []
 results_log = []
 for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
-    dataset = QM9(path, transform=MyTransform()).shuffle()
-    dataset.data.y = dataset.data.y[:,0:12]
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'dsfds')
+    dataset = TUDataset(path, name='aspirin', use_node_attr = True, use_edge_attr = True).shuffle()
+    dataset.data.y = dataset.data.y
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
