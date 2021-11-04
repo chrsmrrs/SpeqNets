@@ -20,59 +20,59 @@ def read_classes(ds_name):
 def main():
 
 
-    path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
-    dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["NCI109", True], ["PROTEINS", True],
-               ["PTC_FM", True], ["REDDIT-BINARY", False]]
-
-    algorithms = ["LWL2_1", "LWLP2_1"]
-
-    for a in algorithms:
-        for d, use_labels in dataset:
-            gram_matrices = []
-            for i in [0,1,2,3,5]:
-                if not pth.exists(path + d + "__" + a + "_" + str(i) + ".gram"):
-                    continue
-                else:
-                    gram_matrix, _ = read_lib_svm(path + d + "__" + a + "_" + str(i) + ".gram")
-                    gram_matrix = normalize_gram_matrix(gram_matrix)
-                    classes = read_classes(d)
-                    gram_matrices.append(gram_matrix)
-
-            if gram_matrices != []:
-                acc, acc_train, s_1 = kernel_svm_evaluation(gram_matrices, classes, num_repetitions=10)
-                print(a, d, acc, acc_train, s_1)
-
-    print("###")
-    exit()
-    
-
-    path = "./GM/EXP/"
-    dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["NCI109", True], ["PROTEINS", True],
-               ["PTC_FM", True], ["REDDIT-BINARY", False]]
-    algorithms = ["WL1", "GR", "SP", "WLOA", "LWL2", "LWLP2", "WL2", "DWL2", "LWL3", "LWLP3", "WL3", "DWL3"]
-
-    for a in algorithms:
-        for d, use_labels in dataset:
-            gram_matrices = []
-            for i in range(0,10):
-                if not pth.exists(path + d + "__" + a + "_" + str(i) + ".gram"):
-                    continue
-                else:
-                    gram_matrix, _ = read_lib_svm(path + d + "__" + a + "_" + str(i) + ".gram")
-                    gram_matrix = normalize_gram_matrix(gram_matrix)
-                    classes = read_classes(d)
-                    gram_matrices.append(gram_matrix)
-
-            if gram_matrices != []:
-                acc, acc_train, s_1 = kernel_svm_evaluation(gram_matrices, classes, num_repetitions=10)
-                print(a, d, acc, acc_train, s_1)
+    # path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
+    # dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["NCI109", True], ["PROTEINS", True],
+    #            ["PTC_FM", True], ["REDDIT-BINARY", False]]
+    #
+    # algorithms = ["LWL2_1", "LWLP2_1"]
+    #
+    # for a in algorithms:
+    #     for d, use_labels in dataset:
+    #         gram_matrices = []
+    #         for i in [0,1,2,3,5]:
+    #             if not pth.exists(path + d + "__" + a + "_" + str(i) + ".gram"):
+    #                 continue
+    #             else:
+    #                 gram_matrix, _ = read_lib_svm(path + d + "__" + a + "_" + str(i) + ".gram")
+    #                 gram_matrix = normalize_gram_matrix(gram_matrix)
+    #                 classes = read_classes(d)
+    #                 gram_matrices.append(gram_matrix)
+    #
+    #         if gram_matrices != []:
+    #             acc, acc_train, s_1 = kernel_svm_evaluation(gram_matrices, classes, num_repetitions=10)
+    #             print(a, d, acc, acc_train, s_1)
+    #
+    # print("###")
+    # exit()
+    #
+    #
+    # path = "./GM/EXP/"
+    # dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["NCI109", True], ["PROTEINS", True],
+    #            ["PTC_FM", True], ["REDDIT-BINARY", False]]
+    # algorithms = ["WL1", "GR", "SP", "WLOA", "LWL2", "LWLP2", "WL2", "DWL2", "LWL3", "LWLP3", "WL3", "DWL3"]
+    #
+    # for a in algorithms:
+    #     for d, use_labels in dataset:
+    #         gram_matrices = []
+    #         for i in range(0,10):
+    #             if not pth.exists(path + d + "__" + a + "_" + str(i) + ".gram"):
+    #                 continue
+    #             else:
+    #                 gram_matrix, _ = read_lib_svm(path + d + "__" + a + "_" + str(i) + ".gram")
+    #                 gram_matrix = normalize_gram_matrix(gram_matrix)
+    #                 classes = read_classes(d)
+    #                 gram_matrices.append(gram_matrix)
+    #
+    #         if gram_matrices != []:
+    #             acc, acc_train, s_1 = kernel_svm_evaluation(gram_matrices, classes, num_repetitions=10)
+    #             print(a, d, acc, acc_train, s_1)
 
 
 
 
     path = "./GM/EXPSPARSE/"
-    for name in ["Yeast", "YeastH", "UACC257", "UACC257H", "OVCAR-8", "OVCAR-8H"]:
-        for algorithm in ["LWL2", "LWLP2", "WL"]:
+    for name in ["Yeast"]:
+        for algorithm in ["LWL2", "LWLP2"]:
 
             # Collect feature matrices over all iterations
             all_feature_matrices = []
@@ -96,7 +96,7 @@ def main():
 
                 all_feature_matrices.append(feature_vector)
 
-            acc, s_1 = linear_svm_evaluation(all_feature_matrices, classes, num_repetitions=3, all_std=False)
+            acc, s_1 = linear_svm_evaluation(all_feature_matrices, classes, num_repetitions=1, all_std=False)
             print(name, algorithm, acc, s_1)
 
 

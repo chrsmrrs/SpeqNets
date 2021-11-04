@@ -38,9 +38,6 @@ namespace AuxiliaryMethods {
 
         string path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/datasets/";
 
-        cout << path + data_set_name + "/" + data_set_name +
-                "_graph_indicator.txt" << endl;
-
         vector<uint> graph_indicator;
         ifstream myfile(
                 path + data_set_name + "/" + data_set_name +
