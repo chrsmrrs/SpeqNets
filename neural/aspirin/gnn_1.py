@@ -55,7 +55,7 @@ class NetGINE(torch.nn.Module):
         super(NetGINE, self).__init__()
 
         # TODO
-        num_features = 13
+        num_features = 9
         dim = dim
 
         self.conv1 = GINConv(6, num_features, dim)
@@ -123,7 +123,7 @@ results_log = []
 for _ in range(5):
 
     path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', '1t-QfM9')
-    dataset = TUDataset(path, name='aspirin', use_node_attr = True, use_edge_attr = False).shuffle()
+    dataset = TUDataset(path, name='aspirrin', use_node_attr = True, use_edge_attr = True).shuffle()
 
 
     dataset = dataset.shuffle()
