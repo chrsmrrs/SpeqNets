@@ -46,7 +46,7 @@ class aspirin(InMemoryDataset):
         data_list = []
         targets = dp.get_dataset("aspirin", multigregression=True).tolist()
 
-        attributes = pre.get_all_attributes_2_1("aspirin")\
+        attributes = pre.get_all_attributes_2_1("aspirin")
 
         print("##")
 
