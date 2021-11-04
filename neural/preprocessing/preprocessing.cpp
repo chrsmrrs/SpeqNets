@@ -498,11 +498,11 @@ vector<vector<unsigned long>> get_all_node_labels_2_1(string name, const bool us
 
 
 // Get all node attributes of two-tuple graphs in graph database.
-vector <tuple<Attributes, Attributes, Attributes>> get_all_attributes_2_1(string name) {
+vector <tuple<Attributes, Attributes>> get_all_attributes_2_1(string name) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
     gdb.erase(gdb.begin() + 0);
 
-    vector <tuple<Attributes, Attributes, Attributes>> attributes;
+    vector <tuple<Attributes, Attributes>> attributes;
     uint i = 1;
 
     for (auto &g: gdb) {
