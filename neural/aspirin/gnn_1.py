@@ -122,8 +122,8 @@ results = []
 results_log = []
 for _ in range(5):
 
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', '1t-QfM9')
-    dataset = TUDataset(path, name='aspirrin', use_node_attr = True, use_edge_attr = True).shuffle()
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', '1t-QddfM9')
+    dataset = TUDataset(path, name='aspirin', use_node_attr = True, use_edge_attr = True).shuffle()
 
 
     dataset = dataset.shuffle()
