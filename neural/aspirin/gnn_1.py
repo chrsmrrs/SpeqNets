@@ -101,6 +101,8 @@ class NetGINE(torch.nn.Module):
     def forward(self, data):
         x = data.x
 
+        print(x.size())
+
         #print(x.size())
         #print(data.edge_attr.size())
         #exit()
