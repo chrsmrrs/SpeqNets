@@ -167,7 +167,7 @@ class NetGIN(torch.nn.Module):
                                 torch.nn.BatchNorm1d(dim), ReLU())
         self.set2set = Set2Set(1 * dim, processing_steps=6)
         self.fc1 = Linear(2 * dim, dim)
-        self.fc4 = Linear(dim, 12)
+        self.fc4 = Linear(dim, 1)
 
     def forward(self, data):
         first, second, edge_attr, dist =  data.first, data.second, data.edge_attr, data.dist
@@ -215,14 +215,14 @@ class NetGIN(torch.nn.Module):
 
         x = F.relu(self.fc1(x))
         x = self.fc4(x)
-        return x
+        return x.view(-1)
 
 
 results = []
 results_log = []
 for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'dsfds')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'dddsfds')
     dataset = TUDataset(path, name='aspirin', use_node_attr = True, use_edge_attr = True).shuffle()
     dataset.data.y = dataset.data.y
 
@@ -267,7 +267,7 @@ for _ in range(5):
     @torch.no_grad()
     def test(loader):
         model.eval()
-        error = torch.zeros([1, 12]).to(device)
+        error = torch.zeros([1, 1]).to(device)
 
         for data in loader:
             data = data.to(device)
