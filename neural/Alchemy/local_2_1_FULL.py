@@ -37,7 +37,7 @@ class Alchemy(InMemoryDataset):
 
         targets = dp.get_dataset("alchemy_full", multigregression=True)
 
-        node_labels = pre.get_all_node_labels_allchem_2_1("alchemy_full", True)
+        node_labels = pre.get_all_node_labels_allchem_2_1("alchemy_full", True, True)
 
         matrices = pre.get_all_matrices_2_1("alchemy_full", list(range(202579)))
 

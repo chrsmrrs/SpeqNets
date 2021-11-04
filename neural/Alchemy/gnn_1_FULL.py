@@ -43,8 +43,8 @@ class Alchemy_gnn(InMemoryDataset):
         targets = dp.get_dataset("alchemy_full", multigregression=True)
 
         node_labels = pre.get_all_node_labels_1("alchemy_full", True)
-        edge_labels = pre.get_all_edge_labels_1("alchemy_full"
-                                                )
+        edge_labels = pre.get_all_edge_labels_1("alchemy_full")
+
         matrices = pre.get_all_matrices_1("alchemy_full", list(range(202579)))
 
         for i, m in enumerate(matrices):
