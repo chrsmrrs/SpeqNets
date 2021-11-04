@@ -24,32 +24,32 @@ from torch_geometric.data import DataLoader
 import torch.nn.functional as F
 from torch_geometric.datasets import TUDataset
 
-class aspirin(InMemoryDataset):
+class uracil(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(aspirin, self).__init__(root, transform, pre_transform, pre_filter)
+        super(uracil, self).__init__(root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
     def raw_file_names(self):
-        return "aspirinr"
+        return "uracil"
 
 
     @property
     def processed_file_names(self):
-        return "aspirinr"
+        return "uracil"
 
     def download(self):
         pass
 
     def process(self):
         data_list = []
-        targets = dp.get_dataset("aspirin").tolist()
+        targets = dp.get_dataset("uracil").tolist()
 
-        attributes = pre.get_all_attributes_2_1("aspirin")
+        attributes = pre.get_all_attributes_2_1("uracil")
 
-        node_labels = pre.get_all_node_labels_2_1("aspirin", True, False)
-        matrices = pre.get_all_matrices_2_1("aspirin", list(range(111763)))
+        node_labels = pre.get_all_node_labels_2_1("uracil", True, False)
+        matrices = pre.get_all_matrices_2_1("uracil", list(range(133770)))
 
         print("##")
 
@@ -65,7 +65,12 @@ class aspirin(InMemoryDataset):
 
             one_hot = np.concatenate([one_hot, attributes[i][0], attributes[i][1]], axis=1)
 
+
+
             data.x = torch.from_numpy(one_hot).to(torch.float)
+
+            print(data.x.size())
+            exit()
 
             # Continuous information.
             data.first = torch.from_numpy(np.array(attributes[i][0])[:,0:13]).to(torch.float)
