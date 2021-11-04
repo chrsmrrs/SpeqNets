@@ -273,7 +273,7 @@ tuple <Attributes, Attributes> get_attributes_2_1(const Graph &g) {
     // Get continious node and edge information.
     Attributes attributes;
     attributes = g.get_attributes();
-
+    cout << "sdfdsf" << endl;
 
     // EdgeAttributes edge_attributes;
     // edge_attributes = g.get_edge_attributes();
