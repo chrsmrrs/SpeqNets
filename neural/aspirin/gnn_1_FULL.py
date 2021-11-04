@@ -130,7 +130,7 @@ class NetGINE(torch.nn.Module):
         x = self.set2set(x, data.batch)
         x = F.relu(self.fc1(x))
         x = self.fc4(x)
-        return x
+        return x.view(-1)
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
