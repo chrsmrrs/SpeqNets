@@ -15,19 +15,19 @@ from torch_geometric.data import InMemoryDataset, Data, DataLoader
 import torch.nn.functional as F
 
 
-class Alchemy(InMemoryDataset):
+class aspirin(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(Alchemy, self).__init__(root, transform, pre_transform, pre_filter)
+        super(aspirin, self).__init__(root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
     def raw_file_names(self):
-        return "alchemy5e550"
+        return "aspprin"
 
     @property
     def processed_file_names(self):
-        return "alchemy155e0"
+        return "aspiriun"
 
     def download(self):
         pass
@@ -35,11 +35,11 @@ class Alchemy(InMemoryDataset):
     def process(self):
         data_list = []
 
-        targets = dp.get_dataset("alchemy_full", multigregression=True)
+        targets = dp.get_dataset("aspirin")
 
-        node_labels = pre.get_all_node_labels_allchem_2_1("alchemy_full", True, True)
+        node_labels = pre.get_all_node_labels_allchem_2_1("aspirin", True, False)
 
-        matrices = pre.get_all_matrices_2_1("alchemy_full", list(range(202579)))
+        matrices = pre.get_all_matrices_2_1("aspirin", list(range(111763)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -177,16 +177,17 @@ class NetGIN(torch.nn.Module):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy')
-dataset = Alchemy(path, transform=MyTransform())
+dataset = aspirin(path, transform=MyTransform())
 
 mean = dataset.data.y.mean(dim=0, keepdim=True)
 std = dataset.data.y.std(dim=0, keepdim=True)
 dataset.data.y = (dataset.data.y - mean) / std
 mean, std = mean.to(device), std.to(device)
 
-train_dataset = dataset[0:162063].shuffle()
-val_dataset = dataset[162063:182321].shuffle()
-test_dataset = dataset[182321:].shuffle()
+train_dataset = dataset[0:89410].shuffle()
+val_dataset = dataset[89410:100586].shuffle()
+test_dataset = dataset[100586:].shuffle()
+
 
 batch_size = 64
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
@@ -202,7 +203,6 @@ for _ in range(5):
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=10,
                                                            min_lr=0.0000001)
-
 
     def train():
         model.train()
@@ -222,7 +222,7 @@ for _ in range(5):
 
     def test(loader):
         model.eval()
-        error = torch.zeros([1, 12]).to(device)
+        error = torch.zeros([1, 1]).to(device)
 
         for data in loader:
             data = data.to(device)

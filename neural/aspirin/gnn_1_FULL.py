@@ -179,7 +179,7 @@ for _ in range(5):
     @torch.no_grad()
     def test(loader):
         model.eval()
-        error = torch.zeros([1, 12]).to(device)
+        error = torch.zeros([1, 1]).to(device)
 
         for data in loader:
             data = data.to(device)
