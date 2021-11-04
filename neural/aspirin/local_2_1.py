@@ -226,8 +226,8 @@ results = []
 results_log = []
 for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'dddsfds')
-    dataset = TUDataset(path, name='aspirin', use_node_attr = True, use_edge_attr = True).shuffle()
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'aspirin')
+    dataset = aspirin(path, transform=MyTransform()).shuffle()
     dataset.data.y = dataset.data.y
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
