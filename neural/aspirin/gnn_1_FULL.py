@@ -115,7 +115,7 @@ class NetGINE(torch.nn.Module):
         self.set2set = Set2Set(1 * dim, processing_steps=6)
 
         self.fc1 = Lin(2 * dim, dim)
-        self.fc4 = Linear(dim, 12)
+        self.fc4 = Linear(dim, 1)
 
     def forward(self, data):
         x = data.x

@@ -137,7 +137,7 @@ class NetGIN(torch.nn.Module):
                                 torch.nn.BatchNorm1d(dim), ReLU())
         self.set2set = Set2Set(1 * dim, processing_steps=6)
         self.fc1 = Linear(2 * dim, dim)
-        self.fc4 = Linear(dim, 12)
+        self.fc4 = Linear(dim, 1)
 
     def forward(self, data):
         x = data.x
