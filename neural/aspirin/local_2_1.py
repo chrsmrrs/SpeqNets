@@ -73,12 +73,12 @@ class uracil(InMemoryDataset):
             exit()
 
             # Continuous information.
-            data.first = torch.from_numpy(np.array(attributes[i][0])[:,0:13]).to(torch.float)
-            data.first_coord = torch.from_numpy(np.array(attributes[i][0])[:, 13:]).to(torch.float)
+            #data.first = torch.from_numpy(np.array(attributes[i][0])[:,0:13]).to(torch.float)
+            #data.first_coord = torch.from_numpy(np.array(attributes[i][0])[:, 13:]).to(torch.float)
 
-            data.second = torch.from_numpy(np.array(attributes[i][1])[:,0:13]).to(torch.float)
-            data.second_coord = torch.from_numpy(np.array(attributes[i][1])[:, 13:]).to(torch.float)
-            data.dist = torch.norm(data.first_coord - data.second_coord, p=2, dim=-1).view(-1, 1)
+            #data.second = torch.from_numpy(np.array(attributes[i][1])[:,0:13]).to(torch.float)
+            #data.second_coord = torch.from_numpy(np.array(attributes[i][1])[:, 13:]).to(torch.float)
+            #data.dist = torch.norm(data.first_coord - data.second_coord, p=2, dim=-1).view(-1, 1)
             #data.edge_attr = torch.from_numpy(np.array(attributes[i][2])).to(torch.float)
             data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
@@ -179,10 +179,6 @@ class NetGIN(torch.nn.Module):
         node_labels = self.type_encoder(node_labels)
 
         x = self.node_attribute_encoder(node_labels)
-
-
-
-
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
