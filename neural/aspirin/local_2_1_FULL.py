@@ -37,7 +37,7 @@ class aspirin(InMemoryDataset):
 
         targets = dp.get_dataset("aspirin")
 
-        node_labels = pre.get_all_node_labels_allchem_2_1("aspirin", True, False)
+        node_labels = pre.get_all_node_labels_2_1("aspirin", True, False)
 
         matrices = pre.get_all_matrices_2_1("aspirin", list(range(111763)))
 
