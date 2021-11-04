@@ -267,19 +267,20 @@ vector<unsigned long> get_node_labels_2_1(const Graph &g, const bool use_labels,
 
 
 // Get node attributes for two-tuple graph of graph g.
-tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
+tuple <Attributes, Attributes> get_attributes_2_1(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
 
     // Get continious node and edge information.
     Attributes attributes;
     attributes = g.get_attributes();
 
-    EdgeAttributes edge_attributes;
-    edge_attributes = g.get_edge_attributes();
+
+    // EdgeAttributes edge_attributes;
+    // edge_attributes = g.get_edge_attributes();
 
     Attributes first;
     Attributes second;
-    Attributes third;
+   // Attributes third;
 
     Node num_two_tuples = 0;
       for (Node i = 0; i < num_nodes; ++i) {
@@ -289,30 +290,30 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
             Attribute attr_i = attributes[i];
             Attribute attr_j = attributes[j];
 
-            Attribute e_attr_ij;
-            if (g.has_edge(i, j)) {
-                e_attr_ij = edge_attributes.find(std::make_pair(i, j))->second;
-            } else {
-                e_attr_ij = vector<float>({{0, 0, 0, 0}});
-            }
+//            Attribute e_attr_ij;
+//            if (g.has_edge(i, j)) {
+//                e_attr_ij = edge_attributes.find(std::make_pair(i, j))->second;
+//            } else {
+//                e_attr_ij = vector<float>({{0, 0, 0, 0}});
+//            }
 
             first.push_back(attr_i);
             second.push_back(attr_j);
-            third.push_back(e_attr_ij);
+            //third.push_back(e_attr_ij);
         }
 
         Attribute attr_i = attributes[i];
         Attribute attr_j = attributes[i];
 
-        Attribute e_attr_ij;
-        e_attr_ij = vector<float>({{0, 0, 0, 0}});
+        //Attribute e_attr_ij;
+        //e_attr_ij = vector<float>({{0, 0, 0, 0}});
 
         first.push_back(attr_i);
         second.push_back(attr_j);
-        third.push_back(e_attr_ij);
+        //third.push_back(e_attr_ij);
     }
 
-    return std::make_tuple(first, second, third);
+    return std::make_tuple(first, second);
 }
 
 

@@ -80,7 +80,7 @@ class aspirin(InMemoryDataset):
             data.second = torch.from_numpy(np.array(attributes[i][1])[:,0:13]).to(torch.float)
             data.second_coord = torch.from_numpy(np.array(attributes[i][1])[:, 13:]).to(torch.float)
             data.dist = torch.norm(data.first_coord - data.second_coord, p=2, dim=-1).view(-1, 1)
-            data.edge_attr = torch.from_numpy(np.array(attributes[i][2])).to(torch.float)
+            #data.edge_attr = torch.from_numpy(np.array(attributes[i][2])).to(torch.float)
             data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
