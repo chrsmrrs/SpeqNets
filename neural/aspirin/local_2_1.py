@@ -61,7 +61,7 @@ class aspirin(InMemoryDataset):
 
             one_hot = np.eye(3)[node_labels[i]]
 
-            one_hot = np.concatenate([one_hot, attributes[i]], dim=1)
+            one_hot = np.concatenate([one_hot, attributes[i]], axis=1)
 
             print(one_hot.size())
             exit()
