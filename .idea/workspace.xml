@@ -10,10 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/neural/aspirin/auxiliarymethods/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural/aspirin/auxiliarymethods/datasets.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural/aspirin/gnn_1_FULL.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural/aspirin/gnn_FULL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural/aspirin/local_2_1_FULL.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural/aspirin/local_FULL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural/aspirin/malkin_2_1_FULL.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/neural/aspirin/malkin_FULL" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/Alchemy/gnn_1_FULL.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/Alchemy/gnn_1_FULL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/Alchemy/local_2_1_FULL.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/Alchemy/local_2_1_FULL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/Alchemy/malkin_2_1_FULL.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/Alchemy/malkin_2_1_FULL.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +74,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/neural/QM9" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/neural" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -80,11 +85,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/neural" />
       <recent name="$PROJECT_DIR$/neural/QM9" />
       <recent name="$PROJECT_DIR$/neural/Alchemy" />
       <recent name="$PROJECT_DIR$/neural/ZINC" />
       <recent name="$PROJECT_DIR$/k_s_wl_cpp" />
-      <recent name="$PROJECT_DIR$/k_s_wl_simple" />
     </key>
   </component>
   <component name="RunManager" selected="Python.svm">
@@ -278,14 +283,7 @@
       <workItem from="1635629082340" duration="17725000" />
       <workItem from="1635695948368" duration="23624000" />
       <workItem from="1635801933292" duration="8870000" />
-      <workItem from="1636035765751" duration="970000" />
-    </task>
-    <task id="LOCAL-00123" summary="Started implementing neural version.">
-      <created>1635453136201</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1635453136202</updated>
+      <workItem from="1636035765751" duration="4442000" />
     </task>
     <task id="LOCAL-00124" summary="Started implementing neural version.">
       <created>1635454079626</created>
@@ -623,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635813039344</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="w">
+      <created>1636036751712</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1636036751713</updated>
+    </task>
+    <option name="localTasksCounter" value="173" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
