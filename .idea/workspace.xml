@@ -10,15 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/neural/UACC257/gnn_1_FULL.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/src/AuxiliaryMethods.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/AuxiliaryMethods.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/aspirin/auxiliarymethods/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/UACC257/auxiliarymethods/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/aspirin/auxiliarymethods/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural/UACC257/auxiliarymethods/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/aspirin/gnn_1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural/aspirin/local_2_1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural/Alchemy/malkin_FULL" beforeDir="false" afterPath="$PROJECT_DIR$/neural/Alchemy/malkin_FULL" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,6 +279,8 @@
       <workItem from="1635801933292" duration="8870000" />
       <workItem from="1636035765751" duration="18420000" />
       <workItem from="1636061926925" duration="1343000" />
+      <workItem from="1636146104149" duration="598000" />
+      <workItem from="1636150020543" duration="1600000" />
     </task>
     <task id="LOCAL-00156" summary="w">
       <created>1635647260948</created>

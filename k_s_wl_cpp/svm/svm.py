@@ -82,8 +82,6 @@ def main():
                 # Load feature matrices.
                 feature_vector = pd.read_csv(path + name + "__" + algorithm + "_" + str(i), header=1,
                                              delimiter=" ").to_numpy()
-                print("@@@")
-                print(feature_vector.shape)
 
                 feature_vector = feature_vector.astype(int)
                 feature_vector[:, 0] = feature_vector[:, 0] - 1
