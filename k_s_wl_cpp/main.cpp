@@ -19,7 +19,7 @@ int
 main() {
 // k = 2.
     {
-        vector<tuple<string, bool, bool>> datasets = {make_tuple("Yeast", true, true)};
+        vector<tuple<string, bool, bool>> datasets = {make_tuple("MCF-7", true, true)};
 
         for (auto &d: datasets) {
             {
@@ -36,16 +36,7 @@ main() {
                 for (uint i = 2; i <= 2; ++i) {
                     cout << ds + "__" + kernel + "_" + to_string(i) << endl;
                     GramMatrix gm;
-
-                    if (i == 5) {
-                        high_resolution_clock::time_point t1 = high_resolution_clock::now();
-                        gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1", true);
-                        high_resolution_clock::time_point t2 = high_resolution_clock::now();
-                        auto duration = duration_cast<seconds>(t2 - t1).count();
-                        cout << duration << endl;
-                    } else {
-                        gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1", true);
-                    }
+                    gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1", true);
 
                     AuxiliaryMethods::write_sparse_gram_matrix(gm,"./svm/GM/EXPSPARSE/" + ds + "__" + kernel + "_" + to_string(i));
                 }
@@ -65,16 +56,7 @@ main() {
                 for (uint i = 0; i <= 5; ++i) {
                     cout << ds + "__" + kernel + "_" + to_string(i) << endl;
                     GramMatrix gm;
-
-                    if (i == 5) {
-                        high_resolution_clock::time_point t1 = high_resolution_clock::now();
-                        gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1p", true);
-                        high_resolution_clock::time_point t2 = high_resolution_clock::now();
-                        auto duration = duration_cast<seconds>(t2 - t1).count();
-                        cout << duration << endl;
-                    } else {
-                        gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1p", true);
-                    }
+                    gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1p", true);
 
                     AuxiliaryMethods::write_sparse_gram_matrix(gm,"./svm/GM/EXPSPARSE/" + ds + "__" + kernel + "_" + to_string(i));
                 }
