@@ -53,7 +53,7 @@ main() {
                 vector<int> classes = AuxiliaryMethods::read_classes(ds);
 
                 GenerateTwo::GenerateTwo wl(gdb);
-                for (uint i = 0; i <= 5; ++i) {
+                for (uint i = 2; i <= 2; ++i) {
                     cout << ds + "__" + kernel + "_" + to_string(i) << endl;
                     GramMatrix gm;
                     gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1p", true);
