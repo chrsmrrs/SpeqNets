@@ -73,7 +73,7 @@ def main():
     path = "./GM/EXPSPARSE/"
     for name in ["MCF-7"]:
         for algorithm in ["LWL2_1", "LWLP2_1"]:
-
+            print("###")
             # Collect feature matrices over all iterations
             all_feature_matrices = []
             classes = read_classes(name)
