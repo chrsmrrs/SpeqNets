@@ -29,6 +29,8 @@ namespace GenerateTwo {
 
         Graph generate_global_graph_malkin(const Graph &g, const bool use_labels, const bool use_edge_labels);
 
+        Graph generate_global_graph_malkin_1(const Graph &g, const bool use_labels, const bool use_edge_labels);
+
         ~GenerateTwo();
 
     private:

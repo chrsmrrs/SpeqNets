@@ -36,7 +36,7 @@ namespace AuxiliaryMethods {
     GraphDatabase read_graph_txt_file(string data_set_name) {
         string line;
 
-        string path = "./datasets/";
+        string path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/datasets/";
 
         vector<uint> graph_indicator;
         ifstream myfile(
@@ -213,7 +213,7 @@ namespace AuxiliaryMethods {
     vector<int> read_classes(string data_set_name) {
         string line;
         
-        string path = "./datasets/";
+        string path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/datasets/";
         vector<int> classes;
 
         ifstream myfile(

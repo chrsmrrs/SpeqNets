@@ -32,6 +32,7 @@ namespace GenerateThree {
 
         Graph generate_global_graph_malkin(const Graph &g, const bool use_labels);
 
+
         ~GenerateThree();
 
     private:

@@ -65,7 +65,10 @@ namespace GenerateTwo {
             tuple_graph = generate_global_graph(g, use_labels, use_edge_labels);
         } else if (algorithm == "malkin") {
             tuple_graph = generate_global_graph_malkin(g, use_labels, use_edge_labels);
+        } else if (algorithm == "malkin1") {
+            tuple_graph = generate_global_graph_malkin_1(g, use_labels, use_edge_labels);
         }
+
 
         unordered_map<Node, TwoTuple> node_to_two_tuple;
         if (algorithm == "localp" or algorithm == "local1p") {
@@ -413,9 +416,9 @@ namespace GenerateTwo {
                         c = 3;
                     }
                 } else if (i == j) {
-                    c = 1;
+                    c = 4;
                 } else {
-                    c = 2;
+                    c = 5;
                 }
 
                 Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
@@ -515,9 +518,9 @@ namespace GenerateTwo {
                         c = 3;
                     }
                 } else if (i == j) {
-                    c = 1;
+                    c = 4;
                 } else {
-                    c = 2;
+                    c = 5;
                 }
 
                 Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
@@ -539,7 +542,7 @@ namespace GenerateTwo {
                 c_j = AuxiliaryMethods::pairing(labels[i] + 1, c_j);
             }
 
-            Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+            Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 6);
             tuple_labels.push_back(new_color);
         }
 
@@ -639,9 +642,9 @@ namespace GenerateTwo {
                         c = 3;
                     }
                 } else if (i == j) {
-                    c = 1;
+                    c = 4;
                 } else {
-                    c = 2;
+                    c = 5;
                 }
 
                 Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
@@ -740,9 +743,9 @@ namespace GenerateTwo {
                         c = 3;
                     }
                 } else if (i == j) {
-                    c = 1;
+                    c = 4;
                 } else {
-                    c = 2;
+                    c = 5;
                 }
 
                 Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
@@ -795,6 +798,153 @@ namespace GenerateTwo {
                 }
 
                 two_tuple_graph.add_edge(i, t->second);
+            }
+        }
+
+        two_tuple_graph.set_edge_labels(edge_type);
+        two_tuple_graph.set_labels(tuple_labels);
+        two_tuple_graph.set_vertex_id(vertex_id);
+        two_tuple_graph.set_local(local);
+
+
+        return two_tuple_graph;
+    }
+
+
+    Graph GenerateTwo::generate_global_graph_malkin_1(const Graph &g, const bool use_labels, const bool use_edge_labels) {
+        size_t num_nodes = g.get_num_nodes();
+        // New graph to be generated.
+        Graph two_tuple_graph(false);
+
+        // Maps node in two set graph to correponding two set.
+        unordered_map<Node, TwoTuple> node_to_two_tuple;
+        // Inverse of the above map.
+        unordered_map<TwoTuple, Node> two_tuple_to_node;
+        // Manages edge labels.
+        unordered_map<Edge, uint> edge_type;
+        // Manages vertex ids
+        unordered_map<Edge, uint> vertex_id;
+        unordered_map<Edge, uint> local;
+
+
+        // Create a node for each two set.
+        Labels labels;
+        Labels tuple_labels;
+        if (use_labels) {
+            labels = g.get_labels();
+        }
+
+        EdgeLabels edge_labels;
+        if (use_edge_labels) {
+            edge_labels = g.get_edge_labels();
+        }
+
+        size_t num_two_tuples = 0;
+        for (Node i = 0; i < num_nodes; ++i) {
+            Nodes neighbors = g.get_neighbours(i);
+
+            for (Node j: neighbors) {
+                two_tuple_graph.add_node();
+
+                // Map each pair to node in two set graph and also inverse.
+                node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, j)}});
+                two_tuple_to_node.insert({{make_tuple(i, j), num_two_tuples}});
+                num_two_tuples++;
+
+                Label c_i = 1;
+                Label c_j = 2;
+                if (use_labels) {
+                    c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
+                    c_j = AuxiliaryMethods::pairing(labels[j] + 1, c_j);
+                }
+
+                Label c;
+                if (g.has_edge(i, j)) {
+                    if (use_edge_labels) {
+                        auto s = edge_labels.find(make_tuple(i, j));
+                        c = AuxiliaryMethods::pairing(3, s->second);
+                    } else {
+                        c = 3;
+                    }
+                } else if (i == j) {
+                    c = 4;
+                } else {
+                    c = 5;
+                }
+
+                Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
+                tuple_labels.push_back(new_color);
+            }
+
+            // Add self loops.
+            two_tuple_graph.add_node();
+
+            // Map each pair to node in two set graph and also inverse.
+            node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, i)}});
+            two_tuple_to_node.insert({{make_tuple(i, i), num_two_tuples}});
+            num_two_tuples++;
+
+            Label c_i = 1;
+            Label c_j = 2;
+            if (use_labels) {
+                c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
+                c_j = AuxiliaryMethods::pairing(labels[i] + 1, c_j);
+            }
+
+            Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 6);
+            tuple_labels.push_back(new_color);
+        }
+
+        for (Node i = 0; i < num_two_tuples; ++i) {
+            // Get nodes of orginal graph corresponding to two set i.
+            TwoTuple p = node_to_two_tuple.find(i)->second;
+            Node v = std::get<0>(p);
+            Node w = std::get<1>(p);
+
+            // Exchange first node.
+            // Iterate over nodes.
+            for (Node v_i = 0; v_i < num_nodes; ++v_i) {
+                unordered_map<TwoTuple, Node>::const_iterator t;
+                t = two_tuple_to_node.find(make_tuple(v_i, w));
+
+                if (t != two_tuple_to_node.end()) {
+                    // Local vs. global edge.
+                    if (g.has_edge(v, v_i)) {
+                        edge_type.insert({{make_tuple(i, t->second), 1}});
+                        vertex_id.insert({{make_tuple(i, t->second), v_i}});
+                        local.insert({{make_tuple(i, t->second), 1}});
+
+                    } else {
+                        edge_type.insert({{make_tuple(i, t->second), 1}});
+                        vertex_id.insert({{make_tuple(i, t->second), v_i}});
+                        local.insert({{make_tuple(i, t->second), 2}});
+                    }
+
+                    two_tuple_graph.add_edge(i, t->second);
+                }
+            }
+
+            // Exchange second node.
+            // Iterate over nodes.
+            for (Node v_i = 0; v_i < num_nodes; ++v_i) {
+                unordered_map<TwoTuple, Node>::const_iterator t;
+                t = two_tuple_to_node.find(make_tuple(v, v_i));
+
+                if (t != two_tuple_to_node.end()) {
+                    // Local vs. global edge.
+                    if (g.has_edge(w, v_i)) {
+                        edge_type.insert({{make_tuple(i, t->second), 2}});
+                        vertex_id.insert({{make_tuple(i, t->second), v_i}});
+                        local.insert({{make_tuple(i, t->second), 1}});
+
+                    } else {
+                        edge_type.insert({{make_tuple(i, t->second), 2}});
+                        vertex_id.insert({{make_tuple(i, t->second), v_i}});
+                        local.insert({{make_tuple(i, t->second), 2}});
+                    }
+
+                    two_tuple_graph.add_edge(i, t->second);
+                }
             }
         }
 

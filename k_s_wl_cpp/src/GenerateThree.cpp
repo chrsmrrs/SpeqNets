@@ -278,7 +278,6 @@ namespace GenerateThree {
                     }
                 }
 
-
                 for (auto &m: set_m_local) {
                     if (m.size() != 0) {
                         sort(m.begin(), m.end());
@@ -481,32 +480,30 @@ namespace GenerateThree {
 
                     Label a, b, c;
                     if (g.has_edge(i, j)) {
-                        a = 1;
-                    } else if (not g.has_edge(i, j)) {
-                        a = 2;
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+                    } else if (i == j) {
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 2);
                     } else {
-                        a = 3;
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 4);
                     }
 
                     if (g.has_edge(i, k)) {
-                        b = 1;
-                    } else if (not g.has_edge(i, k)) {
-                        b = 2;
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 4);
+                    } else if (i == k) {
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 5);
                     } else {
-                        b = 3;
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 6);
                     }
 
                     if (g.has_edge(j, k)) {
-                        c = 1;
-                    } else if (not g.has_edge(j, k)) {
-                        c = 2;
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 7);
+                    } else if (j == k) {
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 8);
                     } else {
-                        c = 3;
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 9);
                     }
 
-                    Label new_color_0 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
-                    Label new_color_1 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c_k);
-                    Label new_color = AuxiliaryMethods::pairing(new_color_0, new_color_1);
+                    Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
                     tuple_labels.push_back(new_color);
                 }
             }
@@ -690,32 +687,30 @@ namespace GenerateThree {
 
             Label a, b, c;
             if (g.has_edge(i, j)) {
-                a = 1;
-            } else if (not g.has_edge(i, j)) {
-                a = 2;
+                a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+            } else if (i == j) {
+                a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 2);
             } else {
-                a = 3;
+                a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 4);
             }
 
             if (g.has_edge(i, k)) {
-                b = 1;
-            } else if (not g.has_edge(i, k)) {
-                b = 2;
+                b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 4);
+            } else if (i == k) {
+                b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 5);
             } else {
-                b = 3;
+                b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 6);
             }
 
             if (g.has_edge(j, k)) {
-                c = 1;
-            } else if (not g.has_edge(j, k)) {
-                c = 2;
+                c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 7);
+            } else if (j == k) {
+                c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 8);
             } else {
-                c = 3;
+                c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 9);
             }
 
-            Label new_color_0 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
-            Label new_color_1 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c_k);
-            Label new_color = AuxiliaryMethods::pairing(new_color_0, new_color_1);
+            Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
             tuple_labels.push_back(new_color);
         }
 
@@ -907,32 +902,30 @@ namespace GenerateThree {
 
             Label a, b, c;
             if (g.has_edge(i, j)) {
-                a = 1;
-            } else if (not g.has_edge(i, j)) {
-                a = 2;
+                a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+            } else if (i == j) {
+                a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 2);
             } else {
-                a = 3;
+                a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 4);
             }
 
             if (g.has_edge(i, k)) {
-                b = 1;
-            } else if (not g.has_edge(i, k)) {
-                b = 2;
+                b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 4);
+            } else if (i == k) {
+                b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 5);
             } else {
-                b = 3;
+                b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 6);
             }
 
             if (g.has_edge(j, k)) {
-                c = 1;
-            } else if (not g.has_edge(j, k)) {
-                c = 2;
+                c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 7);
+            } else if (j == k) {
+                c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 8);
             } else {
-                c = 3;
+                c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 9);
             }
 
-            Label new_color_0 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
-            Label new_color_1 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c_k);
-            Label new_color = AuxiliaryMethods::pairing(new_color_0, new_color_1);
+            Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
             tuple_labels.push_back(new_color);
         }
 
@@ -1043,32 +1036,30 @@ namespace GenerateThree {
 
                     Label a, b, c;
                     if (g.has_edge(i, j)) {
-                        a = 1;
-                    } else if (not g.has_edge(i, j)) {
-                        a = 2;
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+                    } else if (i == j) {
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 2);
                     } else {
-                        a = 3;
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 4);
                     }
 
                     if (g.has_edge(i, k)) {
-                        b = 1;
-                    } else if (not g.has_edge(i, k)) {
-                        b = 2;
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 4);
+                    } else if (i == k) {
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 5);
                     } else {
-                        b = 3;
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 6);
                     }
 
                     if (g.has_edge(j, k)) {
-                        c = 1;
-                    } else if (not g.has_edge(j, k)) {
-                        c = 2;
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 7);
+                    } else if (j == k) {
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 8);
                     } else {
-                        c = 3;
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 9);
                     }
 
-                    Label new_color_0 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
-                    Label new_color_1 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c_k);
-                    Label new_color = AuxiliaryMethods::pairing(new_color_0, new_color_1);
+                    Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
                     tuple_labels.push_back(new_color);
                 }
             }
@@ -1167,32 +1158,30 @@ namespace GenerateThree {
 
                     Label a, b, c;
                     if (g.has_edge(i, j)) {
-                        a = 1;
-                    } else if (not g.has_edge(i, j)) {
-                        a = 2;
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+                    } else if (i == j) {
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 2);
                     } else {
-                        a = 3;
+                        a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 4);
                     }
 
                     if (g.has_edge(i, k)) {
-                        b = 1;
-                    } else if (not g.has_edge(i, k)) {
-                        b = 2;
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 4);
+                    } else if (i == k) {
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 5);
                     } else {
-                        b = 3;
+                        b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 6);
                     }
 
                     if (g.has_edge(j, k)) {
-                        c = 1;
-                    } else if (not g.has_edge(j, k)) {
-                        c = 2;
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 7);
+                    } else if (j == k) {
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 8);
                     } else {
-                        c = 3;
+                        c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 9);
                     }
 
-                    Label new_color_0 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
-                    Label new_color_1 = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c_k);
-                    Label new_color = AuxiliaryMethods::pairing(new_color_0, new_color_1);
+                    Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(a, b), c);
                     tuple_labels.push_back(new_color);
                 }
             }
