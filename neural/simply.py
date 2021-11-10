@@ -10,7 +10,7 @@ class SimpleLayer(MessagePassing):
         super().__init__(aggr='add')
 
         self.w_1 = torch.nn.Linear(in_channels, out_channels)
-        self.w_2 = torch.nn.Linear(in_channels, out_channels)
+        self.w_2 = torch.nn.Linear(out_channels, out_channels)
 
     def forward(self, x, edge_index):
 

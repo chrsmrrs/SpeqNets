@@ -10,16 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../sparsewl/neural_baselines/gnn_baselines/simply.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/src/AuxiliaryMethods.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/AuxiliaryMethods.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateThree.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateThree.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateThree.h" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateThree.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateTwo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateTwo.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateTwo.h" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/src/GenerateTwo.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sparsewl/neural_baselines/gnn_baselines/gnn_architectures.py" beforeDir="false" afterPath="$PROJECT_DIR$/../sparsewl/neural_baselines/gnn_baselines/gnn_architectures.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +45,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../sparsewl" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -91,6 +82,9 @@
       <recent name="$PROJECT_DIR$/neural" />
       <recent name="$PROJECT_DIR$/neural/QM9" />
       <recent name="$PROJECT_DIR$/neural/Alchemy" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/neural" />
     </key>
   </component>
   <component name="RunManager" selected="Python.svm">
@@ -291,14 +285,7 @@
       <workItem from="1636245785998" duration="40000" />
       <workItem from="1636335251210" duration="3227000" />
       <workItem from="1636410218478" duration="2814000" />
-      <workItem from="1636568506437" duration="549000" />
-    </task>
-    <task id="LOCAL-00158" summary="w">
-      <created>1635648037504</created>
-      <option name="number" value="00158" />
-      <option name="presentableId" value="LOCAL-00158" />
-      <option name="project" value="LOCAL" />
-      <updated>1635648037508</updated>
+      <workItem from="1636568506437" duration="1566000" />
     </task>
     <task id="LOCAL-00159" summary="w">
       <created>1635648975334</created>
@@ -636,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636236243249</updated>
     </task>
-    <option name="localTasksCounter" value="207" />
+    <task id="LOCAL-00207" summary="w">
+      <created>1636569111816</created>
+      <option name="number" value="00207" />
+      <option name="presentableId" value="LOCAL-00207" />
+      <option name="project" value="LOCAL" />
+      <updated>1636569111818</updated>
+    </task>
+    <option name="localTasksCounter" value="208" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
