@@ -22,8 +22,9 @@ def main():
 
     path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
     dataset = [["ENZYMES", True], ["PROTEINS", True], ["MUTAG", True]]
+    dataset = [["ENZYMES", True]]
 
-    algorithms = ["WL", "LWL2_1", "LWLP2_1", "LWL3_1", "LWL3_2",  "LWLP3_2"]
+    algorithms = ["WL", "LWL2_1", "LWLP2_1", "LWL3_1", "LWLP3_1", "LWL3_2",  "LWLP3_2"]
 
     for a in algorithms:
         for d, use_labels in dataset:
