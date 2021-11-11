@@ -16,7 +16,7 @@ using namespace std;
 int
 main() {
     ///vector<pair<string, bool>> datasets = {make_pair("ENZYMES", true), make_pair("PROTEINS", true), make_pair("MUTAG", true)};
-    vector<pair<string, bool>> datasets = {make_pair("ENZYMES", true)};
+    vector<pair<string, bool>> datasets = {make_pair("PROTEINS", true)};
 // k = 1.
     {
         for (auto &d: datasets) {

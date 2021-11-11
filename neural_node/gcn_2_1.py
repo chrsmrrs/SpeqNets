@@ -41,6 +41,10 @@ class Cora(InMemoryDataset):
         data_new.x = data.x
         data_new .edge_attr = data.edge_attr
 
+
+        print(data.edge_index.size())
+        exit()
+
         data_list.append(data_new)
 
         data, slices = self.collate(data_list)
@@ -65,6 +69,8 @@ class MyTransform(object):
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ZINC')
 dataset = Cora(path, transform=MyTransform())
 data = dataset[0]
+
+
 exit()
 
 
