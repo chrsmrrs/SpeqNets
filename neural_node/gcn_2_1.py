@@ -70,15 +70,14 @@ class Cora(InMemoryDataset):
                 tuple_to_nodes[n] = (v, w)
                 nodes_to_tuple[(v, w)] = n
 
-                type[n] = np.concatenate(
-                    [g.vp.node_features[v], [g.ep.edge_features[g.edge(v, w)]], g.vp.node_features[w], np.array([1, 0])])
+                type[n] = np.concatenate([g.vp.node_features[v], g.vp.node_features[w]])
 
                 print(type[n].shape)
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
-            type[n] = np.concatenate([g.vp.node_features[v], [0],  g.vp.node_features[v], np.array([0, 1])])
+            type[n] = np.concatenate([g.vp.node_features[v], g.vp.node_features[v]])
             #print(np.array(tuple_graph.vp.type[n]).shape)
 
 
