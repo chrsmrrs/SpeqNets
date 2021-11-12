@@ -148,7 +148,7 @@ class MyTransform(object):
         return new_data
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ZINC')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'CORA')
 dataset = Cora(path, transform=MyTransform())
 data = dataset[0]
 
