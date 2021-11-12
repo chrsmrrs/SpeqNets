@@ -38,6 +38,10 @@ class Cora(InMemoryDataset):
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
+        edge_index = data.edge_index.cpu().detach().numpy()
+
+        print(edge_index.shape)
+        exit()
 
         data_list = []
         data_new = Data()
