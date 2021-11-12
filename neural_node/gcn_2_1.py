@@ -40,8 +40,6 @@ class Cora(InMemoryDataset):
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
 
-        print(edge_index.min())
-        exit()
 
         data_list = []
         data_new = Data()
@@ -50,15 +48,14 @@ class Cora(InMemoryDataset):
         g = Graph(directed=False)
         num_nodes = x.shape[-1]
 
-
         node_features = {}
         for i in range(num_nodes):
             v = g.add_vertex()
             node_features[v] = x[i]
 
-        rows = list(data.edge_index[0])
-        cols = list(data.edge_index[1])
-        g.ep.edge_features = g.new_edge_property("double")
+        rows = list(edge_index[0])
+        cols = list(edge_index[1])
+        #g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i, j) in enumerate(zip(rows, cols)):
             e = g.add_edge(int(i.item()), int(j.item()))
