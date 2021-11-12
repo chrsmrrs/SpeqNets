@@ -40,7 +40,7 @@ class Cora(InMemoryDataset):
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
 
-        print(edge_index.shape)
+        print(edge_index.min())
         exit()
 
         data_list = []
