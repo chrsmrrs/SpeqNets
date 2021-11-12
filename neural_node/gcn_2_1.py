@@ -74,16 +74,10 @@ class Cora(InMemoryDataset):
 
                 type[n] = np.concatenate([node_features[v], node_features[w], [g.ep.edge_features[g.edge(v,w)]], np.array([1,0])], axis=-1)
 
-                print(type[n].shape)
-
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
             type[n] = np.concatenate([node_features[v], node_features[v], [0.0], np.array([0,1])], axis=-1)
-            print(type[n].shape)
-
-
-        exit()
 
         matrix_1 = []
         matrix_2 = []
@@ -93,8 +87,6 @@ class Cora(InMemoryDataset):
             v, w = tuple_to_nodes[t]
 
             node_features.append(type[t])
-
-            #print(np.array(tuple_graph.vp.type[t]).shape)
 
             # 1 neighbors.
             for n in v.out_neighbors():
@@ -123,11 +115,6 @@ class Cora(InMemoryDataset):
 
         data_new.edge_index_1 = edge_index_1
         data_new.edge_index_2 = edge_index_2
-
-        for n in node_features:
-            print(n.shape)
-
-        exit()
 
         data_new.x = torch.from_numpy(np.array(node_features)).to(torch.float)
         data_new.y = data.y
