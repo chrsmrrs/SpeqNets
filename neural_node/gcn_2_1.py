@@ -156,13 +156,13 @@ data = dataset[0]
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.conv_1_1 = GCNConv(2869, 256)
-        self.conv_1_2 = GCNConv(2869, 256)
+        self.conv_1_1 = GCNConv(2869, 64)
+        self.conv_1_2 = GCNConv(64, 64)
         dim = 256
         self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.conv_2_1 = GCNConv(256, 256)
-        self.conv_2_2 = GCNConv(256, 256)
+        self.conv_2_1 = GCNConv(64, 64)
+        self.conv_2_2 = GCNConv(64, 64)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
         self.mlp = Sequential(Linear(dim, dim), ReLU(), Linear(dim, 7))
