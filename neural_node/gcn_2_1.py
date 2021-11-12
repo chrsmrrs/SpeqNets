@@ -57,13 +57,8 @@ class Cora(InMemoryDataset):
         cols = list(edge_index[1])
         #g.ep.edge_features = g.new_edge_property("double")
 
-        for v in g.vertices():
-            print(node_features[v].shape)
-        exit()
-
-
         for (i, j) in zip(rows, cols):
-            e = g.add_edge(i, j)
+            e = g.add_edge(i, j, add_missing = False)
             #g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         for v in g.vertices():
