@@ -50,8 +50,10 @@ class Cora(InMemoryDataset):
 
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
+        for (i,j) in zip(rows, cols):
+            g.add_edge(i,j)
+            print(i,j)
 
-        print(rows)
         exit()
 
         data_list.append(data_new)
