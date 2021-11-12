@@ -52,6 +52,9 @@ class Cora(InMemoryDataset):
             v = g.add_vertex()
             node_features[v] = x[i]
 
+        for v in g.vertices():
+            print(node_features[v].shape)
+
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
         #g.ep.edge_features = g.new_edge_property("double")
@@ -69,9 +72,9 @@ class Cora(InMemoryDataset):
         nodes_to_tuple = {}
         for v in g.vertices():
             for w in v.all_neighbors():
-                #n = tuple_graph.add_vertex()
-                #tuple_to_nodes[n] = (v, w)
-                #nodes_to_tuple[(v, w)] = n
+                # n = tuple_graph.add_vertex()
+                # tuple_to_nodes[n] = (v, w)
+                # nodes_to_tuple[(v, w)] = n
 
                 print(node_features[v].shape)
                 print(node_features[v].shape)
