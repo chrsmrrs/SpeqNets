@@ -85,7 +85,7 @@ class Cora(InMemoryDataset):
         for t in tuple_graph.vertices():
             v, w = tuple_to_nodes[t]
 
-            node_features.append(tuple_graph.vp.type[t])
+            node_features.append(np.array(tuple_graph.vp.type[t]))
 
             # 1 neighbors.
             for n in v.out_neighbors():
