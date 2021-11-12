@@ -37,6 +37,8 @@ class Cora(InMemoryDataset):
         dataset = Planetoid(path, dataset, transform=transform)
         data = dataset[0]
 
+        x = data.x.cpu().detach().numpy()
+
         data_list = []
         data_new = Data()
 
@@ -48,7 +50,7 @@ class Cora(InMemoryDataset):
         node_features = {}
         for i in range(num_nodes):
             v = g.add_vertex()
-            node_features[v] = data.x[i].cpu().detach().numpy()
+            node_features[v] = x[i]
 
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
