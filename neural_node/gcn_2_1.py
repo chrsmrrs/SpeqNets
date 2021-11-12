@@ -180,7 +180,8 @@ class Net(torch.nn.Module):
         x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
 
         print(x.size())
-        x_1 = scatter(x, index_1, dim=1, reduce="mean")
+        print(index_1[-1].size())
+        x_1 = scatter(x, index_1[-1], dim=1, reduce="mean")
 
         print(x_1.sixe())
 
