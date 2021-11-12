@@ -66,7 +66,7 @@ class Cora(InMemoryDataset):
         tuple_to_nodes = {}
         nodes_to_tuple = {}
         for v in g.vertices():
-            for w in v.out_neighbor():
+            for w in v.out_neighbors():
                 n = tuple_graph.add_vertex()
                 tuple_to_nodes[n] = (v, w)
                 nodes_to_tuple[(v, w)] = n
