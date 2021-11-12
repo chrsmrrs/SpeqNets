@@ -48,12 +48,6 @@ class Cora(InMemoryDataset):
         g = Graph(directed=False)
         num_nodes = x.shape[0]
 
-
-        print(num_nodes)
-        print(edge_index[0].max(), edge_index[1].max())
-
-        exit()
-
         node_features = {}
         for i in range(num_nodes):
             v = g.add_vertex()
@@ -61,11 +55,11 @@ class Cora(InMemoryDataset):
 
         rows = list(edge_index[0])
         cols = list(edge_index[1])
-        #g.ep.edge_features = g.new_edge_property("double")
+        g.ep.edge_features = g.new_edge_property("double")
 
         for (i, j) in zip(rows, cols):
             e = g.add_edge(i, j, add_missing = False)
-            #g.ep.edge_features[e] = data.edge_attr[ind].item()
+            g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         for v in g.vertices():
             print(node_features[v].shape)
