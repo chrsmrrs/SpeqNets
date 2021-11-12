@@ -77,7 +77,7 @@ class Cora(InMemoryDataset):
 
                 exit()
 
-                tuple_graph.vp.type[n] =
+                #tuple_graph.vp.type[n] =
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
