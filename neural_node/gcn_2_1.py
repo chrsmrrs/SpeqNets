@@ -115,7 +115,8 @@ class Cora(InMemoryDataset):
         data_new.edge_index_1 = edge_index_1
         data_new.edge_index_2 = edge_index_2
 
-        print(node_features)
+        for n in node_features:
+            print(n.shape)
 
         exit()
 
