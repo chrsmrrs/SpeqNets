@@ -82,8 +82,14 @@ class Cora(InMemoryDataset):
             tuple_to_nodes[(v, v)] = n
             tuple_graph.vp.type[n] = np.concatenate([g.vp.node_features[v], [0],  g.vp.node_features[v], [0, 1]])
 
+        matrices_1 = []
+        matrices_2 = []
+        node_features = []
+
         for t in tuple_graph.vertices():
             v, w = tuple_to_nodes[t]
+
+            node_features.append(tuple_graph.vp.type[t])
 
             # 1 neighbors.
             for n in v.out_neighbors():
@@ -92,12 +98,17 @@ class Cora(InMemoryDataset):
                     e = tuple_graph.add_edge(t, s)
                     tuple_graph.ep.edge_features[e] = 1
 
+                    matrices_1.append([t, s])
+
             # 2 neighbors.
             for n in w.out_neighbors():
                 if (v, n) in nodes_to_tuple:
                     s = nodes_to_tuple[(v, n)]
                     e = tuple_graph.add_edge(t, s)
                     tuple_graph.ep.edge_features[e] = 2
+
+                    matrices_2.append([t, s])
+
 
         exit()
 
