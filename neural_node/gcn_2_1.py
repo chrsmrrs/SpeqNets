@@ -55,7 +55,7 @@ class Cora(InMemoryDataset):
         #g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i, j) in enumerate(zip(rows, cols)):
-            e = g.add_edge(i.item(), j.item())
+            e = g.add_edge(Vertex(i.item()), Vertex(j.item()))
             #g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         tuple_graph = Graph(directed=False)
