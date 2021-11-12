@@ -188,7 +188,7 @@ class Net(torch.nn.Module):
 
         x_1 = scatter(x, index_1, dim=0, reduce="mean")
 
-        print(x_1.sie())
+        print(x_1.size())
 
         exit()
 
