@@ -53,12 +53,47 @@ class Cora(InMemoryDataset):
 
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
-
         g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i,j) in enumerate(zip(rows, cols)):
             e = g.add_edge(i.item(),j.item())
             g.ep.edge_features[e] = data.edge_attr[ind].item()
+
+        tuple_graph = Graph(directed=False)
+        tuple_graph.vp.node_features = g.new_vertex_property("int")
+        tuple_graph.ep.edge_features = g.new_edge_property("int")
+        tuple_exists = {}
+
+        tuple_to_nodes = {}
+        nodes_to_tuple = {}
+        for v in g.vertices():
+            for w in v.out_neighbor():
+                n = tuple_graph.add_vertex()
+                tuple_to_nodes[n] = (v, w)
+                nodes_to_tuple[(v, w)] = n
+                g.vp.node_features[n] = 1
+
+            n = tuple_graph.add_vertex()
+            tuple_to_nodes[n] = (v, v)
+            tuple_to_nodes[(v, v)] = n
+            g.vp.node_features[n] = 0
+
+        for t in tuple_graph.vertices():
+            v,w = tuple_to_nodes[t]
+
+            # 1 neighbors.
+            for n in v.out_neighbors():
+                if (n, w) in nodes_to_tuple:
+                    s = nodes_to_tuple[(n, w)]
+                    e = tuple_graph.add_edge(t, s)
+                    tuple_graph.ep.edge_features[e] = 1
+
+            # 2 neighbors.
+            for n in w.out_neighbors():
+                if (v, n) in nodes_to_tuple:
+                    s = nodes_to_tuple[(v, n)]
+                    e = tuple_graph.add_edge(t, s)
+                    tuple_graph.ep.edge_features[e] = 2
 
         exit()
 
