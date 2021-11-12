@@ -49,17 +49,14 @@ class Cora(InMemoryDataset):
         for i in range(num_nodes):
             v = g.add_vertex()
             node_features[v] = data.x[i].cpu().detach().numpy()
-            print(node_features[v].shape)
-
-        exit()
 
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
-        g.ep.edge_features = g.new_edge_property("double")
+        #g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i, j) in enumerate(zip(rows, cols)):
             e = g.add_edge(i.item(), j.item())
-            g.ep.edge_features[e] = data.edge_attr[ind].item()
+            #g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         tuple_graph = Graph(directed=False)
         type = {}
