@@ -56,10 +56,8 @@ class Cora(InMemoryDataset):
 
         for ind, (i,j) in enumerate(zip(rows, cols)):
             e = g.add_edge(i.item(),j.item())
-            #g.ep[e] = data.edge_attr[ind].cpu().detach().numpy()
-            print(data.edge_attr[ind].item())
-            
-
+            g.ep[e] = data.edge_attr[ind].item()
+        
         exit()
 
         data_list.append(data_new)
