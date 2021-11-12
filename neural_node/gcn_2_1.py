@@ -185,7 +185,7 @@ class Net(torch.nn.Module):
 
 
         index_1 = index_1.to(torch.int64)
-        x_1 = scatter(x, index_1, dim=0, reduce="mean")
+        x_1 = scatter(x, index_1, dim=0, reduce="add")
 
         x = self.mlp(x_1)
 
