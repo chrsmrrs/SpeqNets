@@ -45,10 +45,10 @@ class Cora(InMemoryDataset):
         num_nodes = data.x.size(-1)
 
 
-        g.vp.node_features = g.new_vertex_property("vector<float>")
+        node_features = g.new_vertex_property("vector<float>")
         for i in range(num_nodes):
             g.add_vertex()
-            g.vp.node_features[i] = data.x[i].cpu().detach().numpy()
+            node_features[i] = data.x[i].cpu().detach().numpy()
 
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
@@ -60,7 +60,6 @@ class Cora(InMemoryDataset):
 
         tuple_graph = Graph(directed=False)
         type = {}
-        edge_features = {}
 
         tuple_to_nodes = {}
         nodes_to_tuple = {}
@@ -70,14 +69,15 @@ class Cora(InMemoryDataset):
                 tuple_to_nodes[n] = (v, w)
                 nodes_to_tuple[(v, w)] = n
 
-                type[n] = np.concatenate([g.vp.node_features[v], g.vp.node_features[w]])
+                type[n] = np.concatenate([node_features[v], node_features[w]])
 
+                print(node_features[v].shape, node_features[w].shape)
                 print(type[n].shape)
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
-            type[n] = np.concatenate([g.vp.node_features[v], g.vp.node_features[v]])
+            type[n] = np.concatenate([node_features[v], node_features[v]])
             #print(np.array(tuple_graph.vp.type[n]).shape)
 
 
