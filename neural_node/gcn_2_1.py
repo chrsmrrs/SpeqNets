@@ -124,6 +124,8 @@ class Cora(InMemoryDataset):
         data_new.index_2 = torch.from_numpy(np.array(index_2)).to(torch.int64)
 
         data_new.y = data.y
+        data_new.train_mask = data.train_mask
+        data_new.test_mask = data.test_mask
 
         data_list.append(data_new)
 
