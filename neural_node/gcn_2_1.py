@@ -161,7 +161,9 @@ class Net(torch.nn.Module):
 
         self.conv_2_1 = GCNConv(256, 256)
         self.conv_2_2 = GCNConv(256, 256)
-        self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 7))
+        self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 7))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
@@ -179,18 +181,11 @@ class Net(torch.nn.Module):
         x_2 = F.elu(self.conv_2_2(x, edge_index_2))
         x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
 
-        print(x.size())
 
-        print(index_1)
-        print(index_1.size(), index_1.type())
         index_1 = index_1.to(torch.int64)
-        print(index_1.size(), index_1.type())
-
         x_1 = scatter(x, index_1, dim=0, reduce="mean")
 
-        print(x_1.size())
-
-        exit()
+        x = self.mlp(x_1)
 
         return F.log_softmax(x, dim=1)
 
