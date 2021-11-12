@@ -68,13 +68,13 @@ class Cora(InMemoryDataset):
         tuple_to_nodes = {}
         nodes_to_tuple = {}
         for v in g.vertices():
-            for w in v.out_neighbors():
+            for w in v.all_neighbors():
                 #n = tuple_graph.add_vertex()
                 #tuple_to_nodes[n] = (v, w)
                 #nodes_to_tuple[(v, w)] = n
 
                 print(node_features[v].shape)
-                print(node_features[w].shape)
+                print(node_features[v].shape)
                 print("###")
 
                 #type[n] = np.concatenate([node_features[v], node_features[w]], axis=-1)
