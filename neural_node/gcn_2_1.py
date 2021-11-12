@@ -52,14 +52,13 @@ class Cora(InMemoryDataset):
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
 
-        g.ep.edge_features = g.new_edge_property("vector<float>")
+        g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i,j) in enumerate(zip(rows, cols)):
             e = g.add_edge(i.item(),j.item())
             #g.ep[e] = data.edge_attr[ind].cpu().detach().numpy()
-            print(data.edge_attr[ind].cpu().detach().numpy())
-            print(data.edge_attr[ind].cpu().detach().numpy().shape)
-            print(type(data.edge_attr[ind].cpu().detach().numpy()))
+            print(data.edge_attr[ind].item())
+            
 
         exit()
 
