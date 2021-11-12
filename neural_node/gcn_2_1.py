@@ -38,11 +38,7 @@ class Cora(InMemoryDataset):
         data = dataset[0]
 
         data_list = []
-
         data_new = Data()
-        data_new.edge_index = data.edge_index
-        data_new.x = data.x
-        data_new.edge_attr = data.edge_attr
 
         # Create graph for easier processing.
         g = Graph(directed=False)
@@ -82,8 +78,8 @@ class Cora(InMemoryDataset):
             tuple_to_nodes[(v, v)] = n
             tuple_graph.vp.type[n] = np.concatenate([g.vp.node_features[v], [0],  g.vp.node_features[v], [0, 1]])
 
-        matrices_1 = []
-        matrices_2 = []
+        matrix_1 = []
+        matrix_2 = []
         node_features = []
 
         for t in tuple_graph.vertices():
@@ -98,7 +94,7 @@ class Cora(InMemoryDataset):
                     e = tuple_graph.add_edge(t, s)
                     tuple_graph.ep.edge_features[e] = 1
 
-                    matrices_1.append([t, s])
+                    matrix_1.append([t, s])
 
             # 2 neighbors.
             for n in w.out_neighbors():
@@ -107,10 +103,20 @@ class Cora(InMemoryDataset):
                     e = tuple_graph.add_edge(t, s)
                     tuple_graph.ep.edge_features[e] = 2
 
-                    matrices_2.append([t, s])
+                    matrix_2.append([t, s])
 
+        data_list = []
 
-        exit()
+        data_new = Data()
+
+        edge_index_1 = torch.tensor(matrix_1).t().contiguous()
+        edge_index_2 = torch.tensor(matrix_2).t().contiguous()
+
+        data_new.edge_index_1 = edge_index_1
+        data_new.edge_index_2 = edge_index_2
+
+        data_new.x = torch.from_numpy(node_features).to(torch.float)
+        data_new.y = data.y
 
         data_list.append(data_new)
 
@@ -121,7 +127,7 @@ class Cora(InMemoryDataset):
 class MyData(Data):
     def __inc__(self, key, value, *args, **kwargs):
         return self.num_nodes if key in [
-            'edge_index_1_l', 'edge_index_1_g', 'edge_index_2_l', 'edge_index_2_g'
+            'edge_index_1', 'edge_index_2'
         ] else 0
 
 
