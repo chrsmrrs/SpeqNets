@@ -60,7 +60,7 @@ class Cora(InMemoryDataset):
             g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         tuple_graph = Graph(directed=False)
-        tuple_graph.vp.node_features = tuple_graph.new_vertex_property("int")
+        tuple_graph.vp.type = tuple_graph.new_vertex_property("int")
         tuple_graph.ep.edge_features = tuple_graph.new_edge_property("int")
 
         tuple_to_nodes = {}
@@ -70,12 +70,12 @@ class Cora(InMemoryDataset):
                 n = tuple_graph.add_vertex()
                 tuple_to_nodes[n] = (v, w)
                 nodes_to_tuple[(v, w)] = n
-                g.vp.node_features[n] = 1
+                tuple_graph.vp.type[n] = 1
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
-            g.vp.node_features[n] = 0
+            tuple_graph.vp.type[n] = 0
 
         for t in tuple_graph.vertices():
             v,w = tuple_to_nodes[t]

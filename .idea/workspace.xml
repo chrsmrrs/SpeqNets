@@ -9,10 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_node/gcn_2_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/gcn_2_1.py" afterDir="false" />
-    </list>
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -288,28 +285,7 @@
       <workItem from="1636410218478" duration="2814000" />
       <workItem from="1636568506437" duration="3160000" />
       <workItem from="1636656297971" duration="10752000" />
-      <workItem from="1636735318516" duration="3595000" />
-    </task>
-    <task id="LOCAL-00177" summary="w">
-      <created>1636042280886</created>
-      <option name="number" value="00177" />
-      <option name="presentableId" value="LOCAL-00177" />
-      <option name="project" value="LOCAL" />
-      <updated>1636042280887</updated>
-    </task>
-    <task id="LOCAL-00178" summary="w">
-      <created>1636042436588</created>
-      <option name="number" value="00178" />
-      <option name="presentableId" value="LOCAL-00178" />
-      <option name="project" value="LOCAL" />
-      <updated>1636042436589</updated>
-    </task>
-    <task id="LOCAL-00179" summary="w">
-      <created>1636042726382</created>
-      <option name="number" value="00179" />
-      <option name="presentableId" value="LOCAL-00179" />
-      <option name="project" value="LOCAL" />
-      <updated>1636042726383</updated>
+      <workItem from="1636735318516" duration="3909000" />
     </task>
     <task id="LOCAL-00180" summary="w">
       <created>1636043506176</created>
@@ -633,7 +609,28 @@
       <option name="project" value="LOCAL" />
       <updated>1636738041054</updated>
     </task>
-    <option name="localTasksCounter" value="226" />
+    <task id="LOCAL-00226" summary="w">
+      <created>1636739086153</created>
+      <option name="number" value="00226" />
+      <option name="presentableId" value="LOCAL-00226" />
+      <option name="project" value="LOCAL" />
+      <updated>1636739086153</updated>
+    </task>
+    <task id="LOCAL-00227" summary="w">
+      <created>1636739182314</created>
+      <option name="number" value="00227" />
+      <option name="presentableId" value="LOCAL-00227" />
+      <option name="project" value="LOCAL" />
+      <updated>1636739182315</updated>
+    </task>
+    <task id="LOCAL-00228" summary="w">
+      <created>1636739228337</created>
+      <option name="number" value="00228" />
+      <option name="presentableId" value="LOCAL-00228" />
+      <option name="project" value="LOCAL" />
+      <updated>1636739228337</updated>
+    </task>
+    <option name="localTasksCounter" value="229" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
