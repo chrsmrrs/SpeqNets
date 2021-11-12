@@ -24,8 +24,8 @@ class Net(torch.nn.Module):
 
     def forward(self):
         x, edge_index, edge_attr = data.x, data.edge_index, data.edge_attr
-        x = F.relu(self.conv1(x, edge_index, edge_attr))
-        x = self.conv2(x, edge_index, edge_attr)
+        x = F.relu(self.conv1(x, edge_index))
+        x = self.conv2(x, edge_index)
         return F.log_softmax(x, dim=1)
 
 
