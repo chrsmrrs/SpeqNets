@@ -80,7 +80,7 @@ class Cora(InMemoryDataset):
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
-            tuple_graph.vp.type[n] = np.concatenate([g.vp.node_features[v], [g.ep.edge_features[g.edge(v,v)]],  g.vp.node_features[v], [0, 1]])
+            tuple_graph.vp.type[n] = np.concatenate([g.vp.node_features[v], [0],  g.vp.node_features[v], [0, 1]])
 
         for t in tuple_graph.vertices():
             v, w = tuple_to_nodes[t]
