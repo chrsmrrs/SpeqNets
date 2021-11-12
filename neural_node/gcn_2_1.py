@@ -7,7 +7,7 @@ import torch_geometric.transforms as T
 from graph_tool.all import *
 from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.datasets import Planetoid
-from torch_geometric.nn import SplineConv
+from torch_geometric.nn import GCNConv
 
 
 class Cora(InMemoryDataset):
@@ -39,9 +39,6 @@ class Cora(InMemoryDataset):
 
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
-
-
-
 
         # Create graph for easier processing.
         g = Graph(directed=False)
@@ -154,16 +151,19 @@ data = dataset[0]
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.conv1 = SplineConv(2869, 256, dim=1, kernel_size=2)
-        self.conv2 = SplineConv(256, 7, dim=1, kernel_size=2)
+        self.conv_1_1 = GCNConv(2869, 256)
+        self.conv_1_2 = GCNConv(2869, 256)
+        self.conv_2_1 = GCNConv(256, 7)
+        self.conv_2_2 = GCNConv(256, 7)
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
 
-        exit()
-
         x = F.dropout(x, training=self.training)
-        x = F.elu(self.conv1(x, edge_index, edge_attr))
+        x = F.elu(self.conv1_1(x, edge_index_1))
+
+
+        exit()
         x = F.dropout(x, training=self.training)
         x = self.conv2(x, edge_index, edge_attr)
         return F.log_softmax(x, dim=1)
