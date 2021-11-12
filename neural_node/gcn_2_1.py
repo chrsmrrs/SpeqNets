@@ -160,7 +160,7 @@ class Net(torch.nn.Module):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
 
         x = F.dropout(x, training=self.training)
-        x = F.elu(self.conv1_1(x, edge_index_1))
+        x = F.elu(self.conv_1_1(x, edge_index_1))
 
 
         exit()
