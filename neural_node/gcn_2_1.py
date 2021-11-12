@@ -44,6 +44,9 @@ class Cora(InMemoryDataset):
         g = Graph(directed=False)
         num_nodes = data.x.size(-1)
 
+        print(data.x.size())
+        exit()
+
         g.vp.node_features = g.new_vertex_property("vector<float>")
         for i in range(num_nodes):
             g.add_vertex()
