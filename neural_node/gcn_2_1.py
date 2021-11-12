@@ -10,6 +10,9 @@ from torch_geometric.datasets import Planetoid
 from torch_geometric.nn import GCNConv
 from torch.nn import Sequential, Linear, ReLU
 
+from torch_scatter import scatter
+
+
 class Cora(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
@@ -176,7 +179,12 @@ class Net(torch.nn.Module):
         x_2 = F.elu(self.conv_2_2(x, edge_index_2))
         x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
 
+        print(x.size())
+        x_1 = scatter(x, index_1, dim=1, reduce="mean")
 
+        print(x_1.sixe())
+
+        exit()
 
         return F.log_softmax(x, dim=1)
 
