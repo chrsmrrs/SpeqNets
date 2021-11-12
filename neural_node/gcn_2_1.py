@@ -83,10 +83,16 @@ class Cora(InMemoryDataset):
         matrix_2 = []
         node_features = []
 
+        index_1 = []
+        index_2 = []
+
         for t in tuple_graph.vertices():
             v, w = tuple_to_nodes[t]
 
             node_features.append(type[t])
+            index_1.append(int(v))
+            index_2.append(int(w))
+
 
             # 1 neighbors.
             for n in v.out_neighbors():
@@ -115,6 +121,9 @@ class Cora(InMemoryDataset):
         data_new.edge_index_2 = edge_index_2
 
         data_new.x = torch.from_numpy(np.array(node_features)).to(torch.float)
+        data_new.index_1 = torch.from_numpy(np.array(index_1)).to(torch.float)
+        data_new.index_2 = torch.from_numpy(np.array(index_2)).to(torch.float)
+
         data_new.y = data.y
 
         data_list.append(data_new)
