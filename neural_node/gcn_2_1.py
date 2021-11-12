@@ -93,7 +93,6 @@ class Cora(InMemoryDataset):
                 if (n, w) in nodes_to_tuple:
                     s = nodes_to_tuple[(n, w)]
                     e = tuple_graph.add_edge(t, s)
-                    tuple_graph.ep.edge_features[e] = 1
 
                     matrix_1.append([int(t), int(s)])
 
@@ -102,7 +101,6 @@ class Cora(InMemoryDataset):
                 if (v, n) in nodes_to_tuple:
                     s = nodes_to_tuple[(v, n)]
                     e = tuple_graph.add_edge(t, s)
-                    tuple_graph.ep.edge_features[e] = 2
 
                     matrix_2.append([int(t), int(s)])
 
