@@ -158,6 +158,7 @@ class Net(torch.nn.Module):
 
         self.conv_2_1 = GCNConv(256, 7)
         self.conv_2_2 = GCNConv(256, 7)
+        self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
@@ -165,13 +166,14 @@ class Net(torch.nn.Module):
         x = F.dropout(x, training=self.training)
         x_1 = F.elu(self.conv_1_1(x, edge_index_1))
         x_2 = F.elu(self.conv_1_2(x, edge_index_2))
-
         x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
 
-        print(x.size())
-        exit()
         x = F.dropout(x, training=self.training)
-        x = self.conv2(x, edge_index, edge_attr)
+
+        x_1 = F.elu(self.conv_2_1(x, edge_index_1))
+        x_2 = F.elu(self.conv_2_2(x, edge_index_2))
+        x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
+
         return F.log_softmax(x, dim=1)
 
 
@@ -184,6 +186,9 @@ def train():
     model.train()
     optimizer.zero_grad()
     F.nll_loss(model()[data.train_mask], data.y[data.train_mask]).backward()
+    exit()
+
+
     optimizer.step()
 
 
