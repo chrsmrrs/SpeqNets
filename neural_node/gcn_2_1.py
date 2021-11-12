@@ -1,12 +1,14 @@
 import os.path as osp
 
+import numpy as np
 import torch
 import torch.nn.functional as F
-from torch_geometric.datasets import Planetoid
 import torch_geometric.transforms as T
-from torch_geometric.nn import SplineConv
-from torch_geometric.data import (InMemoryDataset, Data)
 from graph_tool.all import *
+from torch_geometric.data import (InMemoryDataset, Data)
+from torch_geometric.datasets import Planetoid
+from torch_geometric.nn import SplineConv
+
 
 class Cora(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
@@ -40,14 +42,14 @@ class Cora(InMemoryDataset):
         data_new = Data()
         data_new.edge_index = data.edge_index
         data_new.x = data.x
-        data_new .edge_attr = data.edge_attr
+        data_new.edge_attr = data.edge_attr
 
         # Create graph for easier processing.
         g = Graph(directed=False)
         num_nodes = data.x.size(-1)
 
         g.vp.node_features = g.new_vertex_property("vector<float>")
-        for i  in range(num_nodes):
+        for i in range(num_nodes):
             g.add_vertex()
             g.vp.node_features[i] = data.x[i].cpu().detach().numpy()
 
@@ -55,12 +57,12 @@ class Cora(InMemoryDataset):
         cols = list(data.edge_index[1])
         g.ep.edge_features = g.new_edge_property("double")
 
-        for ind, (i,j) in enumerate(zip(rows, cols)):
-            e = g.add_edge(i.item(),j.item())
+        for ind, (i, j) in enumerate(zip(rows, cols)):
+            e = g.add_edge(i.item(), j.item())
             g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         tuple_graph = Graph(directed=False)
-        tuple_graph.vp.type = tuple_graph.new_vertex_property("int")
+        tuple_graph.vp.type = tuple_graph.new_vertex_property("vector<float>")
         tuple_graph.ep.edge_features = tuple_graph.new_edge_property("int")
 
         tuple_to_nodes = {}
@@ -70,7 +72,12 @@ class Cora(InMemoryDataset):
                 n = tuple_graph.add_vertex()
                 tuple_to_nodes[n] = (v, w)
                 nodes_to_tuple[(v, w)] = n
-                tuple_graph.vp.type[n] = 1
+
+                print(np.concatenate([g.vp.node_features[v], g.vp.node_features[w]]))
+
+                exit()
+
+                tuple_graph.vp.type[n] =
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
@@ -78,7 +85,7 @@ class Cora(InMemoryDataset):
             tuple_graph.vp.type[n] = 0
 
         for t in tuple_graph.vertices():
-            v,w = tuple_to_nodes[t]
+            v, w = tuple_to_nodes[t]
 
             # 1 neighbors.
             for n in v.out_neighbors():
@@ -121,9 +128,7 @@ path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ZINC')
 dataset = Cora(path, transform=MyTransform())
 data = dataset[0]
 
-
 exit()
-
 
 dataset = 'Cora'
 transform = T.Compose([
