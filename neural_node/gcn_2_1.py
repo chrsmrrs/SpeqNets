@@ -8,7 +8,7 @@ from graph_tool.all import *
 from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.datasets import Planetoid
 from torch_geometric.nn import GCNConv
-
+from torch.nn import Sequential, Linear, ReLU
 
 class Cora(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
@@ -153,6 +153,9 @@ class Net(torch.nn.Module):
         super(Net, self).__init__()
         self.conv_1_1 = GCNConv(2869, 256)
         self.conv_1_2 = GCNConv(2869, 256)
+        dim = 256
+        self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+
         self.conv_2_1 = GCNConv(256, 7)
         self.conv_2_2 = GCNConv(256, 7)
 
@@ -160,9 +163,12 @@ class Net(torch.nn.Module):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
 
         x = F.dropout(x, training=self.training)
-        x = F.elu(self.conv_1_1(x, edge_index_1))
+        x_1 = F.elu(self.conv_1_1(x, edge_index_1))
+        x_2 = F.elu(self.conv_1_2(x, edge_index_2))
 
+        x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
 
+        print(x.size())
         exit()
         x = F.dropout(x, training=self.training)
         x = self.conv2(x, edge_index, edge_attr)
