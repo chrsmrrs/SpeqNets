@@ -46,7 +46,7 @@ class Cora(InMemoryDataset):
 
         # Create graph for easier processing.
         g = Graph(directed=False)
-        num_nodes = x.shape[-1]
+        num_nodes = x.shape[0]
 
 
         print(num_nodes)
