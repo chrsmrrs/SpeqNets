@@ -120,8 +120,8 @@ class Cora(InMemoryDataset):
         data_new.edge_index_2 = edge_index_2
 
         data_new.x = torch.from_numpy(np.array(node_features)).to(torch.float)
-        data_new.index_1 = torch.from_numpy(np.array(index_1)).to(torch.int)
-        data_new.index_2 = torch.from_numpy(np.array(index_2)).to(torch.int)
+        data_new.index_1 = torch.from_numpy(np.array(index_1)).to(torch.int64)
+        data_new.index_2 = torch.from_numpy(np.array(index_2)).to(torch.int64)
 
         data_new.y = data.y
 
