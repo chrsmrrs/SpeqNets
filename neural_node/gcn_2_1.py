@@ -45,6 +45,7 @@ class Cora(InMemoryDataset):
         g = Graph(directed=False)
         num_nodes = data.x.size(-1)
 
+        g.ep.edge_features = g.new_edge_property("vector<float>")
         for i  in range(num_nodes):
             g.add_vertex()
 
@@ -55,8 +56,8 @@ class Cora(InMemoryDataset):
 
         for ind, (i,j) in enumerate(zip(rows, cols)):
             e = g.add_edge(i.item(),j.item())
-            g.ep[e] = data.edge_attr[ind]
-            print(data.edge_attr[ind])
+            g.ep[e] = data.edge_attr[ind].cpu().detach().numpy()
+            print(data.edge_attr[ind].cpu().detach().numpy())
 
         exit()
 
