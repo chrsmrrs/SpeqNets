@@ -58,7 +58,7 @@ class Cora(InMemoryDataset):
             e = g.add_edge(i.item(),j.item())
             #g.ep[e] = data.edge_attr[ind].cpu().detach().numpy()
             print(data.edge_attr[ind].cpu().detach().numpy())
-            print(data.edge_attr[ind].cpu().detach().numpy().size())
+            print(data.edge_attr[ind].cpu().detach().numpy().shape)
             print(type(data.edge_attr[ind].cpu().detach().numpy()))
 
         exit()
