@@ -49,6 +49,9 @@ class Cora(InMemoryDataset):
         for i in range(num_nodes):
             v = g.add_vertex()
             node_features[v] = data.x[i].cpu().detach().numpy()
+            print(node_features[v].shape)
+
+        exit()
 
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
