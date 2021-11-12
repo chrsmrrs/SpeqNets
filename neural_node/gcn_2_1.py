@@ -41,8 +41,7 @@ class Cora(InMemoryDataset):
         edge_index = data.edge_index.cpu().detach().numpy()
 
 
-        data_list = []
-        data_new = Data()
+
 
         # Create graph for easier processing.
         g = Graph(directed=False)
@@ -123,7 +122,6 @@ class Cora(InMemoryDataset):
         data_new.x = torch.from_numpy(np.array(node_features)).to(torch.float)
         data_new.index_1 = torch.from_numpy(np.array(index_1)).to(torch.float)
         data_new.index_2 = torch.from_numpy(np.array(index_2)).to(torch.float)
-        data_new.num_classes = data.num_classes
 
         data_new.y = data.y
 
@@ -167,7 +165,7 @@ class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         self.conv1 = SplineConv(2869, 256, dim=1, kernel_size=2)
-        self.conv2 = SplineConv(256, dataset.num_classes, dim=1, kernel_size=2)
+        self.conv2 = SplineConv(256, 7, dim=1, kernel_size=2)
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
