@@ -31,7 +31,7 @@ class Cora(InMemoryDataset):
         pass
 
     def process(self):
-        dataset = 'Cora'
+        dataset = 'CiteSeer'
         transform = T.Compose([
             T.RandomNodeSplit(num_val=500, num_test=500),
             T.TargetIndegree(),
@@ -148,7 +148,7 @@ class MyTransform(object):
         return new_data
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'CORA')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'CiteSeer')
 dataset = Cora(path, transform=MyTransform())
 data = dataset[0]
 
