@@ -61,7 +61,7 @@ class Cora(InMemoryDataset):
         exit()
 
         for (i, j) in zip(rows, cols):
-            e = g.add_edge(int(i), int(j))
+            e = g.add_edge(i, j)
             #g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         for v in g.vertices():
