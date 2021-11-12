@@ -94,7 +94,7 @@ class Cora(InMemoryDataset):
                     e = tuple_graph.add_edge(t, s)
                     tuple_graph.ep.edge_features[e] = 1
 
-                    matrix_1.append([t, s])
+                    matrix_1.append([int(t), int(s)])
 
             # 2 neighbors.
             for n in w.out_neighbors():
@@ -103,7 +103,7 @@ class Cora(InMemoryDataset):
                     e = tuple_graph.add_edge(t, s)
                     tuple_graph.ep.edge_features[e] = 2
 
-                    matrix_2.append([t, s])
+                    matrix_2.append([int(t), int(s)])
 
         data_list = []
 
