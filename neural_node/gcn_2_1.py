@@ -78,6 +78,10 @@ class Cora(InMemoryDataset):
             tuple_to_nodes[(v, v)] = n
             tuple_graph.vp.type[n] = np.concatenate([g.vp.node_features[v], [0],  g.vp.node_features[v], [0, 1]])
 
+            print(np.array(tuple_graph.vp.type[n]).shape)
+
+        exit()
+
         matrix_1 = []
         matrix_2 = []
         node_features = []
