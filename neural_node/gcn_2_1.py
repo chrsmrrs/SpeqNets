@@ -183,6 +183,8 @@ class Net(torch.nn.Module):
 
         print(index_1)
         print(index_1.size(), index_1.type())
+        index_1 = index_1.to(torch.int64)
+        print(index_1.size(), index_1.type())
 
         x_1 = scatter(x, index_1, dim=0, reduce="mean")
 
