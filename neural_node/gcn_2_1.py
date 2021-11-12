@@ -42,12 +42,14 @@ class Cora(InMemoryDataset):
         data_new.x = data.x
         data_new .edge_attr = data.edge_attr
 
+        # Create graph for easier processing.
         g = Graph(directed=False)
         num_nodes = data.x.size(-1)
 
-        g.ep.edge_features = g.new_edge_property("vector<float>")
+        g.vp.node_features = g.new_edge_property("vector<float>")
         for i  in range(num_nodes):
             g.add_vertex()
+            g.vp.node_features[i] = data.x[i].cpu().detach().numpy()
 
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
