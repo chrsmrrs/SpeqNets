@@ -48,6 +48,12 @@ class Cora(InMemoryDataset):
         g = Graph(directed=False)
         num_nodes = x.shape[-1]
 
+
+        print(num_nodes)
+        print(edge_index[0].max(), edge_index[1].max())
+
+        exit()
+
         node_features = {}
         for i in range(num_nodes):
             v = g.add_vertex()
