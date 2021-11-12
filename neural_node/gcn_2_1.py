@@ -165,7 +165,7 @@ class Net(torch.nn.Module):
         self.conv_2_2 = GCNConv(64, 64)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.mlp = Sequential(Linear(2*dim, dim), ReLU(), Linear(dim, 7))
+        self.mlp = Sequential(Linear(2*dim, dim), ReLU(), Linear(dim, 6))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
@@ -217,7 +217,7 @@ def test():
     return accs
 
 
-for epoch in range(1, 201):
+for epoch in range(1, 301):
     train()
     log = 'Epoch: {:03d}, Train: {:.4f}, Test: {:.4f}'
     print(log.format(epoch, *test()))
