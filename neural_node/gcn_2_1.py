@@ -44,8 +44,6 @@ class Cora(InMemoryDataset):
         g = Graph(directed=False)
         num_nodes = data.x.size(-1)
 
-        print(data.x.size())
-        exit()
 
         g.vp.node_features = g.new_vertex_property("vector<float>")
         for i in range(num_nodes):
@@ -61,8 +59,8 @@ class Cora(InMemoryDataset):
             g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         tuple_graph = Graph(directed=False)
-        tuple_graph.vp.type = tuple_graph.new_vertex_property("vector<float>")
-        tuple_graph.ep.edge_features = tuple_graph.new_edge_property("int")
+        type = {}
+        edge_features = {}
 
         tuple_to_nodes = {}
         nodes_to_tuple = {}
@@ -72,19 +70,19 @@ class Cora(InMemoryDataset):
                 tuple_to_nodes[n] = (v, w)
                 nodes_to_tuple[(v, w)] = n
 
-                tuple_graph.vp.type[n] = np.concatenate(
-                    [g.vp.node_features[v], [g.ep.edge_features[g.edge(v, w)]], g.vp.node_features[w], [1, 0]])
+                type[n] = np.concatenate(
+                    [g.vp.node_features[v], [g.ep.edge_features[g.edge(v, w)]], g.vp.node_features[w], np.array([1, 0])])
 
-                print(np.array(tuple_graph.vp.type[n]).shape)
+                print(type[n].shape)
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
-            tuple_graph.vp.type[n] = np.concatenate([g.vp.node_features[v], [0],  g.vp.node_features[v], [0, 1]])
-            print(np.array(tuple_graph.vp.type[n]).shape)
+            type[n] = np.concatenate([g.vp.node_features[v], [0],  g.vp.node_features[v], np.array([0, 1])])
+            #print(np.array(tuple_graph.vp.type[n]).shape)
 
 
-
+        exit()
 
         matrix_1 = []
         matrix_2 = []
@@ -93,7 +91,7 @@ class Cora(InMemoryDataset):
         for t in tuple_graph.vertices():
             v, w = tuple_to_nodes[t]
 
-            node_features.append(np.array(tuple_graph.vp.type[t]))
+            node_features.append(type[t])
 
             #print(np.array(tuple_graph.vp.type[t]).shape)
 
