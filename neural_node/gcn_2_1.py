@@ -44,12 +44,14 @@ class Cora(InMemoryDataset):
 
         g = Graph(directed=False)
         num_nodes = data.x.size(-1)
-        print(num_nodes)
 
         for i  in range(num_nodes):
             g.add_vertex()
 
-        print(data.edge_index.size())
+        rows = list(data.edge_index[0])
+        cols = list(data.edge_index[1])
+
+        print(rows)
         exit()
 
         data_list.append(data_new)
