@@ -78,9 +78,9 @@ class Cora(InMemoryDataset):
             tuple_to_nodes[(v, v)] = n
             tuple_graph.vp.type[n] = np.concatenate([g.vp.node_features[v], [0],  g.vp.node_features[v], [0, 1]])
 
-            print(np.array(tuple_graph.vp.type[n]).shape)
 
-        exit()
+
+
 
         matrix_1 = []
         matrix_2 = []
@@ -90,6 +90,8 @@ class Cora(InMemoryDataset):
             v, w = tuple_to_nodes[t]
 
             node_features.append(np.array(tuple_graph.vp.type[t]))
+
+            print(np.array(tuple_graph.vp.type[t]).shape)
 
             # 1 neighbors.
             for n in v.out_neighbors():
