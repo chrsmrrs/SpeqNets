@@ -44,7 +44,7 @@ class Cora(InMemoryDataset):
 
         # Create graph for easier processing.
         g = Graph(directed=False)
-        num_nodes = data.x.size(-1)
+        num_nodes = x.size(-1)
 
 
         node_features = {}
@@ -54,6 +54,7 @@ class Cora(InMemoryDataset):
 
         for v in g.vertices():
             print(node_features[v].shape)
+        exit()
 
         rows = list(data.edge_index[0])
         cols = list(data.edge_index[1])
