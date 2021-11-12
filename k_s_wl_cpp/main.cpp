@@ -16,7 +16,7 @@ using namespace std;
 int
 main() {
     ///vector<pair<string, bool>> datasets = {make_pair("ENZYMES", true), make_pair("PROTEINS", true), make_pair("MUTAG", true)};
-    vector<pair<string, bool>> datasets = {make_pair("PROTEINS", true)};
+    vector<pair<string, bool>> datasets = {make_pair("NCI109", true)};
 // k = 1.
     {
         for (auto &d: datasets) {
@@ -120,42 +120,6 @@ main() {
             }
         }
     }
-
-    {
-        for (auto &d: datasets) {
-            {
-                string ds = std::get<0>(d);
-                bool use_labels = std::get<1>(d);
-
-                string kernel = "MWL2_1";
-                GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
-                gdb.erase(gdb.begin() + 0);
-                vector<int> classes = AuxiliaryMethods::read_classes(ds);
-
-                GenerateTwo::GenerateTwo wl(gdb);
-                for (uint i = 0; i <= 5; ++i) {
-                    cout << ds + "__" + kernel + "_" + to_string(i) << endl;
-                    GramMatrix gm;
-
-                    if (i == 5) {
-                        high_resolution_clock::time_point t1 = high_resolution_clock::now();
-                        gm = wl.compute_gram_matrix(i, use_labels, false, "malkin1", true);
-                        high_resolution_clock::time_point t2 = high_resolution_clock::now();
-                        auto duration = duration_cast<seconds>(t2 - t1).count();
-                        cout << duration << endl;
-                    } else {
-                        gm = wl.compute_gram_matrix(i, use_labels, false, "malkin1", true);
-                    }
-
-                    AuxiliaryMethods::write_libsvm(gm, classes,
-                                                   "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/" + ds + "__" + kernel +
-                                                   "_" + to_string(i) +
-                                                   ".gram");
-                }
-            }
-        }
-    }
-
 
     // k = 3.
     {

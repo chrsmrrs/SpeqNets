@@ -22,7 +22,7 @@ def main():
 
     path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
     dataset = [["ENZYMES", True], ["PROTEINS", True], ["MUTAG", True]]
-    dataset = [["ENZYMES", True]]
+    #dataset = [["NCI109", True]]
 
     algorithms = ["WL", "LWL2_1", "LWLP2_1", "LWL3_1", "LWLP3_1", "LWL3_2",  "LWLP3_2"]
 
@@ -33,13 +33,15 @@ def main():
                 if not pth.exists(path + d + "__" + a + "_" + str(i) + ".gram"):
                     continue
                 else:
-                    gram_matrix, _ = read_lib_svm(path + d + "__" + a + "_" + str(i) + ".gram")
+                    gram_matrix, classes = read_lib_svm(path + d + "__" + a + "_" + str(i) + ".gram")
+
                     gram_matrix = normalize_gram_matrix(gram_matrix)
                     classes = read_classes(d)
                     gram_matrices.append(gram_matrix)
 
+
             if gram_matrices != []:
-                acc, acc_train, s_1 = kernel_svm_evaluation(gram_matrices, classes, num_repetitions=3)
+                acc, acc_train, s_1 = kernel_svm_evaluation(gram_matrices, classes, num_repetitions=10)
                 print(a, d, acc, acc_train, s_1)
 
     print("###")

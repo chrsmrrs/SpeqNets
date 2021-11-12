@@ -6,6 +6,7 @@ from torch_geometric.datasets import Planetoid
 import torch_geometric.transforms as T
 from torch_geometric.nn import SplineConv
 from torch_geometric.data import (InMemoryDataset, Data)
+from graph_tool.all import *
 
 class Cora(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
@@ -41,6 +42,12 @@ class Cora(InMemoryDataset):
         data_new.x = data.x
         data_new .edge_attr = data.edge_attr
 
+        g = Graph(directed=False)
+        num_nodes = data.x.size(-1)
+        print(num_nodes)
+
+        for i  in range(num_nodes):
+            g.add_vertex()
 
         print(data.edge_index.size())
         exit()

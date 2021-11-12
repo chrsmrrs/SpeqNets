@@ -12,6 +12,7 @@
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" beforeDir="false" afterPath="$PROJECT_DIR$/k_s_wl_cpp/svm/svm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_node/gcn_2_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/gcn_2_1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +90,7 @@
       <recent name="$PROJECT_DIR$/neural" />
     </key>
   </component>
-  <component name="RunManager" selected="Unknown.main1371012569">
+  <component name="RunManager" selected="Python.main_kernel">
     <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$/k_s_wl_cpp" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -288,14 +289,8 @@
       <workItem from="1636335251210" duration="3227000" />
       <workItem from="1636410218478" duration="2814000" />
       <workItem from="1636568506437" duration="3160000" />
-      <workItem from="1636656297971" duration="7077000" />
-    </task>
-    <task id="LOCAL-00163" summary="w">
-      <created>1635696294097</created>
-      <option name="number" value="00163" />
-      <option name="presentableId" value="LOCAL-00163" />
-      <option name="project" value="LOCAL" />
-      <updated>1635696294099</updated>
+      <workItem from="1636656297971" duration="10752000" />
+      <workItem from="1636735318516" duration="600000" />
     </task>
     <task id="LOCAL-00164" summary="w">
       <created>1635696440863</created>
@@ -633,7 +628,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636664566479</updated>
     </task>
-    <option name="localTasksCounter" value="212" />
+    <task id="LOCAL-00212" summary="w">
+      <created>1636669895100</created>
+      <option name="number" value="00212" />
+      <option name="presentableId" value="LOCAL-00212" />
+      <option name="project" value="LOCAL" />
+      <updated>1636669895101</updated>
+    </task>
+    <option name="localTasksCounter" value="213" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
