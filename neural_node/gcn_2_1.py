@@ -183,8 +183,8 @@ class Net(torch.nn.Module):
 
         index_1 = index_1.to(torch.int64)
         index_2 = index_2.to(torch.int64)
-        x_1 = scatter(x, index_1, dim=0, reduce="mean")
-        x_2 = scatter(x, index_2, dim=0, reduce="mean")
+        x_1 = scatter(x, index_1, dim=0, reduce="add")
+        x_2 = scatter(x, index_2, dim=0, reduce="add")
 
         x = self.mlp(torch.cat([x_1, x_2], dim=1))
 
@@ -215,7 +215,7 @@ def test():
     return accs
 
 
-for epoch in range(1, 201):
+for epoch in range(1, 101):
     train()
     log = 'Epoch: {:03d}, Train: {:.4f}, Test: {:.4f}'
     print(log.format(epoch, *test()))
