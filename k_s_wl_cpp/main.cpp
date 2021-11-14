@@ -47,10 +47,8 @@ main() {
                         gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1", false);
                     }
 
-                    AuxiliaryMethods::write_libsvm(gm, classes,
-                                                   "./svm/GM/EXP/" + ds + "__" + kernel +
-                                                   "_" + to_string(i) +
-                                                   ".gram");
+                    AuxiliaryMethods::write_sparse_gram_matrix(gm, "./svm/GM/EXPSPARSE/" + ds +
+                                                                   "__" + kernel + "_" + to_string(i));
                 }
             }
 
