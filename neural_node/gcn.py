@@ -25,7 +25,7 @@ class Net(torch.nn.Module):
         self.conv1 = GCNConv(dataset.num_features, dim)
         self.conv2 = GCNConv(dim, dim)
 
-        self.mlp = Sequential(Linear(dim, dim), ReLU(), Linear(dim, data.num_classes))
+        self.mlp = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dataset.num_classes))
 
     def forward(self):
         x, edge_index, edge_attr = data.x, data.edge_index, data.edge_attr
