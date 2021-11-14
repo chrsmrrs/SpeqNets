@@ -3,6 +3,7 @@ import os.path as osp
 import torch
 import torch.nn.functional as F
 from torch_geometric.datasets import Planetoid
+from torch.nn import Sequential, Linear, ReLU
 import torch_geometric.transforms as T
 from torch_geometric.nn import GCNConv
 
@@ -19,13 +20,19 @@ data = dataset[0]
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.conv1 = GCNConv(dataset.num_features, 16)
-        self.conv2 = GCNConv(16, dataset.num_classes)
+        dim = 64
+
+        self.conv1 = GCNConv(dataset.num_features, dim)
+        self.conv2 = GCNConv(dim, dim)
+
+        self.mlp = Sequential(Linear(dim, dim), ReLU(), Linear(dim, data.num_classes))
 
     def forward(self):
         x, edge_index, edge_attr = data.x, data.edge_index, data.edge_attr
         x = F.relu(self.conv1(x, edge_index))
-        x = self.conv2(x, edge_index)
+        x = F.relu(self.conv2(x, edge_index))
+
+        x = self.mlp(x)
         return F.log_softmax(x, dim=1)
 
 

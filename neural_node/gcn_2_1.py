@@ -176,7 +176,6 @@ class Net(torch.nn.Module):
         x_2 = F.relu(self.conv_1_2(x, edge_index_2))
         x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
 
-        x = F.dropout(x, training=self.training)
 
         x_1 = F.relu(self.conv_2_1(x, edge_index_1))
         x_2 = F.relu(self.conv_2_2(x, edge_index_2))
