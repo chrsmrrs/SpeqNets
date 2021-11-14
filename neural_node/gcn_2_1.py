@@ -5,11 +5,10 @@ import torch
 import torch.nn.functional as F
 import torch_geometric.transforms as T
 from graph_tool.all import *
+from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.datasets import Planetoid
 from torch_geometric.nn import GCNConv
-from torch.nn import Sequential, Linear, ReLU
-
 from torch_scatter import scatter
 
 
@@ -57,7 +56,7 @@ class Cora(InMemoryDataset):
         g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i, j) in enumerate(zip(rows, cols)):
-            e = g.add_edge(i, j, add_missing = False)
+            e = g.add_edge(i, j, add_missing=False)
             g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         tuple_graph = Graph(directed=False)
@@ -71,12 +70,13 @@ class Cora(InMemoryDataset):
                 tuple_to_nodes[n] = (v, w)
                 nodes_to_tuple[(v, w)] = n
 
-                type[n] = np.concatenate([node_features[v], node_features[w], [g.ep.edge_features[g.edge(v,w)]], np.array([1,0])], axis=-1)
+                type[n] = np.concatenate(
+                    [node_features[v], node_features[w], [g.ep.edge_features[g.edge(v, w)]], np.array([1, 0])], axis=-1)
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
-            type[n] = np.concatenate([node_features[v], node_features[v], [0.0], np.array([0,1])], axis=-1)
+            type[n] = np.concatenate([node_features[v], node_features[v], [0.0], np.array([0, 1])], axis=-1)
 
         matrix_1 = []
         matrix_2 = []
@@ -91,7 +91,6 @@ class Cora(InMemoryDataset):
             node_features.append(type[t])
             index_1.append(int(v))
             index_2.append(int(w))
-
 
             # 1 neighbors.
             for n in v.out_neighbors():
@@ -156,16 +155,17 @@ data = dataset[0]
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.conv_1_1 = GCNConv(7409, 64)
-        self.conv_1_2 = GCNConv(7409, 64)
         dim = 64
+        self.conv_1_1 = GCNConv(7409, dim)
+        self.conv_1_2 = GCNConv(7409, dim)
+
         self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.conv_2_1 = GCNConv(64, 64)
-        self.conv_2_2 = GCNConv(64, 64)
+        self.conv_2_1 = GCNConv(dim, dim)
+        self.conv_2_2 = GCNConv(dim, dim)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.mlp = Sequential(Linear(2*dim, dim), ReLU(), Linear(dim, 7))
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 6))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
@@ -186,7 +186,6 @@ class Net(torch.nn.Module):
         index_2 = index_2.to(torch.int64)
         x_1 = scatter(x, index_1, dim=0, reduce="mean")
         x_2 = scatter(x, index_2, dim=0, reduce="mean")
-
 
         x = self.mlp(torch.cat([x_1, x_2], dim=1))
 
