@@ -20,17 +20,17 @@ class Cora(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "Citeseer"
+        return "Pubmed"
 
     @property
     def processed_file_names(self):
-        return "Citeseer"
+        return "Pubmed"
 
     def download(self):
         pass
 
     def process(self):
-        dataset = 'Citeseer'
+        dataset = 'Pubmed'
         transform = T.Compose([
             T.RandomNodeSplit(num_val=500, num_test=500),
             T.TargetIndegree(),
