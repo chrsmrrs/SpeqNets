@@ -156,8 +156,8 @@ data = dataset[0]
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.conv_1_1 = GCNConv(2869, 64)
-        self.conv_1_2 = GCNConv(2869, 64)
+        self.conv_1_1 = GCNConv(7409, 64)
+        self.conv_1_2 = GCNConv(7409, 64)
         dim = 64
         self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
