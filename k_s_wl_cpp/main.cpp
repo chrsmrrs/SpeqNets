@@ -16,7 +16,7 @@ using namespace std;
 int
 main() {
     ///vector<pair<string, bool>> datasets = {make_pair("ENZYMES", true), make_pair("PROTEINS", true), make_pair("MUTAG", true)};
-    vector<tuple<string, bool, bool>> datasets = {make_tuple("SF-295", true, true ) };
+    vector<tuple<string, bool, bool>> datasets = {make_tuple("MCF-7", true, true ) };
 
 
     // k = 2.

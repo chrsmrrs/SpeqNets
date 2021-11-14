@@ -51,7 +51,7 @@ def main():
             acc, s_1 = linear_svm_evaluation(all_feature_matrices, classes, num_repetitions=1, all_std=False)
             print(name, algorithm, acc, s_1)
 
-            exit(0)
+    exit(0)
 
 
     path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
