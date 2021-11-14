@@ -7,7 +7,7 @@ from torch.nn import Sequential, Linear, ReLU
 import torch_geometric.transforms as T
 from torch_geometric.nn import GCNConv
 
-dataset = 'Citeseer'
+dataset = 'Pubmed'
 transform = T.Compose([
     T.RandomNodeSplit(num_val=500, num_test=500),
     T.TargetIndegree(),
