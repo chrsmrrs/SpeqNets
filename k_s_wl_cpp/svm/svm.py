@@ -20,9 +20,43 @@ def read_classes(ds_name):
 def main():
 
 
+
+    path = "./GM/EXPSPARSE/"
+    for name in ["SF-295"]:
+        for algorithm in ["LWL2_1", "LWLP2_1"]:
+            print("###")
+            # Collect feature matrices over all iterations
+            all_feature_matrices = []
+            classes = read_classes(name)
+            for i in range(2, 3):
+                print(path + name + "__" + algorithm + "_" + str(i))
+                # Load feature matrices.
+                feature_vector = pd.read_csv(path + name + "__" + algorithm + "_" + str(i), header=1,
+                                             delimiter=" ").to_numpy()
+
+                feature_vector = feature_vector.astype(int)
+                feature_vector[:, 0] = feature_vector[:, 0] - 1
+                feature_vector[:, 1] = feature_vector[:, 1] - 1
+                feature_vector[:, 2] = feature_vector[:, 2] + 1
+
+                xmax = int(feature_vector[:, 0].max())
+                ymax = int(feature_vector[:, 1].max())
+
+                feature_vector = sp.coo_matrix((feature_vector[:, 2], (feature_vector[:, 0], feature_vector[:, 1])),
+                                               shape=(xmax + 1, ymax + 1))
+                feature_vector = feature_vector.tocsr()
+
+                all_feature_matrices.append(feature_vector)
+
+            acc, s_1 = linear_svm_evaluation(all_feature_matrices, classes, num_repetitions=1, all_std=False)
+            print(name, algorithm, acc, s_1)
+
+            exit(0)
+
+
     path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
     dataset = [["ENZYMES", True], ["PROTEINS", True], ["MUTAG", True]]
-    #dataset = [["NCI109", True]]
+    dataset = [["PTC_MM", True], ["PTC_MR", True]]
 
     algorithms = ["WL", "LWL2_1", "LWLP2_1", "LWL3_1", "LWLP3_1", "LWL3_2",  "LWLP3_2"]
 
