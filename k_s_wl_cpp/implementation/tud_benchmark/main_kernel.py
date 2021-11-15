@@ -26,7 +26,6 @@ def main():
         print(dataset + " " + "WL_1 " + str(acc) + " " + str(s_1) + " " + str(s_2))
         results.append(dataset + " " + "WL_1 " + str(acc) + " " + str(s_1) + " " + str(s_2))
 
-
         all_matrices = []
         for i in range(1, 6):
             gm = kb.compute_wl_2_1_dense(dataset, i, use_labels, False)
