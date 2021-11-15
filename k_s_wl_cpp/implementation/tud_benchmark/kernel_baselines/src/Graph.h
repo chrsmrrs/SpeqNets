@@ -1,8 +1,3 @@
-/**********************************************************************
- * Copyright (C) 2020 Christopher Morris <christopher.morris@udo.edu>
- *********************************************************************/
-
-
 #ifndef WLFAST_GRAPH_H
 #define WLFAST_GRAPH_H
 
@@ -16,12 +11,6 @@
 #include <unordered_map>
 #include <vector>
 
-
-
-#include <unordered_set>
-#include <unordered_map>
-#include <vector>
-
 using Eigen::SparseMatrix;
 using namespace std;
 
@@ -30,8 +19,10 @@ using Node = uint;
 using Nodes = vector<Node>;
 using Label = unsigned long;
 using Labels = vector<Label>;
+using Attributes = vector<vector<float>>;
 using Edge = tuple<Node, Node>;
 using EdgeLabels = unordered_map<Edge, uint>;
+using EdgeAttributes = unordered_map<Edge,vector<float>>;
 using EdgeList = vector<Edge>;
 using SpMatrix = Eigen::SparseMatrix<double>;
 using GramMatrix = SpMatrix;
@@ -41,6 +32,7 @@ using S = Eigen::Triplet<double>;
 
 using TwoTuple = tuple<Node, Node>;
 using ThreeTuple = tuple<Node, Node, Node>;
+using KTuple = vector<Node>;
 
 namespace std {
     namespace {
@@ -66,6 +58,17 @@ namespace std {
                 hash_combine(seed, get<0>(tuple));
             }
         };
+
+        struct VectorHasher {
+            int operator()(const vector<uint> &V) const {
+                int hash = V.size();
+                for(auto &i : V) {
+                    hash ^= i + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+                }
+                return hash;
+            }
+        };
+
     }
 
     template<typename ... TT>
@@ -113,6 +116,12 @@ namespace GraphLibrary {
         // Set node labels of graphs.
         void set_labels(Labels &labels);
 
+        // Get node labels of graphs.
+        Attributes get_attributes() const;
+
+        // Set node labels of graphs.
+        void set_attributes(Attributes &attributes);
+
         // Get edge labels of graphs.
         EdgeLabels get_edge_labels() const;
 
@@ -120,6 +129,8 @@ namespace GraphLibrary {
 
         // Set edge labels of graphs.
         void set_edge_labels(EdgeLabels &labels);
+        EdgeAttributes get_edge_attributes() const;
+        void set_edge_attributes(EdgeAttributes &labels);
 
         void set_vertex_id(EdgeLabels &vertex_id);
 
@@ -135,7 +146,9 @@ namespace GraphLibrary {
 
         // Manage node labels.
         Labels m_node_labels;
+        Attributes m_node_attributes;
         EdgeLabels m_edge_labels;
+        EdgeAttributes m_edge_attributes;
         EdgeLabels m_vertex_id;
         EdgeLabels m_local;
         unordered_map<Node, TwoTuple> m_node_to_two_tuple;
@@ -158,3 +171,4 @@ namespace GraphLibrary {
 }
 
 #endif //WLFAST_GRAPH_H
+
