@@ -7,8 +7,8 @@ def main():
     num_reps = 10
 
     ### Smaller datasets.
-    dataset = [["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["PROTEINS", True],
-               ["REDDIT-BINARY", False], ["ENZYMES", True]]
+    dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["PROTEINS", True],
+               ["REDDIT-BINARY", False], ["PTC_MR", True],["MUTAG", True]]
 
     results = []
     for d, use_labels in dataset:
