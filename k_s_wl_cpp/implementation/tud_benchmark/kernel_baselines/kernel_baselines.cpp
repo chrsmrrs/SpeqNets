@@ -10,6 +10,7 @@
 #include "src/GraphletKernel.h"
 #include "src/ShortestPathKernel.h"
 #include "src/GenerateTwo.h"
+#include "src/GenerateThree.h"
 #include "src/Graph.h"
 #include <iostream>
 #include <chrono>
