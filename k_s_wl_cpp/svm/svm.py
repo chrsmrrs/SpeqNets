@@ -21,7 +21,7 @@ def main():
 
 
 
-    path = "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/"
+    path = "./GM/EXP/"
     dataset = [["ENZYMES", True], ["PROTEINS", True], ["MUTAG", True]]
     dataset = [["IMDB-BINARY", True]]
 
