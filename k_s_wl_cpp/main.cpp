@@ -48,7 +48,7 @@ main() {
                     }
 
                     AuxiliaryMethods::write_libsvm(gm, classes,
-                                                   "/Users/chrsmrrs/SeqGN/k_s_wl_cpp/svm/GM/EXP/" + ds + "__" + kernel +
+                                                   "./svm/GM/EXP/" + ds + "__" + kernel +
                                                    "_" + to_string(i) +
                                                    ".gram");
                 }
