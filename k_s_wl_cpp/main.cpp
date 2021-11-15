@@ -16,84 +16,7 @@ using namespace std;
 int
 main() {
     ///vector<pair<string, bool>> datasets = {make_pair("ENZYMES", true), make_pair("PROTEINS", true), make_pair("MUTAG", true)};
-    vector<tuple<string, bool, bool>> datasets = {make_tuple("MCF-7", true, true ) };
-
-
-    // k = 2.
-    {
-        for (auto &d: datasets) {
-            {
-                string ds = std::get<0>(d);
-                bool use_labels = std::get<1>(d);
-                bool use_edge_labels = std::get<2>(d);
-
-                string kernel = "LWL2_1";
-                GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
-                gdb.erase(gdb.begin() + 0);
-                vector<int> classes = AuxiliaryMethods::read_classes(ds);
-
-                GenerateTwo::GenerateTwo wl(gdb);
-                for (uint i = 2; i <= 2; ++i) {
-                    cout << ds + "__" + kernel + "_" + to_string(i) << endl;
-                    GramMatrix gm;
-
-                    if (i == 5) {
-                        high_resolution_clock::time_point t1 = high_resolution_clock::now();
-                        gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1", true);
-                        high_resolution_clock::time_point t2 = high_resolution_clock::now();
-                        auto duration = duration_cast<seconds>(t2 - t1).count();
-                        cout << duration << endl;
-                    } else {
-                        gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1", true);
-                    }
-
-                    AuxiliaryMethods::write_libsvm(gm, classes,
-                                                   "./svm/GM/EXP/" + ds + "__" + kernel +
-                                                   "_" + to_string(i) +
-                                                   ".gram");
-                }
-            }
-
-            {
-                string ds = std::get<0>(d);
-                bool use_labels = std::get<1>(d);
-                bool use_edge_labels = std::get<2>(d);
-
-                string kernel = "LWLP2_1";
-                GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
-                gdb.erase(gdb.begin() + 0);
-                vector<int> classes = AuxiliaryMethods::read_classes(ds);
-
-                GenerateTwo::GenerateTwo wl(gdb);
-                for (uint i = 2; i <= 2; ++i) {
-                    cout << ds + "__" + kernel + "_" + to_string(i) << endl;
-                    GramMatrix gm;
-
-                    if (i == 5) {
-                        high_resolution_clock::time_point t1 = high_resolution_clock::now();
-                        gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1p", true);
-                        high_resolution_clock::time_point t2 = high_resolution_clock::now();
-                        auto duration = duration_cast<seconds>(t2 - t1).count();
-                        cout << duration << endl;
-                    } else {
-                        gm = wl.compute_gram_matrix(i, use_labels, use_edge_labels, "local1p", true);
-                    }
-
-                    AuxiliaryMethods::write_libsvm(gm, classes,
-                                                   "./svm/GM/EXP/" + ds + "__" + kernel +
-                                                   "_" + to_string(i) +
-                                                   ".gram");
-                }
-            }
-        }
-    }
-
-
-    return 0;
-
-
-
-
+    vector<tuple<string, bool, bool>> datasets = {make_tuple("IMDB-BINARY", false, false ) };
 
 
 // k = 1.
@@ -132,6 +55,8 @@ main() {
             }
         }
     }
+
+    return 0;
 
 
 // k = 2.
@@ -273,7 +198,8 @@ main() {
             }
 
 
-                        {
+            return 0;
+            {
                 string ds = std::get<0>(d);
                 bool use_labels = std::get<1>(d);
                 bool use_edge_labels = std::get<2>(d);
