@@ -8,7 +8,8 @@ from auxiliarymethods.kernel_evaluation import linear_svm_evaluation
 def main():
     ### Smaller datasets using LIBSVM.
     dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["PROTEINS", True],
-               ["REDDIT-BINARY", False], ["PTC_MR", True],]
+               ["REDDIT-BINARY", False], ["PTC_MR", True], ["MUTAG", True],]
+    dataset = [ ["PTC_MR", True], ["MUTAG", True],]
 
     # Number of repetitions of 10-CV.
     num_reps = 10
@@ -16,7 +17,7 @@ def main():
     results = []
     # for dataset, use_labels in dataset:
     #     classes = dp.get_dataset(dataset)
-    #
+    #q
     #     all_matrices = []
     #     for i in range(1, 6):
     #         gm = kb.compute_wl_1_dense(dataset, i, use_labels, False)
