@@ -47,7 +47,10 @@ class Arxiv(InMemoryDataset):
 
         data = dataset[0]
         data.adj_t = data.adj_t.to_symmetric()
-        print(data.adj_t.indices())
+        row, col, value = data.adj_t.coo()
+        row = list(row.cpu().detach().numpy())
+        col = list(col.cpu().detach().numpy())
+
         exit()
 
         x = data.x.cpu().detach().numpy()
