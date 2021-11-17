@@ -47,8 +47,9 @@ class Mol(InMemoryDataset):
 
             print(i)
 
-            x = data.x.cpu().detach().numpy()
+            x = data.x[:, :2].cpu().detach().numpy()
             edge_index = data.edge_index.cpu().detach().numpy()
+            edge_attr = data.edge_attr[:, :2].cpu().detach().numpy()
 
             # Create graph for easier processing.
             g = Graph(directed=False)
@@ -61,11 +62,11 @@ class Mol(InMemoryDataset):
 
             rows = list(edge_index[0])
             cols = list(edge_index[1])
-            g.ep.edge_features = g.new_edge_property("double")
+            edge_vectors = {}
 
             for ind, (i, j) in enumerate(zip(rows, cols)):
                 e = g.add_edge(i, j, add_missing=False)
-                g.ep.edge_features[e] = data.edge_attr[ind].item()
+                g.ep.edge_features[e] = data.edge_attr[ind]
 
             tuple_graph = Graph(directed=False)
             type = {}
