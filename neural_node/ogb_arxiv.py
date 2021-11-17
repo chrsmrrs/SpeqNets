@@ -61,8 +61,8 @@ class Arxiv(InMemoryDataset):
             v = g.add_vertex()
             node_features[v] = x[i]
 
-        rows = list(data.adj_t.cpu().detach()[0])
-        cols = list(data.adj_t.cpu().detach()[1])
+        rows = list(data.adj_t.row.cpu().detach())
+        cols = list(data.adj_t.col.cpu().detach())
         g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i, j) in enumerate(zip(rows, cols)):
