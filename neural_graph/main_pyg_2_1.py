@@ -40,8 +40,8 @@ class Mol(InMemoryDataset):
         dataset = PygGraphPropPredDataset(name="ogbg-molhiv")
 
         print(len(dataset))
-        atom_encoder = AtomEncoder(300)
-        bond_encoder = BondEncoder(300)
+        atom_encoder = AtomEncoder(100)
+        bond_encoder = BondEncoder(100)
 
         data_list = []
         for i, data in enumerate(dataset):
@@ -75,16 +75,22 @@ class Mol(InMemoryDataset):
 
             tuple_to_nodes = {}
             nodes_to_tuple = {}
+
+            tuples = 0
             for v in g.vertices():
                 for w in v.all_neighbors():
-                    n = tuple_graph.add_vertex()
+                    n = tuples
+                    tuples += 1
+
                     tuple_to_nodes[n] = (v, w)
                     nodes_to_tuple[(v, w)] = n
 
                     type[n] = np.concatenate(
                         [node_features[v], node_features[w], edge_features[g.edge(v, w)], np.array([1, 0])], axis=-1)
 
-                n = tuple_graph.add_vertex()
+                n = tuples
+                tuples += 1
+
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
                 type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 300, np.array([0, 1])], axis=-1)
@@ -94,7 +100,7 @@ class Mol(InMemoryDataset):
             node_features = []
 
 
-            for t in tuple_graph.vertices():
+            for t in range(n):
                 v, w = tuple_to_nodes[t]
 
                 node_features.append(type[t])
@@ -103,16 +109,12 @@ class Mol(InMemoryDataset):
                 for n in v.out_neighbors():
                     if (n, w) in nodes_to_tuple:
                         s = nodes_to_tuple[(n, w)]
-                        e = tuple_graph.add_edge(t, s)
-
                         matrix_1.append([int(t), int(s)])
 
                 # 2 neighbors.
                 for n in w.out_neighbors():
                     if (v, n) in nodes_to_tuple:
                         s = nodes_to_tuple[(v, n)]
-                        e = tuple_graph.add_edge(t, s)
-
                         matrix_2.append([int(t), int(s)])
 
             data_new = Data()
@@ -162,16 +164,31 @@ class GNN(torch.nn.Module):
         self.num_layer = num_layer
         self.atom_encoder = AtomEncoder(emb_dim)
 
-        self.conv_1 = GINConv(emb_dim)
-        self.bn_1 = torch.nn.BatchNorm1d(emb_dim)
-        self.conv_2 = GINConv(emb_dim)
-        self.bn_2 = torch.nn.BatchNorm1d(emb_dim)
-        self.conv_3 = GINConv(emb_dim)
-        self.bn_3 = torch.nn.BatchNorm1d(emb_dim)
-        self.conv_4 = GINConv(emb_dim)
-        self.bn_4 = torch.nn.BatchNorm1d(emb_dim)
-        self.conv_5 = GINConv(emb_dim)
-        self.bn_5 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_1_1 = GINConv(emb_dim)
+        self.bn_1_1 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_1_2 = GINConv(emb_dim)
+        self.bn_1_2 = torch.nn.BatchNorm1d(emb_dim)
+
+        self.conv_2_1 = GINConv(emb_dim)
+        self.bn_2_1 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_2_2 = GINConv(emb_dim)
+        self.bn_2_2 = torch.nn.BatchNorm1d(emb_dim)
+
+        self.conv_3_1 = GINConv(emb_dim)
+        self.bn_3_1 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_3_2 = GINConv(emb_dim)
+        self.bn_3_2 = torch.nn.BatchNorm1d(emb_dim)
+
+        self.conv_4_1 = GINConv(emb_dim)
+        self.bn_4_1 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_4_2 = GINConv(emb_dim)
+        self.bn_4_2 = torch.nn.BatchNorm1d(emb_dim)
+
+        self.conv_5_1 = GINConv(emb_dim)
+        self.bn_5_1 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_5_2 = GINConv(emb_dim)
+        self.bn_5_2 = torch.nn.BatchNorm1d(emb_dim)
+
 
         self.pool = global_mean_pool
         self.graph_pred_linear = torch.nn.Linear(emb_dim, num_tasks)
@@ -181,8 +198,10 @@ class GNN(torch.nn.Module):
 
         x = self.atom_encoder(x)
 
-        x = self.conv_1(x, edge_index, edge_attr)
-        x = self.bn_1(x)
+        x = self.conv_1_1(x, edge_index, edge_attr)
+        x = self.conv_1_2(x, edge_index, edge_attr)
+        x = self.bn_1_1(x)
+        x = self.bn_1_1(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
         x = self.conv_2(x, edge_index, edge_attr)
