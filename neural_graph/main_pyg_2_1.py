@@ -320,7 +320,7 @@ def main():
     for epoch in range(1, 101):
         print("=====Epoch {}".format(epoch))
         print('Training...')
-        train(model, device, train_loader, optimizer, dataset.task_type)
+        train(model, device, train_loader, optimizer, dataset_base.task_type)
 
         print('Evaluating...')
         train_perf = eval(model, device, train_loader, evaluator)
@@ -329,11 +329,11 @@ def main():
 
         print({'Train': train_perf, 'Validation': valid_perf, 'Test': test_perf})
 
-        train_curve.append(train_perf[dataset.eval_metric])
-        valid_curve.append(valid_perf[dataset.eval_metric])
-        test_curve.append(test_perf[dataset.eval_metric])
+        train_curve.append(train_perf[dataset_base.eval_metric])
+        valid_curve.append(valid_perf[dataset_base.eval_metric])
+        test_curve.append(test_perf[dataset_base.eval_metric])
 
-    if 'classification' in dataset.task_type:
+    if 'classification' in dataset_base.task_type:
         best_val_epoch = np.argmax(np.array(valid_curve))
         best_train = max(train_curve)
     else:
