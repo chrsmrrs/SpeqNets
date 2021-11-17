@@ -38,22 +38,20 @@ class GINConv(MessagePassing):
 
 class GNN(torch.nn.Module):
     def __init__(self, num_tasks, num_layer, emb_dim):
-
         super(GNN, self).__init__()
         self.num_layer = num_layer
-
-        if self.num_layer < 2:
-            raise ValueError("Number of GNN layers must be greater than 1.")
-
         self.atom_encoder = AtomEncoder(emb_dim)
 
-        ###List of GNNs
-        self.convs = torch.nn.ModuleList()
-        self.batch_norms = torch.nn.ModuleList()
-
-        for layer in range(num_layer):
-            self.convs.append(GINConv(emb_dim))
-            self.batch_norms.append(torch.nn.BatchNorm1d(emb_dim))
+        self.conv_1 = GINConv(emb_dim)
+        self.bn_1 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_2 = GINConv(emb_dim)
+        self.bn_2 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_3 = GINConv(emb_dim)
+        self.bn_3 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_4 = GINConv(emb_dim)
+        self.bn_4 = torch.nn.BatchNorm1d(emb_dim)
+        self.conv_5 = GINConv(emb_dim)
+        self.bn_5 = torch.nn.BatchNorm1d(emb_dim)
 
         self.pool = global_mean_pool
         self.graph_pred_linear = torch.nn.Linear(emb_dim, num_tasks)
@@ -61,24 +59,31 @@ class GNN(torch.nn.Module):
     def forward(self, batched_data):
         x, edge_index, edge_attr, batch = batched_data.x, batched_data.edge_index, batched_data.edge_attr, batched_data.batch
 
-        h_list = [self.atom_encoder(x)]
-        for layer in range(self.num_layer):
+        x = self.atom_encoder(x)
 
-            h = self.convs[layer](h_list[layer], edge_index, edge_attr)
-            h = self.batch_norms[layer](h)
+        x = self.conv_1(x)
+        x = self.bn_1(x)
+        x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-            if layer == self.num_layer - 1:
-                h = F.dropout(h, 0.5, training=self.training)
-            else:
-                h = F.dropout(F.relu(h), 0.5, training=self.training)
+        x = self.conv_2(x)
+        x = self.bn_2(x)
+        x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-            h_list.append(h)
+        x = self.conv_3(x)
+        x = self.bn_3(x)
+        x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        node_representation = h_list[-1]
+        x = self.conv_4(x)
+        x = self.bn_4(x)
+        x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        h_graph = self.pool(node_representation, batched_data.batch)
+        x = self.conv_5(x)
+        x = self.bn_5(x)
+        x = F.dropout(x, 0.5, training=self.training)
 
-        return self.graph_pred_linear(h_graph)
+        x = self.pool(x, batched_data.batch)
+
+        return self.graph_pred_linear(x)
 
 
 def train(model, device, loader, optimizer, task_type):
