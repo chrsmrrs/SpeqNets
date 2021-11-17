@@ -43,7 +43,9 @@ class Mol(InMemoryDataset):
         dataset = PygGraphPropPredDataset(name=dataset)
 
         data_list = []
-        for data in dataset:
+        for i, data in enumerate(dataset):
+
+            print(i)
 
             x = data.x.cpu().detach().numpy()
             edge_index = data.edge_index.cpu().detach().numpy()
