@@ -61,23 +61,23 @@ class GNN(torch.nn.Module):
 
         x = self.atom_encoder(x)
 
-        x = self.conv_1(x)
+        x = self.conv_1(x, edge_index, edge_attr)
         x = self.bn_1(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x = self.conv_2(x)
+        x = self.conv_2(x, edge_index, edge_attr)
         x = self.bn_2(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x = self.conv_3(x)
+        x = self.conv_3(x, edge_index, edge_attr)
         x = self.bn_3(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x = self.conv_4(x)
+        x = self.conv_4(x, edge_index, edge_attr)
         x = self.bn_4(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x = self.conv_5(x)
+        x = self.conv_5(x, edge_index, edge_attr)
         x = self.bn_5(x)
         x = F.dropout(x, 0.5, training=self.training)
 
