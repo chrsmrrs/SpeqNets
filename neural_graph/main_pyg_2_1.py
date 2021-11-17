@@ -290,13 +290,15 @@ class MyTransform(object):
 
 
 def main():
+    dataset_base = PygGraphPropPredDataset(name="ogbg-molhiv")
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
     dataset = Mol(path, transform=MyTransform())
 
     print(dataset.data.x.size())
 
-    split_idx = dataset.get_idx_split()
+    split_idx = dataset_base.get_idx_split()
 
     evaluator = Evaluator("ogbg-molhiv")
 
@@ -307,7 +309,7 @@ def main():
     test_loader = DataLoader(dataset[split_idx["test"]], batch_size=32, shuffle=False,
                              num_workers=0)
 
-    model = GNN(dataset.num_tasks).to(device)
+    model = GNN(dataset_base.num_tasks).to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
