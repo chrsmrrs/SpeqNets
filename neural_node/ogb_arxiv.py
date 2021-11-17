@@ -118,7 +118,6 @@ def main():
     split_idx = dataset.get_idx_split()
     train_idx = split_idx['train'].to(device)
 
-    print(data.adj_t.size())
 
     model = SAGE(data.num_features, args.hidden_channels,
                  dataset.num_classes, args.num_layers,

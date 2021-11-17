@@ -59,6 +59,7 @@ class Arxiv(InMemoryDataset):
 
         node_features = {}
         for i in range(num_nodes):
+            print(i, num_nodes)
             v = g.add_vertex()
             node_features[v] = x[i]
 
