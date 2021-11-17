@@ -188,6 +188,7 @@ def eval(model, device, loader, evaluator):
 
 
 def main():
+    print("###")
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
     dataset = Mol(path)
 
