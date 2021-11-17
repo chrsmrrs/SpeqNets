@@ -47,7 +47,7 @@ class Arxiv(InMemoryDataset):
 
         data = dataset[0]
         data.adj_t = data.adj_t.to_symmetric()
-        print(data.adj_t[3])
+        print(data.adj_t.to_dense())
         exit()
 
         x = data.x.cpu().detach().numpy()
