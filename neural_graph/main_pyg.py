@@ -170,8 +170,7 @@ def main():
     test_loader = DataLoader(dataset[split_idx["test"]], batch_size=32, shuffle=False,
                              num_workers=0)
 
-    model = GNN(gnn_type='gin', num_tasks=dataset.num_tasks, num_layer=5, emb_dim=300,
-                drop_ratio=0.5, virtual_node=False).to(device)
+    model = GNN(num_tasks=dataset.num_tasks, num_layer=5, emb_dim=300).to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
