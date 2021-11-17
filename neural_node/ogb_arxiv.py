@@ -14,128 +14,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torch_geometric.transforms as T
-from graph_tool.all import *
-from torch.nn import Sequential, Linear, ReLU
-from torch_geometric.data import (InMemoryDataset, Data)
-from torch_geometric.datasets import Planetoid
-from torch_geometric.nn import GCNConv
-from torch_scatter import scatter
 
-#from logger import Logger
-
-class Arxiv(InMemoryDataset):
-    def __init__(self, root, transform=None, pre_transform=None,
-                 pre_filter=None):
-        super(Arxiv, self).__init__(root, transform, pre_transform, pre_filter)
-        self.data, self.slices = torch.load(self.processed_paths[0])
-
-    @property
-    def raw_file_names(self):
-        return "arxiv"
-
-    @property
-    def processed_file_names(self):
-        return "arxiv"
-
-    def download(self):
-        pass
-
-    def process(self):
-
-        dataset = PygNodePropPredDataset(name='ogbn-arxiv',
-                                         transform=T.ToSparseTensor())
-
-        data = dataset[0]
-        data.adj_t = data.adj_t.to_symmetric()
-        row, col, value = data.adj_t.coo()
-        row = list(row.cpu().detach().numpy())
-        col = list(col.cpu().detach().numpy())
-
-        x = data.x.cpu().detach().numpy()
-
-        # Create graph for easier processing.
-        g = Graph(directed=False)
-        num_nodes = x.shape[0]
-
-        node_features = {}
-        for i in range(num_nodes):
-            v = g.add_vertex()
-            node_features[v] = x[i]
-
-        for ind, (i, j) in enumerate(zip(row, col)):
-            e = g.add_edge(i, j, add_missing=False)
-
-        tuple_graph = Graph(directed=False)
-        type = {}
-
-        tuple_to_nodes = {}
-        nodes_to_tuple = {}
-        for v in g.vertices():
-            for w in v.all_neighbors():
-                n = tuple_graph.add_vertex()
-                tuple_to_nodes[n] = (v, w)
-                nodes_to_tuple[(v, w)] = n
-
-                type[n] = np.concatenate(
-                    [node_features[v], node_features[w], np.array([1, 0])], axis=-1)
-
-            n = tuple_graph.add_vertex()
-            tuple_to_nodes[n] = (v, v)
-            tuple_to_nodes[(v, v)] = n
-            type[n] = np.concatenate([node_features[v], node_features[v], np.array([0, 1])], axis=-1)
-
-        matrix_1 = []
-        matrix_2 = []
-        node_features = []
-
-        index_1 = []
-        index_2 = []
-
-        for t in tuple_graph.vertices():
-            v, w = tuple_to_nodes[t]
-
-            node_features.append(type[t])
-            index_1.append(int(v))
-            index_2.append(int(w))
-
-            # 1 neighbors.
-            for n in v.out_neighbors():
-                if (n, w) in nodes_to_tuple:
-                    s = nodes_to_tuple[(n, w)]
-                    e = tuple_graph.add_edge(t, s)
-
-                    matrix_1.append([int(t), int(s)])
-
-            # 2 neighbors.
-            for n in w.out_neighbors():
-                if (v, n) in nodes_to_tuple:
-                    s = nodes_to_tuple[(v, n)]
-                    e = tuple_graph.add_edge(t, s)
-
-                    matrix_2.append([int(t), int(s)])
-
-        data_list = []
-
-        data_new = Data()
-
-        edge_index_1 = torch.tensor(matrix_1).t().contiguous()
-        edge_index_2 = torch.tensor(matrix_2).t().contiguous()
-
-        data_new.edge_index_1 = edge_index_1
-        data_new.edge_index_2 = edge_index_2
-
-        data_new.x = torch.from_numpy(np.array(node_features)).to(torch.float)
-        data_new.index_1 = torch.from_numpy(np.array(index_1)).to(torch.int64)
-        data_new.index_2 = torch.from_numpy(np.array(index_2)).to(torch.int64)
-
-        data_new.y = data.y
-        data_new.train_mask = data.train_mask
-        data_new.test_mask = data.test_mask
-
-        data_list.append(data_new)
-
-        data, slices = self.collate(data_list)
-        torch.save((data, slices), self.processed_paths[0])
 
 
 class SAGE(torch.nn.Module):
@@ -143,30 +22,37 @@ class SAGE(torch.nn.Module):
                  dropout):
         super(SAGE, self).__init__()
 
-        self.convs = torch.nn.ModuleList()
-        self.convs.append(SAGEConv(in_channels, hidden_channels))
-        self.bns = torch.nn.ModuleList()
-        self.bns.append(torch.nn.BatchNorm1d(hidden_channels))
-        for _ in range(num_layers - 2):
-            self.convs.append(SAGEConv(hidden_channels, hidden_channels))
-            self.bns.append(torch.nn.BatchNorm1d(hidden_channels))
-        self.convs.append(SAGEConv(hidden_channels, out_channels))
+        self.conv_1 = SAGEConv(in_channels, hidden_channels)
+        self.bn_1 = torch.nn.BatchNorm1d(hidden_channels)
+
+        self.conv_2 = SAGEConv(in_channels, hidden_channels)
+        self.bn_2 = torch.nn.BatchNorm1d(hidden_channels)
+
+        self.conv_3 = SAGEConv(in_channels, hidden_channels)
+        self.bn_3 = torch.nn.BatchNorm1d(hidden_channels)
 
         self.dropout = dropout
 
     def reset_parameters(self):
-        for conv in self.convs:
-            conv.reset_parameters()
-        for bn in self.bns:
-            bn.reset_parameters()
+        self.conv_1.reset_parameters()
+        self.bn_1.reset_parameters()
+        self.conv_2.reset_parameters()
+        self.bn_2.reset_parameters()
+        self.conv_3.reset_parameters()
+        self.bn_3.reset_parameters()
 
     def forward(self, x, adj_t):
-        for i, conv in enumerate(self.convs[:-1]):
-            x = conv(x, adj_t)
-            x = self.bns[i](x)
-            x = F.relu(x)
-            x = F.dropout(x, p=self.dropout, training=self.training)
-        x = self.convs[-1](x, adj_t)
+        x = self.conv_1(x, adj_t)
+        x = self.bn_1(x)
+        x = F.relu(x)
+        x = F.dropout(x, p=self.dropout, training=self.training)
+
+        x = self.conv_2(x, adj_t)
+        x = self.bn_2(x)
+        x = F.relu(x)
+        x = F.dropout(x, p=self.dropout, training=self.training)
+
+        x = self.conv_3(x, adj_t)
         return x.log_softmax(dim=-1)
 
 
@@ -206,12 +92,6 @@ def test(model, data, split_idx, evaluator):
 
 
 def main():
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'CORA')
-    dataset = Arxiv(path)
-    data = dataset[0]
-
-
-    exit(-1)
 
     parser = argparse.ArgumentParser(description='OGBN-Arxiv (GNN)')
     parser.add_argument('--device', type=int, default=0)
