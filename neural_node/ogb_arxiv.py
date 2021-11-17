@@ -51,8 +51,6 @@ class Arxiv(InMemoryDataset):
         row = list(row.cpu().detach().numpy())
         col = list(col.cpu().detach().numpy())
 
-        exit()
-
         x = data.x.cpu().detach().numpy()
 
         # Create graph for easier processing.
@@ -64,13 +62,8 @@ class Arxiv(InMemoryDataset):
             v = g.add_vertex()
             node_features[v] = x[i]
 
-        rows = list(data.adj_t.row.cpu().detach())
-        cols = list(data.adj_t.col.cpu().detach())
-        g.ep.edge_features = g.new_edge_property("double")
-
-        for ind, (i, j) in enumerate(zip(rows, cols)):
+        for ind, (i, j) in enumerate(zip(row, col)):
             e = g.add_edge(i, j, add_missing=False)
-            g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         tuple_graph = Graph(directed=False)
         type = {}
@@ -84,12 +77,12 @@ class Arxiv(InMemoryDataset):
                 nodes_to_tuple[(v, w)] = n
 
                 type[n] = np.concatenate(
-                    [node_features[v], node_features[w], [g.ep.edge_features[g.edge(v, w)]], np.array([1, 0])], axis=-1)
+                    [node_features[v], node_features[w], np.array([1, 0])], axis=-1)
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
-            type[n] = np.concatenate([node_features[v], node_features[v], [0.0], np.array([0, 1])], axis=-1)
+            type[n] = np.concatenate([node_features[v], node_features[v], np.array([0, 1])], axis=-1)
 
         matrix_1 = []
         matrix_2 = []
