@@ -49,12 +49,8 @@ class Arxiv(InMemoryDataset):
         data.adj_t = data.adj_t.to_symmetric()
 
 
-        print(data.adj_t)
-
-        exit()
 
         x = data.x.cpu().detach().numpy()
-        edge_index = data.adj_t.cpu().detach().numpy()
 
         # Create graph for easier processing.
         g = Graph(directed=False)
@@ -65,8 +61,8 @@ class Arxiv(InMemoryDataset):
             v = g.add_vertex()
             node_features[v] = x[i]
 
-        rows = list(edge_index[0])
-        cols = list(edge_index[1])
+        rows = list(data.adj_t.cpu().detach()[0])
+        cols = list(data.adj_t.cpu().detach()[1])
         g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i, j) in enumerate(zip(rows, cols)):
