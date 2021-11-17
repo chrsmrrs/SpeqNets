@@ -49,10 +49,6 @@ class Mol(InMemoryDataset):
             edge_index = data.edge_index.cpu().detach().numpy()
             edge_attr = data.edge_attr[:, :2].cpu().detach().numpy()
 
-            print(edge_attr.shape)
-
-            exit()
-
             # Create graph for easier processing.
             g = Graph(directed=False)
             num_nodes = x.shape[0]
@@ -87,7 +83,7 @@ class Mol(InMemoryDataset):
                 n = tuple_graph.add_vertex()
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0], np.array([0, 1])], axis=-1)
+                type[n] = np.concatenate([node_features[v], node_features[v], [0.0, 0.0], np.array([0, 1])], axis=-1)
 
             matrix_1 = []
             matrix_2 = []
