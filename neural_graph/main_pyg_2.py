@@ -1,5 +1,3 @@
-import argparse
-
 import os.path as osp
 
 import numpy as np
@@ -251,5 +249,5 @@ def main():
     print('Best validation score: {}'.format(valid_curve[best_val_epoch]))
     print('Test score: {}'.format(test_curve[best_val_epoch]))
 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()
