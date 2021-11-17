@@ -64,9 +64,9 @@ class GNN_node(torch.nn.Module):
             h = self.batch_norms[layer](h)
 
             if layer == self.num_layer - 1:
-                h = F.dropout(h, self.drop_ratio, training=self.training)
+                h = F.dropout(h, 0.5, training=self.training)
             else:
-                h = F.dropout(F.relu(h), self.drop_ratio, training=self.training)
+                h = F.dropout(F.relu(h), 0.5, training=self.training)
 
             h_list.append(h)
 
