@@ -98,8 +98,7 @@ class Mol(InMemoryDataset):
             matrix_2 = []
             node_features = []
 
-
-            for t in range(n):
+            for t in range(tuples):
                 v, w = tuple_to_nodes[t]
 
                 node_features.append(type[t])
