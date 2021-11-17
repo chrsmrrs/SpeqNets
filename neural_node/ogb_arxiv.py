@@ -35,7 +35,7 @@ class Arxiv(InMemoryDataset):
 
     @property
     def processed_file_names(self):
-        return "Pubmed"
+        return "arxiv"
 
     def download(self):
         pass
@@ -230,8 +230,7 @@ def main():
     args = parser.parse_args()
     print(args)
 
-    device = f'cuda:{args.device}' if torch.cuda.is_available() else 'cpu'
-    device = torch.device(device)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     dataset = PygNodePropPredDataset(name='ogbn-arxiv',
                                      transform=T.ToSparseTensor())
