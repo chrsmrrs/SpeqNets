@@ -1,15 +1,103 @@
-import argparse
-
-import numpy as np
-import torch
-import torch.optim as optim
-from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
-from torch_geometric.data import DataLoader
-from tqdm import tqdm
 import numpy as np
 import torch
 import torch.nn.functional as F
+import torch.optim as optim
+from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
+from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
+from torch_geometric.data import DataLoader
+from torch_geometric.nn import MessagePassing
+from torch_geometric.nn import global_mean_pool
+from tqdm import tqdm
 
+cls_criterion = torch.nn.BCEWithLogitsLoss()
+reg_criterion = torch.nn.MSELoss()
+
+
+class GINConv(MessagePassing):
+    def __init__(self, emb_dim):
+        super(GINConv, self).__init__(aggr="add")
+
+        self.mlp = torch.nn.Sequential(torch.nn.Linear(emb_dim, 2 * emb_dim), torch.nn.BatchNorm1d(2 * emb_dim),
+                                       torch.nn.ReLU(), torch.nn.Linear(2 * emb_dim, emb_dim))
+        self.eps = torch.nn.Parameter(torch.Tensor([0]))
+
+        self.bond_encoder = BondEncoder(emb_dim=emb_dim)
+
+    def forward(self, x, edge_index, edge_attr):
+        edge_embedding = self.bond_encoder(edge_attr)
+        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x, edge_attr=edge_embedding))
+
+        return out
+
+    def message(self, x_j, edge_attr):
+        return F.relu(x_j + edge_attr)
+
+    def update(self, aggr_out):
+        return aggr_out
+
+class GNN_node(torch.nn.Module):
+    def __init__(self, num_layer, emb_dim):
+
+        super(GNN_node, self).__init__()
+        self.num_layer = num_layer
+
+        if self.num_layer < 2:
+            raise ValueError("Number of GNN layers must be greater than 1.")
+
+        self.atom_encoder = AtomEncoder(emb_dim)
+
+        ###List of GNNs
+        self.convs = torch.nn.ModuleList()
+        self.batch_norms = torch.nn.ModuleList()
+
+        for layer in range(num_layer):
+            self.convs.append(GINConv(emb_dim))
+            self.batch_norms.append(torch.nn.BatchNorm1d(emb_dim))
+
+    def forward(self, batched_data):
+        x, edge_index, edge_attr, batch = batched_data.x, batched_data.edge_index, batched_data.edge_attr, batched_data.batch
+
+        h_list = [self.atom_encoder(x)]
+        for layer in range(self.num_layer):
+
+            h = self.convs[layer](h_list[layer], edge_index, edge_attr)
+            h = self.batch_norms[layer](h)
+
+            if layer == self.num_layer - 1:
+                h = F.dropout(h, self.drop_ratio, training=self.training)
+            else:
+                h = F.dropout(F.relu(h), self.drop_ratio, training=self.training)
+
+            h_list.append(h)
+
+        node_representation = h_list[-1]
+
+        return node_representation
+
+
+class GNN(torch.nn.Module):
+
+    def __init__(self, num_tasks, num_layer=5, emb_dim=300):
+        super(GNN, self).__init__()
+
+        self.num_layer = num_layer
+        self.emb_dim = emb_dim
+        self.num_tasks = num_tasks
+
+        if self.num_layer < 2:
+            raise ValueError("Number of GNN layers must be greater than 1.")
+
+        self.gnn_node = GNN_node(num_layer, emb_dim)
+
+        self.pool = global_mean_pool
+        self.graph_pred_linear = torch.nn.Linear(self.emb_dim, self.num_tasks)
+
+    def forward(self, batched_data):
+        h_node = self.gnn_node(batched_data)
+
+        h_graph = self.pool(h_node, batched_data.batch)
+
+        return self.graph_pred_linear(h_graph)
 
 
 def train(model, device, loader, optimizer, task_type):
