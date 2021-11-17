@@ -43,7 +43,7 @@ class Mol(InMemoryDataset):
         dataset = PygGraphPropPredDataset(name=dataset)
 
         exit()
-
+        data_list = []
         for data in dataset:
 
             x = data.x.cpu().detach().numpy()
@@ -115,7 +115,6 @@ class Mol(InMemoryDataset):
 
                         matrix_2.append([int(t), int(s)])
 
-            data_list = []
 
             data_new = Data()
 
@@ -130,8 +129,6 @@ class Mol(InMemoryDataset):
             data_new.index_2 = torch.from_numpy(np.array(index_2)).to(torch.int64)
 
             data_new.y = data.y
-            data_new.train_mask = data.train_mask
-            data_new.test_mask = data.test_mask
 
             data_list.append(data_new)
 
