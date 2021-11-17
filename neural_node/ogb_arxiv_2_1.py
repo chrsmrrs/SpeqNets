@@ -94,7 +94,7 @@ class Arxiv(InMemoryDataset):
         index_2 = []
 
         for i,t in enumerate(tuple_graph.vertices()):
-            print(i, num_nodes),
+            print(i, tuple_graph.num_vertices()),
 
             v, w = tuple_to_nodes[t]
 
