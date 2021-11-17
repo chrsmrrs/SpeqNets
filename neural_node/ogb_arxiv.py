@@ -48,6 +48,11 @@ class Arxiv(InMemoryDataset):
         data = dataset[0]
         data.adj_t = data.adj_t.to_symmetric()
 
+
+        print(data.adj_t)
+
+        exit()
+
         x = data.x.cpu().detach().numpy()
         edge_index = data.adj_t.cpu().detach().numpy()
 
