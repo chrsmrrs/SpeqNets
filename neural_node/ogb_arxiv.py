@@ -8,7 +8,7 @@ from torch_geometric.nn import SAGEConv
 
 from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
 
-from logger import Logger
+#from logger import Logger
 
 
 class SAGE(torch.nn.Module):
@@ -113,7 +113,7 @@ def main():
                  args.dropout).to(device)
 
     evaluator = Evaluator(name='ogbn-arxiv')
-    logger = Logger(args.runs, args)
+    #logger = Logger(args.runs, args)
 
     for run in range(args.runs):
         model.reset_parameters()
@@ -121,7 +121,7 @@ def main():
         for epoch in range(1, 1 + args.epochs):
             loss = train(model, data, train_idx, optimizer)
             result = test(model, data, split_idx, evaluator)
-            logger.add_result(run, result)
+            #logger.add_result(run, result)
 
             if epoch % args.log_steps == 0:
                 train_acc, valid_acc, test_acc = result
@@ -132,8 +132,8 @@ def main():
                       f'Valid: {100 * valid_acc:.2f}% '
                       f'Test: {100 * test_acc:.2f}%')
 
-        logger.print_statistics(run)
-    logger.print_statistics()
+        #logger.print_statistics(run)
+    #logger.print_statistics()
 
 
 if __name__ == "__main__":
