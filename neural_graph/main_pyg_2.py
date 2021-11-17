@@ -60,11 +60,11 @@ class Mol(InMemoryDataset):
 
             rows = list(edge_index[0])
             cols = list(edge_index[1])
-            edge_vectors = {}
+            edge_features = {}
 
             for ind, (i, j) in enumerate(zip(rows, cols)):
                 e = g.add_edge(i, j, add_missing=False)
-                g.ep.edge_features[e] = data.edge_attr[ind]
+                edge_features[e] = edge_attr[ind]
 
             tuple_graph = Graph(directed=False)
             type = {}
@@ -186,7 +186,6 @@ def eval(model, device, loader, evaluator):
 
 
 def main():
-    print("###")
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
     dataset = Mol(path)
 
