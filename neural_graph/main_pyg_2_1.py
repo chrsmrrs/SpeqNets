@@ -70,7 +70,6 @@ class Mol(InMemoryDataset):
                 e = g.add_edge(i, j, add_missing=False)
                 edge_features[e] = edge_attr[ind]
 
-            tuple_graph = Graph(directed=False)
             type = {}
 
             tuple_to_nodes = {}
