@@ -35,10 +35,11 @@ class GINConv(MessagePassing):
     def update(self, aggr_out):
         return aggr_out
 
-class GNN_node(torch.nn.Module):
-    def __init__(self, num_layer, emb_dim):
 
-        super(GNN_node, self).__init__()
+class GNN(torch.nn.Module):
+    def __init__(self, num_tasks, num_layer, emb_dim):
+
+        super(GNN, self).__init__()
         self.num_layer = num_layer
 
         if self.num_layer < 2:
@@ -53,6 +54,9 @@ class GNN_node(torch.nn.Module):
         for layer in range(num_layer):
             self.convs.append(GINConv(emb_dim))
             self.batch_norms.append(torch.nn.BatchNorm1d(emb_dim))
+
+        self.pool = global_mean_pool
+        self.graph_pred_linear = torch.nn.Linear(emb_dim, num_tasks)
 
     def forward(self, batched_data):
         x, edge_index, edge_attr, batch = batched_data.x, batched_data.edge_index, batched_data.edge_attr, batched_data.batch
@@ -72,30 +76,7 @@ class GNN_node(torch.nn.Module):
 
         node_representation = h_list[-1]
 
-        return node_representation
-
-
-class GNN(torch.nn.Module):
-
-    def __init__(self, num_tasks, num_layer=5, emb_dim=300):
-        super(GNN, self).__init__()
-
-        self.num_layer = num_layer
-        self.emb_dim = emb_dim
-        self.num_tasks = num_tasks
-
-        if self.num_layer < 2:
-            raise ValueError("Number of GNN layers must be greater than 1.")
-
-        self.gnn_node = GNN_node(num_layer, emb_dim)
-
-        self.pool = global_mean_pool
-        self.graph_pred_linear = torch.nn.Linear(self.emb_dim, self.num_tasks)
-
-    def forward(self, batched_data):
-        h_node = self.gnn_node(batched_data)
-
-        h_graph = self.pool(h_node, batched_data.batch)
+        h_graph = self.pool(node_representation, batched_data.batch)
 
         return self.graph_pred_linear(h_graph)
 
@@ -170,7 +151,7 @@ def main():
     test_loader = DataLoader(dataset[split_idx["test"]], batch_size=32, shuffle=False,
                              num_workers=0)
 
-    model = GNN(num_tasks=dataset.num_tasks, num_layer=5, emb_dim=300).to(device)
+    model = GNN(dataset.num_tasks, 5, 300).to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
