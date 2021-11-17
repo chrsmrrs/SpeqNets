@@ -7,12 +7,10 @@ from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
 from torch_geometric.data import DataLoader
 from tqdm import tqdm
 from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
-from gnn import GNN
 import torch_geometric.transforms as T
 from graph_tool.all import *
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
-from gnn import GNN
 
 cls_criterion = torch.nn.BCEWithLogitsLoss()
 reg_criterion = torch.nn.MSELoss()
@@ -53,10 +51,6 @@ class Mol(InMemoryDataset):
 
 
             edge_index = data.edge_index.cpu().detach().numpy()
-
-
-
-
 
             # Create graph for easier processing.
             g = Graph(directed=False)
