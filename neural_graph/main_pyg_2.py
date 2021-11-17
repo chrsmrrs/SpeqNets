@@ -38,7 +38,7 @@ class Mol(InMemoryDataset):
         pass
 
     def process(self):
-        dataset = 'Mol'
+        dataset = 'ogbg-molhiv'
 
         dataset = PygGraphPropPredDataset(name=dataset)
 
