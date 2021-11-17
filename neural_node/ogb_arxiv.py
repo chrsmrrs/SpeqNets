@@ -48,7 +48,8 @@ class Arxiv(InMemoryDataset):
         data = dataset[0]
         data.adj_t = data.adj_t.to_symmetric()
 
-        print(data.adj_t)
+        print(data.adj_t2)
+        print(data.adj_t2[0])
         exit()
 
         x = data.x.cpu().detach().numpy()
