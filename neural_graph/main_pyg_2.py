@@ -42,7 +42,6 @@ class Mol(InMemoryDataset):
 
         dataset = PygGraphPropPredDataset(name=dataset)
 
-        exit()
         data_list = []
         for data in dataset:
 
