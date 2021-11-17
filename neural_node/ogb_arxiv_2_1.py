@@ -71,7 +71,8 @@ class Arxiv(InMemoryDataset):
 
         tuple_to_nodes = {}
         nodes_to_tuple = {}
-        for v in g.vertices():
+        for i, v in enumerate(g.vertices()):
+            print(i)
             for w in v.all_neighbors():
                 n = tuple_graph.add_vertex()
                 tuple_to_nodes[n] = (v, w)

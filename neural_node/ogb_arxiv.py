@@ -25,11 +25,11 @@ class SAGE(torch.nn.Module):
         self.conv_1 = SAGEConv(in_channels, hidden_channels)
         self.bn_1 = torch.nn.BatchNorm1d(hidden_channels)
 
-        self.conv_2 = SAGEConv(in_channels, hidden_channels)
+        self.conv_2 = SAGEConv(hidden_channels, hidden_channels)
         self.bn_2 = torch.nn.BatchNorm1d(hidden_channels)
 
-        self.conv_3 = SAGEConv(in_channels, hidden_channels)
-        self.bn_3 = torch.nn.BatchNorm1d(hidden_channels)
+        self.conv_3 = SAGEConv(hidden_channels, out_channels)
+        self.bn_3 = torch.nn.BatchNorm1d(out_channels)
 
         self.dropout = dropout
 
