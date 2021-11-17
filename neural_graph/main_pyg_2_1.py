@@ -189,7 +189,7 @@ class GNN(torch.nn.Module):
         self.graph_pred_linear = torch.nn.Linear(dim, num_tasks)
 
     def forward(self, batched_data):
-        x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.batch
+        x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.edge_index_2, batched_data.batch
 
 
         x_1 = self.conv_1_1(x, edge_index_1)
