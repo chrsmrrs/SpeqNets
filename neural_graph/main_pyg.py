@@ -37,9 +37,8 @@ class GINConv(MessagePassing):
 
 
 class GNN(torch.nn.Module):
-    def __init__(self, num_tasks, num_layer, emb_dim):
+    def __init__(self, num_tasks, emb_dim):
         super(GNN, self).__init__()
-        self.num_layer = num_layer
         self.atom_encoder = AtomEncoder(emb_dim)
 
         self.conv_1 = GINConv(emb_dim)
@@ -156,7 +155,7 @@ def main():
     test_loader = DataLoader(dataset[split_idx["test"]], batch_size=32, shuffle=False,
                              num_workers=0)
 
-    model = GNN(dataset.num_tasks, 5, 300).to(device)
+    model = GNN(dataset.num_tasks, 100).to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
