@@ -155,40 +155,38 @@ class GINConv(MessagePassing):
 
 
 class GNN(torch.nn.Module):
-    def __init__(self, num_tasks, num_layer, emb_dim):
+    def __init__(self, num_tasks):
         super(GNN, self).__init__()
-        self.num_layer = num_layer
-        self.atom_encoder = AtomEncoder(emb_dim)
 
-        dim =4444
+        dim = 302
 
-        self.conv_1_1 = GINConv(emb_dim)
-        self.conv_1_2 = GINConv(emb_dim)
+        self.conv_1_1 = GINConv(dim)
+        self.conv_1_2 = GINConv(dim)
         self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
-        self.bn_1 = torch.nn.BatchNorm1d(emb_dim)
+        self.bn_1 = torch.nn.BatchNorm1d(dim)
 
-        self.conv_2_1 = GINConv(emb_dim)
-        self.conv_2_2 = GINConv(emb_dim)
+        self.conv_2_1 = GINConv(dim)
+        self.conv_2_2 = GINConv(dim)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
-        self.bn_2 = torch.nn.BatchNorm1d(emb_dim)
+        self.bn_2 = torch.nn.BatchNorm1d(dim)
 
-        self.conv_3_1 = GINConv(emb_dim)
-        self.conv_3_2 = GINConv(emb_dim)
+        self.conv_3_1 = GINConv(dim)
+        self.conv_3_2 = GINConv(dim)
         self.mlp_3 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
-        self.bn_3 = torch.nn.BatchNorm1d(emb_dim)
+        self.bn_3 = torch.nn.BatchNorm1d(dim)
 
-        self.conv_4_1 = GINConv(emb_dim)
-        self.conv_4_2 = GINConv(emb_dim)
+        self.conv_4_1 = GINConv(dim)
+        self.conv_4_2 = GINConv(dim)
         self.mlp_4 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
-        self.bn_4 = torch.nn.BatchNorm1d(emb_dim)
+        self.bn_4 = torch.nn.BatchNorm1d(dim)
 
-        self.conv_5_1 = GINConv(emb_dim)
-        self.conv_5_2 = GINConv(emb_dim)
+        self.conv_5_1 = GINConv(dim)
+        self.conv_5_2 = GINConv(dim)
         self.mlp_5 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
-        self.bn_5 = torch.nn.BatchNorm1d(emb_dim)
+        self.bn_5 = torch.nn.BatchNorm1d(dim)
 
         self.pool = global_mean_pool
-        self.graph_pred_linear = torch.nn.Linear(emb_dim, num_tasks)
+        self.graph_pred_linear = torch.nn.Linear(dim, num_tasks)
 
     def forward(self, batched_data):
         x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.batch
@@ -298,17 +296,6 @@ def main():
 
     print(dataset.data.x.size())
 
-    exit()
-
-    feature = 'simple'
-
-    if feature == 'full':
-        pass
-    elif feature == 'simple':
-        print('using simple feature')
-        dataset.data.x = dataset.data.x[:, :2]
-        dataset.data.edge_attr = dataset.data.edge_attr[:, :2]
-
     split_idx = dataset.get_idx_split()
 
     evaluator = Evaluator("ogbg-molhiv")
@@ -320,7 +307,7 @@ def main():
     test_loader = DataLoader(dataset[split_idx["test"]], batch_size=32, shuffle=False,
                              num_workers=0)
 
-    model = GNN(dataset.num_tasks, 5, 300).to(device)
+    model = GNN(dataset.num_tasks).to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
