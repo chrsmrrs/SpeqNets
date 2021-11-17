@@ -83,8 +83,7 @@ def main():
                              num_workers=0)
 
     model = GNN(gnn_type='gin', num_tasks=dataset.num_tasks, num_layer=5, emb_dim=300,
-                    drop_ratio=0.5, virtual_node=False).to(device)
-
+                drop_ratio=0.5, virtual_node=False).to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -118,7 +117,6 @@ def main():
     print('Finished training!')
     print('Best validation score: {}'.format(valid_curve[best_val_epoch]))
     print('Test score: {}'.format(test_curve[best_val_epoch]))
-
 
 
 if __name__ == "__main__":
