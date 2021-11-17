@@ -6,7 +6,7 @@ from gnn_baselines.gnn_architectures import GIN, GINE, GINEWithJK, GINWithJK
 def main():
     num_reps = 10
 
-    ### Smaller datasets.
+    ### Smaller datasets.t
     dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["NCI1", True], ["PROTEINS", True],
                ["REDDIT-BINARY", False], ["PTC_MR", True],["MUTAG", True]]
 
