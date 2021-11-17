@@ -92,7 +92,7 @@ class Mol(InMemoryDataset):
 
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 300, np.array([0, 1])], axis=-1)
+                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 100, np.array([0, 1])], axis=-1)
 
             matrix_1 = []
             matrix_2 = []
