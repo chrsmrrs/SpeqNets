@@ -13,6 +13,7 @@ from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
 from torch_geometric.data import DataLoader
 from torch_geometric.nn import MessagePassing
 from torch_geometric.nn import global_mean_pool
+from torch.nn import Sequential, Linear, ReLU
 from tqdm import tqdm
 
 cls_criterion = torch.nn.BCEWithLogitsLoss()
@@ -141,16 +142,13 @@ class GINConv(MessagePassing):
                                        torch.nn.ReLU(), torch.nn.Linear(2 * emb_dim, emb_dim))
         self.eps = torch.nn.Parameter(torch.Tensor([0]))
 
-        self.bond_encoder = BondEncoder(emb_dim=emb_dim)
-
-    def forward(self, x, edge_index, edge_attr):
-        edge_embedding = self.bond_encoder(edge_attr)
-        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x, edge_attr=edge_embedding))
+    def forward(self, x, edge_index):
+        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x))
 
         return out
 
-    def message(self, x_j, edge_attr):
-        return F.relu(x_j + edge_attr)
+    def message(self, x_j):
+        return x_j
 
     def update(self, aggr_out):
         return aggr_out
@@ -162,59 +160,67 @@ class GNN(torch.nn.Module):
         self.num_layer = num_layer
         self.atom_encoder = AtomEncoder(emb_dim)
 
+        dim =
+
         self.conv_1_1 = GINConv(emb_dim)
-        self.bn_1_1 = torch.nn.BatchNorm1d(emb_dim)
         self.conv_1_2 = GINConv(emb_dim)
-        self.bn_1_2 = torch.nn.BatchNorm1d(emb_dim)
+        self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.bn_1 = torch.nn.BatchNorm1d(emb_dim)
 
         self.conv_2_1 = GINConv(emb_dim)
-        self.bn_2_1 = torch.nn.BatchNorm1d(emb_dim)
         self.conv_2_2 = GINConv(emb_dim)
-        self.bn_2_2 = torch.nn.BatchNorm1d(emb_dim)
+        self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.bn_2 = torch.nn.BatchNorm1d(emb_dim)
 
         self.conv_3_1 = GINConv(emb_dim)
-        self.bn_3_1 = torch.nn.BatchNorm1d(emb_dim)
         self.conv_3_2 = GINConv(emb_dim)
-        self.bn_3_2 = torch.nn.BatchNorm1d(emb_dim)
+        self.mlp_3 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.bn_3 = torch.nn.BatchNorm1d(emb_dim)
 
         self.conv_4_1 = GINConv(emb_dim)
-        self.bn_4_1 = torch.nn.BatchNorm1d(emb_dim)
         self.conv_4_2 = GINConv(emb_dim)
-        self.bn_4_2 = torch.nn.BatchNorm1d(emb_dim)
+        self.mlp_4 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.bn_4 = torch.nn.BatchNorm1d(emb_dim)
 
         self.conv_5_1 = GINConv(emb_dim)
-        self.bn_5_1 = torch.nn.BatchNorm1d(emb_dim)
         self.conv_5_2 = GINConv(emb_dim)
-        self.bn_5_2 = torch.nn.BatchNorm1d(emb_dim)
-
+        self.mlp_5 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.bn_5 = torch.nn.BatchNorm1d(emb_dim)
 
         self.pool = global_mean_pool
         self.graph_pred_linear = torch.nn.Linear(emb_dim, num_tasks)
 
     def forward(self, batched_data):
-        x, edge_index, edge_attr, batch = batched_data.x, batched_data.edge_index, batched_data.edge_attr, batched_data.batch
+        x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.batch
 
-        x = self.atom_encoder(x)
 
-        x = self.conv_1_1(x, edge_index, edge_attr)
-        x = self.conv_1_2(x, edge_index, edge_attr)
-        x = self.bn_1_1(x)
-        x = self.bn_1_1(x)
+        x_1 = self.conv_1_1(x, edge_index_1)
+        x_2 = self.conv_1_2(x, edge_index_2)
+        x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
+        x = self.bn_1(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x = self.conv_2(x, edge_index, edge_attr)
+        x_1 = self.conv_2_1(x, edge_index_1)
+        x_2 = self.conv_2_2(x, edge_index_2)
+        x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
         x = self.bn_2(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x = self.conv_3(x, edge_index, edge_attr)
+        x_1 = self.conv_3_1(x, edge_index_1)
+        x_2 = self.conv_3_2(x, edge_index_2)
+        x = self.mlp_3(torch.cat([x_1, x_2], dim=-1))
         x = self.bn_3(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x = self.conv_4(x, edge_index, edge_attr)
+        x_1 = self.conv_4_1(x, edge_index_1)
+        x_2 = self.conv_4_2(x, edge_index_2)
+        x = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
         x = self.bn_4(x)
         x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x = self.conv_5(x, edge_index, edge_attr)
+        x_1 = self.conv_5_1(x, edge_index_1)
+        x_2 = self.conv_5_2(x, edge_index_2)
+        x = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
         x = self.bn_5(x)
         x = F.dropout(x, 0.5, training=self.training)
 
@@ -269,10 +275,28 @@ def eval(model, device, loader, evaluator):
     return evaluator.eval(input_dict)
 
 
+class MyData(Data):
+    def __inc__(self, key, value):
+        return self.num_nodes if key in [
+            'edge_index_1', 'edge_index_2'
+        ] else 0
+
+
+class MyTransform(object):
+    def __call__(self, data):
+        new_data = MyData()
+        for key, item in data:
+            new_data[key] = item
+        return new_data
+
+
+
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
-    dataset = Mol(path)
+    dataset = Mol(path, transform=MyTransform())
+
+    print(dataset.data.x.size())
 
     exit()
 
