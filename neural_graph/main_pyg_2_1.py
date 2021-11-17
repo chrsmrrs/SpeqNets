@@ -160,7 +160,7 @@ class GNN(torch.nn.Module):
         self.num_layer = num_layer
         self.atom_encoder = AtomEncoder(emb_dim)
 
-        dim =
+        dim =4444
 
         self.conv_1_1 = GINConv(emb_dim)
         self.conv_1_2 = GINConv(emb_dim)
