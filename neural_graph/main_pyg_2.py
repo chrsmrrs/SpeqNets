@@ -6,7 +6,7 @@ import torch.optim as optim
 from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
 from torch_geometric.data import DataLoader
 from tqdm import tqdm
-
+from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
 from gnn import GNN
 import torch_geometric.transforms as T
 from graph_tool.all import *
@@ -39,15 +39,24 @@ class Mol(InMemoryDataset):
         dataset = PygGraphPropPredDataset(name="ogbg-molhiv")
 
         print(len(dataset))
+        atom_encoder = AtomEncoder(300)
+        bond_encoder = BondEncoder(300)
 
         data_list = []
         for i, data in enumerate(dataset):
 
             print(i)
 
-            x = data.x[:, :2].cpu().detach().numpy()
+
+            x = atom_encoder(data.x[:, :2]).cpu().detach().numpy()
+            edge_attr = bond_encoder(data.edge_attr[:, :2]).cpu().detach().numpy()
+
+
             edge_index = data.edge_index.cpu().detach().numpy()
-            edge_attr = data.edge_attr[:, :2].cpu().detach().numpy()
+
+
+
+
 
             # Create graph for easier processing.
             g = Graph(directed=False)
@@ -83,7 +92,7 @@ class Mol(InMemoryDataset):
                 n = tuple_graph.add_vertex()
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0, 0.0], np.array([0, 1])], axis=-1)
+                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 300, np.array([0, 1])], axis=-1)
 
             matrix_1 = []
             matrix_2 = []
