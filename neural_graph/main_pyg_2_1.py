@@ -274,7 +274,7 @@ def eval(model, device, loader, evaluator):
 
 
 class MyData(Data):
-    def __inc__(self, key, value):
+    def __inc__(self, key, value, *args, **kwargs):
         return self.num_nodes if key in [
             'edge_index_1', 'edge_index_2'
         ] else 0
