@@ -12,6 +12,7 @@ from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.nn import MessagePassing
 from torch_geometric.nn import global_mean_pool
 from tqdm import tqdm
+import torch.nn.functional as F
 
 cls_criterion = torch.nn.BCEWithLogitsLoss()
 reg_criterion = torch.nn.MSELoss()
@@ -197,31 +198,31 @@ class GNN(torch.nn.Module):
         x_2 = self.conv_1_2(x, edge_index_2)
         x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
         x_1_out = self.bn_1(x)
-        # x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x_1_out = F.dropout(F.relu(x_1_out), 0.5, training=self.training)
 
         x_1 = self.conv_2_1(x_1_out, edge_index_1)
         x_2 = self.conv_2_2(x_1_out, edge_index_2)
         x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
-        x_2_out = self.bn_2(x)
-        # x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x_2_out = self.bn_1(x)
+        x_2_out = F.dropout(F.relu(x_2_out), 0.5, training=self.training)
 
         x_1 = self.conv_3_1(x_2_out, edge_index_1)
         x_2 = self.conv_3_2(x_2_out, edge_index_2)
         x = self.mlp_3(torch.cat([x_1, x_2], dim=-1))
-        x_3_out = self.bn_3(x)
-        # x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x_3_out = self.bn_1(x)
+        x_3_out = F.dropout(F.relu(x_3_out), 0.5, training=self.training)
 
         x_1 = self.conv_4_1(x_3_out, edge_index_1)
         x_2 = self.conv_4_2(x_3_out, edge_index_2)
         x = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
-        x_4_out = self.bn_4(x)
-        # x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x_4_out = self.bn_1(x)
+        x_4_out = F.dropout(F.relu(x_4_out), 0.5, training=self.training)
 
         x_1 = self.conv_5_1(x_4_out, edge_index_1)
         x_2 = self.conv_5_2(x_4_out, edge_index_2)
         x = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
-        x_5_out = self.bn_5(x)
-        # x = F.dropout(x, 0.5, training=self.training)
+        x_5_out = self.bn_1(x)
+        x_5_out = F.dropout(F.relu(x_5_out), 0.5, training=self.training)
 
         x = torch.cat([x, x_1_out, x_2_out, x_3_out, x_4_out, x_5_out], dim=-1)
 
