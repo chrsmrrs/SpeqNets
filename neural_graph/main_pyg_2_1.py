@@ -49,8 +49,11 @@ class Mol(InMemoryDataset):
 
             print(i)
 
-            x = atom_encoder(data.x[:, :2]).cpu().detach().numpy()
-            edge_attr = bond_encoder(data.edge_attr[:, :2]).cpu().detach().numpy()
+            #x = atom_encoder(data.x[:, :2]).cpu().detach().numpy()
+            #edge_attr = bond_encoder(data.edge_attr[:, :2]).cpu().detach().numpy()
+
+            x = atom_encoder(data.x).cpu().detach().numpy()
+            edge_attr = bond_encoder(data.edge_attr).cpu().detach().numpy()
 
             edge_index = data.edge_index.cpu().detach().numpy()
 
@@ -195,25 +198,25 @@ class GNN(torch.nn.Module):
         x_2 = self.conv_1_2(x, edge_index_2)
         x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
         x = self.bn_1(x)
-        #x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x = F.dropout(F.relu(x), 0.5, training=self.training)
 
         x_1 = self.conv_2_1(x, edge_index_1)
         x_2 = self.conv_2_2(x, edge_index_2)
         x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
         x = self.bn_2(x)
-        #x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x = F.dropout(F.relu(x), 0.5, training=self.training)
 
         x_1 = self.conv_3_1(x, edge_index_1)
         x_2 = self.conv_3_2(x, edge_index_2)
         x = self.mlp_3(torch.cat([x_1, x_2], dim=-1))
         x = self.bn_3(x)
-        #x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x = F.dropout(F.relu(x), 0.5, training=self.training)
 
         x_1 = self.conv_4_1(x, edge_index_1)
         x_2 = self.conv_4_2(x, edge_index_2)
         x = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
         x = self.bn_4(x)
-        #x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x = F.dropout(F.relu(x), 0.5, training=self.training)
 
         x_1 = self.conv_5_1(x, edge_index_1)
         x_2 = self.conv_5_2(x, edge_index_2)

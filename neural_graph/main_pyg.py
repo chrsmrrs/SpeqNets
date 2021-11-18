@@ -136,7 +136,7 @@ def main():
     dataset = PygGraphPropPredDataset(name="ogbg-moltox21")
     print(len(dataset))
 
-    feature = 'simple'
+    feature = 'full'
 
     if feature == 'full':
         pass
