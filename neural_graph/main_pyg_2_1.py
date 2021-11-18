@@ -1,19 +1,16 @@
 import os.path as osp
 
-from tqdm import tqdm
-from graph_tool.all import *
-from torch_geometric.data import (InMemoryDataset, Data)
-
 import numpy as np
 import torch
-import torch.nn.functional as F
 import torch.optim as optim
+from graph_tool.all import *
 from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
 from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
+from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import DataLoader
+from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.nn import MessagePassing
 from torch_geometric.nn import global_mean_pool
-from torch.nn import Sequential, Linear, ReLU
 from tqdm import tqdm
 
 cls_criterion = torch.nn.BCEWithLogitsLoss()
@@ -49,8 +46,8 @@ class Mol(InMemoryDataset):
 
             print(i)
 
-            #x = atom_encoder(data.x[:, :2]).cpu().detach().numpy()
-            #edge_attr = bond_encoder(data.edge_attr[:, :2]).cpu().detach().numpy()
+            # x = atom_encoder(data.x[:, :2]).cpu().detach().numpy()
+            # edge_attr = bond_encoder(data.edge_attr[:, :2]).cpu().detach().numpy()
 
             x = atom_encoder(data.x).cpu().detach().numpy()
             edge_attr = bond_encoder(data.edge_attr).cpu().detach().numpy()
@@ -189,40 +186,44 @@ class GNN(torch.nn.Module):
         self.bn_5 = torch.nn.BatchNorm1d(dim)
 
         self.pool = global_mean_pool
-        self.graph_pred_linear = torch.nn.Linear(dim, num_tasks)
+        self.graph_pred_linear = torch.nn.Linear(6*dim, num_tasks)
 
     def forward(self, batched_data):
         x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.edge_index_2, batched_data.batch
 
+        x_out = x
+
         x_1 = self.conv_1_1(x, edge_index_1)
         x_2 = self.conv_1_2(x, edge_index_2)
         x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
-        x = self.bn_1(x)
-        #x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x_1_out = self.bn_1(x)
+        # x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x_1 = self.conv_2_1(x, edge_index_1)
-        x_2 = self.conv_2_2(x, edge_index_2)
+        x_1 = self.conv_2_1(x_1_out, edge_index_1)
+        x_2 = self.conv_2_2(x_1_out, edge_index_2)
         x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
-        x = self.bn_2(x)
-        #x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x_2_out = self.bn_2(x)
+        # x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x_1 = self.conv_3_1(x, edge_index_1)
-        x_2 = self.conv_3_2(x, edge_index_2)
+        x_1 = self.conv_3_1(x_2_out, edge_index_1)
+        x_2 = self.conv_3_2(x_2_out, edge_index_2)
         x = self.mlp_3(torch.cat([x_1, x_2], dim=-1))
-        x = self.bn_3(x)
-        #x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x_3_out = self.bn_3(x)
+        # x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x_1 = self.conv_4_1(x, edge_index_1)
-        x_2 = self.conv_4_2(x, edge_index_2)
+        x_1 = self.conv_4_1(x_3_out, edge_index_1)
+        x_2 = self.conv_4_2(x_3_out, edge_index_2)
         x = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
-        x = self.bn_4(x)
-        #x = F.dropout(F.relu(x), 0.5, training=self.training)
+        x_4_out = self.bn_4(x)
+        # x = F.dropout(F.relu(x), 0.5, training=self.training)
 
-        x_1 = self.conv_5_1(x, edge_index_1)
-        x_2 = self.conv_5_2(x, edge_index_2)
+        x_1 = self.conv_5_1(x_4_out, edge_index_1)
+        x_2 = self.conv_5_2(x_4_out, edge_index_2)
         x = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
-        x = self.bn_5(x)
-        #x = F.dropout(x, 0.5, training=self.training)
+        x_5_out = self.bn_5(x)
+        # x = F.dropout(x, 0.5, training=self.training)
+
+        x = torch.cat([x, x_1_out, x_2_out, x_3_out, x_4_out, x_5_out], dim=-1)
 
         x = self.pool(x, batched_data.batch)
 
@@ -288,7 +289,6 @@ class MyTransform(object):
         for key, item in data:
             new_data[key] = item
         return new_data
-
 
 
 def main():
