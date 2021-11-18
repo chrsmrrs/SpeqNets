@@ -147,7 +147,7 @@ def main():
 
     split_idx = dataset.get_idx_split()
 
-    evaluator = Evaluator("ogbg-molhiv")
+    evaluator = Evaluator("ogbg-moltox21")
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
                               num_workers=0)

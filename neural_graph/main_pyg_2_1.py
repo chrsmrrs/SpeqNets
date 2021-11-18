@@ -38,7 +38,7 @@ class Mol(InMemoryDataset):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-molhiv")
+        dataset = PygGraphPropPredDataset(name="ogbg-moltox21")
 
         print(len(dataset))
         atom_encoder = AtomEncoder(100)
