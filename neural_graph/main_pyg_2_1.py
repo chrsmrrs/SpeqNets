@@ -222,7 +222,7 @@ class GNN(torch.nn.Module):
         x_2 = self.conv_5_2(x_4_out, edge_index_2)
         x = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
         x_5_out = self.bn_1(x)
-        x_5_out = F.dropout(F.relu(x_5_out), 0.5, training=self.training)
+        x_5_out = F.dropout(x_5_out, 0.5, training=self.training)
 
         x = torch.cat([x, x_1_out, x_2_out, x_3_out, x_4_out, x_5_out], dim=-1)
 
