@@ -97,12 +97,12 @@ class Mol(InMemoryDataset):
 
             matrix_1 = []
             matrix_2 = []
-            node_features = []
+            node_features_t = []
 
             for t in range(tuples):
                 v, w = tuple_to_nodes[t]
 
-                node_features.append(type[t])
+                node_features_t.append(type[t])
 
                 # 1 neighbors.
                 for n in v.out_neighbors():
@@ -121,7 +121,7 @@ class Mol(InMemoryDataset):
             data_new.edge_index_1 = torch.tensor(matrix_1).t().contiguous()
             data_new.edge_index_2 = torch.tensor(matrix_2).t().contiguous()
 
-            data_new.x = torch.from_numpy(np.array(node_features)).to(torch.float)
+            data_new.x = torch.from_numpy(np.array(node_features_t)).to(torch.float)
             data_new.y = data.y
 
             data_list.append(data_new)
@@ -289,7 +289,7 @@ class MyTransform(object):
 
 
 def main():
-    dataset_base = PygGraphPropPredDataset(name="ogbg-molhiv")
+    dataset_base = PygGraphPropPredDataset(name="ogbg-moltox21")
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
@@ -299,7 +299,7 @@ def main():
 
     split_idx = dataset_base.get_idx_split()
 
-    evaluator = Evaluator("ogbg-molhiv")
+    evaluator = Evaluator("ogbg-moltox21")
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
                               num_workers=0)
