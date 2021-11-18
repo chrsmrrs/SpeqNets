@@ -147,7 +147,7 @@ def main():
 
     split_idx = dataset.get_idx_split()
 
-    evaluator = Evaluator("ogbg-moltoxcast")
+    evaluator = Evaluator("ogbg-molsider")
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
                               num_workers=0)
@@ -194,3 +194,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# ogbg-moltoxcast
+# ogbg-molsider

@@ -1,5 +1,6 @@
 import auxiliarymethods.auxiliary_methods as aux
 import kernel_baselines as kb
+import auxiliarymethods.datasets as dp
 from auxiliarymethods.kernel_evaluation import kernel_svm_evaluation
 from auxiliarymethods.kernel_evaluation import linear_svm_evaluation
 from svm.auxiliarymethods.auxiliary_methods import read_lib_svm, normalize_gram_matrix, normalize_feature_vector

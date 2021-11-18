@@ -36,7 +36,7 @@ class Mol(InMemoryDataset):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-moltox21")
+        dataset = PygGraphPropPredDataset(name="ogbg-molsider")
 
         print(len(dataset))
         atom_encoder = AtomEncoder(100)
@@ -187,7 +187,7 @@ class GNN(torch.nn.Module):
         self.bn_5 = torch.nn.BatchNorm1d(dim)
 
         self.pool = global_mean_pool
-        self.graph_pred_linear = torch.nn.Linear(6*dim, num_tasks)
+        self.graph_pred_linear = torch.nn.Linear(1*dim, num_tasks)
 
     def forward(self, batched_data):
         x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.edge_index_2, batched_data.batch
@@ -224,9 +224,7 @@ class GNN(torch.nn.Module):
         x_5_out = self.bn_1(x)
         x_5_out = F.dropout(x_5_out, 0.5, training=self.training)
 
-        x = torch.cat([x, x_1_out, x_2_out, x_3_out, x_4_out, x_5_out], dim=-1)
-
-        x = self.pool(x, batched_data.batch)
+        x = self.pool(x_5_out, batched_data.batch)
 
         return self.graph_pred_linear(x)
 
@@ -293,7 +291,7 @@ class MyTransform(object):
 
 
 def main():
-    dataset_base = PygGraphPropPredDataset(name="ogbg-moltox21")
+    dataset_base = PygGraphPropPredDataset(name="ogbg-molsider")
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
@@ -303,7 +301,7 @@ def main():
 
     split_idx = dataset_base.get_idx_split()
 
-    evaluator = Evaluator("ogbg-moltox21")
+    evaluator = Evaluator("ogbg-molsider")
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
                               num_workers=0)
@@ -350,3 +348,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# ogbg-moltoxcast  0.7320998196137835
+# ogbg-molsider
