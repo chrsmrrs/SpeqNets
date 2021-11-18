@@ -191,7 +191,6 @@ class GNN(torch.nn.Module):
     def forward(self, batched_data):
         x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.edge_index_2, batched_data.batch
 
-
         x_1 = self.conv_1_1(x, edge_index_1)
         x_2 = self.conv_1_2(x, edge_index_2)
         x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))

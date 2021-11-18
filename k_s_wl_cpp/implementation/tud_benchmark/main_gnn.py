@@ -1,7 +1,9 @@
 import auxiliarymethods.datasets as dp
 from auxiliarymethods.gnn_evaluation import gnn_evaluation
 from gnn_baselines.gnn_architectures import GIN, GINE, GINEWithJK, GINWithJK
-
+from svm.auxiliarymethods.auxiliary_methods import read_lib_svm, normalize_gram_matrix, normalize_feature_vector
+import os.path
+from os import path as pth
 
 def main():
     num_reps = 10
