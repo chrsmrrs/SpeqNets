@@ -133,7 +133,8 @@ def eval(model, device, loader, evaluator):
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    dataset = PygGraphPropPredDataset(name="ogbg-molhiv")
+    dataset = PygGraphPropPredDataset(name="ogbg-molpcba")
+    print(len(dataset))
 
     feature = 'simple'
 
