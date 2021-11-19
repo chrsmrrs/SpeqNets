@@ -182,10 +182,9 @@ class NetGIN(torch.nn.Module):
 
     def forward(self, data):
         x = data.x
-        x = x.long()
 
-        x_new = torch.zeros(x.size(0), 652).to(device)
-        x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
+        print(x.size())
+        exit()
 
         x_1 = F.relu(self.conv1_1(x_new, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x_new, data.edge_index_2))
