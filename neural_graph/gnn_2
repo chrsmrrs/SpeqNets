@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=gnn
+#SBATCH --job-name=gnn_2_1
 #SBATCH --ntasks=1
 #SBATCH --time=48:00:00
 #SBATCH --mem=16G
