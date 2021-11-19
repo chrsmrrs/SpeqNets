@@ -36,10 +36,10 @@ class Mol(InMemoryDataset):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-molfreesolv")
+        dataset = PygGraphPropPredDataset(name="ogbg-molclintox")
 
         print(len(dataset))
-        atom_encoder = AtomEncoder(100)
+        atom_encoder = AtomEncoder(300)
         bond_encoder = BondEncoder(100)
 
         data_list = []
@@ -159,7 +159,7 @@ class GNN(torch.nn.Module):
     def __init__(self, num_tasks):
         super(GNN, self).__init__()
 
-        dim = 302
+        dim = 702
 
         self.conv_1_1 = GINConv(dim)
         self.conv_1_2 = GINConv(dim)
@@ -291,7 +291,7 @@ class MyTransform(object):
 
 
 def main():
-    dataset_base = PygGraphPropPredDataset(name="ogbg-molfreesolv")
+    dataset_base = PygGraphPropPredDataset(name="ogbg-molclintox")
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
@@ -301,7 +301,7 @@ def main():
 
     split_idx = dataset_base.get_idx_split()
 
-    evaluator = Evaluator("ogbg-molfreesolv")
+    evaluator = Evaluator("ogbg-molclintox")
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
                               num_workers=0)
