@@ -70,7 +70,7 @@ class NetGIN(torch.nn.Module):
         x_3 = F.relu(self.conv3_1(x_2_r, data.edge_index, edge_attr))
         x_3_r = self.bn3(x_3)
 
-        x_4 = F.relu(self.conv4_1(x_3_r, data.edge_indexedge_attr))
+        x_4 = F.relu(self.conv4_1(x_3_r, data.edge_index, edge_attr))
         x_4_r = self.bn4(x_4)
 
         x = torch.cat([x_1_r, x_2_r, x_3_r, x_4_r], dim=-1)
