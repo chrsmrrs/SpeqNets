@@ -54,8 +54,8 @@ class TUD_2_1(InMemoryDataset):
             edge_index = data.edge_index.cpu().detach().numpy()
 
 
-            print(x.size())
-            print(edge_attr.size())
+            print(x.shape)
+            print(edge_attr.shape)
             exit()
 
             # Create graph for easier processing.
