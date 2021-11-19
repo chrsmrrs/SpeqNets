@@ -38,8 +38,6 @@ class TUD_2_1(InMemoryDataset):
     def process(self):
         data_list = []
 
-        dp.get_dataset("MCF-7")
-
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "MCF-7")
         dataset = TUDataset(path, name="MCF-7").shuffle()
 
