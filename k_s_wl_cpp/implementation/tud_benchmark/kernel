@@ -2,7 +2,7 @@
 #SBATCH --job-name=malkin
 #SBATCH --ntasks=1
 #SBATCH --time=48:00:00
-#SBATCH --mem=48G
+#SBATCH --mem=32G
 #SBATCH --gres=gpu:32gb:1
 #SBATCH --partition=main
 
