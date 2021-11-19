@@ -167,7 +167,7 @@ def main():
     test_curve = []
     train_curve = []
 
-    for epoch in range(1, 101):
+    for epoch in range(1, 151):
         print("=====Epoch {}".format(epoch))
         print('Training...')
         train(model, device, train_loader, optimizer, dataset.task_type)
