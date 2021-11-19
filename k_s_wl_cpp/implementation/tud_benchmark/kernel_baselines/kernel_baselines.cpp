@@ -88,7 +88,7 @@ MatrixXd compute_wlp_2_sparse(string ds, int num_iterations,  bool use_labels,  
     return MatrixXd(gm);
 }
 
-atrixXd compute_wl_2_1_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+MatrixXd compute_wl_2_1_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
     gdb.erase(gdb.begin() + 0);
 
