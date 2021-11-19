@@ -55,7 +55,9 @@ class TUD_2_1(InMemoryDataset):
 
 
             print(x.shape)
+            print(x)
             print(edge_attr.shape)
+            print(edge_attr)
             exit()
 
             # Create graph for easier processing.
