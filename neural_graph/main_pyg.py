@@ -55,6 +55,8 @@ class GNN(torch.nn.Module):
         self.pool = global_mean_pool
         self.graph_pred_linear = torch.nn.Linear(emb_dim, num_tasks)
 
+
+
     def forward(self, batched_data):
         x, edge_index, edge_attr, batch = batched_data.x, batched_data.edge_index, batched_data.edge_attr, batched_data.batch
 
