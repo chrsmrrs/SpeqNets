@@ -10,7 +10,7 @@ import numpy as np
 import torch
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.nn import global_mean_pool, GINConv
-
+from graph_tool.all import *
 from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.datasets import TUDataset
 from torch_geometric.data import DataLoader
@@ -45,20 +45,9 @@ class TUD_2_1(InMemoryDataset):
         for i, data in enumerate(dataset):
 
             print(i)
-
-            # x = atom_encoder(data.x[:, :2]).cpu().detach().numpy()
-            # edge_attr = bond_encoder(data.edge_attr[:, :2]).cpu().detach().numpy()
-
             x = data.x.cpu().detach().numpy()
             edge_attr = data.edge_attr.cpu().detach().numpy()
             edge_index = data.edge_index.cpu().detach().numpy()
-
-
-            print(x.shape)
-            print(x)
-            print(edge_attr.shape)
-            print(edge_attr)
-            exit()
 
             # Create graph for easier processing.
             g = Graph(directed=False)
@@ -99,7 +88,7 @@ class TUD_2_1(InMemoryDataset):
 
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 100, np.array([0, 1])], axis=-1)
+                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 3, np.array([0, 1])], axis=-1)
 
             matrix_1 = []
             matrix_2 = []
