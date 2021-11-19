@@ -88,6 +88,54 @@ MatrixXd compute_wlp_2_sparse(string ds, int num_iterations,  bool use_labels,  
     return MatrixXd(gm);
 }
 
+
+MatrixXd compute_lwl_2_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
+    gdb.erase(gdb.begin() + 0);
+
+    GenerateTwo::GenerateTwo wl(gdb);
+    GramMatrix gm;
+    gm = wl.compute_gram_matrix(num_iterations, use_labels, use_edge_labels, "local", true);
+
+    return MatrixXd(gm);
+}
+
+MatrixXd compute_lwlp_2_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
+    gdb.erase(gdb.begin() + 0);
+
+    GenerateTwo::GenerateTwo wl(gdb);
+    GramMatrix gm;
+    gm = wl.compute_gram_matrix(num_iterations, use_labels, use_edge_labels, "localp", true);
+
+    return MatrixXd(gm);
+}
+
+
+MatrixXd compute_lwl_2_sparse(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
+    gdb.erase(gdb.begin() + 0);
+
+    GenerateTwo::GenerateTwo wl(gdb);
+    GramMatrix gm;
+    gm = wl.compute_gram_matrix(num_iterations, use_labels, use_edge_labels, "local", false);
+
+    return MatrixXd(gm);
+}
+
+MatrixXd compute_lwlp_2_sparse(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
+    gdb.erase(gdb.begin() + 0);
+
+    GenerateTwo::GenerateTwo wl(gdb);
+    GramMatrix gm;
+    gm = wl.compute_gram_matrix(num_iterations, use_labels, use_edge_labels, "localp", false);
+
+    return MatrixXd(gm);
+}
+
+
+
 MatrixXd compute_wl_2_1_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
     gdb.erase(gdb.begin() + 0);
@@ -222,6 +270,52 @@ MatrixXd compute_wlp_3_sparse(string ds, int num_iterations,  bool use_labels,  
 }
 
 
+MatrixXd compute_lwl_3_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
+    gdb.erase(gdb.begin() + 0);
+
+    GenerateThree::GenerateThree wl(gdb);
+    GramMatrix gm;
+    gm = wl.compute_gram_matrix(num_iterations, use_labels, "local", true);
+
+    return MatrixXd(gm);
+}
+
+MatrixXd compute_lwlp_3_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
+    gdb.erase(gdb.begin() + 0);
+
+    GenerateThree::GenerateThree wl(gdb);
+    GramMatrix gm;
+    gm = wl.compute_gram_matrix(num_iterations, use_labels, "localp", true);
+
+    return MatrixXd(gm);
+}
+
+MatrixXd compute_lwl_3_sparse(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
+    gdb.erase(gdb.begin() + 0);
+
+    GenerateThree::GenerateThree wl(gdb);
+    GramMatrix gm;
+    gm = wl.compute_gram_matrix(num_iterations, use_labels, "local", false);
+
+    return MatrixXd(gm);
+}
+
+MatrixXd compute_lwlp_3_sparse(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
+    gdb.erase(gdb.begin() + 0);
+
+    GenerateThree::GenerateThree wl(gdb);
+    GramMatrix gm;
+    gm = wl.compute_gram_matrix(num_iterations, use_labels, "localp", false);
+
+    return MatrixXd(gm);
+}
+
+
+
 
 MatrixXd compute_wl_3_2_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);
@@ -352,6 +446,11 @@ PYBIND11_MODULE(kernel_baselines, m) {
     m.def("compute_wlp_2_sparse", &compute_wlp_2_sparse);
     m.def("compute_wl_2_sparse", &compute_wl_2_sparse);
 
+    m.def("compute_lwlp_2_dense", &compute_lwlp_2_dense);
+    m.def("compute_lwl_2_dense", &compute_lwl_2_dense);
+    m.def("compute_lwlp_2_sparse", &compute_lwlp_2_sparse);
+    m.def("compute_lwl_2_sparse", &compute_lwl_2_sparse);
+
     m.def("compute_wlp_3_1_dense", &compute_wlp_3_1_dense);
     m.def("compute_wl_3_1_dense", &compute_wl_3_1_dense);
     m.def("compute_wlp_3_1_sparse", &compute_wlp_3_1_sparse);
@@ -361,6 +460,11 @@ PYBIND11_MODULE(kernel_baselines, m) {
     m.def("compute_wl_3_dense", &compute_wl_3_dense);
     m.def("compute_wlp_3_sparse", &compute_wlp_3_sparse);
     m.def("compute_wl_3_sparse", &compute_wl_3_sparse);
+
+    m.def("compute_lwlp_3_dense", &compute_lwlp_3_dense);
+    m.def("compute_lwl_3_dense", &compute_lwl_3_dense);
+    m.def("compute_lwlp_3_sparse", &compute_lwlp_3_sparse);
+    m.def("compute_lwl_3_sparse", &compute_lwl_3_sparse);
 
     m.def("compute_wlp_3_2_dense", &compute_wlp_3_2_dense);
     m.def("compute_wl_3_2_dense", &compute_wl_3_2_dense);

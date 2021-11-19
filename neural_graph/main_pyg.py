@@ -199,7 +199,4 @@ if __name__ == "__main__":
     main()
 
 # ogbg-moltoxcast: 0.6189788458360118
-# ogbg-molbbbp: 0.6867283950617283
-# ogbg-mollipo: 0.770088
-# ogbg-molclintox: 0.8572
 
