@@ -133,7 +133,7 @@ def eval(model, device, loader, evaluator):
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    dataset = PygGraphPropPredDataset(name="ogbg-molfreesolv")
+    dataset = PygGraphPropPredDataset(name="ogbg-molclintox")
     print(len(dataset))
 
     feature = 'full'
@@ -147,7 +147,7 @@ def main():
 
     split_idx = dataset.get_idx_split()
 
-    evaluator = Evaluator("ogbg-molfreesolv")
+    evaluator = Evaluator("ogbg-molclintox")
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
                               num_workers=0)
