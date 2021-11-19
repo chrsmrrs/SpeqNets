@@ -36,7 +36,7 @@ class Mol(InMemoryDataset):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-mollipo")
+        dataset = PygGraphPropPredDataset(name="ogbg-molclintox")
 
         print(len(dataset))
         atom_encoder = AtomEncoder(100)
@@ -291,7 +291,7 @@ class MyTransform(object):
 
 
 def main():
-    dataset_base = PygGraphPropPredDataset(name="ogbg-mollipo")
+    dataset_base = PygGraphPropPredDataset(name="ogbg-molclintox")
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
@@ -301,7 +301,7 @@ def main():
 
     split_idx = dataset_base.get_idx_split()
 
-    evaluator = Evaluator("ogbg-mollipo")
+    evaluator = Evaluator("ogbg-molclintox")
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
                               num_workers=0)
@@ -353,3 +353,4 @@ if __name__ == "__main__":
 # ogbg-moltoxcast: 0.7320998196137835
 # ogbg-molbbbp: 0.6440007716049383
 # ogbg-mollipo:
+# ogbg-molclintox
