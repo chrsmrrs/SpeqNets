@@ -249,7 +249,7 @@ for _ in range(5):
         for data in train_loader:
             data = data.to(device)
             optimizer.zero_grad()
-            output = model(data.x, data.edge_index, data.batch)
+            output = model(data)
             loss = F.nll_loss(output, data.y)
             loss.backward()
             optimizer.step()
@@ -264,7 +264,7 @@ for _ in range(5):
         total_correct = 0
         for data in loader:
             data = data.to(device)
-            out = model(data.x, data.edge_index, data.batch)
+            out = model(data)
             total_correct += int((out.argmax(-1) == data.y).sum())
         return total_correct / len(loader.dataset)
 
