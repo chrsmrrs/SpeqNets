@@ -54,6 +54,7 @@ class GNN(torch.nn.Module):
 
         self.pool = global_mean_pool
         self.graph_pred_linear = torch.nn.Linear(emb_dim, num_tasks)
+        self.graph_pred_linear = torch.nn.Sequential(torch.nn.Linear(emb_dim, emb_dim), torch.nn.ReLU(), torch.nn.Linear(emb_dim, num_tasks))
 
 
 
@@ -158,7 +159,7 @@ def main():
     test_loader = DataLoader(dataset[split_idx["test"]], batch_size=32, shuffle=False,
                              num_workers=0)
 
-    model = GNN(dataset.num_tasks, 100).to(device)
+    model = GNN(dataset.num_tasks, 300).to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
