@@ -178,7 +178,7 @@ class NetGIN(torch.nn.Module):
         self.fc1 = Linear(4 * dim, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
-        self.fc4 = Linear(dim, 1)
+        self.fc4 = Linear(dim, 2)
 
     def forward(self, data):
         x = data.x
@@ -214,7 +214,7 @@ class NetGIN(torch.nn.Module):
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
         x = self.fc4(x)
-        return x.view(-1)
+        return F.log_softmax(x, dim=-1)
 
 
 plot_all = []
@@ -225,12 +225,14 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'test')
     dataset = TUD_2_1(path, transform=MyTransform()).shuffle()
 
-    exit()
+    train_dataset = dataset[0:22216]
+    val_dataset = dataset[22216:24993]
+    test_dataset = dataset[24993:]
 
     batch_size = 25
-    train_loader = DataLoader(train, batch_size=batch_size, shuffle=True)
-    val_loader = DataLoader(dataset_6, batch_size=batch_size, shuffle=True)
-    test_loader = DataLoader(dataset_7, batch_size=batch_size, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = NetGIN(256).to(device)
@@ -239,31 +241,33 @@ for _ in range(5):
                                                            factor=0.5, patience=5,
                                                            min_lr=0.0000001)
 
+
     def train():
         model.train()
-        loss_all = 0
 
-        lf = torch.nn.L1Loss()
-
+        total_loss = 0
         for data in train_loader:
             data = data.to(device)
             optimizer.zero_grad()
-            loss = lf(model(data), data.y)
+            output = model(data.x, data.edge_index, data.batch)
+            loss = F.nll_loss(output, data.y)
             loss.backward()
-            loss_all += loss.item() * data.num_graphs
             optimizer.step()
+            total_loss += float(loss) * data.num_graphs
+        return total_loss / len(train_loader.dataset)
 
-        return loss_all / (len(train_loader.dataset))
 
-
+    @torch.no_grad()
     def test(loader):
         model.eval()
-        error = 0
 
+        total_correct = 0
         for data in loader:
             data = data.to(device)
-            error += (model(data) - data.y).abs().sum().item()  # MAE
-        return error / len(loader.dataset)
+            out = model(data.x, data.edge_index, data.batch)
+            total_correct += int((out.argmax(-1) == data.y).sum())
+        return total_correct / len(loader.dataset)
+
 
     best_val_error = None
     test_error = None
@@ -286,9 +290,3 @@ for _ in range(5):
             plot_all.append(plot_it)
             break
 
-print("########################")
-print(results)
-results = np.array(results)
-print(results.mean(), results.std())
-with open('plot_ZINC_wl_all', 'wb') as fp:
-    pickle.dump(plot_all, fp)
