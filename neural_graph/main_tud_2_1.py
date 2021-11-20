@@ -104,7 +104,7 @@ class TUD_2_1(InMemoryDataset):
 
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 3, np.array([0, 1])], axis=-1)
+                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 4, np.array([0, 1])], axis=-1)
 
             matrix_1 = []
             matrix_2 = []
@@ -114,6 +114,8 @@ class TUD_2_1(InMemoryDataset):
                 v, w = tuple_to_nodes[t]
 
                 node_features_t.append(type[t])
+
+
 
                 # 1 neighbors.
                 for n in v.out_neighbors():
