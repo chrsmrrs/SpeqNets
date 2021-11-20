@@ -59,6 +59,9 @@ class TUD_2_1(InMemoryDataset):
 
             print(i)
             x = data.x.cpu().detach().numpy()
+
+            print(x.shape)
+
             edge_attr = data.edge_attr.cpu().detach().numpy()
             edge_index = data.edge_index.cpu().detach().numpy()
 
