@@ -287,3 +287,10 @@ for _ in range(5):
             plot_all.append(plot_it)
             break
 
+    results.append(test_error)
+
+print("########################")
+print(results)
+results = np.array(results)
+print(results.mean(), results.std())
+

@@ -12,6 +12,7 @@ from torch_geometric.datasets import TUDataset
 from torch_geometric.data import DataLoader
 import torch.nn.functional as F
 
+import numpy as np
 
 class GINConv(MessagePassing):
     def __init__(self, emb_dim, dim1, dim2):
@@ -155,3 +156,11 @@ for _ in range(5):
             print("Converged.")
             plot_all.append(plot_it)
             break
+
+
+    results.append(test_error)
+
+print("########################")
+print(results)
+results = np.array(results)
+print(results.mean(), results.std())
