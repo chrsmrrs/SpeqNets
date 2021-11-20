@@ -110,6 +110,8 @@ plot_all = []
 results = []
 
 for _ in range(5):
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
     dataset = TUDataset(path, name="alchemy_full")[0:20000].shuffle()
@@ -128,7 +130,7 @@ for _ in range(5):
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
     model = NetGINE(256).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
