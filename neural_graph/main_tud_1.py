@@ -39,7 +39,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 4
+        num_features = 6
 
         self.conv1_1 = GINConv(4, num_features, dim)
         self.bn1 = torch.nn.BatchNorm1d(dim)
@@ -61,10 +61,6 @@ class NetGIN(torch.nn.Module):
     def forward(self, data):
         x = data.x
         edge_attr = data.edge_attr
-
-
-        print(x.size(), edge_attr.size())
-        exit()
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index, edge_attr))
         x_1_r = self.bn1(x_1)
