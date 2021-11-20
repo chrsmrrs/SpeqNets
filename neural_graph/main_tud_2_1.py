@@ -274,7 +274,7 @@ for _ in range(5):
         val_error = test(val_loader)
         scheduler.step(val_error)
 
-        if best_val_error is None or val_error <= best_val_error:
+        if best_val_error is None or val_error > best_val_error:
             test_error = test(test_loader)
             best_val_error = val_error
 
