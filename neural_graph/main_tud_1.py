@@ -39,7 +39,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 20
+        num_features = 45
 
         self.conv1_1 = GINConv(3, num_features, dim)
         self.bn1 = torch.nn.BatchNorm1d(dim)
