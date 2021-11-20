@@ -219,12 +219,13 @@ results = []
 
 for _ in range(5):
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'test')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'testte')
     dataset = TUD_2_1(path, transform=MyTransform()).shuffle()
 
-    train_dataset = dataset[0:22216]
-    val_dataset = dataset[22216:24993]
-    test_dataset = dataset[24993:]
+    train_dataset = dataset[0:4000]
+    val_dataset = dataset[4000:4500]
+    test_dataset = dataset[4500:]
+
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)

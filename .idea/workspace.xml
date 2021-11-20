@@ -9,8 +9,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="`w`">
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_graph/main_tud_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_tud_1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/main_tud_2_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_tud_2_1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -293,28 +295,7 @@
       <workItem from="1637106282700" duration="6731000" />
       <workItem from="1637164829453" duration="25879000" />
       <workItem from="1637253592040" duration="30778000" />
-      <workItem from="1637347293154" duration="23469000" />
-    </task>
-    <task id="LOCAL-00416" summary="`w`">
-      <created>1637276169605</created>
-      <option name="number" value="00416" />
-      <option name="presentableId" value="LOCAL-00416" />
-      <option name="project" value="LOCAL" />
-      <updated>1637276169606</updated>
-    </task>
-    <task id="LOCAL-00417" summary="`w`">
-      <created>1637277912432</created>
-      <option name="number" value="00417" />
-      <option name="presentableId" value="LOCAL-00417" />
-      <option name="project" value="LOCAL" />
-      <updated>1637277912433</updated>
-    </task>
-    <task id="LOCAL-00418" summary="`w`">
-      <created>1637278449314</created>
-      <option name="number" value="00418" />
-      <option name="presentableId" value="LOCAL-00418" />
-      <option name="project" value="LOCAL" />
-      <updated>1637278449316</updated>
+      <workItem from="1637347293154" duration="24198000" />
     </task>
     <task id="LOCAL-00419" summary="`w`">
       <created>1637278612217</created>
@@ -638,7 +619,28 @@
       <option name="project" value="LOCAL" />
       <updated>1637442587448</updated>
     </task>
-    <option name="localTasksCounter" value="465" />
+    <task id="LOCAL-00465" summary="`w`">
+      <created>1637442806740</created>
+      <option name="number" value="00465" />
+      <option name="presentableId" value="LOCAL-00465" />
+      <option name="project" value="LOCAL" />
+      <updated>1637442806743</updated>
+    </task>
+    <task id="LOCAL-00466" summary="`w`">
+      <created>1637442870626</created>
+      <option name="number" value="00466" />
+      <option name="presentableId" value="LOCAL-00466" />
+      <option name="project" value="LOCAL" />
+      <updated>1637442870626</updated>
+    </task>
+    <task id="LOCAL-00467" summary="`w`">
+      <created>1637443059192</created>
+      <option name="number" value="00467" />
+      <option name="presentableId" value="LOCAL-00467" />
+      <option name="project" value="LOCAL" />
+      <updated>1637443059192</updated>
+    </task>
+    <option name="localTasksCounter" value="468" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
