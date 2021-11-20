@@ -39,7 +39,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 46
+        num_features = 6
 
         self.conv1_1 = GINConv(3, num_features, dim)
         self.bn1 = torch.nn.BatchNorm1d(dim)
@@ -89,12 +89,12 @@ results = []
 
 for _ in range(5):
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "MCF-7")
-    dataset = TUDataset(path, name="MCF-7").shuffle()
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "ZINC_test")
+    dataset = TUDataset(path, name="ZINC_test").shuffle()
 
-    train_dataset = dataset[0:22216]
-    val_dataset = dataset[22216:24993]
-    test_dataset = dataset[24993:]
+    train_dataset = dataset[0:4000]
+    val_dataset = dataset[4000:4500]
+    test_dataset = dataset[5000:]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
