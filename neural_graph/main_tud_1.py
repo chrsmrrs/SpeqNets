@@ -62,6 +62,10 @@ class NetGIN(torch.nn.Module):
         x = data.x
         edge_attr = data.edge_attr
 
+
+        print(x.size(), edge_attr.size())
+        exit()
+
         x_1 = F.relu(self.conv1_1(x, data.edge_index, edge_attr))
         x_1_r = self.bn1(x_1)
 
