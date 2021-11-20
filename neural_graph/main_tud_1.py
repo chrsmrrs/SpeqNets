@@ -90,7 +90,7 @@ results = []
 for _ in range(5):
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
-    dataset = TUDataset(path, name="alchemy_full")[20000].shuffle()
+    dataset = TUDataset(path, name="alchemy_full")[0:20000].shuffle()
 
     train_dataset = dataset[0:18000]
     val_dataset = dataset[18000:19000]
