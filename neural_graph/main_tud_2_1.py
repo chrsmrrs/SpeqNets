@@ -39,11 +39,11 @@ class TUD_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "TUD_2f_1gh"
+        return "TUD_2f_1gth"
 
     @property
     def processed_file_names(self):
-        return "TUD_2f_g1h"
+        return "TUD_2f_g1th"
 
     def download(self):
         pass
@@ -52,7 +52,7 @@ class TUD_2_1(InMemoryDataset):
         data_list = []
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
-        dataset = TUDataset(path, name="alchemy_full")[20000].shuffle()
+        dataset = TUDataset(path, name="alchemy_full")[0:20000].shuffle()
 
         data_list = []
         for i, data in enumerate(dataset):
@@ -260,7 +260,7 @@ for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetstte')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttte')
     dataset = TUD_2_1(path, transform=MyTransform()).shuffle()
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
