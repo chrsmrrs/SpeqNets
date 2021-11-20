@@ -111,29 +111,28 @@ for _ in range(5):
 
     def train():
         model.train()
+        loss_all = 0
 
-        total_loss = 0
+        lf = torch.nn.L1Loss()
+
         for data in train_loader:
             data = data.to(device)
             optimizer.zero_grad()
-            output = model(data)
-            loss = F.nll_loss(output, data.y)
+            loss = lf(model(data), data.y)
             loss.backward()
+            loss_all += loss.item() * data.num_graphs
             optimizer.step()
-            total_loss += float(loss) * data.num_graphs
-        return total_loss / len(train_loader.dataset)
+        return loss_all / len(train_loader.dataset)
 
 
-    @torch.no_grad()
     def test(loader):
         model.eval()
+        error = 0
 
-        total_correct = 0
         for data in loader:
             data = data.to(device)
-            out = model(data)
-            total_correct += int((out.argmax(-1) == data.y).sum())
-        return total_correct / len(loader.dataset)
+            error += (model(data) - data.y).abs().sum().item()  # MAE
+        return error / len(loader.dataset)
 
 
     best_val_error = None
@@ -144,7 +143,7 @@ for _ in range(5):
         val_error = test(val_loader)
         scheduler.step(val_error)
 
-        if best_val_error is None or val_error > best_val_error:
+        if best_val_error is None or val_error < best_val_error:
             test_error = test(test_loader)
             best_val_error = val_error
 
