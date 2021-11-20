@@ -89,12 +89,12 @@ results = []
 
 for _ in range(5):
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "ZINC_val")
-    dataset = TUDataset(path, name="ZINC_val").shuffle()
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
+    dataset = TUDataset(path, name="alchemy_full")[20000].shuffle()
 
-    train_dataset = dataset[0:19556]
-    val_dataset = dataset[19556:22000]
-    test_dataset = dataset[22000:]
+    train_dataset = dataset[0:18000]
+    val_dataset = dataset[18000:19000]
+    test_dataset = dataset[19000:]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
