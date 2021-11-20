@@ -38,8 +38,8 @@ class TUD_2_1(InMemoryDataset):
     def process(self):
         data_list = []
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "MCF-7")
-        dataset = TUDataset(path, name="MCF-7").shuffle()
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "ZINC_test")
+        dataset = TUDataset(path, name="ZINC_test").shuffle()
 
         data_list = []
         for i, data in enumerate(dataset):
@@ -178,7 +178,7 @@ class NetGIN(torch.nn.Module):
         self.fc1 = Linear(4 * dim, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
-        self.fc4 = Linear(dim, 2)
+        self.fc4 = Linear(dim, 1)
 
     def forward(self, data):
         x = data.x
@@ -211,7 +211,7 @@ class NetGIN(torch.nn.Module):
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
         x = self.fc4(x)
-        return F.log_softmax(x, dim=-1)
+        return x.view(-1)
 
 
 plot_all = []
@@ -241,29 +241,28 @@ for _ in range(5):
 
     def train():
         model.train()
+        loss_all = 0
 
-        total_loss = 0
+        lf = torch.nn.L1Loss()
+
         for data in train_loader:
             data = data.to(device)
             optimizer.zero_grad()
-            output = model(data)
-            loss = F.nll_loss(output, data.y)
+            loss = lf(model(data), data.y)
             loss.backward()
+            loss_all += loss.item() * data.num_graphs
             optimizer.step()
-            total_loss += float(loss) * data.num_graphs
-        return total_loss / len(train_loader.dataset)
+        return loss_all / len(train_loader.dataset)
 
 
-    @torch.no_grad()
     def test(loader):
         model.eval()
+        error = 0
 
-        total_correct = 0
         for data in loader:
             data = data.to(device)
-            out = model(data)
-            total_correct += int((out.argmax(-1) == data.y).sum())
-        return total_correct / len(loader.dataset)
+            error += (model(data) - data.y).abs().sum().item()  # MAE
+        return error / len(loader.dataset)
 
 
     best_val_error = None
@@ -274,7 +273,7 @@ for _ in range(5):
         val_error = test(val_loader)
         scheduler.step(val_error)
 
-        if best_val_error is None or val_error > best_val_error:
+        if best_val_error is None or val_error < best_val_error:
             test_error = test(test_loader)
             best_val_error = val_error
 
