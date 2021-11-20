@@ -56,7 +56,7 @@ class NetGIN(torch.nn.Module):
         self.fc1 = Linear(4 * dim, dim)
         self.fc2 = Linear(dim, dim)
         self.fc3 = Linear(dim, dim)
-        self.fc4 = Linear(dim, 2)
+        self.fc4 = Linear(dim, 1)
 
     def forward(self, data):
         x = data.x
@@ -81,7 +81,7 @@ class NetGIN(torch.nn.Module):
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
         x = self.fc4(x)
-        return F.log_softmax(x, dim=-1)
+        return x.view(-1)
 
 
 plot_all = []
