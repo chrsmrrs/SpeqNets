@@ -13,10 +13,10 @@ from torch_scatter import scatter
 from torch_geometric.datasets import PPI
 
 
-class PPI(InMemoryDataset):
+class PPI_2_1(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(PPI, self).__init__(root, transform, pre_transform, pre_filter)
+        super(PPI_2_1, self).__init__(root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
@@ -139,7 +139,7 @@ class MyTransform(object):
 
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'eee')
-dataset = PPI(path, transform=MyTransform())
+dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
 exit()
