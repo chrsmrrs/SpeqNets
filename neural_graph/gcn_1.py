@@ -8,12 +8,9 @@ import torch_geometric.transforms as T
 from torch_geometric.nn import GCNConv
 
 dataset = 'Planetoid'
-transform = T.Compose([
-    T.RandomNodeSplit(num_val=500, num_test=500),
-    T.TargetIndegree(),
-])
+
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-dataset = Planetoid(path, dataset, transform=transform)
+dataset = Planetoid(path, dataset)
 data = dataset[0]
 
 
