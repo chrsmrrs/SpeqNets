@@ -7,7 +7,7 @@ from torch.nn import Sequential, Linear, ReLU
 import torch_geometric.transforms as T
 from torch_geometric.nn import GCNConv
 
-dataset = 'Planetoid'
+dataset = 'PubMed'
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
 dataset = Planetoid(path, dataset)
