@@ -36,7 +36,6 @@ class Cora(InMemoryDataset):
         dataset = Planetoid(path, dataset, split= "full")
         data = dataset[0]
 
-        print(data.edge_attr.size())
 
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
@@ -52,11 +51,9 @@ class Cora(InMemoryDataset):
 
         rows = list(edge_index[0])
         cols = list(edge_index[1])
-        g.ep.edge_features = g.new_edge_property("double")
 
         for ind, (i, j) in enumerate(zip(rows, cols)):
             e = g.add_edge(i, j, add_missing=False)
-            g.ep.edge_features[e] = data.edge_attr[ind].item()
 
         tuple_graph = Graph(directed=False)
         type = {}
@@ -70,12 +67,12 @@ class Cora(InMemoryDataset):
                 nodes_to_tuple[(v, w)] = n
 
                 type[n] = np.concatenate(
-                    [node_features[v], node_features[w], [g.ep.edge_features[g.edge(v, w)]], np.array([1, 0])], axis=-1)
+                    [node_features[v], node_features[w], np.array([1, 0])], axis=-1)
 
             n = tuple_graph.add_vertex()
             tuple_to_nodes[n] = (v, v)
             tuple_to_nodes[(v, v)] = n
-            type[n] = np.concatenate([node_features[v], node_features[v], [0.0], np.array([0, 1])], axis=-1)
+            type[n] = np.concatenate([node_features[v], node_features[v], np.array([0, 1])], axis=-1)
 
         matrix_1 = []
         matrix_2 = []
