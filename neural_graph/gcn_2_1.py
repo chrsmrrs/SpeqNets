@@ -33,7 +33,7 @@ class Cora(InMemoryDataset):
         dataset = 'PubMed'
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        dataset = Planetoid(path, dataset, split= "full")
+        dataset = Planetoid(path, dataset)
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
@@ -162,8 +162,6 @@ class Net(torch.nn.Module):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
 
         index_1, index_2 = data.index_1, data.index_2
-
-
 
         x_1 = F.relu(self.conv_1_1(x, edge_index_1))
         x_2 = F.relu(self.conv_1_2(x, edge_index_2))

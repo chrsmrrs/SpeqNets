@@ -9,7 +9,7 @@ from torch_geometric.nn import GCNConv
 dataset = 'PubMed'
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-dataset = Planetoid(path, dataset, split="full")
+dataset = Planetoid(path, dataset)
 data = dataset[0]
 
 
