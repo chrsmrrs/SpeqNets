@@ -164,8 +164,6 @@ class Net(torch.nn.Module):
         index_1, index_2 = data.index_1, data.index_2
 
 
-        print(x.size())
-        exit()
 
         x_1 = F.relu(self.conv_1_1(x, edge_index_1))
         x_2 = F.relu(self.conv_1_2(x, edge_index_2))
