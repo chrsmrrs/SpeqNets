@@ -33,8 +33,10 @@ class Cora(InMemoryDataset):
         dataset = 'PubMed'
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        dataset = Planetoid(path, dataset)
+        dataset = Planetoid(path, dataset, split= "full")
         data = dataset[0]
+
+        print(data.edge_attr.size())
 
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
