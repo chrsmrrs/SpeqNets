@@ -2,15 +2,14 @@ import os.path as osp
 
 import torch
 import torch.nn.functional as F
-from torch_geometric.datasets import Planetoid
 from torch.nn import Sequential, Linear, ReLU
-import torch_geometric.transforms as T
+from torch_geometric.datasets import Planetoid
 from torch_geometric.nn import GCNConv
 
 dataset = 'PubMed'
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-dataset = Planetoid(path, dataset)
+dataset = Planetoid(path, dataset, split="full")
 data = dataset[0]
 
 
@@ -25,7 +24,7 @@ class Net(torch.nn.Module):
         self.mlp = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dataset.num_classes))
 
     def forward(self):
-        x, edge_index, edge_attr = data.x, data.edge_index, data.edge_attr
+        x, edge_index = data.x, data.edge_index
         x = F.relu(self.conv1(x, edge_index))
         x = F.relu(self.conv2(x, edge_index))
 
