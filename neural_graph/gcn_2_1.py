@@ -10,30 +10,30 @@ from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.datasets import Planetoid
 from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
+from torch_geometric.datasets import PPI
 
 
-class Cora(InMemoryDataset):
+class PPI(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(Cora, self).__init__(root, transform, pre_transform, pre_filter)
+        super(PPI, self).__init__(root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
     def raw_file_names(self):
-        return "Pubmed"
+        return "PPI_2_1"
 
     @property
     def processed_file_names(self):
-        return "Pubmed"
+        return "PPI_2_1"
 
     def download(self):
         pass
 
     def process(self):
-        dataset = 'PubMed'
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        dataset = Planetoid(path, dataset)
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "PPI")
+        dataset = train_dataset = PPI(path, split='train')
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
@@ -139,8 +139,10 @@ class MyTransform(object):
 
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'eee')
-dataset = Cora(path, transform=MyTransform())
+dataset = PPI(path, transform=MyTransform())
 data = dataset[0]
+
+exit()
 
 
 class Net(torch.nn.Module):
@@ -185,6 +187,7 @@ class Net(torch.nn.Module):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model, data = Net().to(device), data.to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
+
 
 
 def train():
