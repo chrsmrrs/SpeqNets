@@ -36,7 +36,6 @@ class Cora(InMemoryDataset):
         dataset = Planetoid(path, dataset, split= "full")
         data = dataset[0]
 
-
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
 
@@ -53,7 +52,7 @@ class Cora(InMemoryDataset):
         cols = list(edge_index[1])
 
         for ind, (i, j) in enumerate(zip(rows, cols)):
-            e = g.add_edge(i, j, add_missing=False)
+            g.add_edge(i, j, add_missing=False)
 
         tuple_graph = Graph(directed=False)
         type = {}
@@ -92,16 +91,12 @@ class Cora(InMemoryDataset):
             for n in v.out_neighbors():
                 if (n, w) in nodes_to_tuple:
                     s = nodes_to_tuple[(n, w)]
-                    e = tuple_graph.add_edge(t, s)
-
                     matrix_1.append([int(t), int(s)])
 
             # 2 neighbors.
             for n in w.out_neighbors():
                 if (v, n) in nodes_to_tuple:
                     s = nodes_to_tuple[(v, n)]
-                    e = tuple_graph.add_edge(t, s)
-
                     matrix_2.append([int(t), int(s)])
 
         data_list = []
