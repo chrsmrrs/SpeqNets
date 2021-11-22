@@ -33,7 +33,7 @@ class PPI(InMemoryDataset):
     def process(self):
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "PPI")
-        dataset = train_dataset = PPI(path, split='train')
+        dataset = PPI(path, split='train')
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
