@@ -5,6 +5,7 @@ import torch
 import torch.nn.functional as F
 import torch_geometric.transforms as T
 from graph_tool.all import *
+from sklearn.metrics import f1_score
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.datasets import Planetoid
@@ -209,22 +210,22 @@ class Net(torch.nn.Module):
         x_1 = scatter(x, index_1, dim=0, reduce="mean")
         x_2 = scatter(x, index_2, dim=0, reduce="mean")
 
-
-        exit()
-
         x = self.mlp(torch.cat([x_1, x_2], dim=1))
 
-        return F.log_softmax(x, dim=1)
+        x = self.lin1(x).relu()
+        x = F.dropout(x, p=0.5, training=self.training)
+        x = self.lin2(x)
 
+        print(x.size())
+        exit()
 
+        return x
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = Net().to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 criterion = torch.nn.BCEWithLogitsLoss()
-
-
 
 def train():
     model.train()
@@ -233,7 +234,7 @@ def train():
     for data in train_loader:
         data = data.to(device)
         optimizer.zero_grad()
-        loss = criterion(model(data.x, data.edge_index_1, data.edge_index_2, data.index_1, data.index_2), data.y)
+        loss = criterion(model(data.x.to(device), data.edge_index_1.to(device), data.edge_index_2.to(device), data.index_1.to(device), data.index_2.to(device)), data.y)
         loss.backward()
         optimizer.step()
         total_loss += loss.item() * data.num_nodes
@@ -248,7 +249,7 @@ def test(loader):
     ys, preds = [], []
     for data in loader:
         ys.append(data.y)
-        out = model(data.x.to(device), data.adj_t.to(device))
+        out = model(data.x.to(device), data.edge_index_1.to(device), data.edge_index_2.to(device), data.index_1.to(device), data.index_2.to(device))
         preds.append((out > 0).float().cpu())
 
     y, pred = torch.cat(ys, dim=0).numpy(), torch.cat(preds, dim=0).numpy()
