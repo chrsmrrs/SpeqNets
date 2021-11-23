@@ -16,7 +16,7 @@ from tqdm import tqdm
 cls_criterion = torch.nn.BCEWithLogitsLoss()
 reg_criterion = torch.nn.MSELoss()
 
-name = "ogbg-moltoxcast"
+name = "ogbg-mollipo"
 
 
 class Mol(InMemoryDataset):
@@ -158,7 +158,7 @@ class GNN(torch.nn.Module):
         super(GNN, self).__init__()
 
         dim_init = 902
-        dim = 256
+        dim = 300
 
         self.conv_1_1 = GINConv(dim_init, dim)
         self.conv_1_2 = GINConv(dim_init, dim)
@@ -353,4 +353,5 @@ def main():
 if __name__ == "__main__":
     main()
 
-# ogbg-moltoxcast: 0.7320998196137835
+# ogbg-moltoxcast:  0.6390844787335223
+# :

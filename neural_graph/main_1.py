@@ -12,7 +12,7 @@ from tqdm import tqdm
 cls_criterion = torch.nn.BCEWithLogitsLoss()
 reg_criterion = torch.nn.MSELoss()
 
-name = "ogbg-moltoxcast"
+name = "ogbg-mollipo"
 
 
 class GINConv(MessagePassing):
@@ -199,4 +199,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# ogbg-moltoxcast: 0.6189788458360118
+# ogbg-moltoxcast:
