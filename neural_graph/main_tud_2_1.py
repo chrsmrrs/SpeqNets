@@ -51,8 +51,8 @@ class TUD_2_1(InMemoryDataset):
     def process(self):
         data_list = []
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
-        dataset = TUDataset(path, name="alchemy_full")[0:20000].shuffle()
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_frull")
+        dataset = TUDataset(path, name="alchemy_full", use_node_attr=True)[0:20000].shuffle()
 
         data_list = []
         for i, data in enumerate(dataset):
