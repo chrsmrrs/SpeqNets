@@ -26,21 +26,21 @@ class Mol(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "ogbg-ppa"
+        return "ogbg-moltoxcast"
 
     @property
     def processed_file_names(self):
-        return "ogbg-ppa"
+        return "ogbg-moltoxcast"
 
     def download(self):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-ppa")
+        dataset = PygGraphPropPredDataset(name="ogbg-moltoxcast")
 
         print(len(dataset))
         atom_encoder = AtomEncoder(300)
-        bond_encoder = BondEncoder(100)
+        bond_encoder = BondEncoder(300)
 
         data_list = []
         for i, data in enumerate(dataset):
@@ -94,7 +94,7 @@ class Mol(InMemoryDataset):
 
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 100, np.array([0, 1])], axis=-1)
+                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 300, np.array([0, 1])], axis=-1)
 
             matrix_1 = []
             matrix_2 = []
