@@ -28,6 +28,7 @@ class PPI_2_1(InMemoryDataset):
                  pre_filter=None):
         super(PPI_2_1, self).__init__( root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
+        self.split = split
 
     @property
     def raw_file_names(self):
