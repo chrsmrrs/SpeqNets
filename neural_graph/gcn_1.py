@@ -2,6 +2,7 @@ import os.path as osp
 
 import torch
 import torch.nn.functional as F
+import torch_geometric.transforms as T
 from sklearn.metrics import f1_score
 from torch.nn import Sequential, Linear, BatchNorm1d, ReLU
 from torch_geometric.datasets import PPI
@@ -9,9 +10,10 @@ from torch_geometric.loader import DataLoader
 from torch_geometric.nn import GINConv
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', 'GCN2_PPI')
-train_dataset = PPI(path, split='train')
-val_dataset = PPI(path, split='val')
-test_dataset = PPI(path, split='test')
+pre_transform = T.Compose([T.GCNNorm(), T.ToSparseTensor()])
+train_dataset = PPI(path, split='train', pre_transform=pre_transform)
+val_dataset = PPI(path, split='val', pre_transform=pre_transform)
+test_dataset = PPI(path, split='test', pre_transform=pre_transform)
 train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=2, shuffle=False)
 test_loader = DataLoader(test_dataset, batch_size=2, shuffle=False)
@@ -37,7 +39,6 @@ class Net(torch.nn.Module):
         self.lin2 = Linear(dim, num_classes)
 
     def forward(self, x, edge_index):
-
         print(x.size())
         exit()
 
@@ -50,6 +51,7 @@ class Net(torch.nn.Module):
         x = self.lin2(x)
 
         return x
+
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = Net(in_channels=2048, dim=256, num_classes=train_dataset.num_classes).to(device)
