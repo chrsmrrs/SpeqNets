@@ -113,13 +113,8 @@ for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
-    dataset = TUDataset(path, name="alchemy_full")[0:20000].shuffle()
-
-    mean = dataset.data.y.mean(dim=0, keepdim=True)
-    std = dataset.data.y.std(dim=0, keepdim=True)
-    dataset.data.y = (dataset.data.y - mean) / std
-    mean, std = mean.to(device), std.to(device)
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "aspirin")
+    dataset = TUDataset(path, name="aspirin")[0:20000].shuffle()
 
     train_dataset = dataset[0:18000]
     val_dataset = dataset[18000:19000]
@@ -130,18 +125,12 @@ for _ in range(5):
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
-
     model = NetGINE(256).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=10,
                                                            min_lr=0.0000001)
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = NetGINE(64).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
-                                                           factor=0.5, patience=5,
-                                                           min_lr=0.0000001)
+
 
 
     def train():
@@ -167,7 +156,7 @@ for _ in range(5):
 
         for data in loader:
             data = data.to(device)
-            error += ((data.y * std - model(data) * std).abs() / std).sum(dim=0)
+            error += ((data.y - model(data)).abs()).sum(dim=0)
 
         error = error / len(loader.dataset)
         error_log = torch.log(error)

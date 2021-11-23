@@ -285,11 +285,6 @@ for _ in range(5):
                                                            factor=0.5, patience=10,
                                                            min_lr=0.0000001)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = NetGIN(64).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
-                                                           factor=0.5, patience=5,
-                                                           min_lr=0.0000001)
 
 
     def train():
