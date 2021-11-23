@@ -39,8 +39,7 @@ class Net(torch.nn.Module):
         self.lin2 = Linear(dim, num_classes)
 
     def forward(self, x, edge_index):
-        print(x.size())
-        exit()
+
 
         x = self.conv1(x, edge_index)
         x = self.conv2(x, edge_index)
@@ -54,7 +53,7 @@ class Net(torch.nn.Module):
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = Net(in_channels=2048, dim=256, num_classes=train_dataset.num_classes).to(device)
+model = Net(in_channels=50, dim=256, num_classes=train_dataset.num_classes).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 criterion = torch.nn.BCEWithLogitsLoss()
 
