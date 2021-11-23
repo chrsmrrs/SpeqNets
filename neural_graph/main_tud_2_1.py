@@ -74,11 +74,11 @@ class TUD_2_1(InMemoryDataset):
 
             rows = list(edge_index[0])
             cols = list(edge_index[1])
-            edge_features = {}
+            #edge_features = {}
 
             for ind, (i, j) in enumerate(zip(rows, cols)):
                 e = g.add_edge(i, j, add_missing=False)
-                edge_features[e] = edge_attr[ind]
+                #edge_features[e] = edge_attr[ind]
 
             type = {}
 
@@ -95,14 +95,14 @@ class TUD_2_1(InMemoryDataset):
                     nodes_to_tuple[(v, w)] = n
 
                     type[n] = np.concatenate(
-                        [node_features[v], node_features[w], edge_features[g.edge(v, w)], np.array([1, 0])], axis=-1)
+                        [node_features[v], node_features[w], np.array([1, 0])], axis=-1)
 
                 n = tuples
                 tuples += 1
 
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 4, np.array([0, 1])], axis=-1)
+                type[n] = np.concatenate([node_features[v], node_features[v], np.array([0, 1])], axis=-1)
 
             matrix_1 = []
             matrix_2 = []
@@ -159,7 +159,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 18
+        num_features = 20
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
@@ -216,7 +216,7 @@ class NetGIN(torch.nn.Module):
                                 torch.nn.BatchNorm1d(dim), ReLU())
         self.set2set = Set2Set(1 * dim, processing_steps=6)
         self.fc1 = Linear(2 * dim, dim)
-        self.fc4 = Linear(dim, 12)
+        self.fc4 = Linear(dim, 1)
 
     def forward(self, data):
         x = data.x
@@ -251,7 +251,7 @@ class NetGIN(torch.nn.Module):
 
         x = F.relu(self.fc1(x))
         x = self.fc4(x)
-        return x
+        return x,view(-1)
 
 
 plot_all = []
@@ -261,13 +261,9 @@ for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttte')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'etetsttte')
     dataset = TUD_2_1(path, transform=MyTransform()).shuffle()
 
-    mean = dataset.data.y.mean(dim=0, keepdim=True)
-    std = dataset.data.y.std(dim=0, keepdim=True)
-    dataset.data.y = (dataset.data.y - mean) / std
-    mean, std = mean.to(device), std.to(device)
 
     train_dataset = dataset[0:18000]
     val_dataset = dataset[18000:19000]
@@ -310,7 +306,7 @@ for _ in range(5):
 
         for data in loader:
             data = data.to(device)
-            error += ((data.y * std - model(data) * std).abs() / std).sum(dim=0)
+            error += ((data.y - model(data)).abs()).sum(dim=0)
 
         error = error / len(loader.dataset)
         error_log = torch.log(error)
