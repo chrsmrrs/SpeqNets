@@ -14,9 +14,9 @@ from torch_geometric.datasets import PPI
 
 
 class PPI_2_1(InMemoryDataset):
-    def __init__(self, root, transform=None, pre_transform=None,
+    def __init__(self, split, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(PPI_2_1, self).__init__(root, transform, pre_transform, pre_filter)
+        super(PPI_2_1, self).__init__( root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
@@ -33,7 +33,7 @@ class PPI_2_1(InMemoryDataset):
     def process(self):
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "PPI")
-        dataset = PPI(path, split='train')
+        dataset = PPI(path, split=self.split)
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
