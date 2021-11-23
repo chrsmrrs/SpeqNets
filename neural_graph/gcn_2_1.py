@@ -191,6 +191,8 @@ class Net(torch.nn.Module):
                        Linear(dim, dim), ReLU()))
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+
         self.lin1 = Linear(dim, dim)
         self.lin2 = Linear(dim, 121)
 
