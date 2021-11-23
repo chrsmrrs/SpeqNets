@@ -178,7 +178,7 @@ class Net(torch.nn.Module):
         self.conv_2_1 = GINConv(
             Sequential(Linear(dim, dim), BatchNorm1d(dim), ReLU(),
                        Linear(dim, dim), ReLU()))
-        self.conv_2_1 = GINConv(
+        self.conv_2_2 = GINConv(
             Sequential(Linear(dim, dim), BatchNorm1d(dim), ReLU(),
                        Linear(dim, dim), ReLU()))
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
