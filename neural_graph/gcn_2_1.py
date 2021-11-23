@@ -135,9 +135,10 @@ class MyTransform(object):
             new_data[key] = item
         return new_data
 
+pre_transform = T.Compose([T.GCNNorm(), T.ToSparseTensor()])
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'eee')
-dataset = PPI_2_1("train", path, transform=MyTransform(), )
+dataset = PPI_2_1("train", path, pre_transform=pre_transform, transform=MyTransform(), )
 data = dataset[0]
 
 exit()
