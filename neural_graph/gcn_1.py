@@ -37,6 +37,10 @@ class Net(torch.nn.Module):
         self.lin2 = Linear(dim, num_classes)
 
     def forward(self, x, edge_index):
+
+        print(x.size())
+        exit()
+
         x = self.conv1(x, edge_index)
         x = self.conv2(x, edge_index)
         x = self.conv3(x, edge_index)
