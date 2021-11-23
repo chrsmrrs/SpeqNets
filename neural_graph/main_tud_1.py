@@ -49,23 +49,21 @@ class GINConv(MessagePassing):
 
 
 class GINConv(MessagePassing):
-    def __init__(self, emb_dim, dim1, dim2):
+    def __init__(self, dim1, dim2):
         super(GINConv, self).__init__(aggr="add")
 
-        self.bond_encoder = Sequential(Linear(emb_dim, dim1), ReLU(), Linear(dim1, dim1))
         self.mlp = Sequential(Linear(dim1, dim1), ReLU(), Linear(dim1, dim2))
 
         self.eps = torch.nn.Parameter(torch.Tensor([0]))
 
-    def forward(self, x, edge_index, edge_attr):
-        edge_embedding = self.bond_encoder(edge_attr)
+    def forward(self, x, edge_index):
 
-        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x, edge_attr=edge_embedding))
+        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x))
 
         return out
 
-    def message(self, x_j, edge_attr):
-        return F.relu(x_j + edge_attr)
+    def message(self, x_j):
+        return F.relu(x_j)
 
     def update(self, aggr_out):
         return aggr_out
@@ -78,12 +76,12 @@ class NetGINE(torch.nn.Module):
         num_features = 6
         dim = dim
 
-        self.conv1 = GINConv(4, num_features, dim)
-        self.conv2 = GINConv(4, dim, dim)
-        self.conv3 = GINConv(4, dim, dim)
-        self.conv4 = GINConv(4, dim, dim)
-        self.conv5 = GINConv(4, dim, dim)
-        self.conv6 = GINConv(4, dim, dim)
+        self.conv1 = GINConv(num_features, dim)
+        self.conv2 = GINConv(dim, dim)
+        self.conv3 = GINConv(dim, dim)
+        self.conv4 = GINConv(dim, dim)
+        self.conv5 = GINConv(dim, dim)
+        self.conv6 = GINConv(dim, dim)
 
         self.set2set = Set2Set(1 * dim, processing_steps=6)
 
@@ -93,12 +91,12 @@ class NetGINE(torch.nn.Module):
     def forward(self, data):
         x = data.x
 
-        x_1 = F.relu(self.conv1(x, data.edge_index, data.edge_attr))
-        x_2 = F.relu(self.conv2(x_1, data.edge_index, data.edge_attr))
-        x_3 = F.relu(self.conv3(x_2, data.edge_index, data.edge_attr))
-        x_4 = F.relu(self.conv4(x_3, data.edge_index, data.edge_attr))
-        x_5 = F.relu(self.conv5(x_4, data.edge_index, data.edge_attr))
-        x_6 = F.relu(self.conv6(x_5, data.edge_index, data.edge_attr))
+        x_1 = F.relu(self.conv1(x, data.edge_index))
+        x_2 = F.relu(self.conv2(x_1, data.edge_index))
+        x_3 = F.relu(self.conv3(x_2, data.edge_index))
+        x_4 = F.relu(self.conv4(x_3, data.edge_index))
+        x_5 = F.relu(self.conv5(x_4, data.edge_index))
+        x_6 = F.relu(self.conv6(x_5, data.edge_index))
         x = x_6
         x = self.set2set(x, data.batch)
         x = F.relu(self.fc1(x))
@@ -114,7 +112,7 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "aspirin")
-    dataset = TUDataset(path, name="aspirin")[0:20000].shuffle()
+    dataset = TUDataset(path, name="aspirin", use_node_attr=True)[0:20000].shuffle()
 
     train_dataset = dataset[0:18000]
     val_dataset = dataset[18000:19000]
