@@ -21,7 +21,7 @@ from typing import Union, Optional
 from torch import Tensor
 from torch_sparse import SparseTensor
 
-split = None
+split = ""
 
 
 class PPI_2_1(InMemoryDataset):
@@ -168,7 +168,7 @@ class Net(torch.nn.Module):
         dim = 256
 
         self.conv_1_1 = GINConv(
-            Sequential(Linear(1000, dim), BatchNorm1d(dim), ReLU(),
+            Sequential(Linear(102, dim), BatchNorm1d(dim), ReLU(),
                        Linear(dim, dim), ReLU()))
         self.conv_1_2 = GINConv(
             Sequential(Linear(1000, dim), BatchNorm1d(dim), ReLU(),
