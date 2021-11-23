@@ -124,7 +124,7 @@ class PPI_2_1(InMemoryDataset):
 class MyData(Data):
     def __inc__(self, key, value, *args, **kwargs):
         return self.num_nodes if key in [
-            'edge_index_1', 'edge_index_2'
+            'edge_index_1', 'edge_index_2', 'index_1', 'index_2'
         ] else 0
 
 
