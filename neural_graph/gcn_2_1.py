@@ -12,6 +12,88 @@ from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
 from torch_geometric.datasets import PPI
 from torch_geometric.loader import DataLoader
+from torch_geometric.nn import GINConv
+from torch.nn import Sequential, Linear, BatchNorm1d, ReLU
+
+
+from typing import Union, Optional
+
+from torch import Tensor
+from torch_sparse import SparseTensor
+
+from torch_geometric.data import Data, HeteroData
+from torch_geometric.utils import sort_edge_index
+from torch_geometric.transforms import BaseTransform
+
+
+class ToSparseTensor(BaseTransform):
+    r"""Converts the :obj:`edge_index` attributes of a homogeneous or
+    heterogeneous data object into a (transposed)
+    :class:`torch_sparse.SparseTensor` type with key :obj:`adj_.t`.
+
+    .. note::
+
+        In case of composing multiple transforms, it is best to convert the
+        :obj:`data` object to a :obj:`SparseTensor` as late as possible, since
+        there exist some transforms that are only able to operate on
+        :obj:`data.edge_index` for now.
+
+    Args:
+        attr: (str, optional): The name of the attribute to add as a value to
+            the :class:`~torch_sparse.SparseTensor` object (if present).
+            (default: :obj:`edge_weight`)
+        remove_edge_index (bool, optional): If set to :obj:`False`, the
+            :obj:`edge_index` tensor will not be removed.
+            (default: :obj:`True`)
+        fill_cache (bool, optional): If set to :obj:`False`, will not fill the
+            underlying :obj:`SparseTensor` cache. (default: :obj:`True`)
+    """
+    def __init__(self, attr: Optional[str] = 'edge_weight',
+                 remove_edge_index: bool = True, fill_cache: bool = True):
+        self.attr = attr
+        self.remove_edge_index = remove_edge_index
+        self.fill_cache = fill_cache
+
+    def __call__(self, data: Union[Data, HeteroData]):
+        for store in data.edge_stores:
+            if 'edge_index_1'  not in store and 'edge_index_2'  not in stor:
+                continue
+
+            nnz = store.edge_index.size(1)
+
+            keys, values = [], []
+            for key, value in store.items():
+                if isinstance(value, Tensor) and value.size(0) == nnz:
+                    keys.append(key)
+                    values.append(value)
+
+            store.edge_index, values = sort_edge_index(store.edge_index,
+                                                       values,
+                                                       sort_by_row=False)
+
+            for key, value in zip(keys, values):
+                store[key] = value
+
+            store.adj_t = SparseTensor(
+                row=store.edge_index[1], col=store.edge_index[0],
+                value=None if self.attr is None or self.attr not in store else
+                store[self.attr], sparse_sizes=store.size()[::-1],
+                is_sorted=True)
+
+            if self.remove_edge_index:
+                del store['edge_index']
+                if self.attr is not None and self.attr in store:
+                    del store[self.attr]
+
+            if self.fill_cache:  # Pre-process some important attributes.
+                store.adj_t.storage.rowptr()
+                store.adj_t.storage.csr2csc()
+
+        return data
+
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}()'
+
 
 class PPI_2_1(InMemoryDataset):
     def __init__(self, split, root, transform=None, pre_transform=None,
@@ -148,74 +230,108 @@ test_loader = DataLoader(test_dataset, batch_size=2, shuffle=False)
 
 
 
-exit()
-
-
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         dim = 256
-        self.conv_1_1 = GCNConv(1002, dim)
-        self.conv_1_2 = GCNConv(1002, dim)
 
+        self.conv_1_1 = GINConv(
+            Sequential(Linear(1000, dim), BatchNorm1d(dim), ReLU(),
+                       Linear(dim, dim), ReLU()))
+        self.conv_1_2 = GINConv(
+            Sequential(Linear(1000, dim), BatchNorm1d(dim), ReLU(),
+                       Linear(dim, dim), ReLU()))
         self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.conv_2_1 = GCNConv(dim, dim)
-        self.conv_2_2 = GCNConv(dim, dim)
+        self.conv_2_1 = GINConv(
+            Sequential(Linear(dim, dim), BatchNorm1d(dim), ReLU(),
+                       Linear(dim, dim), ReLU()))
+        self.conv_2_1 = GINConv(
+            Sequential(Linear(dim, dim), BatchNorm1d(dim), ReLU(),
+                       Linear(dim, dim), ReLU()))
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 3))
+        self.conv_3_1 = GINConv(
+            Sequential(Linear(dim, dim), BatchNorm1d(dim), ReLU(),
+                       Linear(dim, dim), ReLU()))
+        self.conv_3_2 = GINConv(
+            Sequential(Linear(dim, dim), BatchNorm1d(dim), ReLU(),
+                       Linear(dim, dim), ReLU()))
+        self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-    def forward(self):
-        x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
+        self.lin1 = Linear(dim, dim)
+        self.lin2 = Linear(dim, 121)
 
-        index_1, index_2 = data.index_1, data.index_2
+
+    def forward(self, x, edge_index_1, edge_index_2):
 
         x_1 = F.relu(self.conv_1_1(x, edge_index_1))
         x_2 = F.relu(self.conv_1_2(x, edge_index_2))
         x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
 
-
         x_1 = F.relu(self.conv_2_1(x, edge_index_1))
         x_2 = F.relu(self.conv_2_2(x, edge_index_2))
         x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
+
+        x_1 = F.relu(self.conv_3_1(x, edge_index_1))
+        x_2 = F.relu(self.conv_3_2(x, edge_index_2))
+        x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
+
 
         index_1 = index_1.to(torch.int64)
         index_2 = index_2.to(torch.int64)
         x_1 = scatter(x, index_1, dim=0, reduce="mean")
         x_2 = scatter(x, index_2, dim=0, reduce="mean")
 
+
+        exit()
+
         x = self.mlp(torch.cat([x_1, x_2], dim=1))
 
         return F.log_softmax(x, dim=1)
 
 
+
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model, data = Net().to(device), data.to(device)
-optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
+model = Net().to(device)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+criterion = torch.nn.BCEWithLogitsLoss()
 
 
 
 def train():
     model.train()
-    optimizer.zero_grad()
-    F.nll_loss(model()[data.train_mask], data.y[data.train_mask]).backward()
 
-    optimizer.step()
+    total_loss = total_examples = 0
+    for data in train_loader:
+        data = data.to(device)
+        optimizer.zero_grad()
+        loss = criterion(model(data.x, data.adj_t), data.y)
+        loss.backward()
+        optimizer.step()
+        total_loss += loss.item() * data.num_nodes
+        total_examples += data.num_nodes
+    return total_loss / total_examples
 
 
 @torch.no_grad()
-def test():
+def test(loader):
     model.eval()
-    log_probs, accs = model(), []
-    for _, mask in data('train_mask', 'test_mask'):
-        pred = log_probs[mask].max(1)[1]
-        acc = pred.eq(data.y[mask]).sum().item() / mask.sum().item()
-        accs.append(acc)
-    return accs
+
+    ys, preds = [], []
+    for data in loader:
+        ys.append(data.y)
+        out = model(data.x.to(device), data.adj_t.to(device))
+        preds.append((out > 0).float().cpu())
+
+    y, pred = torch.cat(ys, dim=0).numpy(), torch.cat(preds, dim=0).numpy()
+    return f1_score(y, pred, average='micro') if pred.sum() > 0 else 0
 
 
-for epoch in range(1, 101):
-    train()
-    log = 'Epoch: {:03d}, Train: {:.4f}, Test: {:.4f}'
-    print(log.format(epoch, *test()))
+for epoch in range(1, 2001):
+    loss = train()
+    val_f1 = test(val_loader)
+    test_f1 = test(test_loader)
+    print('Epoch: {:02d}, Loss: {:.4f}, Val: {:.4f}, Test: {:.4f}'.format(
+        epoch, loss, val_f1, test_f1))
