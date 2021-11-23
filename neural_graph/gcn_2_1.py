@@ -11,7 +11,7 @@ from torch_geometric.datasets import Planetoid
 from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
 from torch_geometric.datasets import PPI
-
+from torch_geometric.loader import DataLoader
 
 class PPI_2_1(InMemoryDataset):
     def __init__(self, split, root, transform=None, pre_transform=None,
@@ -138,8 +138,15 @@ class MyTransform(object):
 pre_transform = T.Compose([T.GCNNorm(), T.ToSparseTensor()])
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'eee')
-dataset = PPI_2_1("train", path, pre_transform=pre_transform, transform=MyTransform(), )
-data = dataset[0]
+train_dataset = PPI_2_1("train", path, pre_transform=pre_transform, transform=MyTransform(), )
+val_dataset = PPI_2_1("val", path, pre_transform=pre_transform, transform=MyTransform(), )
+test_dataset = PPI_2_1("test", path, pre_transform=pre_transform, transform=MyTransform(), )
+
+train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=2, shuffle=False)
+test_loader = DataLoader(test_dataset, batch_size=2, shuffle=False)
+
+
 
 exit()
 
