@@ -251,7 +251,7 @@ class NetGIN(torch.nn.Module):
 
         x = F.relu(self.fc1(x))
         x = self.fc4(x)
-        return x,view(-1)
+        return x.view(-1)
 
 
 plot_all = []
