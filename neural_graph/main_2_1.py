@@ -134,10 +134,10 @@ reg_criterion = torch.nn.MSELoss()
 
 
 class GINConv(MessagePassing):
-    def __init__(self, emb_dim):
+    def __init__(self, dim_init, emb_dim):
         super(GINConv, self).__init__(aggr="add")
 
-        self.mlp = torch.nn.Sequential(torch.nn.Linear(emb_dim, 2 * emb_dim), torch.nn.BatchNorm1d(2 * emb_dim),
+        self.mlp = torch.nn.Sequential(torch.nn.Linear(dim_init, 2 * emb_dim), torch.nn.BatchNorm1d(2 * emb_dim),
                                        torch.nn.ReLU(), torch.nn.Linear(2 * emb_dim, emb_dim))
         self.eps = torch.nn.Parameter(torch.Tensor([0]))
 
@@ -157,34 +157,35 @@ class GNN(torch.nn.Module):
     def __init__(self, num_tasks):
         super(GNN, self).__init__()
 
-        dim = 702
+        dim_init = 902
+        dim = 256
 
-        self.conv_1_1 = GINConv(dim)
-        self.conv_1_2 = GINConv(dim)
+        self.conv_1_1 = GINConv(dim_init, dim)
+        self.conv_1_2 = GINConv(dim_init, dim)
         self.mlp_1 =  torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
                                        torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
         self.bn_1 = torch.nn.BatchNorm1d(dim)
 
-        self.conv_2_1 = GINConv(dim)
-        self.conv_2_2 = GINConv(dim)
+        self.conv_2_1 = GINConv(dim, dim)
+        self.conv_2_2 = GINConv(dim, dim)
         self.mlp_2 = torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
                                        torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
         self.bn_2 = torch.nn.BatchNorm1d(dim)
 
-        self.conv_3_1 = GINConv(dim)
-        self.conv_3_2 = GINConv(dim)
+        self.conv_3_1 = GINConv(dim, dim)
+        self.conv_3_2 = GINConv(dim, dim)
         self.mlp_3 = torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
                                        torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
         self.bn_3 = torch.nn.BatchNorm1d(dim)
 
-        self.conv_4_1 = GINConv(dim)
-        self.conv_4_2 = GINConv(dim)
+        self.conv_4_1 = GINConv(dim, dim)
+        self.conv_4_2 = GINConv(dim, dim)
         self.mlp_4 = torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
                                        torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
         self.bn_4 = torch.nn.BatchNorm1d(dim)
 
-        self.conv_5_1 = GINConv(dim)
-        self.conv_5_2 = GINConv(dim)
+        self.conv_5_1 = GINConv(dim, dim)
+        self.conv_5_2 = GINConv(dim, dim)
         self.mlp_5 = torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
                                        torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
         self.bn_5 = torch.nn.BatchNorm1d(dim)
