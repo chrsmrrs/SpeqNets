@@ -12,6 +12,7 @@ from tqdm import tqdm
 cls_criterion = torch.nn.BCEWithLogitsLoss()
 reg_criterion = torch.nn.MSELoss()
 
+name = "ogbg-moltoxcast"
 
 class GINConv(MessagePassing):
     def __init__(self, emb_dim):
@@ -135,7 +136,7 @@ def eval(model, device, loader, evaluator):
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    dataset = PygGraphPropPredDataset(name="ogbg-moltoxcast")
+    dataset = PygGraphPropPredDataset(name=name)
     print(len(dataset))
 
     feature = 'simple'
@@ -149,7 +150,7 @@ def main():
 
     split_idx = dataset.get_idx_split()
 
-    evaluator = Evaluator("ogbg-moltoxcast")
+    evaluator = Evaluator(name)
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
                               num_workers=0)
