@@ -137,7 +137,7 @@ class MyTransform(object):
 
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'eee')
-dataset = PPI_2_1(path, transform=MyTransform())
+dataset = PPI_2_1("train", path, transform=MyTransform(), )
 data = dataset[0]
 
 exit()
