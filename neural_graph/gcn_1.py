@@ -72,7 +72,7 @@ def train():
     for data in train_loader:
         data = data.to(device)
         optimizer.zero_grad()
-        loss = criterion(model(data.x, data.edge_index), data.y)
+        loss = criterion(model(data.x.to(device), data.edge_index.to(device)), data.y)
         loss.backward()
         optimizer.step()
         total_loss += loss.item() * data.num_nodes
