@@ -3,49 +3,18 @@ import sys
 sys.path.insert(0, '..')
 sys.path.insert(0, '.')
 
-import os.path as osp
-import torch
-from torch.nn import Sequential, Linear, ReLU
-from torch_geometric.nn import global_mean_pool, MessagePassing
-
 from torch_geometric.datasets import TUDataset
-from torch_geometric.data import DataLoader
-import torch.nn.functional as F
-
-import numpy as np
 
 import os.path as osp
-import numpy as np
 from torch.nn import Linear as Lin
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.nn import Set2Set
 
-from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.data import DataLoader
 
 import torch
 from torch_geometric.nn import MessagePassing
 import torch.nn.functional as F
-
-class GINConv(MessagePassing):
-    def __init__(self, emb_dim, dim1, dim2):
-        super(GINConv, self).__init__(aggr="add")
-
-        self.bond_encoder = Sequential(Linear(emb_dim, dim1), ReLU(), Linear(dim1, dim1))
-        self.mlp = Sequential(Linear(dim1, dim1), ReLU(), Linear(dim1, dim2))
-        self.eps = torch.nn.Parameter(torch.Tensor([0]))
-
-    def forward(self, x, edge_index, edge_attr):
-        edge_embedding = self.bond_encoder(edge_attr)
-        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x, edge_attr=edge_embedding))
-
-        return out
-
-    def message(self, x_j, edge_attr):
-        return F.relu(x_j + edge_attr)
-
-    def update(self, aggr_out):
-        return aggr_out
 
 
 class GINConv(MessagePassing):
@@ -57,7 +26,6 @@ class GINConv(MessagePassing):
         self.eps = torch.nn.Parameter(torch.Tensor([0]))
 
     def forward(self, x, edge_index):
-
         out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x))
 
         return out
@@ -73,7 +41,7 @@ class NetGINE(torch.nn.Module):
     def __init__(self, dim):
         super(NetGINE, self).__init__()
 
-        num_features = 6
+        num_features = 9
         dim = dim
 
         self.conv1 = GINConv(num_features, dim)
@@ -130,7 +98,6 @@ for _ in range(5):
                                                            min_lr=0.0000001)
 
 
-
     def train():
         model.train()
         loss_all = 0
@@ -179,5 +146,3 @@ for _ in range(5):
         if lr < 0.000001:
             print("Converged.")
             break
-
-
