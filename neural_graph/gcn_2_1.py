@@ -21,6 +21,7 @@ from typing import Union, Optional
 from torch import Tensor
 from torch_sparse import SparseTensor
 
+split = None
 
 
 class PPI_2_1(InMemoryDataset):
@@ -44,7 +45,7 @@ class PPI_2_1(InMemoryDataset):
     def process(self):
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "PPI")
-        dataset = PPI(path, split=self.split)
+        dataset = PPI(path, split=split)
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
@@ -148,8 +149,11 @@ class MyTransform(object):
 
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'eere')
+split = "train"
 train_dataset = PPI_2_1("train", path, transform=MyTransform())
+split = "val"
 val_dataset = PPI_2_1("val", path, transform=MyTransform())
+split = "test"
 test_dataset = PPI_2_1("test", path, transform=MyTransform())
 
 train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
