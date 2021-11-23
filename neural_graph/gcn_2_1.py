@@ -223,8 +223,6 @@ class Net(torch.nn.Module):
         x = F.dropout(x, p=0.5, training=self.training)
         x = self.lin2(x)
 
-        print(x.size())
-        exit()
 
         return x
 
