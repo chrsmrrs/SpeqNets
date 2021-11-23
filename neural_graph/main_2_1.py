@@ -2,22 +2,22 @@ import os.path as osp
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 import torch.optim as optim
 from graph_tool.all import *
 from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
 from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
-from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import DataLoader
 from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.nn import MessagePassing
 from torch_geometric.nn import global_mean_pool
 from tqdm import tqdm
-import torch.nn.functional as F
 
 cls_criterion = torch.nn.BCEWithLogitsLoss()
 reg_criterion = torch.nn.MSELoss()
 
 name = "ogbg-moltoxcast"
+
 
 class Mol(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
@@ -162,42 +162,41 @@ class GNN(torch.nn.Module):
 
         self.conv_1_1 = GINConv(dim_init, dim)
         self.conv_1_2 = GINConv(dim_init, dim)
-        self.mlp_1 =  torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
-                                       torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
+        self.mlp_1 = torch.nn.Sequential(torch.nn.Linear(2 * dim, 4 * dim), torch.nn.BatchNorm1d(4 * dim),
+                                         torch.nn.ReLU(), torch.nn.Linear(4 * dim, dim))
         self.bn_1 = torch.nn.BatchNorm1d(dim)
 
         self.conv_2_1 = GINConv(dim, dim)
         self.conv_2_2 = GINConv(dim, dim)
-        self.mlp_2 = torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
-                                       torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
+        self.mlp_2 = torch.nn.Sequential(torch.nn.Linear(2 * dim, 4 * dim), torch.nn.BatchNorm1d(4 * dim),
+                                         torch.nn.ReLU(), torch.nn.Linear(4 * dim, dim))
         self.bn_2 = torch.nn.BatchNorm1d(dim)
 
         self.conv_3_1 = GINConv(dim, dim)
         self.conv_3_2 = GINConv(dim, dim)
-        self.mlp_3 = torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
-                                       torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
+        self.mlp_3 = torch.nn.Sequential(torch.nn.Linear(2 * dim, 4 * dim), torch.nn.BatchNorm1d(4 * dim),
+                                         torch.nn.ReLU(), torch.nn.Linear(4 * dim, dim))
         self.bn_3 = torch.nn.BatchNorm1d(dim)
 
         self.conv_4_1 = GINConv(dim, dim)
         self.conv_4_2 = GINConv(dim, dim)
-        self.mlp_4 = torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
-                                       torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
+        self.mlp_4 = torch.nn.Sequential(torch.nn.Linear(2 * dim, 4 * dim), torch.nn.BatchNorm1d(4 * dim),
+                                         torch.nn.ReLU(), torch.nn.Linear(4 * dim, dim))
         self.bn_4 = torch.nn.BatchNorm1d(dim)
 
         self.conv_5_1 = GINConv(dim, dim)
         self.conv_5_2 = GINConv(dim, dim)
-        self.mlp_5 = torch.nn.Sequential(torch.nn.Linear(dim, 2 * dim), torch.nn.BatchNorm1d(2 * dim),
-                                       torch.nn.ReLU(), torch.nn.Linear(2 * dim, dim))
+        self.mlp_5 = torch.nn.Sequential(torch.nn.Linear(2 * dim, 4 * dim), torch.nn.BatchNorm1d(4 * dim),
+                                         torch.nn.ReLU(), torch.nn.Linear(4 * dim, dim))
         self.bn_5 = torch.nn.BatchNorm1d(dim)
 
         self.pool = global_mean_pool
-        self.graph_pred_linear = torch.nn.Linear(1*dim, num_tasks)
-        self.graph_pred_linear = torch.nn.Sequential(torch.nn.Linear(dim, dim), torch.nn.ReLU(), torch.nn.Linear(dim, num_tasks))
+        self.graph_pred_linear = torch.nn.Linear(1 * dim, num_tasks)
+        self.graph_pred_linear = torch.nn.Sequential(torch.nn.Linear(dim, dim), torch.nn.ReLU(),
+                                                     torch.nn.Linear(dim, num_tasks))
 
     def forward(self, batched_data):
         x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.edge_index_2, batched_data.batch
-
-        x_out = x
 
         x_1 = self.conv_1_1(x, edge_index_1)
         x_2 = self.conv_1_2(x, edge_index_2)
@@ -353,6 +352,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 # ogbg-moltoxcast: 0.7320998196137835

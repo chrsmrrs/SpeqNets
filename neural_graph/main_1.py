@@ -14,6 +14,7 @@ reg_criterion = torch.nn.MSELoss()
 
 name = "ogbg-moltoxcast"
 
+
 class GINConv(MessagePassing):
     def __init__(self, emb_dim):
         super(GINConv, self).__init__(aggr="add")
