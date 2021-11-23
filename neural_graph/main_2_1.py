@@ -120,7 +120,7 @@ class Mol(InMemoryDataset):
             data_new.edge_index_1 = torch.tensor(matrix_1).t().contiguous().to(torch.long)
             data_new.edge_index_2 = torch.tensor(matrix_2).t().contiguous().to(torch.long)
 
-            data_new.x = torch.from_numpy(np.array(node_features_t)).to(torch.double)
+            data_new.x = torch.from_numpy(np.array(node_features_t)).to(torch.float)
             data_new.y = data.y
 
             data_list.append(data_new)
