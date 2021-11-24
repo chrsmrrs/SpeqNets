@@ -3,23 +3,12 @@ import sys
 sys.path.insert(0, '..')
 sys.path.insert(0, '.')
 
-import aux as dp
-
-import os.path as osp
-import numpy as np
-import torch
-from torch.nn import Sequential, Linear, ReLU
-from torch_geometric.nn import global_mean_pool, GINConv
+from torch_geometric.nn import GINConv
 from graph_tool.all import *
-from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.datasets import TUDataset
-from torch_geometric.data import DataLoader
-import torch.nn.functional as F
-import pickle
 
 import os.path as osp
 import numpy as np
-from torch.nn import Linear as Lin
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.nn import Set2Set
 
@@ -27,10 +16,10 @@ from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.data import DataLoader
 
 import torch
-from torch_geometric.nn import MessagePassing
 import torch.nn.functional as F
 
 from aux import compute_k_s_tuple_graph_fast
+
 
 class TUD_3_1(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
@@ -85,8 +74,9 @@ class TUD_3_1(InMemoryDataset):
                 e = g.add_edge(i, j, add_missing=False)
                 edge_labels[e] = edge_attr[ind]
 
-
-            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 1, node_labels, edge_labels, atomic_type, atomic_counter)
+            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 1, node_labels,
+                                                                                         edge_labels, atomic_type,
+                                                                                         atomic_counter)
 
             data_new = Data()
 
@@ -103,7 +93,6 @@ class TUD_3_1(InMemoryDataset):
 
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])
-
 
 
 class MyData(Data):
@@ -231,7 +220,6 @@ for _ in range(5):
     dataset = TUD_3_1(path, transform=MyTransform()).shuffle()
     exit()
 
-
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
     dataset.data.y = (dataset.data.y - mean) / std
@@ -246,13 +234,11 @@ for _ in range(5):
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
-
     model = NetGIN(256).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=10,
                                                            min_lr=0.0000001)
-
 
 
     def train():

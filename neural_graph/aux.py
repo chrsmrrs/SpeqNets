@@ -18,9 +18,9 @@ def compute_atomic_type(g, vertices, node_labels, edge_labels):
             if g.edge(v, w):
                 edge_list.append((i, j, 1, node_labels[v] + 1, node_labels[w] + 1, edge_labels[g.edge(v, w)] + 1))
             elif v == w:
-                edge_list.append((i, j, 0, node_labels[v] + 1, node_labels[w] + 1, 0))
+                edge_list.append((i, j, 2, node_labels[v] + 1, node_labels[w] + 1, 0))
             elif not g.edge(v, w):
-                edge_list.append((i, j, 2, node_labels[v] + 1, node_labels[v] + 1, 0))
+                edge_list.append((i, j, 0, node_labels[v] + 1, node_labels[w] + 1, 0))
 
     edge_list.sort()
 
@@ -156,6 +156,7 @@ def compute_k_s_tuple_graph_fast(g, k, s, node_labels, edge_labels,  atomic_type
         # Add self-loops, only once.
         k_tuple_graph.add_edge(m, m)
         tuple_edge_labels[k_tuple_graph.edge(m, m)] = 0
+        matrices[0].append([int(m), int(m)])
 
     return atomic_type, atomic_counter, matrices, labels
 

@@ -10,7 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/neural_graph/main_2_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_2_1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/aux.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/aux.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,35 +295,7 @@
       <workItem from="1637253592040" duration="30778000" />
       <workItem from="1637347293154" duration="32023000" />
       <workItem from="1637616803729" duration="13564000" />
-      <workItem from="1637685265863" duration="17234000" />
-    </task>
-    <task id="LOCAL-00514" summary="PPI">
-      <created>1637628434261</created>
-      <option name="number" value="00514" />
-      <option name="presentableId" value="LOCAL-00514" />
-      <option name="project" value="LOCAL" />
-      <updated>1637628434262</updated>
-    </task>
-    <task id="LOCAL-00515" summary="PPI">
-      <created>1637628803744</created>
-      <option name="number" value="00515" />
-      <option name="presentableId" value="LOCAL-00515" />
-      <option name="project" value="LOCAL" />
-      <updated>1637628803744</updated>
-    </task>
-    <task id="LOCAL-00516" summary="PPI">
-      <created>1637629026359</created>
-      <option name="number" value="00516" />
-      <option name="presentableId" value="LOCAL-00516" />
-      <option name="project" value="LOCAL" />
-      <updated>1637629026360</updated>
-    </task>
-    <task id="LOCAL-00517" summary="PPI">
-      <created>1637629193432</created>
-      <option name="number" value="00517" />
-      <option name="presentableId" value="LOCAL-00517" />
-      <option name="project" value="LOCAL" />
-      <updated>1637629193433</updated>
+      <workItem from="1637685265863" duration="17691000" />
     </task>
     <task id="LOCAL-00518" summary="PPI">
       <created>1637629606860</created>
@@ -640,7 +612,35 @@
       <option name="project" value="LOCAL" />
       <updated>1637721030751</updated>
     </task>
-    <option name="localTasksCounter" value="563" />
+    <task id="LOCAL-00563" summary="PPI">
+      <created>1637721344882</created>
+      <option name="number" value="00563" />
+      <option name="presentableId" value="LOCAL-00563" />
+      <option name="project" value="LOCAL" />
+      <updated>1637721344883</updated>
+    </task>
+    <task id="LOCAL-00564" summary="PPI">
+      <created>1637721426761</created>
+      <option name="number" value="00564" />
+      <option name="presentableId" value="LOCAL-00564" />
+      <option name="project" value="LOCAL" />
+      <updated>1637721426762</updated>
+    </task>
+    <task id="LOCAL-00565" summary="PPI">
+      <created>1637721517706</created>
+      <option name="number" value="00565" />
+      <option name="presentableId" value="LOCAL-00565" />
+      <option name="project" value="LOCAL" />
+      <updated>1637721517707</updated>
+    </task>
+    <task id="LOCAL-00566" summary="PPI">
+      <created>1637721581346</created>
+      <option name="number" value="00566" />
+      <option name="presentableId" value="LOCAL-00566" />
+      <option name="project" value="LOCAL" />
+      <updated>1637721581346</updated>
+    </task>
+    <option name="localTasksCounter" value="567" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
