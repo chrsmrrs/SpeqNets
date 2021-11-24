@@ -13,9 +13,6 @@ import timeit
 import numpy as np
 from graph_tool.all import *
 
-from aux import normalize_gram_matrix, normalize_feature_vector
-from data_set_parser import read_txt #, get_dataset
-from svm import kernel_svm_evaluation, linear_svm_evaluation
 from scipy import sparse
 
 
