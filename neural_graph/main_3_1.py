@@ -122,7 +122,7 @@ class NetGIN(torch.nn.Module):
                            torch.nn.BatchNorm1d(dim), ReLU())
         nn1_3 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
-        self.conv1_1 = GINConv(nn1_1, train_eps=True)
+        self.conwv1_1 = GINConv(nn1_1, train_eps=True)
         self.conv1_2 = GINConv(nn1_2, train_eps=True)
         self.conv1_3 = GINConv(nn1_3, train_eps=True)
         self.mlp_1 = Sequential(Linear(3 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
@@ -248,9 +248,9 @@ for _ in range(5):
     dataset.data.y = (dataset.data.y - mean) / std
     mean, std = mean.to(device), std.to(device)
 
-    train_dataset = dataset[0:800]
-    val_dataset = dataset[800:9000]
-    test_dataset = dataset[900:]
+    train_dataset = dataset[0:18000]
+    val_dataset = dataset[18000:19000]
+    test_dataset = dataset[19000:]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
