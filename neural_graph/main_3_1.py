@@ -201,27 +201,27 @@ class NetGIN(torch.nn.Module):
 
         x_1 = F.relu(self.conv2_1(x_1_r, data.edge_index_1))
         x_2 = F.relu(self.conv2_2(x_1_r, data.edge_index_2))
-        x_3 = F.relu(self.conv2_3(x, data.edge_index_3))
+        x_3 = F.relu(self.conv2_3(x_1_r, data.edge_index_3))
         x_2_r = self.mlp_2(torch.cat([x_1, x_2, x_3], dim=-1))
 
         x_1 = F.relu(self.conv3_1(x_2_r, data.edge_index_1))
         x_2 = F.relu(self.conv3_2(x_2_r, data.edge_index_2))
-        x_3 = F.relu(self.conv3_3(x, data.edge_index_3))
+        x_3 = F.relu(self.conv3_3(x_2_r, data.edge_index_3))
         x_3_r = self.mlp_3(torch.cat([x_1, x_2, x_3], dim=-1))
 
         x_1 = F.relu(self.conv4_1(x_3_r, data.edge_index_1))
         x_2 = F.relu(self.conv4_2(x_3_r, data.edge_index_2))
-        x_3 = F.relu(self.conv4_3(x, data.edge_index_3))
+        x_3 = F.relu(self.conv4_3(x_3_r, data.edge_index_3))
         x_4_r = self.mlp_4(torch.cat([x_1, x_2, x_3], dim=-1))
 
         x_1 = F.relu(self.conv5_1(x_4_r, data.edge_index_1))
         x_2 = F.relu(self.conv5_2(x_4_r, data.edge_index_2))
-        x_3 = F.relu(self.conv5_3(x, data.edge_index_3))
+        x_3 = F.relu(self.conv5_3(x_4_r, data.edge_index_3))
         x_5_r = self.mlp_5(torch.cat([x_1, x_2, x_3], dim=-1))
 
         x_1 = F.relu(self.conv6_1(x_5_r, data.edge_index_1))
         x_2 = F.relu(self.conv6_2(x_5_r, data.edge_index_2))
-        x_3 = F.relu(self.conv6_3(x, data.edge_index_3))
+        x_3 = F.relu(self.conv6_3(x_5_r, data.edge_index_3))
         x_6_r = self.mlp_6(torch.cat([x_1, x_2, x_3], dim=-1))
 
         x = x_6_r
