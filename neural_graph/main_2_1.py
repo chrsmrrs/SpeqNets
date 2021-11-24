@@ -62,7 +62,7 @@ class TUD_2_1(InMemoryDataset):
             x = data.x.cpu().detach().numpy()
             x = x.argmax(axis=-1)
 
-            print(x.shape)
+            print(x.shape[0])
 
             exit()
 
