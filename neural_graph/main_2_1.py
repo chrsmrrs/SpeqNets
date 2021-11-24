@@ -88,7 +88,7 @@ class TUD_2_1(InMemoryDataset):
                 edge_labels[e] = edge_attr[ind]
 
 
-            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 1, node_labels, edge_labels, atomic_type)
+            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 1, node_labels, edge_labels, atomic_type, atomic_counter)
 
             exit()
 
