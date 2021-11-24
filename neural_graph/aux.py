@@ -16,11 +16,11 @@ def compute_atomic_type(g, vertices, node_labels, edge_labels):
         for j, w in enumerate(vertices):
             # Check if edge or self loop.
             if g.edge(v, w):
-                edge_list.append((i, j, 1, node_labels[v] + 1, node_labels[v][w] + 1, edge_labels[g.edge(v, w)] + 1))
+                edge_list.append((i, j, 1, node_labels[v] + 1, node_labels[w] + 1, edge_labels[g.edge(v, w)] + 1))
             elif v == w:
-                edge_list.append((i, j, 0, node_labels[v] + 1, node_labels[v][w] + 1, 0))
+                edge_list.append((i, j, 0, node_labels[v] + 1, node_labels[w] + 1, 0))
             elif not g.edge(v, w):
-                edge_list.append((i, j, 2, node_labels[v] + 1, node_labels[v][w] + 1, 0))
+                edge_list.append((i, j, 2, node_labels[v] + 1, node_labels[v] + 1, 0))
 
     edge_list.sort()
 
