@@ -90,61 +90,18 @@ class TUD_2_1(InMemoryDataset):
 
             atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 1, node_labels, edge_labels, atomic_type, atomic_counter)
 
-            exit()
-
-
-            type = {}
-
-            tuple_to_nodes = {}
-            nodes_to_tuple = {}
-
-            tuples = 0
-            for v in g.vertices():
-                for w in v.all_neighbors():
-                    n = tuples
-                    tuples += 1
-
-                    tuple_to_nodes[n] = (v, w)
-                    nodes_to_tuple[(v, w)] = n
-
-                    type[n] = np.concatenate(
-                        [node_features[v], node_features[w], edge_features[g.edge(v, w)], np.array([1, 0])], axis=-1)
-
-                n = tuples
-                tuples += 1
-
-                tuple_to_nodes[n] = (v, v)
-                tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 4, np.array([0, 1])], axis=-1)
-
-            matrix_1 = []
-            matrix_2 = []
-            node_features_t = []
-
-            for t in range(tuples):
-                v, w = tuple_to_nodes[t]
-
-                node_features_t.append(type[t])
-
-                # 1 neighbors.
-                for n in v.out_neighbors():
-                    if (n, w) in nodes_to_tuple:
-                        s = nodes_to_tuple[(n, w)]
-                        matrix_1.append([int(t), int(s)])
-
-                # 2 neighbors.
-                for n in w.out_neighbors():
-                    if (v, n) in nodes_to_tuple:
-                        s = nodes_to_tuple[(v, n)]
-                        matrix_2.append([int(t), int(s)])
-
             data_new = Data()
 
-            data_new.edge_index_1 = torch.tensor(matrix_1).t().contiguous().to(torch.long)
-            data_new.edge_index_2 = torch.tensor(matrix_2).t().contiguous().to(torch.long)
+            data_new.edge_index_1 = torch.tensor(matrices[0]).t().contiguous().to(torch.long)
+            data_new.edge_index_2 = torch.tensor(matrices[1]).t().contiguous().to(torch.long)
+            data_new.edge_index_3 = torch.tensor(matrices[2]).t().contiguous().to(torch.long)
 
-            data_new.x = torch.from_numpy(np.array(node_features_t)).to(torch.float)
+            one_hot = np.eye(445)[labels]
+            data.x = torch.from_numpy(one_hot).to(torch.float)
+
             data_new.y = data.y
+
+            exit()
 
             data_list.append(data_new)
 
