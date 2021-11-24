@@ -17,7 +17,7 @@ from scipy import sparse
 
 
 # Compute atomic type for ordered set of vertices of graph g.
-def compute_atomic_type(g, vertices, node_label):
+def compute_atomic_type(g, node_features, edge_features):
     edge_list = []
 
 
@@ -48,21 +48,12 @@ def compute_atomic_type(g, vertices, node_label):
 
 
 # Implementation of the (k,s)-WL.
-def compute_k_s_tuple_graph_fast(g, k, s, node_label, star_node):
+def compute_k_s_tuple_graph_fast(g, k, s, node_features, edge_features):
     tupled_graphs = []
 
     # Manage atomic types.
     atomic_type = {}
     atomic_counter = 0
-
-
-
-    if star_node:
-        star = g.add_vertex()
-
-        for v in g.vertices():
-            g.add_edge(star, v)
-
 
     # (k,s)-tuple graph.
     k_tuple_graph = Graph(directed=False)

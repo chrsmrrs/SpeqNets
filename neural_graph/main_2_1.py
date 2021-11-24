@@ -1,56 +1,71 @@
-import os.path as osp
+import sys
 
+sys.path.insert(0, '..')
+sys.path.insert(0, '.')
+
+import aux as dp
+
+import os.path as osp
 import numpy as np
 import torch
-import torch.nn.functional as F
-import torch.optim as optim
+from torch.nn import Sequential, Linear, ReLU
+from torch_geometric.nn import global_mean_pool, GINConv
 from graph_tool.all import *
-from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
-from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
-from torch_geometric.data import DataLoader
 from torch_geometric.data import (InMemoryDataset, Data)
+from torch_geometric.datasets import TUDataset
+from torch_geometric.data import DataLoader
+import torch.nn.functional as F
+import pickle
+
+import os.path as osp
+import numpy as np
+from torch.nn import Linear as Lin
+from torch.nn import Sequential, Linear, ReLU
+from torch_geometric.nn import Set2Set
+
+from torch_geometric.data import (InMemoryDataset, Data)
+from torch_geometric.data import DataLoader
+
+import torch
 from torch_geometric.nn import MessagePassing
-from torch_geometric.nn import global_mean_pool
-from tqdm import tqdm
+import torch.nn.functional as F
 
-cls_criterion = torch.nn.BCEWithLogitsLoss()
-reg_criterion = torch.nn.MSELoss()
+from aux import compute_k_s_tuple_graph_fast
 
-name = "ogbg-moltoxcast"
-
-
-class Mol(InMemoryDataset):
+class TUD_2_1(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(Mol, self).__init__(root, transform, pre_transform, pre_filter)
+        super(TUD_2_1, self).__init__(root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
     def raw_file_names(self):
-        return name
+        return "TUD_2f_1gth"
 
     @property
     def processed_file_names(self):
-        return name
+        return "TUD_2f_g1th"
 
     def download(self):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name=name)
+        data_list = []
 
-        print(len(dataset))
-        atom_encoder = AtomEncoder(300)
-        bond_encoder = BondEncoder(300)
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
+        dataset = TUDataset(path, name="alchemy_full")[0:20000].shuffle()
 
         data_list = []
         for i, data in enumerate(dataset):
 
             print(i)
+            x = data.x.cpu().detach().numpy()
 
-            x = atom_encoder(data.x[:, :2]).cpu().detach().numpy()
-            edge_attr = bond_encoder(data.edge_attr[:, :2]).cpu().detach().numpy()
+            print(x)
 
+            exit()
+
+            edge_attr = data.edge_attr.cpu().detach().numpy()
             edge_index = data.edge_index.cpu().detach().numpy()
 
             # Create graph for easier processing.
@@ -69,6 +84,9 @@ class Mol(InMemoryDataset):
             for ind, (i, j) in enumerate(zip(rows, cols)):
                 e = g.add_edge(i, j, add_missing=False)
                 edge_features[e] = edge_attr[ind]
+
+
+
 
             type = {}
 
@@ -92,7 +110,7 @@ class Mol(InMemoryDataset):
 
                 tuple_to_nodes[n] = (v, v)
                 tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 300, np.array([0, 1])], axis=-1)
+                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 4, np.array([0, 1])], axis=-1)
 
             matrix_1 = []
             matrix_2 = []
@@ -129,145 +147,6 @@ class Mol(InMemoryDataset):
         torch.save((data, slices), self.processed_paths[0])
 
 
-class GINConv(MessagePassing):
-    def __init__(self, dim_init, emb_dim):
-        super(GINConv, self).__init__(aggr="add")
-
-        self.mlp = torch.nn.Sequential(torch.nn.Linear(dim_init, 2 * emb_dim), torch.nn.BatchNorm1d(2 * emb_dim),
-                                       torch.nn.ReLU(), torch.nn.Linear(2 * emb_dim, emb_dim))
-        self.eps = torch.nn.Parameter(torch.Tensor([0]))
-
-    def forward(self, x, edge_index):
-        out = self.mlp((1 + self.eps) * x + self.propagate(edge_index, x=x))
-
-        return out
-
-    def message(self, x_j):
-        return x_j
-
-    def update(self, aggr_out):
-        return aggr_out
-
-
-class GNN(torch.nn.Module):
-    def __init__(self, num_tasks):
-        super(GNN, self).__init__()
-
-        dim_init = 902
-        dim = 300
-
-        self.conv_1_1 = GINConv(dim_init, dim)
-        self.conv_1_2 = GINConv(dim_init, dim)
-        self.mlp_1 = torch.nn.Sequential(torch.nn.Linear(2 * dim, dim), torch.nn.ReLU(), torch.nn.Linear(dim, dim))
-        self.bn_1 = torch.nn.BatchNorm1d(dim)
-
-        self.conv_2_1 = GINConv(dim, dim)
-        self.conv_2_2 = GINConv(dim, dim)
-        self.mlp_2 = torch.nn.Sequential(torch.nn.Linear(2 * dim, dim), torch.nn.ReLU(), torch.nn.Linear(dim, dim))
-        self.bn_2 = torch.nn.BatchNorm1d(dim)
-
-        self.conv_3_1 = GINConv(dim, dim)
-        self.conv_3_2 = GINConv(dim, dim)
-        self.mlp_3 = torch.nn.Sequential(torch.nn.Linear(2 * dim, dim), torch.nn.ReLU(), torch.nn.Linear(dim, dim))
-        self.bn_3 = torch.nn.BatchNorm1d(dim)
-
-        self.conv_4_1 = GINConv(dim, dim)
-        self.conv_4_2 = GINConv(dim, dim)
-        self.mlp_4 = torch.nn.Sequential(torch.nn.Linear(2 * dim, dim), torch.nn.ReLU(), torch.nn.Linear(dim, dim))
-        self.bn_4 = torch.nn.BatchNorm1d(dim)
-
-        self.conv_5_1 = GINConv(dim, dim)
-        self.conv_5_2 = GINConv(dim, dim)
-        self.mlp_5 = torch.nn.Sequential(torch.nn.Linear(2 * dim, dim), torch.nn.ReLU(), torch.nn.Linear(dim, dim))
-        self.bn_5 = torch.nn.BatchNorm1d(dim)
-
-        self.pool = global_mean_pool
-        self.graph_pred_linear = torch.nn.Linear(1 * dim, num_tasks)
-
-
-    def forward(self, batched_data):
-        x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.edge_index_2, batched_data.batch
-
-        x_1 = self.conv_1_1(x, edge_index_1)
-        x_2 = self.conv_1_2(x, edge_index_2)
-        x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
-        x_1_out = self.bn_1(x)
-        #x_1_out = F.dropout(F.relu(x_1_out), 0.5, training=self.training)
-
-        x_1 = self.conv_2_1(x_1_out, edge_index_1)
-        x_2 = self.conv_2_2(x_1_out, edge_index_2)
-        x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
-        x_2_out = self.bn_1(x)
-        #x_2_out = F.dropout(F.relu(x_2_out), 0.5, training=self.training)
-
-        x_1 = self.conv_3_1(x_2_out, edge_index_1)
-        x_2 = self.conv_3_2(x_2_out, edge_index_2)
-        x = self.mlp_3(torch.cat([x_1, x_2], dim=-1))
-        x_3_out = self.bn_1(x)
-        #x_3_out = F.dropout(F.relu(x_3_out), 0.5, training=self.training)
-
-        x_1 = self.conv_4_1(x_3_out, edge_index_1)
-        x_2 = self.conv_4_2(x_3_out, edge_index_2)
-        x = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
-        x_4_out = self.bn_1(x)
-        #x_4_out = F.dropout(F.relu(x_4_out), 0.5, training=self.training)
-
-        x_1 = self.conv_5_1(x_4_out, edge_index_1)
-        x_2 = self.conv_5_2(x_4_out, edge_index_2)
-        x = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
-        x_5_out = self.bn_1(x)
-        #x_5_out = F.dropout(x_5_out, 0.5, training=self.training)
-
-        x = self.pool(x_5_out, batched_data.batch)
-
-        return self.graph_pred_linear(x)
-
-
-def train(model, device, loader, optimizer, task_type):
-    model.train()
-
-    for step, batch in enumerate(tqdm(loader, desc="Iteration")):
-        batch = batch.to(device)
-
-        if batch.x.shape[0] == 1 or batch.batch[-1] == 0:
-            pass
-        else:
-            pred = model(batch)
-            optimizer.zero_grad()
-
-            is_labeled = batch.y == batch.y
-            if "classification" in task_type:
-                loss = cls_criterion(pred.to(torch.float32)[is_labeled], batch.y.to(torch.float32)[is_labeled])
-            else:
-                loss = reg_criterion(pred.to(torch.float32)[is_labeled], batch.y.to(torch.float32)[is_labeled])
-            loss.backward()
-            optimizer.step()
-
-
-def eval(model, device, loader, evaluator):
-    model.eval()
-    y_true = []
-    y_pred = []
-
-    for step, batch in enumerate(tqdm(loader, desc="Iteration")):
-        batch = batch.to(device)
-
-        if batch.x.shape[0] == 1:
-            pass
-        else:
-            with torch.no_grad():
-                pred = model(batch)
-
-            y_true.append(batch.y.view(pred.shape).detach().cpu())
-            y_pred.append(pred.detach().cpu())
-
-    y_true = torch.cat(y_true, dim=0).numpy()
-    y_pred = torch.cat(y_pred, dim=0).numpy()
-
-    input_dict = {"y_true": y_true, "y_pred": y_pred}
-
-    return evaluator.eval(input_dict)
-
 
 class MyData(Data):
     def __inc__(self, key, value, *args, **kwargs):
@@ -284,64 +163,188 @@ class MyTransform(object):
         return new_data
 
 
-def main():
-    dataset_base = PygGraphPropPredDataset(name=name)
+class NetGIN(torch.nn.Module):
+    def __init__(self, dim):
+        super(NetGIN, self).__init__()
+
+        num_features = 18
+
+        nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        nn1_2 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        self.conv1_1 = GINConv(nn1_1, train_eps=True)
+        self.conv1_2 = GINConv(nn1_2, train_eps=True)
+        self.mlp_1 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                                torch.nn.BatchNorm1d(dim), ReLU())
+
+        nn2_1 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        nn2_2 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        self.conv2_1 = GINConv(nn2_1, train_eps=True)
+        self.conv2_2 = GINConv(nn2_2, train_eps=True)
+        self.mlp_2 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                                torch.nn.BatchNorm1d(dim), ReLU())
+
+        nn3_1 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        nn3_2 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        self.conv3_1 = GINConv(nn3_1, train_eps=True)
+        self.conv3_2 = GINConv(nn3_2, train_eps=True)
+        self.mlp_3 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                                torch.nn.BatchNorm1d(dim), ReLU())
+
+        nn4_1 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        nn4_2 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        self.conv4_1 = GINConv(nn4_1, train_eps=True)
+        self.conv4_2 = GINConv(nn4_2, train_eps=True)
+        self.mlp_4 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                                torch.nn.BatchNorm1d(dim), ReLU())
+
+        nn5_1 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        nn5_2 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        self.conv5_1 = GINConv(nn5_1, train_eps=True)
+        self.conv5_2 = GINConv(nn5_2, train_eps=True)
+        self.mlp_5 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                                torch.nn.BatchNorm1d(dim), ReLU())
+
+        nn6_1 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        nn6_2 = Sequential(Linear(dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                           torch.nn.BatchNorm1d(dim), ReLU())
+        self.conv6_1 = GINConv(nn6_1, train_eps=True)
+        self.conv6_2 = GINConv(nn6_2, train_eps=True)
+        self.mlp_6 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+                                torch.nn.BatchNorm1d(dim), ReLU())
+        self.set2set = Set2Set(1 * dim, processing_steps=6)
+        self.fc1 = Linear(2 * dim, dim)
+        self.fc4 = Linear(dim, 12)
+
+    def forward(self, data):
+        x = data.x
+
+        x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
+        x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
+        x_1_r = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
+
+        x_1 = F.relu(self.conv2_1(x_1_r, data.edge_index_1))
+        x_2 = F.relu(self.conv2_2(x_1_r, data.edge_index_2))
+        x_2_r = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
+
+        x_1 = F.relu(self.conv3_1(x_2_r, data.edge_index_1))
+        x_2 = F.relu(self.conv3_2(x_2_r, data.edge_index_2))
+        x_3_r = self.mlp_3(torch.cat([x_1, x_2], dim=-1))
+
+        x_1 = F.relu(self.conv4_1(x_3_r, data.edge_index_1))
+        x_2 = F.relu(self.conv4_2(x_3_r, data.edge_index_2))
+        x_4_r = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
+
+        x_1 = F.relu(self.conv5_1(x_4_r, data.edge_index_1))
+        x_2 = F.relu(self.conv5_2(x_4_r, data.edge_index_2))
+        x_5_r = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
+
+        x_1 = F.relu(self.conv6_1(x_5_r, data.edge_index_1))
+        x_2 = F.relu(self.conv6_2(x_5_r, data.edge_index_2))
+        x_6_r = self.mlp_6(torch.cat([x_1, x_2], dim=-1))
+
+        x = x_6_r
+
+        x = self.set2set(x, data.batch)
+
+        x = F.relu(self.fc1(x))
+        x = self.fc4(x)
+        return x
+
+
+plot_all = []
+results = []
+
+for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
-    dataset = Mol(path, transform=MyTransform())
+    plot_it = []
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttte')
+    dataset = TUD_2_1(path, transform=MyTransform()).shuffle()
 
-    print(dataset.data.x.size())
+    mean = dataset.data.y.mean(dim=0, keepdim=True)
+    std = dataset.data.y.std(dim=0, keepdim=True)
+    dataset.data.y = (dataset.data.y - mean) / std
+    mean, std = mean.to(device), std.to(device)
 
-    split_idx = dataset_base.get_idx_split()
+    train_dataset = dataset[0:18000]
+    val_dataset = dataset[18000:19000]
+    test_dataset = dataset[19000:]
 
-    evaluator = Evaluator(name)
-
-    train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
-                              num_workers=0)
-    valid_loader = DataLoader(dataset[split_idx["valid"]], batch_size=32, shuffle=False,
-                              num_workers=0)
-    test_loader = DataLoader(dataset[split_idx["test"]], batch_size=32, shuffle=False,
-                             num_workers=0)
-
-    model = GNN(dataset_base.num_tasks).to(device)
-
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
-
-    valid_curve = []
-    test_curve = []
-    train_curve = []
-
-    for epoch in range(1, 151):
-        print("=====Epoch {}".format(epoch))
-        print('Training...')
-        train(model, device, train_loader, optimizer, dataset_base.task_type)
-
-        print('Evaluating...')
-        train_perf = eval(model, device, train_loader, evaluator)
-        valid_perf = eval(model, device, valid_loader, evaluator)
-        test_perf = eval(model, device, test_loader, evaluator)
-
-        print({'Train': train_perf, 'Validation': valid_perf, 'Test': test_perf})
-
-        train_curve.append(train_perf[dataset_base.eval_metric])
-        valid_curve.append(valid_perf[dataset_base.eval_metric])
-        test_curve.append(test_perf[dataset_base.eval_metric])
-
-    if 'classification' in dataset_base.task_type:
-        best_val_epoch = np.argmax(np.array(valid_curve))
-        best_train = max(train_curve)
-    else:
-        best_val_epoch = np.argmin(np.array(valid_curve))
-        best_train = min(train_curve)
-
-    print('Finished training!')
-    print('Best validation score: {}'.format(valid_curve[best_val_epoch]))
-    print('Test score: {}'.format(test_curve[best_val_epoch]))
+    batch_size = 25
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
 
-if __name__ == "__main__":
-    main()
+    model = NetGIN(256).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
+                                                           factor=0.5, patience=10,
+                                                           min_lr=0.0000001)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = NetGIN(64).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
+                                                           factor=0.5, patience=5,
+                                                           min_lr=0.0000001)
 
-# ogbg-moltoxcast:  0.6390844787335223
-# :
+
+    def train():
+        model.train()
+        loss_all = 0
+
+        lf = torch.nn.L1Loss()
+        for data in train_loader:
+            data = data.to(device)
+            optimizer.zero_grad()
+            loss = lf(model(data), data.y)
+
+            loss.backward()
+            loss_all += loss.item() * data.num_graphs
+            optimizer.step()
+        return (loss_all / len(train_loader.dataset))
+
+
+    @torch.no_grad()
+    def test(loader):
+        model.eval()
+        error = torch.zeros([1, 12]).to(device)
+
+        for data in loader:
+            data = data.to(device)
+            error += ((data.y * std - model(data) * std).abs() / std).sum(dim=0)
+
+        error = error / len(loader.dataset)
+        error_log = torch.log(error)
+
+        return error.mean().item(), error_log.mean().item()
+
+
+    best_val_error = None
+    for epoch in range(1, 201):
+        lr = scheduler.optimizer.param_groups[0]['lr']
+        loss = train()
+        val_error, _ = test(val_loader)
+
+        scheduler.step(val_error)
+        if best_val_error is None or val_error <= best_val_error:
+            test_error, test_error_log = test(test_loader)
+            best_val_error = val_error
+
+        print('Epoch: {:03d}, LR: {:.7f}, Loss: {:.7f}, Validation MAE: {:.7f}, '
+              'Test MAE: {:.7f},Test MAE: {:.7f}, '.format(epoch, lr, loss, val_error, test_error, test_error_log))
+
+        if lr < 0.000001:
+            print("Converged.")
+            break
