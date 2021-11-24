@@ -117,7 +117,7 @@ def compute_k_s_tuple_graph_fast(g, k, s, node_labels, edge_labels,  atomic_type
 
     # Iterate over nodes and add edges.
 
-    matrices = [[],[],[]]
+    matrices = [[]]*k
     labels = []
 
     tuple_edge_labels = k_tuple_graph.new_edge_property("int")

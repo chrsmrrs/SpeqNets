@@ -1,26 +1,14 @@
-
 import sys
 
 sys.path.insert(0, '..')
 sys.path.insert(0, '.')
 
-import aux as dp
-
-import os.path as osp
-import numpy as np
-import torch
-from torch.nn import Sequential, Linear, ReLU
-from torch_geometric.nn import global_mean_pool, GINConv
+from torch_geometric.nn import GINConv
 from graph_tool.all import *
-from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.datasets import TUDataset
-from torch_geometric.data import DataLoader
-import torch.nn.functional as F
-import pickle
 
 import os.path as osp
 import numpy as np
-from torch.nn import Linear as Lin
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.nn import Set2Set
 
@@ -28,8 +16,9 @@ from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.data import DataLoader
 
 import torch
-from torch_geometric.nn import MessagePassing
 import torch.nn.functional as F
+
+from aux import compute_k_s_tuple_graph_fast
 
 
 class TUD_2_1(InMemoryDataset):
@@ -40,98 +29,63 @@ class TUD_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "TUD_2f_1gth"
+        return "TUD_2f_1gfth"
 
     @property
     def processed_file_names(self):
-        return "TUD_2f_g1th"
+        return "TUD_2f_gf1th"
 
     def download(self):
         pass
 
     def process(self):
-        data_list = []
+        atomic_type = {}
+        atomic_counter = 0
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
         dataset = TUDataset(path, name="alchemy_full")[0:20000]
 
         data_list = []
         for i, data in enumerate(dataset):
-
             print(i)
+
             x = data.x.cpu().detach().numpy()
+            x = x.argmax(axis=-1)
 
             edge_attr = data.edge_attr.cpu().detach().numpy()
+            edge_attr = edge_attr.argmax(axis=-1)
+
             edge_index = data.edge_index.cpu().detach().numpy()
 
             # Create graph for easier processing.
             g = Graph(directed=False)
             num_nodes = x.shape[0]
 
-            node_features = {}
+            node_labels = {}
             for i in range(num_nodes):
                 v = g.add_vertex()
-                node_features[v] = x[i]
+                node_labels[v] = x[i]
 
             rows = list(edge_index[0])
             cols = list(edge_index[1])
-            edge_features = {}
+            edge_labels = {}
 
             for ind, (i, j) in enumerate(zip(rows, cols)):
                 e = g.add_edge(i, j, add_missing=False)
-                edge_features[e] = edge_attr[ind]
+                edge_labels[e] = edge_attr[ind]
 
-            type = {}
-
-            tuple_to_nodes = {}
-            nodes_to_tuple = {}
-
-            tuples = 0
-            for v in g.vertices():
-                for w in v.all_neighbors():
-                    n = tuples
-                    tuples += 1
-
-                    tuple_to_nodes[n] = (v, w)
-                    nodes_to_tuple[(v, w)] = n
-
-                    type[n] = np.concatenate(
-                        [node_features[v], node_features[w], edge_features[g.edge(v, w)], np.array([1, 0])], axis=-1)
-
-                n = tuples
-                tuples += 1
-
-                tuple_to_nodes[n] = (v, v)
-                tuple_to_nodes[(v, v)] = n
-                type[n] = np.concatenate([node_features[v], node_features[v], [0.0] * 4, np.array([0, 1])], axis=-1)
-
-            matrix_1 = []
-            matrix_2 = []
-            node_features_t = []
-
-            for t in range(tuples):
-                v, w = tuple_to_nodes[t]
-
-                node_features_t.append(type[t])
-
-                # 1 neighbors.
-                for n in v.out_neighbors():
-                    if (n, w) in nodes_to_tuple:
-                        s = nodes_to_tuple[(n, w)]
-                        matrix_1.append([int(t), int(s)])
-
-                # 2 neighbors.
-                for n in w.out_neighbors():
-                    if (v, n) in nodes_to_tuple:
-                        s = nodes_to_tuple[(v, n)]
-                        matrix_2.append([int(t), int(s)])
+            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 2, 1, node_labels,
+                                                                                         edge_labels, atomic_type,
+                                                                                         atomic_counter)
 
             data_new = Data()
 
-            data_new.edge_index_1 = torch.tensor(matrix_1).t().contiguous().to(torch.long)
-            data_new.edge_index_2 = torch.tensor(matrix_2).t().contiguous().to(torch.long)
+            data_new.edge_index_1 = torch.tensor(matrices[0]).t().contiguous().to(torch.long)
+            data_new.edge_index_2 = torch.tensor(matrices[1]).t().contiguous().to(torch.long)
 
-            data_new.x = torch.from_numpy(np.array(node_features_t)).to(torch.float)
+            one_hot = np.eye(500)[labels]
+            data_new.x = torch.from_numpy(one_hot).to(torch.float)
+
             data_new.y = data.y
 
             data_list.append(data_new)
@@ -159,12 +113,13 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 18
+        num_features = 700
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
         nn1_2 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
+
         self.conv1_1 = GINConv(nn1_1, train_eps=True)
         self.conv1_2 = GINConv(nn1_2, train_eps=True)
         self.mlp_1 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
@@ -261,8 +216,8 @@ for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttte')
-    dataset = TUD_2_1(path, transform=MyTransform()
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trtsttte')
+    dataset = TUD_2_1(path, transform=MyTransform())
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
@@ -278,16 +233,10 @@ for _ in range(5):
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
-    model = NetGIN(256).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
-                                                           factor=0.5, patience=10,
-                                                           min_lr=0.0000001)
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = NetGIN(64).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
-                                                           factor=0.5, patience=5,
+                                                           factor=0.5, patience=10,
                                                            min_lr=0.0000001)
 
 
