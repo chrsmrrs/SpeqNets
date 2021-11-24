@@ -1,59 +1,34 @@
-
-import os.path as osp
-
-import numpy as np
-from torch_geometric.datasets import TUDataset
-
-
 import itertools
-from itertools import product, combinations_with_replacement
-import timeit
-
+import os.path as osp
+from itertools import combinations_with_replacement
 
 import numpy as np
 from graph_tool.all import *
-
-from scipy import sparse
+from torch_geometric.datasets import TUDataset
 
 
 # Compute atomic type for ordered set of vertices of graph g.
-def compute_atomic_type(g, node_features, edge_features):
+def compute_atomic_type(g, vertices, node_labels, edge_labels):
     edge_list = []
-
 
     # Loop over all pairs of vertices.
     for i, v in enumerate(vertices):
         for j, w in enumerate(vertices):
             # Check if edge or self loop.
             if g.edge(v, w):
-                if node_label:
-                    edge_list.append((i, j, 1, g.vp.nl[v], g.vp.nl[w]))
-                else:
-                    edge_list.append((i, j, 1))
-            elif not g.edge(v, w):
-                if node_label:
-                    edge_list.append((i, j, 2, g.vp.nl[v], g.vp.nl[w]))
-                else:
-                    edge_list.append((i, j, 2))
+                edge_list.append((i, j, 1, node_labels[v] + 1, node_labels[v][w] + 1, edge_labels[g.edge(v, w)] + 1))
             elif v == w:
-                if node_label:
-                    edge_list.append((i, j, 3, g.vp.nl[v], g.vp.nl[w]))
-                else:
-                    edge_list.append((i, j, 3))
+                edge_list.append((i, j, 0, node_labels[v] + 1, node_labels[v][w] + 1, 0))
+            elif not g.edge(v, w):
+                edge_list.append((i, j, 2, node_labels[v] + 1, node_labels[v][w] + 1, 0))
 
     edge_list.sort()
 
     return hash(tuple(edge_list))
 
 
-
 # Implementation of the (k,s)-WL.
-def compute_k_s_tuple_graph_fast(g, k, s, node_features, edge_features):
-    tupled_graphs = []
-
-    # Manage atomic types.
-    atomic_type = {}
-    atomic_counter = 0
+def compute_k_s_tuple_graph_fast(g, k, s, node_labels, edge_labels,  atomic_type, atomic_counter):
 
     # (k,s)-tuple graph.
     k_tuple_graph = Graph(directed=False)
@@ -64,7 +39,7 @@ def compute_k_s_tuple_graph_fast(g, k, s, node_features, edge_features):
     node_to_tuple = {}
 
     # Manages node_labels, i.e., atomic types.
-    node_labels = k_tuple_graph.new_vertex_property("int")
+    tuple_labels = k_tuple_graph.new_vertex_property("int")
 
     # True if connected multi-set has been found already.
     multiset_exists = {}
@@ -126,13 +101,13 @@ def compute_k_s_tuple_graph_fast(g, k, s, node_features, edge_features):
                 t_v = k_tuple_graph.add_vertex()
 
                 # Compute atomic type.
-                raw_type = compute_atomic_type(g, t, node_label)
+                raw_type = compute_atomic_type(g, t, node_labels, edge_labels)
 
                 # Atomic type seen before.
                 if raw_type in atomic_type:
-                    node_labels[t_v] = atomic_type[raw_type]
+                    tuple_labels[t_v] = atomic_type[raw_type]
                 else:  # Atomic type not seen before.
-                    node_labels[t_v] = atomic_counter
+                    tuple_labels[t_v] = atomic_counter
                     atomic_type[raw_type] = atomic_counter
                     atomic_counter += 1
 
@@ -141,11 +116,17 @@ def compute_k_s_tuple_graph_fast(g, k, s, node_features, edge_features):
                 tuple_to_node[t] = t_v
 
     # Iterate over nodes and add edges.
-    edge_labels = k_tuple_graph.new_edge_property("int")
+
+    matrices = [[]*k]
+    labels = []
+
+    tuple_edge_labels = k_tuple_graph.new_edge_property("int")
     for c, m in enumerate(k_tuple_graph.vertices()):
 
         # Get corresponding tuple.
         t = list(node_to_tuple[m])
+
+        labels.append(tuple_labels[m])
 
         # Iterate over components of t.
         for i in range(0, k):
@@ -166,18 +147,17 @@ def compute_k_s_tuple_graph_fast(g, k, s, node_features, edge_features):
 
                     # Insert edge, avoid undirected multi-edges.
                     if not k_tuple_graph.edge(w, m):
+                        matrices[i].append([m, w])
+
                         k_tuple_graph.add_edge(m, w)
-                        edge_labels[k_tuple_graph.edge(m, w)] = i + 1
-                        edge_labels[k_tuple_graph.edge(w, m)] = i + 1
+                        tuple_edge_labels[k_tuple_graph.edge(m, w)] = i + 1
+                        tuple_edge_labels[k_tuple_graph.edge(w, m)] = i + 1
 
         # Add self-loops, only once.
         k_tuple_graph.add_edge(m, m)
-        edge_labels[k_tuple_graph.edge(m, m)] = 0
+        tuple_edge_labels[k_tuple_graph.edge(m, m)] = 0
 
-    k_tuple_graph.vp.nl = node_labels
-    k_tuple_graph.ep.el = edge_labels
-
-    return k_tuple_graph
+    return atomic_type, atomic_counter, matrices, labels
 
 
 def read_targets(ds_name):
@@ -206,4 +186,3 @@ def get_dataset(dataset, multigregression=False):
         return read_multi_targets(dataset)
     else:
         return read_targets(dataset)
-

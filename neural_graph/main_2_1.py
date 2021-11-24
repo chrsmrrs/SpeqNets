@@ -52,19 +52,18 @@ class TUD_2_1(InMemoryDataset):
     def process(self):
         data_list = []
 
+        atomic_type = {}
+        atomic_counter = 0
+
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
         dataset = TUDataset(path, name="alchemy_full")[0:20000].shuffle()
 
         data_list = []
         for i, data in enumerate(dataset):
-
             print(i)
+
             x = data.x.cpu().detach().numpy()
             x = x.argmax(axis=-1)
-
-            print(x.shape[0])
-
-            exit()
 
             edge_attr = data.edge_attr.cpu().detach().numpy()
             edge_attr = edge_attr.argmax(axis=-1)
@@ -75,20 +74,23 @@ class TUD_2_1(InMemoryDataset):
             g = Graph(directed=False)
             num_nodes = x.shape[0]
 
-            node_features = {}
+            node_labels = {}
             for i in range(num_nodes):
                 v = g.add_vertex()
-                node_features[v] = x[i]
+                node_labels[v] = x[i]
 
             rows = list(edge_index[0])
             cols = list(edge_index[1])
-            edge_features = {}
+            edge_labels = {}
 
             for ind, (i, j) in enumerate(zip(rows, cols)):
                 e = g.add_edge(i, j, add_missing=False)
-                edge_features[e] = edge_attr[ind]
+                edge_labels[e] = edge_attr[ind]
 
 
+            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 1, node_labels, edge_labels, atomic_type)
+
+            exit()
 
 
             type = {}
