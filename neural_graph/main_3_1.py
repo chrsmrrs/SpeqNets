@@ -114,7 +114,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 18
+        num_features = 700
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
@@ -242,16 +242,15 @@ for _ in range(5):
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttte')
     dataset = TUD_3_1(path, transform=MyTransform()).shuffle()
-    exit()
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
     dataset.data.y = (dataset.data.y - mean) / std
     mean, std = mean.to(device), std.to(device)
 
-    train_dataset = dataset[0:18000]
-    val_dataset = dataset[18000:19000]
-    test_dataset = dataset[19000:]
+    train_dataset = dataset[0:800]
+    val_dataset = dataset[800:9000]
+    test_dataset = dataset[900:]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
