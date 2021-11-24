@@ -169,6 +169,7 @@ class NetGIN(torch.nn.Module):
         self.conv6_2 = GINConv(nn6_2, train_eps=True)
         self.mlp_6 = Sequential(Linear(2 * dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                                 torch.nn.BatchNorm1d(dim), ReLU())
+
         self.set2set = Set2Set(1 * dim, processing_steps=6)
         self.fc1 = Linear(2 * dim, dim)
         self.fc4 = Linear(dim, 12)
@@ -238,7 +239,7 @@ for _ in range(5):
     model = NetGIN(64).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
-                                                           factor=0.5, patience=10,
+                                                           factor=0.5, patience=5,
                                                            min_lr=0.0000001)
 
 
