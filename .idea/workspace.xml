@@ -11,7 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_graph/main_2_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_2_1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/aux.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/aux.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -296,21 +296,7 @@
       <workItem from="1637253592040" duration="30778000" />
       <workItem from="1637347293154" duration="32023000" />
       <workItem from="1637616803729" duration="13564000" />
-      <workItem from="1637685265863" duration="31219000" />
-    </task>
-    <task id="LOCAL-00532" summary="PPI">
-      <created>1637704178398</created>
-      <option name="number" value="00532" />
-      <option name="presentableId" value="LOCAL-00532" />
-      <option name="project" value="LOCAL" />
-      <updated>1637704178399</updated>
-    </task>
-    <task id="LOCAL-00533" summary="PPI">
-      <created>1637704382772</created>
-      <option name="number" value="00533" />
-      <option name="presentableId" value="LOCAL-00533" />
-      <option name="project" value="LOCAL" />
-      <updated>1637704382772</updated>
+      <workItem from="1637685265863" duration="32343000" />
     </task>
     <task id="LOCAL-00534" summary="PPI">
       <created>1637704635343</created>
@@ -641,7 +627,21 @@
       <option name="project" value="LOCAL" />
       <updated>1637770794850</updated>
     </task>
-    <option name="localTasksCounter" value="581" />
+    <task id="LOCAL-00581" summary="PPI">
+      <created>1637774312912</created>
+      <option name="number" value="00581" />
+      <option name="presentableId" value="LOCAL-00581" />
+      <option name="project" value="LOCAL" />
+      <updated>1637774312919</updated>
+    </task>
+    <task id="LOCAL-00582" summary="PPI">
+      <created>1637774465597</created>
+      <option name="number" value="00582" />
+      <option name="presentableId" value="LOCAL-00582" />
+      <option name="project" value="LOCAL" />
+      <updated>1637774465598</updated>
+    </task>
+    <option name="localTasksCounter" value="583" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
