@@ -60,12 +60,15 @@ class TUD_2_1(InMemoryDataset):
 
             print(i)
             x = data.x.cpu().detach().numpy()
-
-            print(x)
-
-            exit()
+            x = x.argmax()
 
             edge_attr = data.edge_attr.cpu().detach().numpy()
+            edge_attr = edge_attr.argmax()
+
+            print(x)
+            print(edge_attr)
+            exit()
+
             edge_index = data.edge_index.cpu().detach().numpy()
 
             # Create graph for easier processing.
