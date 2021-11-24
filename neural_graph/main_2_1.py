@@ -275,7 +275,7 @@ for _ in range(5):
 
 
     best_val_error = None
-    for epoch in range(1, 201):
+    for epoch in range(1, 1001):
         lr = scheduler.optimizer.param_groups[0]['lr']
         loss = train()
         val_error, _ = test(val_loader)
