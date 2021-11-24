@@ -32,10 +32,10 @@ import torch.nn.functional as F
 
 from aux import compute_k_s_tuple_graph_fast
 
-class TUD_2_1(InMemoryDataset):
+class TUD_3_1(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(TUD_2_1, self).__init__(root, transform, pre_transform, pre_filter)
+        super(TUD_3_1, self).__init__(root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
@@ -101,8 +101,6 @@ class TUD_2_1(InMemoryDataset):
 
             data_new.y = data.y
 
-            exit()
-
             data_list.append(data_new)
 
         data, slices = self.collate(data_list)
@@ -113,7 +111,7 @@ class TUD_2_1(InMemoryDataset):
 class MyData(Data):
     def __inc__(self, key, value, *args, **kwargs):
         return self.num_nodes if key in [
-            'edge_index_1', 'edge_index_2'
+            'edge_index_1', 'edge_index_2', 'edge_index_3'
         ] else 0
 
 
@@ -232,7 +230,9 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttte')
-    dataset = TUD_2_1(path, transform=MyTransform()).shuffle()
+    dataset = TUD_3_1(path, transform=MyTransform()).shuffle()
+    exit()
+
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
@@ -254,12 +254,7 @@ for _ in range(5):
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=10,
                                                            min_lr=0.0000001)
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = NetGIN(64).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
-                                                           factor=0.5, patience=5,
-                                                           min_lr=0.0000001)
+
 
 
     def train():
