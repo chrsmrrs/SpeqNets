@@ -153,10 +153,10 @@ def compute_k_s_tuple_graph_fast(g, k, s, node_labels, edge_labels,  atomic_type
                         tuple_edge_labels[k_tuple_graph.edge(m, w)] = i + 1
                         tuple_edge_labels[k_tuple_graph.edge(w, m)] = i + 1
 
-        # Add self-loops, only once.
-        k_tuple_graph.add_edge(m, m)
-        tuple_edge_labels[k_tuple_graph.edge(m, m)] = 0
-        matrices[0].append([int(m), int(m)])
+            # Add self-loops, only once.
+            k_tuple_graph.add_edge(m, m)
+            tuple_edge_labels[k_tuple_graph.edge(m, m)] = 0
+            matrices[i].append([int(m), int(m)])
 
     return atomic_type, atomic_counter, matrices, labels
 
