@@ -43,7 +43,7 @@ class TUD_3_1(InMemoryDataset):
         atomic_counter = 0
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
-        dataset = TUDataset(path, name="alchemy_full")[0:5000]
+        dataset = TUDataset(path, name="alchemy_full")[0:1000]
 
         data_list = []
         for i, data in enumerate(dataset):
@@ -114,7 +114,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 700
+        num_features = 1500
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
