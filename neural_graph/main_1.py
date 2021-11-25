@@ -114,7 +114,7 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
-    dataset = TUDataset(path, name="alchemy_full")[0:20000]
+    dataset = TUDataset(path, name="alchemy_full")[0:5000]
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
