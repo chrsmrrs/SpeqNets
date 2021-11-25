@@ -9,9 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="PPI">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -295,28 +293,7 @@
       <workItem from="1637253592040" duration="30778000" />
       <workItem from="1637347293154" duration="32023000" />
       <workItem from="1637616803729" duration="13564000" />
-      <workItem from="1637685265863" duration="48837000" />
-    </task>
-    <task id="LOCAL-00538" summary="PPI">
-      <created>1637705925292</created>
-      <option name="number" value="00538" />
-      <option name="presentableId" value="LOCAL-00538" />
-      <option name="project" value="LOCAL" />
-      <updated>1637705925292</updated>
-    </task>
-    <task id="LOCAL-00539" summary="PPI">
-      <created>1637706029257</created>
-      <option name="number" value="00539" />
-      <option name="presentableId" value="LOCAL-00539" />
-      <option name="project" value="LOCAL" />
-      <updated>1637706029257</updated>
-    </task>
-    <task id="LOCAL-00540" summary="PPI">
-      <created>1637706466547</created>
-      <option name="number" value="00540" />
-      <option name="presentableId" value="LOCAL-00540" />
-      <option name="project" value="LOCAL" />
-      <updated>1637706466547</updated>
+      <workItem from="1637685265863" duration="49282000" />
     </task>
     <task id="LOCAL-00541" summary="PPI">
       <created>1637707679312</created>
@@ -640,7 +617,28 @@
       <option name="project" value="LOCAL" />
       <updated>1637792171950</updated>
     </task>
-    <option name="localTasksCounter" value="587" />
+    <task id="LOCAL-00587" summary="PPI">
+      <created>1637799550460</created>
+      <option name="number" value="00587" />
+      <option name="presentableId" value="LOCAL-00587" />
+      <option name="project" value="LOCAL" />
+      <updated>1637799550460</updated>
+    </task>
+    <task id="LOCAL-00588" summary="PPI">
+      <created>1637799585649</created>
+      <option name="number" value="00588" />
+      <option name="presentableId" value="LOCAL-00588" />
+      <option name="project" value="LOCAL" />
+      <updated>1637799585649</updated>
+    </task>
+    <task id="LOCAL-00589" summary="PPI">
+      <created>1637799764581</created>
+      <option name="number" value="00589" />
+      <option name="presentableId" value="LOCAL-00589" />
+      <option name="project" value="LOCAL" />
+      <updated>1637799764581</updated>
+    </task>
+    <option name="localTasksCounter" value="590" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
