@@ -43,7 +43,7 @@ class TUD_3_1(InMemoryDataset):
         atomic_counter = 0
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
-        dataset = TUDataset(path, name="alchemy_full")[0:2000]
+        dataset = TUDataset(path, name="alchemy_full")[0:3000]
 
         data_list = []
         for i, data in enumerate(dataset):
