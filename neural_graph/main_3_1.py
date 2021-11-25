@@ -43,7 +43,7 @@ class TUD_3_1(InMemoryDataset):
         atomic_counter = 0
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
-        dataset = TUDataset(path, name="alchemy_full")
+        dataset = TUDataset(path, name="alchemy_full")[0:20000]
 
         data_list = []
         for i, data in enumerate(dataset):
@@ -74,7 +74,7 @@ class TUD_3_1(InMemoryDataset):
                 e = g.add_edge(i, j, add_missing=False)
                 edge_labels[e] = edge_attr[ind]
 
-            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 1, node_labels,
+            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 2, node_labels,
                                                                                          edge_labels, atomic_type,
                                                                                          atomic_counter)
 
