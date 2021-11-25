@@ -121,9 +121,9 @@ for _ in range(5):
     dataset.data.y = (dataset.data.y - mean) / std
     mean, std = mean.to(device), std.to(device)
 
-    train_dataset = dataset[0:800]
-    val_dataset = dataset[800:900]
-    test_dataset = dataset[900:]
+    train_dataset = dataset[0:1600]
+    val_dataset = dataset[1600:1800]
+    test_dataset = dataset[1800:]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
