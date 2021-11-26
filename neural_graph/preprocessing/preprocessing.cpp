@@ -397,6 +397,26 @@ get_all_matrices_2_2(string name, const std::vector<int> &indices) {
 }
 
 
+// Get all sparse adjacency matrix representations of two-tuple graphs in graph database.
+vector<pair<vector<vector<uint>>, vector<vector<uint>>>>
+get_all_matrices_3_2(string name, const std::vector<int> &indices) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
+
+    GraphDatabase gdb_new;
+    for (int i: indices) {
+        gdb_new.push_back(gdb[i]);
+    }
+
+    vector<pair<vector<vector<uint>>, vector<vector<uint>>>> matrices;
+    for (auto &g: gdb_new) {
+        matrices.push_back(generate_local_sparse_am_2_2(g));
+    }
+
+    return matrices;
+}
+
+
 
 
 
@@ -508,6 +528,7 @@ PYBIND11_MODULE(preprocessing, m
     m.def("get_all_matrices_2_1", &get_all_matrices_2_1);
 
     m.def("get_all_matrices_2_2", &get_all_matrices_2_2);
+    m.def("get_all_matrices_3_2", &get_all_matrices_3_2);
     m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
 
     m.def("get_all_node_labels_allchem_3_2", &get_all_node_labels_allchem_3_2);
