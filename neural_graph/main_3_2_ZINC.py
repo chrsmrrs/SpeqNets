@@ -173,13 +173,13 @@ class NetGIN(torch.nn.Module):
 
         x_1 = F.relu(self.conv3_1(x_2_r, data.edge_index_1))
         x_2 = F.relu(self.conv3_2(x_2_r, data.edge_index_2))
-        x_3 = F.relu(self.conv2_3(x_2_r, data.edge_index_3))
+        x_3 = F.relu(self.conv3_3(x_2_r, data.edge_index_3))
         x_3_r = self.mlp_3(torch.cat([x_1, x_2, x_3], dim=-1))
         x_3_r = self.bn3(x_3_r)
 
         x_1 = F.relu(self.conv4_1(x_3_r, data.edge_index_1))
         x_2 = F.relu(self.conv4_2(x_3_r, data.edge_index_2))
-        x_3 = F.relu(self.conv2_3(x_3_r, data.edge_index_3))
+        x_3 = F.relu(self.conv4_3(x_3_r, data.edge_index_3))
         x_4_r = self.mlp_4(torch.cat([x_1, x_2, x_3], dim=-1))
         x_4_r = self.bn4(x_4_r)
 
