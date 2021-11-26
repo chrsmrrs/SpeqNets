@@ -239,13 +239,13 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
     vector<vector<uint>> nonzero_compenents_2;
     vector<vector<uint>> nonzero_compenents_3;
 
-//    for (Node i = 0; i < num_three_tuples; ++i) {
-//        // Get nodes of original graph corresponding to two tuple i.
-//        ThreeTuple p = node_to_three_tuple.find(i)->second;
-//        Node v = std::get<0>(p);
-//        Node w = std::get<1>(p);
-//        Node w = std::get<1>(p);
-//
+    for (Node i = 0; i < num_three_tuples; ++i) {
+        // Get nodes of original graph corresponding to two tuple i.
+        ThreeTuple p = node_to_three_tuple.find(i)->second;
+        Node v = std::get<0>(p);
+        Node w = std::get<1>(p);
+        Node w = std::get<1>(p);
+
 //        // Exchange first node.
 //        Nodes v_neighbors = g.get_neighbours(v);
 //        for (Node v_n: v_neighbors) {
@@ -267,7 +267,7 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
 //                nonzero_compenents_2.push_back({{i, t->second}});
 //            }
 //        }
-//    }
+    }
 
     return std::make_tuple(nonzero_compenents_1, nonzero_compenents_2, nonzero_compenents_3);
 }
