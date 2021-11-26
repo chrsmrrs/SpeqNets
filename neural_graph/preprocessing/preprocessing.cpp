@@ -246,16 +246,16 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
         Node w = std::get<1>(p);
         Node u = std::get<2>(p);
 
-//        // Exchange first node.
-//        Nodes v_neighbors = g.get_neighbours(v);
-//        for (Node v_n: v_neighbors) {
-//            unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v_n, w));
-//
+        // Exchange first node.
+        Nodes v_neighbors = g.get_neighbours(v);
+        for (Node v_n: v_neighbors) {
+            unordered_map<ThreeTuple, Node>::const_iterator t = three_tuple_to_node.find(make_tuple(v_n, w, u));
+
 //            // Check if tuple exists.
 //            if (t != two_tuple_to_node.end()) {
 //                nonzero_compenents_1.push_back({{i, t->second}});
 //            }
-//        }
+        }
 //
 //        // Exchange second node.
 //        Nodes w_neighbors = g.get_neighbours(w);
