@@ -115,11 +115,11 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "ZINC_test")
-    dataset = TUDataset(path, name="ZINC_test")[0:3000]
+    dataset = TUDataset(path, name="ZINC_test")[0:5000]
 
-    train_dataset = dataset[0:1600]
-    val_dataset = dataset[1600:1800]
-    test_dataset = dataset[1800:]
+    train_dataset = dataset[0:4000]
+    val_dataset = dataset[4000:4500]
+    test_dataset = dataset[4500:]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
