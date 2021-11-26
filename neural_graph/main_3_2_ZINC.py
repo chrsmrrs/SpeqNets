@@ -138,7 +138,7 @@ class NetGIN(torch.nn.Module):
         nn3_3 = Sequential(Linear(dim, dim), ReLU(), Linear(dim, dim))
         self.conv3_1 = GINConv(nn3_1, train_eps=True)
         self.conv3_2 = GINConv(nn3_2, train_eps=True)
-        self.conv3_2 = GINConv(nn3_3, train_eps=True)
+        self.conv3_3 = GINConv(nn3_3, train_eps=True)
         self.bn3 = torch.nn.BatchNorm1d(dim)
         self.mlp_3 = Sequential(Linear(3 * dim, dim), ReLU(), Linear(dim, dim))
 
