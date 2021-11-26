@@ -1,14 +1,17 @@
 #ifndef WLFAST_GRAPH_H
 #define WLFAST_GRAPH_H
 
-
-
+#ifdef __linux__
+#include "../eigen-3.4.0/Eigen/Sparse"
+//#include <eigen3/Eigen/Sparse>
+#else
+#include "../eigen-3.4.0/Eigen/Sparse"
+#endif
 #include <unordered_set>
 #include <unordered_map>
 #include <vector>
-#include <algorithm>
 
-//using Eigen::SparseMatrix;
+using Eigen::SparseMatrix;
 using namespace std;
 
 using uint = unsigned int;
@@ -16,19 +19,20 @@ using Node = uint;
 using Nodes = vector<Node>;
 using Label = unsigned long;
 using Labels = vector<Label>;
-using Attribute = vector<float>;
-using Attributes = vector<Attribute>;
+using Attributes = vector<vector<float>>;
 using Edge = tuple<Node, Node>;
 using EdgeLabels = unordered_map<Edge, uint>;
 using EdgeAttributes = unordered_map<Edge,vector<float>>;
 using EdgeList = vector<Edge>;
-using ColorCounter = unordered_map<Label, uint>;
-
-
-//using S = Eigen::Triplet<double>;
+using SpMatrix = Eigen::SparseMatrix<double>;
+using GramMatrix = SpMatrix;
+using AdjacenyMatrix = SpMatrix;
+using ColorCounter = map<Label, uint>;
+using S = Eigen::Triplet<double>;
 
 using TwoTuple = tuple<Node, Node>;
 using ThreeTuple = tuple<Node, Node, Node>;
+using KTuple = vector<Node>;
 
 namespace std {
     namespace {
@@ -54,6 +58,17 @@ namespace std {
                 hash_combine(seed, get<0>(tuple));
             }
         };
+
+        struct VectorHasher {
+            int operator()(const vector<uint> &V) const {
+                int hash = V.size();
+                for(auto &i : V) {
+                    hash ^= i + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+                }
+                return hash;
+            }
+        };
+
     }
 
     template<typename ... TT>
@@ -156,3 +171,4 @@ namespace GraphLibrary {
 }
 
 #endif //WLFAST_GRAPH_H
+
