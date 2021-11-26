@@ -134,55 +134,137 @@ pair<vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_2_2(co
 tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_3_2(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
 
-    // Maps node in two-tuple graph to corresponding two tuple.
-    unordered_map<Node, TwoTuple> node_to_two_tuple;
+    // Maps node in two set graph to correponding two set.
+    unordered_map<Node, ThreeTuple> node_to_three_tuple;
     // Inverse of the above map.
-    unordered_map<TwoTuple, Node> two_tuple_to_node;
+    unordered_map<ThreeTuple, Node> three_tuple_to_node;
+    unordered_map<Edge, uint> edge_type;
+    // Manages vertex ids
+    unordered_map<Edge, uint> vertex_id;
+    unordered_map<Edge, uint> local;
 
-    Node num_two_tuples = 0;
-    // Generate all tuples that induce connected graphs on at most two vertices.
+
+    // Generate 1-multiset.
+    vector<Node> one_multiset;
     for (Node i = 0; i < num_nodes; ++i) {
-        for (Node j = 0; j < num_nodes; ++j) {
-            // Map each pair to node in two set graph and also inverse.
-            node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, j)}});
-            two_tuple_to_node.insert({{make_tuple(i, j), num_two_tuples}});
-            num_two_tuples++;
+        one_multiset.push_back(i);
+    }
+
+    vector<vector<Node>> two_multiset;
+
+    // Avoid duplicates.
+    unordered_map<vector<Node>, bool, VectorHasher> two_multiset_exits;
+
+    for (Node v: one_multiset) {
+        for (Node w: one_multiset) {
+            vector<Node> new_multiset = {v};
+            new_multiset.push_back(w);
+
+            std::sort(new_multiset.begin(), new_multiset.end());
+
+            auto t = two_multiset_exits.find(new_multiset);
+
+            // Check if not already exists.
+            if (t == two_multiset_exits.end()) {
+                two_multiset_exits.insert({{new_multiset, true}});
+
+                two_multiset.push_back(new_multiset);
+            }
         }
+    }
+
+    vector<vector<Node>> three_multiset;
+    unordered_map<vector<Node>, bool, VectorHasher> three_multiset_exits;
+    for (vector<Node> ms: two_multiset) {
+        for (Node v: ms) {
+            for (Node w: g.get_neighbours(v)) {
+                vector<Node> new_multiset = {ms[0], ms[1]};
+                new_multiset.push_back(w);
+
+                std::sort(new_multiset.begin(), new_multiset.end());
+
+                auto t = three_multiset_exits.find(new_multiset);
+
+                // Check if not already exists.
+                if (t == three_multiset_exits.end()) {
+                    three_multiset_exits.insert({{new_multiset, true}});
+
+                    three_multiset.push_back(new_multiset);
+                }
+            }
+
+            vector<Node> new_multiset = {ms[0], ms[1]};
+            new_multiset.push_back(v);
+
+            std::sort(new_multiset.begin(), new_multiset.end());
+
+            auto t = three_multiset_exits.find(new_multiset);
+
+            // Check if not already exists.
+            if (t == three_multiset_exits.end()) {
+                three_multiset_exits.insert({{new_multiset, true}});
+
+                three_multiset.push_back(new_multiset);
+            }
+        }
+    }
+
+
+    vector<vector<Node>> three_tuples;
+    for (vector<Node> ms: three_multiset) {
+        three_tuples.push_back({{ms[0], ms[1], ms[2]}});
+        three_tuples.push_back({{ms[0], ms[2], ms[1]}});
+
+        three_tuples.push_back({{ms[1], ms[2], ms[0]}});
+        three_tuples.push_back({{ms[1], ms[0], ms[2]}});
+
+        three_tuples.push_back({{ms[2], ms[1], ms[0]}});
+        three_tuples.push_back({{ms[2], ms[0], ms[1]}});
+    }
+
+    size_t num_three_tuples = 0;
+    for (vector<Node> tuple: three_tuples) {
+
+        node_to_three_tuple.insert({{num_three_tuples, make_tuple(i, j, k)}});
+        three_tuple_to_node.insert({{make_tuple(i, j, k), num_three_tuples}});
+        num_three_tuples++;
     }
 
     vector<vector<uint>> nonzero_compenents_1;
     vector<vector<uint>> nonzero_compenents_2;
+    vector<vector<uint>> nonzero_compenents_3;
 
-    for (Node i = 0; i < num_two_tuples; ++i) {
-        // Get nodes of original graph corresponding to two tuple i.
-        TwoTuple p = node_to_two_tuple.find(i)->second;
-        Node v = std::get<0>(p);
-        Node w = std::get<1>(p);
+//    for (Node i = 0; i < num_three_tuples; ++i) {
+//        // Get nodes of original graph corresponding to two tuple i.
+//        ThreeTuple p = node_to_three_tuple.find(i)->second;
+//        Node v = std::get<0>(p);
+//        Node w = std::get<1>(p);
+//        Node w = std::get<1>(p);
+//
+//        // Exchange first node.
+//        Nodes v_neighbors = g.get_neighbours(v);
+//        for (Node v_n: v_neighbors) {
+//            unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v_n, w));
+//
+//            // Check if tuple exists.
+//            if (t != two_tuple_to_node.end()) {
+//                nonzero_compenents_1.push_back({{i, t->second}});
+//            }
+//        }
+//
+//        // Exchange second node.
+//        Nodes w_neighbors = g.get_neighbours(w);
+//        for (Node w_n: w_neighbors) {
+//            unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v, w_n));
+//
+//            // Check if tuple exists.
+//            if (t != two_tuple_to_node.end()) {
+//                nonzero_compenents_2.push_back({{i, t->second}});
+//            }
+//        }
+//    }
 
-        // Exchange first node.
-        Nodes v_neighbors = g.get_neighbours(v);
-        for (Node v_n: v_neighbors) {
-            unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v_n, w));
-
-            // Check if tuple exists.
-            if (t != two_tuple_to_node.end()) {
-                nonzero_compenents_1.push_back({{i, t->second}});
-            }
-        }
-
-        // Exchange second node.
-        Nodes w_neighbors = g.get_neighbours(w);
-        for (Node w_n: w_neighbors) {
-            unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v, w_n));
-
-            // Check if tuple exists.
-            if (t != two_tuple_to_node.end()) {
-                nonzero_compenents_2.push_back({{i, t->second}});
-            }
-        }
-    }
-
-    return std::make_tuple(nonzero_compenents_1, nonzero_compenents_2, nonzero_compenents_2);
+    return std::make_tuple(nonzero_compenents_1, nonzero_compenents_2, vector<vector<uint>> nonzero_compenents_3);
 }
 
 
