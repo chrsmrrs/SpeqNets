@@ -210,7 +210,7 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
     }
 
 
-    vector<vector<Node>> three_tuples;
+    ector<vector<Node>> three_tuples;
     for (vector<Node> ms: three_multiset) {
         three_tuples.push_back({{ms[0], ms[1], ms[2]}});
         three_tuples.push_back({{ms[0], ms[2], ms[1]}});
@@ -224,11 +224,16 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
 
     size_t num_three_tuples = 0;
     for (vector<Node> tuple: three_tuples) {
+        Node i = tuple[0];
+        Node j = tuple[1];
+        Node k = tuple[2];
 
         node_to_three_tuple.insert({{num_three_tuples, make_tuple(i, j, k)}});
         three_tuple_to_node.insert({{make_tuple(i, j, k), num_three_tuples}});
         num_three_tuples++;
+
     }
+
 
     vector<vector<uint>> nonzero_compenents_1;
     vector<vector<uint>> nonzero_compenents_2;
