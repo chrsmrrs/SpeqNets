@@ -251,10 +251,10 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
         for (Node v_n: v_neighbors) {
             unordered_map<ThreeTuple, Node>::const_iterator t = three_tuple_to_node.find(make_tuple(v_n, w, u));
 
-//            // Check if tuple exists.
-//            if (t != two_tuple_to_node.end()) {
-//                nonzero_compenents_1.push_back({{i, t->second}});
-//            }
+            // Check if tuple exists.
+            if (t != three_tuple_to_node.end()) {
+                nonzero_compenents_1.push_back({{i, t->second}});
+            }
         }
 //
 //        // Exchange second node.
