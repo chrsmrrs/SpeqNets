@@ -234,12 +234,12 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
     vector<vector<uint>> nonzero_compenents_2;
     vector<vector<uint>> nonzero_compenents_3;
 
-    for (Node i = 0; i < num_two_tuples; ++i) {
+    for (Node i = 0; i < num_three_tuples; ++i) {
         // Get nodes of original graph corresponding to two tuple i.
         ThreeTuple p = node_to_three_tuple.find(i)->second;
         Node v = std::get<0>(p);
         Node w = std::get<1>(p);
-        Node u = std::get<1>(p);
+        Node u = std::get<2>(p);
 
         // Exchange first node.
         Nodes v_neighbors = g.get_neighbours(v);
@@ -675,7 +675,7 @@ PYBIND11_MODULE(preprocessing, m
     m.def("get_all_matrices_2_1", &get_all_matrices_2_1);
 
     m.def("get_all_matrices_2_2", &get_all_matrices_2_2);
-    m.def("get_all_matrices_3_2", &get_all_matrices_3_2);
+    //m.def("get_all_matrices_3_2", &get_all_matrices_3_2);
     m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
 
     m.def("get_all_node_labels_allchem_3_2", &get_all_node_labels_allchem_3_2);
