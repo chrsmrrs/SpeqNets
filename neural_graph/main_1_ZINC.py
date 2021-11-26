@@ -75,7 +75,7 @@ class NetGINE(torch.nn.Module):
     def __init__(self, dim):
         super(NetGINE, self).__init__()
 
-        num_features = 21
+        num_features = 6
         dim = dim
 
         self.conv1 = GINConv(4, num_features, 256)
@@ -97,6 +97,10 @@ class NetGINE(torch.nn.Module):
 
     def forward(self, data):
         x = data.x
+
+        print(x.size())
+        print(data.edge_attr.size())
+        exit()
 
         x_1 = F.relu(self.conv1(x, data.edge_index, data.edge_attr))
         x_1 = self.bn1(x_1)
