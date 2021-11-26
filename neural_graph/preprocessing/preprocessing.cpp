@@ -130,6 +130,62 @@ pair<vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_2_2(co
 }
 
 
+// Generate sparse adjacency matrix representation of three-tuple graph of graph g.
+tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_3_2(const Graph &g) {
+    size_t num_nodes = g.get_num_nodes();
+
+    // Maps node in two-tuple graph to corresponding two tuple.
+    unordered_map<Node, TwoTuple> node_to_two_tuple;
+    // Inverse of the above map.
+    unordered_map<TwoTuple, Node> two_tuple_to_node;
+
+    Node num_two_tuples = 0;
+    // Generate all tuples that induce connected graphs on at most two vertices.
+    for (Node i = 0; i < num_nodes; ++i) {
+        for (Node j = 0; j < num_nodes; ++j) {
+            // Map each pair to node in two set graph and also inverse.
+            node_to_two_tuple.insert({{num_two_tuples, make_tuple(i, j)}});
+            two_tuple_to_node.insert({{make_tuple(i, j), num_two_tuples}});
+            num_two_tuples++;
+        }
+    }
+
+    vector<vector<uint>> nonzero_compenents_1;
+    vector<vector<uint>> nonzero_compenents_2;
+
+    for (Node i = 0; i < num_two_tuples; ++i) {
+        // Get nodes of original graph corresponding to two tuple i.
+        TwoTuple p = node_to_two_tuple.find(i)->second;
+        Node v = std::get<0>(p);
+        Node w = std::get<1>(p);
+
+        // Exchange first node.
+        Nodes v_neighbors = g.get_neighbours(v);
+        for (Node v_n: v_neighbors) {
+            unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v_n, w));
+
+            // Check if tuple exists.
+            if (t != two_tuple_to_node.end()) {
+                nonzero_compenents_1.push_back({{i, t->second}});
+            }
+        }
+
+        // Exchange second node.
+        Nodes w_neighbors = g.get_neighbours(w);
+        for (Node w_n: w_neighbors) {
+            unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v, w_n));
+
+            // Check if tuple exists.
+            if (t != two_tuple_to_node.end()) {
+                nonzero_compenents_2.push_back({{i, t->second}});
+            }
+        }
+    }
+
+    return std::make_tuple(nonzero_compenents_1, nonzero_compenents_2, nonzero_compenents_2);
+}
+
+
 
 // Generate node labels for two-tuple graph of graph g.
 vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels, const bool use_edge_labels) {
@@ -398,7 +454,7 @@ get_all_matrices_2_2(string name, const std::vector<int> &indices) {
 
 
 // Get all sparse adjacency matrix representations of two-tuple graphs in graph database.
-vector<pair<vector<vector<uint>>, vector<vector<uint>>>>
+vector<tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>>>
 get_all_matrices_3_2(string name, const std::vector<int> &indices) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
     gdb.erase(gdb.begin() + 0);
@@ -408,9 +464,9 @@ get_all_matrices_3_2(string name, const std::vector<int> &indices) {
         gdb_new.push_back(gdb[i]);
     }
 
-    vector<pair<vector<vector<uint>>, vector<vector<uint>>>> matrices;
+    vector<tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>>> matrices;
     for (auto &g: gdb_new) {
-        matrices.push_back(generate_local_sparse_am_2_2(g));
+        matrices.push_back(generate_local_sparse_am_3_2(g));
     }
 
     return matrices;
