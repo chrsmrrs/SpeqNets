@@ -3,29 +3,19 @@ import sys
 sys.path.insert(0, '..')
 sys.path.insert(0, '.')
 
-import os.path as osp
-import torch
-from torch.nn import Sequential, Linear, ReLU
-from torch_geometric.nn import global_mean_pool, MessagePassing
+from torch_geometric.nn import global_mean_pool
 
 from torch_geometric.datasets import TUDataset
-from torch_geometric.data import DataLoader
-import torch.nn.functional as F
-
-import numpy as np
 
 import os.path as osp
-import numpy as np
-from torch.nn import Linear as Lin
 from torch.nn import Sequential, Linear, ReLU
-from torch_geometric.nn import Set2Set
 
-from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.data import DataLoader
 
 import torch
 from torch_geometric.nn import MessagePassing
 import torch.nn.functional as F
+
 
 class GINConv(MessagePassing):
     def __init__(self, emb_dim, dim1, dim2):
@@ -127,8 +117,6 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
     dataset = TUDataset(path, name="alchemy_full")[0:3000]
 
-
-
     train_dataset = dataset[0:1600]
     val_dataset = dataset[1600:1800]
     test_dataset = dataset[1800:]
@@ -144,7 +132,6 @@ for _ in range(5):
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=5,
                                                            min_lr=0.0000001)
-
 
 
     def train():
@@ -190,4 +177,3 @@ for _ in range(5):
         if lr < 0.000001:
             print("Converged.")
             break
-
