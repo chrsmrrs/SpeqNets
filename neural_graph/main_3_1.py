@@ -43,7 +43,7 @@ class TUD_3_1(InMemoryDataset):
         atomic_counter = 0
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "alchemy_full")
-        dataset = TUDataset(path, name="alchemy_full")[0:3000]
+        dataset = TUDataset(path, name="alchemy_full")[0:5000]
 
         data_list = []
         for i, data in enumerate(dataset):
@@ -248,9 +248,9 @@ for _ in range(5):
     dataset.data.y = (dataset.data.y - mean) / std
     mean, std = mean.to(device), std.to(device)
 
-    train_dataset = dataset[0:1600]
-    val_dataset = dataset[1600:1800]
-    test_dataset = dataset[1800:]
+    train_dataset = dataset[0:4000]
+    val_dataset = dataset[4000:4500]
+    test_dataset = dataset[4500:]
 
     batch_size = 5
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
