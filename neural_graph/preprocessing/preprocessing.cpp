@@ -244,7 +244,7 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
         ThreeTuple p = node_to_three_tuple.find(i)->second;
         Node v = std::get<0>(p);
         Node w = std::get<1>(p);
-        Node w = std::get<1>(p);
+        Node u = std::get<2>(p);
 
 //        // Exchange first node.
 //        Nodes v_neighbors = g.get_neighbours(v);
