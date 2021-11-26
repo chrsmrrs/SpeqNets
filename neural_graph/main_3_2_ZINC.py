@@ -83,7 +83,7 @@ class TUD_3_1(InMemoryDataset):
             data_new.edge_index_2 = torch.tensor(matrices[1]).t().contiguous().to(torch.long)
             data_new.edge_index_3 = torch.tensor(matrices[2]).t().contiguous().to(torch.long)
 
-            one_hot = np.eye(500)[labels]
+            one_hot = np.eye(700)[labels]
             data_new.x = torch.from_numpy(one_hot).to(torch.float)
 
             data_new.y = data.y
@@ -217,6 +217,7 @@ for _ in range(5):
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=5,
                                                            min_lr=0.0000001)
+
 
     def train():
         model.train()
