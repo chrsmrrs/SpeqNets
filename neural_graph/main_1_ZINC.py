@@ -98,10 +98,6 @@ class NetGINE(torch.nn.Module):
     def forward(self, data):
         x = data.x
 
-        print(x.size())
-        print(data.edge_attr.size())
-        exit()
-
         x_1 = F.relu(self.conv1(x, data.edge_index, data.edge_attr))
         x_1 = self.bn1(x_1)
         x_2 = F.relu(self.conv2(x_1, data.edge_index, data.edge_attr))
