@@ -28,11 +28,11 @@ class TUD_3_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "TUD_2f_1ttrtgth"
+        return "TUD_2f_1tttgth"
 
     @property
     def processed_file_names(self):
-        return "TUD_2f_ergt1th"
+        return "TUD_2f_egt1th"
 
     def download(self):
         pass
@@ -73,7 +73,7 @@ class TUD_3_1(InMemoryDataset):
                 e = g.add_edge(i, j, add_missing=False)
                 edge_labels[e] = edge_attr[ind]
 
-            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 2, node_labels,
+            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 1, node_labels,
                                                                                          edge_labels, atomic_type,
                                                                                          atomic_counter)
 
@@ -200,7 +200,7 @@ for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttffgte')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttfgte')
     dataset = TUD_3_1(path, transform=MyTransform())
 
     train_dataset = dataset[0:2400]
