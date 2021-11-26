@@ -28,11 +28,11 @@ class TUD_3_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "TUD_2f_1tttgth"
+        return "TUD_2f_1tettgth"
 
     @property
     def processed_file_names(self):
-        return "TUD_2f_egt1th"
+        return "TUD_2f_eget1th"
 
     def download(self):
         pass
@@ -200,7 +200,7 @@ for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttfgte')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tegtsttfgte')
     dataset = TUD_3_1(path, transform=MyTransform())
 
     train_dataset = dataset[0:4000]
