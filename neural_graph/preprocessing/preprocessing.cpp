@@ -131,7 +131,7 @@ pair<vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_2_2(co
 
 
 // Generate sparse adjacency matrix representation of three-tuple graph of graph g.
-pair<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_3_2(const Graph &g) {
+tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_3_2(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
 
     // Maps node in two-tuple graph to corresponding two tuple.
@@ -391,7 +391,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
         Node i = tuple[0];
         Node j = tuple[1];
         Node k = tuple[2];
-        three_tuple_graph.add_node();
+
 
         node_to_three_tuple.insert({{num_three_tuples, make_tuple(i, j, k)}});
         three_tuple_to_node.insert({{make_tuple(i, j, k), num_three_tuples}});
@@ -414,7 +414,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
             a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
 
             if (use_edge_labels) {
-                a = AuxiliaryMethods::pairing(a, edge_labels.find(make_tuple(i, j)););
+                a = AuxiliaryMethods::pairing(a, edge_labels.find(make_tuple(i, j)));
             }
         } else if (i == j) {
             a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 2);
@@ -426,7 +426,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
             b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 4);
 
             if (use_edge_labels) {
-                b = AuxiliaryMethods::pairing(b, edge_labels.find(make_tuple(i, k)););
+                b = AuxiliaryMethods::pairing(b, edge_labels.find(make_tuple(i, k)));
             }
         } else if (i == k) {
             b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 5);
@@ -438,7 +438,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
             c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 7);
 
             if (use_edge_labels) {
-                c = AuxiliaryMethods::pairing(c, edge_labels.find(make_tuple(j, k)););
+                c = AuxiliaryMethods::pairing(c, edge_labels.find(make_tuple(j, k)));
             }
         } else if (j == k) {
             c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 8);
@@ -450,7 +450,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
         tuple_labels.push_back(new_color);
     }
 
-    return tuple_labels
+    return tuple_labels;
 }
 
 
