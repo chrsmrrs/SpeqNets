@@ -115,7 +115,7 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "ZINC_test")
-    dataset = TUDataset(path, name="alchemy_full")[0:3000]
+    dataset = TUDataset(path, name="ZINC_test")[0:3000]
 
     train_dataset = dataset[0:1600]
     val_dataset = dataset[1600:1800]
