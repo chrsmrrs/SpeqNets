@@ -256,17 +256,28 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
                 nonzero_compenents_1.push_back({{i, t->second}});
             }
         }
-//
-//        // Exchange second node.
-//        Nodes w_neighbors = g.get_neighbours(w);
-//        for (Node w_n: w_neighbors) {
-//            unordered_map<TwoTuple, Node>::const_iterator t = two_tuple_to_node.find(make_tuple(v, w_n));
-//
-//            // Check if tuple exists.
-//            if (t != two_tuple_to_node.end()) {
-//                nonzero_compenents_2.push_back({{i, t->second}});
-//            }
-//        }
+
+        // Exchange second node.
+        Nodes w_neighbors = g.get_neighbours(w);
+        for (Node w_n: w_neighbors) {
+            unordered_map<ThreeTuple, Node>::const_iterator t = three_tuple_to_node.find(make_tuple(v, w_n, u));
+
+            // Check if tuple exists.
+            if (t != three_tuple_to_node.end()) {
+                nonzero_compenents_2.push_back({{i, t->second}});
+            }
+        }
+
+        // Exchange third node.
+        Nodes u_neighbors = g.get_neighbours(u);
+        for (Node u_n: u_neighbors) {
+            unordered_map<ThreeTuple, Node>::const_iterator t = three_tuple_to_node.find(make_tuple(v, w, u_n));
+
+            // Check if tuple exists.
+            if (t != three_tuple_to_node.end()) {
+                nonzero_compenents_3.push_back({{i, t->second}});
+            }
+        }
     }
 
     return std::make_tuple(nonzero_compenents_1, nonzero_compenents_2, nonzero_compenents_3);
