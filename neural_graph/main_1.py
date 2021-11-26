@@ -116,10 +116,10 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
     dataset = TUDataset(path, name="alchemy_full")[0:5000]
 
-    train_dataset = dataset[0:2400]
-    val_dataset = dataset[2400:2700]
-    test_dataset = dataset[2700:]
-
+    train_dataset = dataset[0:4000]
+    val_dataset = dataset[4000:4500]
+    test_dataset = dataset[4500:]
+    
     batch_size = 5
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
