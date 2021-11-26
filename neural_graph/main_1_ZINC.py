@@ -164,15 +164,15 @@ for _ in range(5):
     for epoch in range(1, 201):
         lr = scheduler.optimizer.param_groups[0]['lr']
         loss = train()
-        val_error, _ = test(val_loader)
-
+        val_error = test(val_loader)
         scheduler.step(val_error)
+
         if best_val_error is None or val_error <= best_val_error:
-            test_error, test_error_log = test(test_loader)
+            test_error = test(test_loader)
             best_val_error = val_error
 
         print('Epoch: {:03d}, LR: {:.7f}, Loss: {:.7f}, Validation MAE: {:.7f}, '
-              'Test MAE: {:.7f},Test MAE: {:.7f}, '.format(epoch, lr, loss, val_error, test_error, test_error_log))
+              'Test MAE: {:.7f}'.format(epoch, lr, loss, val_error, test_error))
 
         if lr < 0.000001:
             print("Converged.")
