@@ -397,24 +397,6 @@ get_all_matrices_2_2(string name, const std::vector<int> &indices) {
 }
 
 
-// Get all sparse adjacency matrix representations of two-tuple graphs in graph database.
-vector<tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>>>
-get_all_matrices_3_2(string name, const std::vector<int> &indices) {
-    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
-    gdb.erase(gdb.begin() + 0);
-
-    GraphDatabase gdb_new;
-    for (int i: indices) {
-        gdb_new.push_back(gdb[i]);
-    }
-
-    vector<tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>>> matrices;
-    for (auto &g: gdb_new) {
-        matrices.push_back(generate_local_sparse_am_3_2(g));
-    }
-
-    return matrices;
-}
 
 
 
