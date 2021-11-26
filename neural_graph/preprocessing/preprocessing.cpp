@@ -264,7 +264,7 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
 //        }
 //    }
 
-    return std::make_tuple(nonzero_compenents_1, nonzero_compenents_2, vector<vector<uint>> nonzero_compenents_3);
+    return std::make_tuple(nonzero_compenents_1, nonzero_compenents_2, nonzero_compenents_3);
 }
 
 
