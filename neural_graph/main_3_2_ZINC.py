@@ -83,7 +83,7 @@ class TUD_3_1(InMemoryDataset):
             data_new.edge_index_2 = torch.tensor(matrices[1]).t().contiguous().to(torch.long)
             data_new.edge_index_3 = torch.tensor(matrices[2]).t().contiguous().to(torch.long)
 
-            one_hot = np.eye(700)[labels]
+            one_hot = np.eye(1200)[labels]
             data_new.x = torch.from_numpy(one_hot).to(torch.float)
 
             data_new.y = data.y
