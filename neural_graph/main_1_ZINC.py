@@ -68,16 +68,16 @@ class NetGINE(torch.nn.Module):
         num_features = 6
         dim = dim
 
-        self.conv1 = GINConv(4, num_features, 256)
+        self.conv1 = GINConv(3, num_features, 256)
         self.bn1 = torch.nn.BatchNorm1d(dim)
 
-        self.conv2 = GINConv(4, 256, 256)
+        self.conv2 = GINConv(3, 256, 256)
         self.bn2 = torch.nn.BatchNorm1d(dim)
 
-        self.conv3 = GINConv(4, 256, 256)
+        self.conv3 = GINConv(3, 256, 256)
         self.bn3 = torch.nn.BatchNorm1d(dim)
 
-        self.conv4 = GINConv(4, 256, 256)
+        self.conv4 = GINConv(3, 256, 256)
         self.bn4 = torch.nn.BatchNorm1d(dim)
 
         self.fc1 = Linear(4 * dim, dim)
