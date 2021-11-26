@@ -83,7 +83,7 @@ class TUD_3_1(InMemoryDataset):
             data_new.edge_index_2 = torch.tensor(matrices[1]).t().contiguous().to(torch.long)
             data_new.edge_index_3 = torch.tensor(matrices[2]).t().contiguous().to(torch.long)
 
-            one_hot = np.eye(1500)[labels]
+            one_hot = np.eye(1800)[labels]
             data_new.x = torch.from_numpy(one_hot).to(torch.float)
 
             data_new.y = data.y
@@ -113,7 +113,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 1500
+        num_features = 1800
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
