@@ -146,35 +146,31 @@ for _ in range(5):
                                                            min_lr=0.0000001)
 
 
+
     def train():
         model.train()
         loss_all = 0
 
         lf = torch.nn.L1Loss()
+
         for data in train_loader:
             data = data.to(device)
             optimizer.zero_grad()
             loss = lf(model(data), data.y)
-
             loss.backward()
             loss_all += loss.item() * data.num_graphs
             optimizer.step()
-        return (loss_all / len(train_loader.dataset))
+        return loss_all / len(train_loader.dataset)
 
 
-    @torch.no_grad()
     def test(loader):
         model.eval()
-        error = torch.zeros([1, 12]).to(device)
+        error = 0
 
         for data in loader:
             data = data.to(device)
-            error += ((data.y * std - model(data) * std).abs() / std).sum(dim=0)
-
-        error = error / len(loader.dataset)
-        error_log = torch.log(error)
-
-        return error.mean().item(), error_log.mean().item()
+            error += (model(data) - data.y).abs().sum().item()  # MAE
+        return error / len(loader.dataset)
 
 
     best_val_error = None
