@@ -414,7 +414,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
             a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
 
             if (use_edge_labels) {
-                a = AuxiliaryMethods::pairing(a, edge_labels.find(make_tuple(i, j)));
+                a = AuxiliaryMethods::pairing(a, edge_labels.find(make_tuple(i, j))->second);
             }
         } else if (i == j) {
             a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 2);
@@ -426,7 +426,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
             b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 4);
 
             if (use_edge_labels) {
-                b = AuxiliaryMethods::pairing(b, edge_labels.find(make_tuple(i, k)));
+                b = AuxiliaryMethods::pairing(b, edge_labels.find(make_tuple(i, k))->second);
             }
         } else if (i == k) {
             b = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_k), 5);
@@ -438,7 +438,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
             c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 7);
 
             if (use_edge_labels) {
-                c = AuxiliaryMethods::pairing(c, edge_labels.find(make_tuple(j, k)));
+                c = AuxiliaryMethods::pairing(c, edge_labels.find(make_tuple(j, k))->second);
             }
         } else if (j == k) {
             c = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_j, c_k), 8);
