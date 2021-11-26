@@ -210,7 +210,7 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
     }
 
 
-    ector<vector<Node>> three_tuples;
+    vector<vector<Node>> three_tuples;
     for (vector<Node> ms: three_multiset) {
         three_tuples.push_back({{ms[0], ms[1], ms[2]}});
         three_tuples.push_back({{ms[0], ms[2], ms[1]}});
