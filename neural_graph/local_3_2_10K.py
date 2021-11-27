@@ -78,7 +78,7 @@ class Alchemy(InMemoryDataset):
             data.edge_index_2 = edge_index_2
             data.edge_index_3 = edge_index_3
 
-            one_hot = np.eye(1345)[node_labels[i]]
+            one_hot = np.eye(1075)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
