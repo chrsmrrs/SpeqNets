@@ -122,6 +122,11 @@ for _ in range(5):
 
     dataset = TUDataset(path, name="alchemy_full")[indices_test]
 
+    mean = dataset.data.y.mean(dim=0, keepdim=True)
+    std = dataset.data.y.std(dim=0, keepdim=True)
+    dataset.data.y = (dataset.data.y - mean) / std
+    mean, std = mean.to(device), std.to(device)
+
     train_dataset = dataset[0:800].shuffle()
     val_dataset = dataset[800:900].shuffle()
     test_dataset = dataset[900:1000].shuffle()
@@ -131,7 +136,7 @@ for _ in range(5):
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
-    model = NetGINE(256).to(device)
+    model = NetGIN(64).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=5,
@@ -143,40 +148,45 @@ for _ in range(5):
         loss_all = 0
 
         lf = torch.nn.L1Loss()
-
         for data in train_loader:
             data = data.to(device)
             optimizer.zero_grad()
             loss = lf(model(data), data.y)
+
             loss.backward()
             loss_all += loss.item() * data.num_graphs
             optimizer.step()
-        return loss_all / len(train_loader.dataset)
+        return (loss_all / len(train_loader.dataset))
 
 
+    @torch.no_grad()
     def test(loader):
         model.eval()
-        error = 0
+        error = torch.zeros([1, 12]).to(device)
 
         for data in loader:
             data = data.to(device)
-            error += (model(data) - data.y).abs().sum().item()  # MAE
-        return error / len(loader.dataset)
+            error += ((data.y * std - model(data) * std).abs() / std).sum(dim=0)
+
+        error = error / len(loader.dataset)
+        error_log = torch.log(error)
+
+        return error.mean().item(), error_log.mean().item()
 
 
     best_val_error = None
-    for epoch in range(1, 201):
+    for epoch in range(1, 1001):
         lr = scheduler.optimizer.param_groups[0]['lr']
         loss = train()
-        val_error = test(val_loader)
-        scheduler.step(val_error)
+        val_error, _ = test(val_loader)
 
+        scheduler.step(val_error)
         if best_val_error is None or val_error <= best_val_error:
-            test_error = test(test_loader)
+            test_error, test_error_log = test(test_loader)
             best_val_error = val_error
 
         print('Epoch: {:03d}, LR: {:.7f}, Loss: {:.7f}, Validation MAE: {:.7f}, '
-              'Test MAE: {:.7f}'.format(epoch, lr, loss, val_error, test_error))
+              'Test MAE: {:.7f},Test MAE: {:.7f}, '.format(epoch, lr, loss, val_error, test_error, test_error_log))
 
         if lr < 0.000001:
             print("Converged.")
