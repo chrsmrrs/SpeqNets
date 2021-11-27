@@ -44,15 +44,15 @@ class Alchemy(InMemoryDataset):
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]
 
-        infile = open("val_al_10.index", "r")
-        for line in infile:
-            indices_val = line.split(",")
-            indices_val = [int(i) for i in indices_val]
-
-        infile = open("train_al_10.index", "r")
-        for line in infile:
-            indices_train = line.split(",")
-            indices_train = [int(i) for i in indices_train]
+        # infile = open("val_al_10.index", "r")
+        # for line in infile:
+        #     indices_val = line.split(",")
+        #     indices_val = [int(i) for i in indices_val]
+        #
+        # infile = open("train_al_10.index", "r")
+        # for line in infile:
+        #     indices_train = line.split(",")
+        #     indices_train = [int(i) for i in indices_train]
 
         targets = dp.get_dataset("alchemy_full", multigregression=True)
         tmp_1 = targets[indices_train].tolist()
@@ -64,9 +64,9 @@ class Alchemy(InMemoryDataset):
 
         node_labels = pre.get_all_node_labels_allchem_3_2(True, True, indices_train, indices_val, indices_test)
 
-        matrices = pre.get_all_matrices_3_2("alchemy_full", indices_train)
-        matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_val))
-        matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_test))
+        #matrices = pre.get_all_matrices_3_2("alchemy_full", indices_train)
+        #matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_val))
+        matrices = pre.get_all_matrices_3_2("alchemy_full", indices_test)
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
