@@ -9,7 +9,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="" />
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/neural_graph/local_3_2_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/local_3_2_10K.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -296,14 +298,7 @@
       <workItem from="1637685265863" duration="60641000" />
       <workItem from="1637858927038" duration="21540000" />
       <workItem from="1637948036199" duration="4387000" />
-      <workItem from="1637952843808" duration="15066000" />
-    </task>
-    <task id="LOCAL-00615" summary="PPI">
-      <created>1637894351173</created>
-      <option name="number" value="00615" />
-      <option name="presentableId" value="LOCAL-00615" />
-      <option name="project" value="LOCAL" />
-      <updated>1637894351173</updated>
+      <workItem from="1637952843808" duration="15376000" />
     </task>
     <task id="LOCAL-00616" summary="PPI">
       <created>1637894391653</created>
@@ -641,7 +636,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637979129482</updated>
     </task>
-    <option name="localTasksCounter" value="664" />
+    <task id="LOCAL-00664" summary="PPI">
+      <created>1637979434582</created>
+      <option name="number" value="00664" />
+      <option name="presentableId" value="LOCAL-00664" />
+      <option name="project" value="LOCAL" />
+      <updated>1637979434582</updated>
+    </task>
+    <option name="localTasksCounter" value="665" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
