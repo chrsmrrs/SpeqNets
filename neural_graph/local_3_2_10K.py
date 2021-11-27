@@ -23,11 +23,11 @@ class Alchemy(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "alcrhemy10"
+        return "alcrhemye10"
 
     @property
     def processed_file_names(self):
-        return "alchermy10"
+        return "alchermye10"
 
     def download(self):
         pass
@@ -39,7 +39,7 @@ class Alchemy(InMemoryDataset):
         indices_val = []
         indices_test = []
 
-        infile = open("test_al_10.index", "r")
+        infile = open("val_al_10.index", "r")
         for line in infile:
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]

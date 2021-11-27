@@ -115,7 +115,7 @@ for _ in range(5):
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
 
-    infile = open("test_al_10.index", "r")
+    infile = open("val_al_10.index", "r")
     for line in infile:
         indices_test = line.split(",")
         indices_test = [int(i) for i in indices_test]

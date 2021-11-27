@@ -234,9 +234,7 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
         node_to_three_tuple.insert({{num_three_tuples, make_tuple(i, j, k)}});
         three_tuple_to_node.insert({{make_tuple(i, j, k), num_three_tuples}});
         num_three_tuples++;
-
     }
-
 
     vector<vector<uint>> nonzero_compenents_1;
     vector<vector<uint>> nonzero_compenents_2;
