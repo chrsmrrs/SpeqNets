@@ -114,11 +114,17 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
-    dataset = TUDataset(path, name="alchemy_full")[0:5000]
 
-    train_dataset = dataset[0:4000]
-    val_dataset = dataset[4000:4500]
-    test_dataset = dataset[4500:]
+    infile = open("test_al_10.index", "r")
+    for line in infile:
+        indices_test = line.split(",")
+        indices_test = [int(i) for i in indices_test]
+
+    dataset = TUDataset(path, name="alchemy_full")[indices_test]
+
+    train_dataset = dataset[0:800].shuffle()
+    val_dataset = dataset[800:900].shuffle()
+    test_dataset = dataset[900:1000].shuffle()
 
     batch_size = 5
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
