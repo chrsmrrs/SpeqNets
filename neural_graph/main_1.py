@@ -108,7 +108,8 @@ class NetGINE(torch.nn.Module):
 
 plot_all = []
 results = []
-
+results = []
+results_log = []
 for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -192,3 +193,16 @@ for _ in range(5):
         if lr < 0.000001:
             print("Converged.")
             break
+
+
+    results.append(test_error)
+    results_log.append(test_error_log)
+
+print("########################")
+print(results)
+results = np.array(results)
+print(results.mean(), results.std())
+
+print(results_log)
+results_log = np.array(results_log)
+print(results_log.mean(), results_log.std())
