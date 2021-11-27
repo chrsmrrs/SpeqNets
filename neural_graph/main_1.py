@@ -115,21 +115,22 @@ for _ in range(5):
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "alchemy_full")
 
-    infile = open("val_al_10.index", "r")
+    infile = open("train_al_10.index", "r")
     for line in infile:
         indices_test = line.split(",")
         indices_test = [int(i) for i in indices_test]
 
     dataset = TUDataset(path, name="alchemy_full")[indices_test]
+    dataset = dataset[0:3000]
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
     dataset.data.y = (dataset.data.y - mean) / std
     mean, std = mean.to(device), std.to(device)
 
-    train_dataset = dataset[0:800].shuffle()
-    val_dataset = dataset[800:900].shuffle()
-    test_dataset = dataset[900:1000].shuffle()
+    train_dataset = dataset[0:2400].shuffle()
+    val_dataset = dataset[2400:2700].shuffle()
+    test_dataset = dataset[2700:3000].shuffle()
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
