@@ -31,11 +31,11 @@ class TUD_3_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "TUD_2f_1tetrtgth"
+        return "TUD_2df_1tetrtgth"
 
     @property
     def processed_file_names(self):
-        return "TUD_2f_erget1th"
+        return "TUD_2f_ergedt1th"
 
     def download(self):
         pass
@@ -48,7 +48,7 @@ class TUD_3_1(InMemoryDataset):
         indices_test = []
 
 
-        indices_test = list(range(0,1000))
+        indices_test = list(range(0,3000))
 
         # infile = open("val_al_10.index", "r")
         # for line in infile:
@@ -210,9 +210,9 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetstktffgte')
     dataset = TUD_3_1(path, transform=MyTransform())
 
-    train_dataset = dataset[0:800]
-    val_dataset = dataset[800:900]
-    test_dataset = dataset[900:]
+    train_dataset = dataset[0:2400]
+    val_dataset = dataset[2400:2700]
+    test_dataset = dataset[2700:]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
