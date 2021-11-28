@@ -218,7 +218,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 1273
+        num_features = 1312
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
@@ -301,7 +301,7 @@ class NetGIN(torch.nn.Module):
         x = data.x
         x = x.long()
 
-        x_new = torch.zeros(x.size(0), 1273).to(device)
+        x_new = torch.zeros(x.size(0), 1312).to(device)
         x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
 
         x = x_new
