@@ -44,7 +44,7 @@ class Alchemy_1(InMemoryDataset):
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]
 
-        indices_test = indices_test[0:7000]
+        indices_test = indices_test[0:10000]
 
         # infile = open("val_al_10.index", "r")
         # for line in infile:
@@ -99,11 +99,11 @@ class Alchemy_2(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "al_10_1"
+        return "al_10_2"
 
     @property
     def processed_file_names(self):
-        return "al_10_1"
+        return "al_10_2"
 
     def download(self):
         pass
@@ -184,9 +184,9 @@ class Alchemy_all(InMemoryDataset):
         pass
 
     def process(self):
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_1')
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_1e')
         dataset_1 = Alchemy_1(path, transform=MyTransform()).shuffle()
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_1')
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_1e')
         dataset_2 = Alchemy_2(path, transform=MyTransform()).shuffle()
 
         print("fff")
@@ -345,8 +345,8 @@ class NetGIN(torch.nn.Module):
         return x
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy')
-dataset = Alchemy_all(path, transform=MyTransform())
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_all')
+dataset = Alchemy_1(path, transform=MyTransform())
 
 print(len(dataset))
 
