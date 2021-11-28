@@ -23,11 +23,11 @@ class Alchemy(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "alcrhemyfe10"
+        return "alcrhemyfew10"
 
     @property
     def processed_file_names(self):
-        return "alchermyef10"
+        return "alchermyewf10"
 
     def download(self):
         pass
@@ -44,7 +44,7 @@ class Alchemy(InMemoryDataset):
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]
 
-        indices_test = indices_test[0:3000]
+        indices_test = indices_test[0:4000]
 
         # infile = open("val_al_10.index", "r")
         # for line in infile:
@@ -236,9 +236,9 @@ std = dataset.data.y.std(dim=0, keepdim=True)
 dataset.data.y = (dataset.data.y - mean) / std
 mean, std = mean.to(device), std.to(device)
 
-train_dataset = dataset[0:800].shuffle()
-val_dataset = dataset[800:900].shuffle()
-test_dataset = dataset[900:1000].shuffle()
+train_dataset = dataset[0:3200].shuffle()
+val_dataset = dataset[3200:3400].shuffle()
+test_dataset = dataset[3400:4000].shuffle()
 
 batch_size = 25
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
