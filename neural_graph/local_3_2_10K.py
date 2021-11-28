@@ -218,7 +218,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 1312
+        num_features = 1339
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
@@ -301,7 +301,7 @@ class NetGIN(torch.nn.Module):
         x = data.x
         x = x.long()
 
-        x_new = torch.zeros(x.size(0), 1312).to(device)
+        x_new = torch.zeros(x.size(0), 1339).to(device)
         x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
 
         x = x_new
@@ -348,9 +348,6 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_all')
 dataset = Alchemy_1(path, transform=MyTransform())
 
-print(len(dataset))
-
-exit()
 
 mean = dataset.data.y.mean(dim=0, keepdim=True)
 std = dataset.data.y.std(dim=0, keepdim=True)
