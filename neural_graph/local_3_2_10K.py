@@ -354,9 +354,9 @@ std = dataset.data.y.std(dim=0, keepdim=True)
 dataset.data.y = (dataset.data.y - mean) / std
 mean, std = mean.to(device), std.to(device)
 
-train_dataset = dataset[0:4000]
-val_dataset = dataset[4000:4500]
-test_dataset = dataset[4500:]
+train_dataset = dataset[0:8000]
+val_dataset = dataset[8000:9000]
+test_dataset = dataset[9000:]
 
 batch_size = 1
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
@@ -402,7 +402,7 @@ for _ in range(5):
 
         error = error / len(loader.dataset)
         error_log = torch.log(error)
-        
+
         return error.mean().item(), error_log.mean().item()
 
 
