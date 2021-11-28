@@ -165,6 +165,8 @@ class NetGIN(torch.nn.Module):
         x_new = torch.zeros(x.size(0), 4529).to(device)
         x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
 
+        x = x_new
+
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
         x_3 = F.relu(self.conv1_3(x, data.edge_index_3))
