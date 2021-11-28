@@ -84,7 +84,7 @@ class TUD_3_1(InMemoryDataset):
             data.edge_index_2 = edge_index_2
             data.edge_index_3 = edge_index_3
 
-            one_hot = np.eye(5307)[node_labels[i]]
+            one_hot = np.eye(4529)[node_labels[i]]
             data.x = torch.from_numpy(one_hot).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
@@ -112,7 +112,8 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 5307
+        num_features =  4529
+
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
