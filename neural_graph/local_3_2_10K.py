@@ -189,7 +189,7 @@ class Alchemy_all(InMemoryDataset):
         path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_1')
         dataset_2 = Alchemy_2(path, transform=MyTransform()).shuffle()
 
-
+        print("fff")
         dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2])
         data_list = []
 
