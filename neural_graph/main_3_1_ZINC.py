@@ -200,7 +200,7 @@ for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tegtsttfgte')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tegtstetfgte')
     dataset = TUD_3_1(path, transform=MyTransform())
 
     train_dataset = dataset[0:4000]
@@ -212,7 +212,7 @@ for _ in range(5):
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
-    model = NetGIN(512).to(device)
+    model = NetGIN(256).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
                                                            factor=0.5, patience=5,

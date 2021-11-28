@@ -6,6 +6,9 @@ sys.path.insert(0, '.')
 from graph_tool.all import *
 from torch_geometric.datasets import TUDataset
 
+import auxiliarymethods.datasets as dp
+import preprocessing as pre
+
 import os.path as osp
 import numpy as np
 from torch.nn import Sequential, Linear, ReLU
@@ -28,71 +31,67 @@ class TUD_3_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "TUD_2f_1ttrtgth"
+        return "TUD_2f_1tetrtgth"
 
     @property
     def processed_file_names(self):
-        return "TUD_2f_ergt1th"
+        return "TUD_2f_erget1th"
 
     def download(self):
         pass
 
     def process(self):
-        atomic_type = {}
-        atomic_counter = 0
-
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'datasets', "ZINC_test")
-        dataset = TUDataset(path, name="ZINC_test")[0:3000]
-
         data_list = []
-        for i, data in enumerate(dataset):
-            print(i)
 
-            x = data.x.cpu().detach().numpy()
-            x = x.argmax(axis=-1)
+        indices_train = []
+        indices_val = []
+        indices_test = []
 
-            edge_attr = data.edge_attr.cpu().detach().numpy()
-            edge_attr = edge_attr.argmax(axis=-1)
 
-            edge_index = data.edge_index.cpu().detach().numpy()
+        indices_test = list(range(0,3000))
 
-            # Create graph for easier processing.
-            g = Graph(directed=False)
-            num_nodes = x.shape[0]
+        # infile = open("val_al_10.index", "r")
+        # for line in infile:
+        #     indices_val = line.split(",")
+        #     indices_val = [int(i) for i in indices_val]
+        #
+        # infile = open("train_al_10.index", "r")
+        # for line in infile:
+        #     indices_train = line.split(",")
+        #     indices_train = [int(i) for i in indices_train]
 
-            node_labels = {}
-            for i in range(num_nodes):
-                v = g.add_vertex()
-                node_labels[v] = x[i]
+        targets = dp.get_dataset("ZINC_test", multigregression=False)
+        tmp_1 = targets[indices_train].tolist()
+        tmp_2 = targets[indices_val].tolist()
+        tmp_3 = targets[indices_test].tolist()
+        targets = tmp_1
+        targets.extend(tmp_2)
+        targets.extend(tmp_3)
 
-            rows = list(edge_index[0])
-            cols = list(edge_index[1])
-            edge_labels = {}
+        node_labels = pre.get_all_node_labels_zinc_3_2("ZINC_test", True, True, indices_train, indices_val, indices_test)
 
-            for ind, (i, j) in enumerate(zip(rows, cols)):
-                e = g.add_edge(i, j, add_missing=False)
-                edge_labels[e] = edge_attr[ind]
+        #matrices = pre.get_all_matrices_3_2("alchemy_full", indices_train)
+        #matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_val))
+        matrices = pre.get_all_matrices_3_2("ZINC_test", indices_test)
 
-            atomic_type, atomic_counter, matrices, labels = compute_k_s_tuple_graph_fast(g, 3, 2, node_labels,
-                                                                                         edge_labels, atomic_type,
-                                                                                         atomic_counter)
+        for i, m in enumerate(matrices):
+            edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
+            edge_index_2 = torch.tensor(matrices[i][1]).t().contiguous()
+            edge_index_3 = torch.tensor(matrices[i][2]).t().contiguous()
 
-            data_new = Data()
+            data = Data()
+            data.edge_index_1 = edge_index_1
+            data.edge_index_2 = edge_index_2
+            data.edge_index_3 = edge_index_3
 
-            data_new.edge_index_1 = torch.tensor(matrices[0]).t().contiguous().to(torch.long)
-            data_new.edge_index_2 = torch.tensor(matrices[1]).t().contiguous().to(torch.long)
-            data_new.edge_index_3 = torch.tensor(matrices[2]).t().contiguous().to(torch.long)
+            one_hot = np.eye(1273)[node_labels[i]]
+            data.x = torch.from_numpy(one_hot).to(torch.float)
+            data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
-            one_hot = np.eye(3000)[labels]
-            data_new.x = torch.from_numpy(one_hot).to(torch.float)
-
-            data_new.y = data.y
-
-            data_list.append(data_new)
+            data_list.append(data)
 
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])
-
 
 class MyData(Data):
     def __inc__(self, key, value, *args, **kwargs):
@@ -197,10 +196,9 @@ plot_all = []
 results = []
 
 for _ in range(5):
-
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetsttffgte')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetstktffgte')
     dataset = TUD_3_1(path, transform=MyTransform())
 
     train_dataset = dataset[0:2400]
@@ -262,3 +260,11 @@ for _ in range(5):
         if lr < 0.000001:
             print("Converged.")
             break
+
+    results.append(test_error)
+
+print("########################")
+print(results)
+results = np.array(results)
+print(results.mean(), results.std())
+

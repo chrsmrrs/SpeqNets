@@ -15,7 +15,7 @@ from torch_geometric.data import DataLoader
 import torch
 from torch_geometric.nn import MessagePassing
 import torch.nn.functional as F
-
+import numpy as np
 
 class GINConv(MessagePassing):
     def __init__(self, emb_dim, dim1, dim2):
@@ -109,17 +109,17 @@ class NetGINE(torch.nn.Module):
 
 plot_all = []
 results = []
-
+results_log = []
 for _ in range(5):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'datasets', "ZINC_test")
-    dataset = TUDataset(path, name="ZINC_test")[0:5000]
+    dataset = TUDataset(path, name="ZINC_test")[0:3000]
 
-    train_dataset = dataset[0:4000]
-    val_dataset = dataset[4000:4500]
-    test_dataset = dataset[4500:]
+    train_dataset = dataset[0:2400]
+    val_dataset = dataset[2400:2700]
+    test_dataset = dataset[2700:]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
@@ -177,3 +177,11 @@ for _ in range(5):
         if lr < 0.000001:
             print("Converged.")
             break
+
+    results.append(test_error)
+
+print("########################")
+print(results)
+results = np.array(results)
+print(results.mean(), results.std())
+
