@@ -122,16 +122,16 @@ for _ in range(5):
         indices_test = [int(i) for i in indices_test]
 
     dataset = TUDataset(path, name="alchemy_full")[indices_test]
-    dataset = dataset[0:3000]
+    dataset = dataset[0:10000]
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
     dataset.data.y = (dataset.data.y - mean) / std
     mean, std = mean.to(device), std.to(device)
 
-    train_dataset = dataset[0:2400].shuffle()
-    val_dataset = dataset[2400:2700].shuffle()
-    test_dataset = dataset[2700:3000].shuffle()
+    train_dataset = dataset[0:8000].shuffle()
+    val_dataset = dataset[8000:9000].shuffle()
+    test_dataset = dataset[9000:10000].shuffle()
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
