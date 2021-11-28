@@ -346,7 +346,7 @@ class NetGIN(torch.nn.Module):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_all')
-dataset = Alchemy_1(path, transform=MyTransform())[0:5000]
+dataset = Alchemy_1(path, transform=MyTransform())
 
 
 mean = dataset.data.y.mean(dim=0, keepdim=True)
@@ -354,9 +354,9 @@ std = dataset.data.y.std(dim=0, keepdim=True)
 dataset.data.y = (dataset.data.y - mean) / std
 mean, std = mean.to(device), std.to(device)
 
-train_dataset = dataset[0:4000].shuffle()
-val_dataset = dataset[4000:4500].shuffle()
-test_dataset = dataset[4500:5000].shuffle()
+train_dataset = dataset[0:8000].shuffle()
+val_dataset = dataset[8000:9000].shuffle()
+test_dataset = dataset[9000:10000].shuffle()
 
 batch_size = 25
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
