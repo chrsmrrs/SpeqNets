@@ -157,7 +157,7 @@ class Alchemy_2(InMemoryDataset):
             data.edge_index_3 = edge_index_3
 
             #one_hot = np.eye(1273)[node_labels[i]]
-            data.x = torch.from_numpy(node_labels[i]).to(torch.float)
+            data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
@@ -297,6 +297,14 @@ class NetGIN(torch.nn.Module):
 
     def forward(self, data):
         x = data.x
+
+        x = data.x
+        x = x.long()
+
+        x_new = torch.zeros(x.size(0), 1273).to(device)
+        x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
+
+        x = x_new
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
