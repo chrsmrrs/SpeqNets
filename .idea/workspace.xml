@@ -11,7 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_graph/main_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/local_3_2_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/local_3_2_10K.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -299,14 +299,7 @@
       <workItem from="1637685265863" duration="60641000" />
       <workItem from="1637858927038" duration="21540000" />
       <workItem from="1637948036199" duration="4387000" />
-      <workItem from="1637952843808" duration="21531000" />
-    </task>
-    <task id="LOCAL-00625" summary="PPI">
-      <created>1637895387992</created>
-      <option name="number" value="00625" />
-      <option name="presentableId" value="LOCAL-00625" />
-      <option name="project" value="LOCAL" />
-      <updated>1637895387992</updated>
+      <workItem from="1637952843808" duration="22216000" />
     </task>
     <task id="LOCAL-00626" summary="PPI">
       <created>1637895893053</created>
@@ -644,7 +637,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638056123607</updated>
     </task>
-    <option name="localTasksCounter" value="674" />
+    <task id="LOCAL-00674" summary="PPI">
+      <created>1638057162857</created>
+      <option name="number" value="00674" />
+      <option name="presentableId" value="LOCAL-00674" />
+      <option name="project" value="LOCAL" />
+      <updated>1638057162858</updated>
+    </task>
+    <option name="localTasksCounter" value="675" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
