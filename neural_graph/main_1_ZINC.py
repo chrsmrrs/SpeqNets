@@ -150,6 +150,7 @@ for _ in range(5):
         return loss_all / len(train_loader.dataset)
 
 
+    @torch.no_grad()
     def test(loader):
         model.eval()
         error = 0
