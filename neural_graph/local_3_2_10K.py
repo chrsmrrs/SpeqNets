@@ -236,9 +236,9 @@ std = dataset.data.y.std(dim=0, keepdim=True)
 dataset.data.y = (dataset.data.y - mean) / std
 mean, std = mean.to(device), std.to(device)
 
-train_dataset = dataset[0:3200].shuffle()
-val_dataset = dataset[3200:3400].shuffle()
-test_dataset = dataset[3400:4000].shuffle()
+train_dataset = dataset[0:2400].shuffle()
+val_dataset = dataset[2400:2700].shuffle()
+test_dataset = dataset[2700:3000].shuffle()
 
 batch_size = 25
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
