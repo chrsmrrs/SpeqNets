@@ -10,7 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/neural_graph/main_3_2_ZINC.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_3_2_ZINC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/local_3_2_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/local_3_2_10K.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,21 +298,7 @@
       <workItem from="1637685265863" duration="60641000" />
       <workItem from="1637858927038" duration="21540000" />
       <workItem from="1637948036199" duration="4387000" />
-      <workItem from="1637952843808" duration="34362000" />
-    </task>
-    <task id="LOCAL-00646" summary="PPI">
-      <created>1637950306268</created>
-      <option name="number" value="00646" />
-      <option name="presentableId" value="LOCAL-00646" />
-      <option name="project" value="LOCAL" />
-      <updated>1637950306268</updated>
-    </task>
-    <task id="LOCAL-00647" summary="PPI">
-      <created>1637950348087</created>
-      <option name="number" value="00647" />
-      <option name="presentableId" value="LOCAL-00647" />
-      <option name="project" value="LOCAL" />
-      <updated>1637950348087</updated>
+      <workItem from="1637952843808" duration="34916000" />
     </task>
     <task id="LOCAL-00648" summary="PPI">
       <created>1637950398072</created>
@@ -643,7 +629,21 @@
       <option name="project" value="LOCAL" />
       <updated>1638130350755</updated>
     </task>
-    <option name="localTasksCounter" value="695" />
+    <task id="LOCAL-00695" summary="PPI">
+      <created>1638130569616</created>
+      <option name="number" value="00695" />
+      <option name="presentableId" value="LOCAL-00695" />
+      <option name="project" value="LOCAL" />
+      <updated>1638130569617</updated>
+    </task>
+    <task id="LOCAL-00696" summary="PPI">
+      <created>1638130692584</created>
+      <option name="number" value="00696" />
+      <option name="presentableId" value="LOCAL-00696" />
+      <option name="project" value="LOCAL" />
+      <updated>1638130692585</updated>
+    </task>
+    <option name="localTasksCounter" value="697" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

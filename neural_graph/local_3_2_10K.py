@@ -44,7 +44,7 @@ class Alchemy_1(InMemoryDataset):
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]
 
-        indices_test = indices_test[0:3000]
+        indices_test = indices_test[0:7000]
 
         # infile = open("val_al_10.index", "r")
         # for line in infile:
@@ -120,7 +120,7 @@ class Alchemy_2(InMemoryDataset):
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]
 
-        indices_test = indices_test[3000:6000]
+        indices_test = indices_test[7000:10000]
 
         # infile = open("val_al_10.index", "r")
         # for line in infile:
