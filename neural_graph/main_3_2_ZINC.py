@@ -85,7 +85,7 @@ class TUD_3_1(InMemoryDataset):
             data.edge_index_3 = edge_index_3
 
             #one_hot = np.eye(4529)[node_labels[i]]
-            data.x = torch.from_numpy(node_labels[i]).to(torch.float)
+            data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
@@ -112,7 +112,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features =  4529
+        num_features = 4529
 
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
@@ -158,6 +158,12 @@ class NetGIN(torch.nn.Module):
 
     def forward(self, data):
         x = data.x
+
+        x = data.x
+        x = x.long()
+
+        x_new = torch.zeros(x.size(0), 4529).to(device)
+        x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
