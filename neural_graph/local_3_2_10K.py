@@ -108,7 +108,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 1339
+        num_features = 1345
 
         nn1_1 = Sequential(Linear(num_features, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
@@ -191,7 +191,7 @@ class NetGIN(torch.nn.Module):
         x = data.x
         x = x.long()
 
-        x_new = torch.zeros(x.size(0), 1339).to(device)
+        x_new = torch.zeros(x.size(0), 1345).to(device)
         x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
 
         x = x_new
@@ -246,9 +246,9 @@ std = dataset.data.y.std(dim=0, keepdim=True)
 dataset.data.y = (dataset.data.y - mean) / std
 mean, std = mean.to(device), std.to(device)
 
-train_dataset = dataset[0:8000]
-val_dataset = dataset[8000:9000]
-test_dataset = dataset[9000:]
+train_dataset = dataset[0:10000]
+val_dataset = dataset[10000:11000]
+test_dataset = dataset[11000:]
 
 batch_size = 25
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
