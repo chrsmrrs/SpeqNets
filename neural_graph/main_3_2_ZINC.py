@@ -47,20 +47,24 @@ class TUD_3_1(InMemoryDataset):
         indices_val = []
         indices_test = []
 
-        infile = open("train_al_10.index", "r")
+        infile = open("train.index.txt", "r")
         for line in infile:
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
 
-        infile = open("val_al_10.index", "r")
+        infile = open("val.index.txt", "r")
         for line in infile:
             indices_val = line.split(",")
             indices_val = [int(i) for i in indices_val]
 
-        infile = open("test_al_10.index", "r")
+        infile = open("test.index.txt", "r")
         for line in infile:
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]
+
+        dp.get_dataset("ZINC_train")
+        dp.get_dataset("ZINC_test")
+        dp.get_dataset("ZINC_val")
 
         targets = pre.read_targets("ZINC_train", indices_train)
         targets.extend(pre.read_targets("ZINC_val", indices_val))
