@@ -131,7 +131,7 @@ for _ in range(5):
         indices_test = line.split(",")
         indices_test = [int(i) for i in indices_test]
 
-    indices = indices_test
+    indices = indices_train
     indices.extend(indices_val)
     indices.extend(indices_test)
 
