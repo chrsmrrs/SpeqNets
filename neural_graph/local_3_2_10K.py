@@ -23,11 +23,11 @@ class Alchemy_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "al_10_1"
+        return "al_10_10k"
 
     @property
     def processed_file_names(self):
-        return "al_10_1"
+        return "al_10_10k"
 
     def download(self):
         pass
@@ -39,22 +39,20 @@ class Alchemy_1(InMemoryDataset):
         indices_val = []
         indices_test = []
 
-        infile = open("train_al_10.index", "r")
+        infile = open("test_al_10.index", "r")
         for line in infile:
             indices_test = line.split(",")
             indices_test = [int(i) for i in indices_test]
 
-        indices_test = indices_test[0:10000]
+        infile = open("val_al_10.index", "r")
+        for line in infile:
+            indices_val = line.split(",")
+            indices_val = [int(i) for i in indices_val]
 
-        # infile = open("val_al_10.index", "r")
-        # for line in infile:
-        #     indices_val = line.split(",")
-        #     indices_val = [int(i) for i in indices_val]
-        #
-        # infile = open("train_al_10.index", "r")
-        # for line in infile:
-        #     indices_train = line.split(",")
-        #     indices_train = [int(i) for i in indices_train]
+        infile = open("train_al_10.index", "r")
+        for line in infile:
+            indices_train = line.split(",")
+            indices_train = [int(i) for i in indices_train]
 
         targets = dp.get_dataset("alchemy_full", multigregression=True)
         tmp_1 = targets[indices_train].tolist()
@@ -66,9 +64,9 @@ class Alchemy_1(InMemoryDataset):
 
         node_labels = pre.get_all_node_labels_allchem_3_2(True, True, indices_train, indices_val, indices_test)
 
-        #matrices = pre.get_all_matrices_3_2("alchemy_full", indices_train)
-        #matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_val))
-        matrices = pre.get_all_matrices_3_2("alchemy_full", indices_test)
+        matrices = pre.get_all_matrices_3_2("alchemy_full", indices_train)
+        matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_val))
+        matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_test))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -90,114 +88,6 @@ class Alchemy_1(InMemoryDataset):
         torch.save((data, slices), self.processed_paths[0])
 
 
-
-class Alchemy_2(InMemoryDataset):
-    def __init__(self, root, transform=None, pre_transform=None,
-                 pre_filter=None):
-        super(Alchemy_2, self).__init__(root, transform, pre_transform, pre_filter)
-        self.data, self.slices = torch.load(self.processed_paths[0])
-
-    @property
-    def raw_file_names(self):
-        return "al_10_2"
-
-    @property
-    def processed_file_names(self):
-        return "al_10_2"
-
-    def download(self):
-        pass
-
-    def process(self):
-        data_list = []
-
-        indices_train = []
-        indices_val = []
-        indices_test = []
-
-        infile = open("train_al_10.index", "r")
-        for line in infile:
-            indices_test = line.split(",")
-            indices_test = [int(i) for i in indices_test]
-
-        indices_test = indices_test[7000:10000]
-
-        # infile = open("val_al_10.index", "r")
-        # for line in infile:
-        #     indices_val = line.split(",")
-        #     indices_val = [int(i) for i in indices_val]
-        #
-        # infile = open("train_al_10.index", "r")
-        # for line in infile:
-        #     indices_train = line.split(",")
-        #     indices_train = [int(i) for i in indices_train]
-
-        targets = dp.get_dataset("alchemy_full", multigregression=True)
-        tmp_1 = targets[indices_train].tolist()
-        tmp_2 = targets[indices_val].tolist()
-        tmp_3 = targets[indices_test].tolist()
-        targets = tmp_1
-        targets.extend(tmp_2)
-        targets.extend(tmp_3)
-
-        node_labels = pre.get_all_node_labels_allchem_3_2(True, True, indices_train, indices_val, indices_test)
-
-        #matrices = pre.get_all_matrices_3_2("alchemy_full", indices_train)
-        #matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_val))
-        matrices = pre.get_all_matrices_3_2("alchemy_full", indices_test)
-
-        for i, m in enumerate(matrices):
-            edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
-            edge_index_2 = torch.tensor(matrices[i][1]).t().contiguous()
-            edge_index_3 = torch.tensor(matrices[i][2]).t().contiguous()
-
-            data = Data()
-            data.edge_index_1 = edge_index_1
-            data.edge_index_2 = edge_index_2
-            data.edge_index_3 = edge_index_3
-
-            #one_hot = np.eye(1273)[node_labels[i]]
-            data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
-            data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
-
-            data_list.append(data)
-
-        data, slices = self.collate(data_list)
-        torch.save((data, slices), self.processed_paths[0])
-
-
-class Alchemy_all(InMemoryDataset):
-    def __init__(self, root, transform=None, pre_transform=None,
-                 pre_filter=None):
-        super(Alchemy_all, self).__init__(root, transform, pre_transform, pre_filter)
-        self.data, self.slices = torch.load(self.processed_paths[0])
-
-    @property
-    def raw_file_names(self):
-        return "Alchemy_all"
-
-    @property
-    def processed_file_names(self):
-        return "Alchemy_all"
-
-    def download(self):
-        pass
-
-    def process(self):
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_1e')
-        dataset_1 = Alchemy_1(path, transform=MyTransform()).shuffle()
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_1e')
-        dataset_2 = Alchemy_2(path, transform=MyTransform()).shuffle()
-
-        print("fff")
-        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2])
-        data_list = []
-
-        for data in dataset:
-            data_list.append(data)
-
-        data, slices = self.collate(data_list)
-        torch.save((data, slices), self.processed_paths[0])
 
 class MyData(Data):
     def __inc__(self, key, value, *args, **kwargs):
@@ -345,9 +235,11 @@ class NetGIN(torch.nn.Module):
         return x
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'Alchemy_all')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'al10k')
 dataset = Alchemy_1(path, transform=MyTransform())
 
+print(len(dataset))
+exit()
 
 mean = dataset.data.y.mean(dim=0, keepdim=True)
 std = dataset.data.y.std(dim=0, keepdim=True)
