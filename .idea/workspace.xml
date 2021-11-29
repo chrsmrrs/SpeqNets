@@ -11,6 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/local_3_1_10K.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/local_3_2_10K.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_3_2_alchemy_10K.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/main_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -299,14 +302,8 @@
       <workItem from="1637858927038" duration="21540000" />
       <workItem from="1637948036199" duration="4387000" />
       <workItem from="1637952843808" duration="39997000" />
-      <workItem from="1638147141947" duration="6381000" />
-    </task>
-    <task id="LOCAL-00672" summary="PPI">
-      <created>1638055499504</created>
-      <option name="number" value="00672" />
-      <option name="presentableId" value="LOCAL-00672" />
-      <option name="project" value="LOCAL" />
-      <updated>1638055499505</updated>
+      <workItem from="1638147141947" duration="6957000" />
+      <workItem from="1638202823832" duration="3964000" />
     </task>
     <task id="LOCAL-00673" summary="PPI">
       <created>1638056123607</created>
@@ -644,7 +641,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638154102245</updated>
     </task>
-    <option name="localTasksCounter" value="721" />
+    <task id="LOCAL-00721" summary="alc">
+      <created>1638154811526</created>
+      <option name="number" value="00721" />
+      <option name="presentableId" value="LOCAL-00721" />
+      <option name="project" value="LOCAL" />
+      <updated>1638154811527</updated>
+    </task>
+    <option name="localTasksCounter" value="722" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

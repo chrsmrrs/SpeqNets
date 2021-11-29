@@ -118,11 +118,27 @@ for _ in range(5):
 
     infile = open("train_al_10.index", "r")
     for line in infile:
+        indices_train = line.split(",")
+        indices_train = [int(i) for i in indices_train]
+
+    infile = open("val_al_10.index", "r")
+    for line in infile:
+        indices_val = line.split(",")
+        indices_val = [int(i) for i in indices_val]
+
+    infile = open("test_al_10.index", "r")
+    for line in infile:
         indices_test = line.split(",")
         indices_test = [int(i) for i in indices_test]
 
-    dataset = TUDataset(path, name="alchemy_full")[indices_test]
-    dataset = dataset[0:10000]
+    indices = indices_test
+    indices.extend(indices_val)
+    indices.extend(indices_test)
+
+    dataset = TUDataset(path, name="alchemy_full")[indices]
+    print(len(dataset))
+    exit()
+
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
