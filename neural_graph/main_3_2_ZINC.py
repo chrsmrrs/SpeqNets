@@ -31,11 +31,11 @@ class TUD_3_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "TUD_2df_1tetrtgth"
+        return "TUD_2df_1ttetrtgth"
 
     @property
     def processed_file_names(self):
-        return "TUD_2f_ergedt1th"
+        return "TUD_2f_ergetdt1th"
 
     def download(self):
         pass
