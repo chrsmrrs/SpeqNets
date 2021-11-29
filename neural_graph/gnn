@@ -2,7 +2,7 @@
 #SBATCH --job-name=gnn
 #SBATCH --ntasks=1
 #SBATCH --time=48:00:00
-#SBATCH --mem=16G
+#SBATCH --mem=32G
 #SBATCH --gres=gpu:32gb:1
 #SBATCH --partition=main
 
@@ -10,4 +10,4 @@ export PYTHONUNBUFFERED=1
 module load cuda/10.2
 module load anaconda
 conda activate gc
-python main_tud_1.py
+python main_1.py
