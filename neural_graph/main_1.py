@@ -137,8 +137,6 @@ for _ in range(5):
 
     dataset = TUDataset(path, name="alchemy_full")[indices]
     print(len(dataset))
-    exit()
-
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
     std = dataset.data.y.std(dim=0, keepdim=True)
