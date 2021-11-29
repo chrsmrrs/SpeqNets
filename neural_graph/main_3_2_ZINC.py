@@ -47,31 +47,31 @@ class TUD_3_1(InMemoryDataset):
         indices_val = []
         indices_test = []
 
+        infile = open("train_al_10.index", "r")
+        for line in infile:
+            indices_train = line.split(",")
+            indices_train = [int(i) for i in indices_train]
 
-        indices_test = list(range(0,3000))
+        infile = open("val_al_10.index", "r")
+        for line in infile:
+            indices_val = line.split(",")
+            indices_val = [int(i) for i in indices_val]
 
-        # infile = open("val_al_10.index", "r")
-        # for line in infile:
-        #     indices_val = line.split(",")
-        #     indices_val = [int(i) for i in indices_val]
-        #
-        # infile = open("train_al_10.index", "r")
-        # for line in infile:
-        #     indices_train = line.split(",")
-        #     indices_train = [int(i) for i in indices_train]
+        infile = open("test_al_10.index", "r")
+        for line in infile:
+            indices_test = line.split(",")
+            indices_test = [int(i) for i in indices_test]
 
-        targets = dp.get_dataset("ZINC_test", multigregression=False)
-        tmp_1 = targets[indices_train].tolist()
-        tmp_2 = targets[indices_val].tolist()
-        tmp_3 = targets[indices_test].tolist()
-        targets = tmp_1
-        targets.extend(tmp_2)
-        targets.extend(tmp_3)
+        targets = pre.read_targets("ZINC_train", indices_train)
+        targets.extend(pre.read_targets("ZINC_val", indices_val))
+        targets.extend(pre.read_targets("ZINC_test", indices_test))
 
-        node_labels = pre.get_all_node_labels_zinc_3_2("ZINC_test", True, True, indices_train, indices_val, indices_test)
+        node_labels = pre.get_all_node_labels_zinc_3_2(True, True, indices_train, indices_val, indices_test)
 
-        #matrices = pre.get_all_matrices_3_2("alchemy_full", indices_train)
-        #matrices.extend(pre.get_all_matrices_3_2("alchemy_full", indices_val))
+
+
+        matrices = pre.get_all_matrices_3_2("ZINC_train", indices_train)
+        matrices.extend(pre.get_all_matrices_3_2("ZINC_val", indices_val))
         matrices = pre.get_all_matrices_3_2("ZINC_test", indices_test)
 
         for i, m in enumerate(matrices):
@@ -209,6 +209,9 @@ for _ in range(5):
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetstktffgte')
     dataset = TUD_3_1(path, transform=MyTransform())
+
+    print(len(dataset))
+    exit()
 
     train_dataset = dataset[0:2400]
     val_dataset = dataset[2400:2700]
