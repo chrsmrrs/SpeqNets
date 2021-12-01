@@ -64,14 +64,14 @@ class TUD_3_1(InMemoryDataset):
         dp.get_dataset("ZINC_val")
 
         targets = pre.read_targets("ZINC_train", indices_train)
-        targets.extend(pre.read_targets("ZINC_val", indices_val))
-        targets.extend(pre.read_targets("ZINC_test", indices_test))
+        #targets.extend(pre.read_targets("ZINC_val", indices_val))
+        #targets.extend(pre.read_targets("ZINC_test", indices_test))
 
         node_labels = pre.get_all_node_labels_zinc_3_2(True, True, indices_train, indices_val, indices_test)
 
         matrices = pre.get_all_matrices_3_2("ZINC_train", indices_train)
-        matrices.extend(pre.get_all_matrices_3_2("ZINC_val", indices_val))
-        matrices = pre.get_all_matrices_3_2("ZINC_test", indices_test)
+        #matrices.extend(pre.get_all_matrices_3_2("ZINC_val", indices_val))
+        #matrices = pre.get_all_matrices_3_2("ZINC_test", indices_test)
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -205,7 +205,7 @@ results = []
 for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tetstktffgte')
+    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
     dataset = TUD_3_1(path, transform=MyTransform())
 
     print(len(dataset))
