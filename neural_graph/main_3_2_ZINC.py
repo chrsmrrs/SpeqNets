@@ -208,8 +208,6 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
     dataset = TUD_3_1(path, transform=MyTransform())
 
-    print(len(dataset))
-    exit()
 
     train_dataset = dataset[0:4000]
     val_dataset = dataset[4000:4500]
