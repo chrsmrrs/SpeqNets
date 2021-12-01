@@ -3,9 +3,6 @@ import sys
 sys.path.insert(0, '..')
 sys.path.insert(0, '.')
 
-from graph_tool.all import *
-from torch_geometric.datasets import TUDataset
-
 import auxiliarymethods.datasets as dp
 import preprocessing as pre
 
@@ -19,8 +16,6 @@ from torch_geometric.data import DataLoader
 
 import torch
 import torch.nn.functional as F
-
-from aux import compute_k_s_tuple_graph_fast
 
 
 class TUD_3_1(InMemoryDataset):
@@ -52,15 +47,17 @@ class TUD_3_1(InMemoryDataset):
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
 
-        infile = open("val.index.txt", "r")
-        for line in infile:
-            indices_val = line.split(",")
-            indices_val = [int(i) for i in indices_val]
+        indices_train = indices_train[0:3000]
 
-        infile = open("test.index.txt", "r")
-        for line in infile:
-            indices_test = line.split(",")
-            indices_test = [int(i) for i in indices_test]
+        # infile = open("val.index.txt", "r")
+        # for line in infile:
+        #     indices_val = line.split(",")
+        #     indices_val = [int(i) for i in indices_val]
+        #
+        # infile = open("test.index.txt", "r")
+        # for line in infile:
+        #     indices_test = line.split(",")
+        #     indices_test = [int(i) for i in indices_test]
 
         dp.get_dataset("ZINC_train")
         dp.get_dataset("ZINC_test")
@@ -71,8 +68,6 @@ class TUD_3_1(InMemoryDataset):
         targets.extend(pre.read_targets("ZINC_test", indices_test))
 
         node_labels = pre.get_all_node_labels_zinc_3_2(True, True, indices_train, indices_val, indices_test)
-
-
 
         matrices = pre.get_all_matrices_3_2("ZINC_train", indices_train)
         matrices.extend(pre.get_all_matrices_3_2("ZINC_val", indices_val))
@@ -88,7 +83,7 @@ class TUD_3_1(InMemoryDataset):
             data.edge_index_2 = edge_index_2
             data.edge_index_3 = edge_index_3
 
-            #one_hot = np.eye(4529)[node_labels[i]]
+            # one_hot = np.eye(4529)[node_labels[i]]
             data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
             data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
@@ -96,6 +91,7 @@ class TUD_3_1(InMemoryDataset):
 
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])
+
 
 class MyData(Data):
     def __inc__(self, key, value, *args, **kwargs):
@@ -116,8 +112,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 5307
-
+        num_features = 7481
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
@@ -161,12 +156,11 @@ class NetGIN(torch.nn.Module):
         self.fc4 = Linear(dim, 1)
 
     def forward(self, data):
-        x = data.x
 
         x = data.x
         x = x.long()
 
-        x_new = torch.zeros(x.size(0), 5307).to(device)
+        x_new = torch.zeros(x.size(0), 7481).to(device)
         x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
 
         x = x_new
@@ -283,4 +277,3 @@ print("########################")
 print(results)
 results = np.array(results)
 print(results.mean(), results.std())
-
