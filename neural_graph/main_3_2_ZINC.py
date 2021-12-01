@@ -47,7 +47,7 @@ class TUD_3_1(InMemoryDataset):
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
 
-        indices_train = indices_train[0:3000]
+        indices_train = indices_train[0:5000]
 
         # infile = open("val.index.txt", "r")
         # for line in infile:
