@@ -275,6 +275,10 @@ class NetGIN(torch.nn.Module):
 
         x = x_new
 
+        print(x.size())
+        print(data.batch.max())
+        exit()
+
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
         x_3 = F.relu(self.conv1_3(x, data.edge_index_3))
@@ -318,10 +322,7 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
     dataset = ZINC_wl_all(path, transform=MyTransform())
 
-    print(dataset.data.x.size())
-    print(dataset.data.batch.max())
 
-    exit()
 
     train_dataset = dataset[0:8000]
     val_dataset = dataset[8000:9000]
