@@ -28,17 +28,17 @@ class Mol(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "ogbg-moltoxcast"
+        return "ogbg-molsider"
 
     @property
     def processed_file_names(self):
-        return "ogbg-moltoxcast"
+        return "ogbg-molsider"
 
     def download(self):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-moltoxcast")
+        dataset = PygGraphPropPredDataset(name="ogbg-molsider")
 
         print(len(dataset))
         atom_encoder = AtomEncoder(50)
@@ -84,7 +84,7 @@ class Mol(InMemoryDataset):
 
                 # TODO this needs to be changed
                 node_features_t.append(np.concatenate(
-                        [node_features[u], node_features[v], edge_features[g.edge(u, v)], np.array([1, 0])], axis=-1))
+                        [node_features[u], node_features[v], node_features[w], edge_features[g.edge(u, v)], np.array([1, 0])], axis=-1))
 
                 for n in t.out_neighobr():
                     i = edge_labels[(t,n)]
