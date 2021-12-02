@@ -318,12 +318,9 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
     dataset = ZINC_wl_all(path, transform=MyTransform())
 
-    print(len(dataset))
-    exit()
-
-    train_dataset = dataset[0:4000]
-    val_dataset = dataset[4000:4500]
-    test_dataset = dataset[4500:]
+    train_dataset = dataset[0:8000]
+    val_dataset = dataset[8000:9000]
+    test_dataset = dataset[9000:10000]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
