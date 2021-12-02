@@ -318,6 +318,11 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
     dataset = ZINC_wl_all(path, transform=MyTransform())
 
+    print(dataset.data.x.size())
+    print(dataset.data.batch.max())
+
+    exit()
+
     train_dataset = dataset[0:8000]
     val_dataset = dataset[8000:9000]
     test_dataset = dataset[9000:10000]
