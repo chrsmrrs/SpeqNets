@@ -275,9 +275,7 @@ class NetGIN(torch.nn.Module):
 
         x = x_new
 
-        print(x.size())
-        print(data.batch.max())
-        #exit()
+
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
