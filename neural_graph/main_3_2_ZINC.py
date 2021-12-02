@@ -17,11 +17,10 @@ from torch_geometric.data import DataLoader
 import torch
 import torch.nn.functional as F
 
-
-class TUD_3_1(InMemoryDataset):
+class TUD_3_2_1(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(TUD_3_1, self).__init__(root, transform, pre_transform, pre_filter)
+        super(TUD_3_2_1, self).__init__(root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
@@ -91,6 +90,116 @@ class TUD_3_1(InMemoryDataset):
 
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])
+
+
+class TUD_3_2_2(InMemoryDataset):
+    def __init__(self, root, transform=None, pre_transform=None,
+                 pre_filter=None):
+        super(TUD_3_2_2, self).__init__(root, transform, pre_transform, pre_filter)
+        self.data, self.slices = torch.load(self.processed_paths[0])
+
+    @property
+    def raw_file_names(self):
+        return "TUD_2df_1trtdetrtgth"
+
+    @property
+    def processed_file_names(self):
+        return "TUD_2f_ergedtdtr1th"
+
+    def download(self):
+        pass
+
+    def process(self):
+        data_list = []
+
+        indices_train = []
+        indices_val = []
+        indices_test = []
+
+        infile = open("train.index.txt", "r")
+        for line in infile:
+            indices_train = line.split(",")
+            indices_train = [int(i) for i in indices_train]
+
+        indices_train = indices_train[5000:10000]
+
+        # infile = open("val.index.txt", "r")
+        # for line in infile:
+        #     indices_val = line.split(",")
+        #     indices_val = [int(i) for i in indices_val]
+        #
+        # infile = open("test.index.txt", "r")
+        # for line in infile:
+        #     indices_test = line.split(",")
+        #     indices_test = [int(i) for i in indices_test]
+
+        dp.get_dataset("ZINC_train")
+        dp.get_dataset("ZINC_test")
+        dp.get_dataset("ZINC_val")
+
+        targets = pre.read_targets("ZINC_train", indices_train)
+        #targets.extend(pre.read_targets("ZINC_val", indices_val))
+        #targets.extend(pre.read_targets("ZINC_test", indices_test))
+
+        node_labels = pre.get_all_node_labels_zinc_3_2(True, True, indices_train, indices_val, indices_test)
+
+        matrices = pre.get_all_matrices_3_2("ZINC_train", indices_train)
+        #matrices.extend(pre.get_all_matrices_3_2("ZINC_val", indices_val))
+        #matrices = pre.get_all_matrices_3_2("ZINC_test", indices_test)
+
+        for i, m in enumerate(matrices):
+            edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
+            edge_index_2 = torch.tensor(matrices[i][1]).t().contiguous()
+            edge_index_3 = torch.tensor(matrices[i][2]).t().contiguous()
+
+            data = Data()
+            data.edge_index_1 = edge_index_1
+            data.edge_index_2 = edge_index_2
+            data.edge_index_3 = edge_index_3
+
+            # one_hot = np.eye(4529)[node_labels[i]]
+            data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
+            data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
+
+            data_list.append(data)
+
+        data, slices = self.collate(data_list)
+        torch.save((data, slices), self.processed_paths[0])
+
+
+class ZINC_wl_all(InMemoryDataset):
+    def __init__(self, root, transform=None, pre_transform=None,
+                 pre_filter=None):
+        super(ZINC_wl_all, self).__init__(root, transform, pre_transform, pre_filter)
+        self.data, self.slices = torch.load(self.processed_paths[0])
+
+    @property
+    def raw_file_names(self):
+        return "ZINC_train_all"
+
+    @property
+    def processed_file_names(self):
+        return "ZINC_train_all"
+
+    def download(self):
+        pass
+
+    def process(self):
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ZINC')
+        dataset_1 = TUD_3_2_1(path, transform=MyTransform()).shuffle()
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ZINC')
+        dataset_2 = TUD_3_2_2(path, transform=MyTransform()).shuffle()
+
+
+        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2])
+        data_list = []
+
+        for data in dataset:
+            data_list.append(data)
+
+        data, slices = self.collate(data_list)
+        torch.save((data, slices), self.processed_paths[0])
+
 
 
 class MyData(Data):
@@ -206,8 +315,10 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
-    dataset = TUD_3_1(path, transform=MyTransform())
+    dataset = ZINC_wl_all(path, transform=MyTransform())
 
+    print(len(dataset))
+    exit()
 
     train_dataset = dataset[0:4000]
     val_dataset = dataset[4000:4500]
