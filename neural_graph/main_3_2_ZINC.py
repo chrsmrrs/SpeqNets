@@ -194,7 +194,8 @@ class ZINC_wl_all(InMemoryDataset):
         dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2])
         data_list = []
 
-        for data in dataset:
+        for i, data in enumerate(dataset):
+            print(i)
             data_list.append(data)
 
         data, slices = self.collate(data_list)
@@ -380,7 +381,7 @@ for _ in range(5):
         if lr < 0.000001:
             print("Converged.")
             break
-            
+
         torch.cuda.empty_cache()
 
     results.append(test_error)
