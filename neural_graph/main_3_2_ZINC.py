@@ -352,6 +352,7 @@ for _ in range(5):
         return loss_all / len(train_loader.dataset)
 
 
+    @torch.no_grad()
     def test(loader):
         model.eval()
         error = 0
@@ -379,6 +380,8 @@ for _ in range(5):
         if lr < 0.000001:
             print("Converged.")
             break
+            
+        torch.cuda.empty_cache()
 
     results.append(test_error)
 
