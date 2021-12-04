@@ -473,7 +473,7 @@ for _ in range(5):
     test_dataset = TUD_3_2_test(path, transform=MyTransform())
 
 
-    print(len(train_dataset.data.x.max()))
+    print(train_dataset.data.x.max())
 
 
     batch_size = 25
