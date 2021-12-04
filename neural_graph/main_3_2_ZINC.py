@@ -473,6 +473,9 @@ for _ in range(5):
     test_dataset = TUD_3_2_test(path, transform=MyTransform())
 
 
+    print(len(train_dataset))
+
+
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
