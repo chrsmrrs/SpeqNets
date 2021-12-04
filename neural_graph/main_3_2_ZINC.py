@@ -211,7 +211,7 @@ class TUD_3_2_test(InMemoryDataset):
         dp.get_dataset("ZINC_test")
         dp.get_dataset("ZINC_val")
 
-        targets = pre.read_targets("ZINC_test", indices_train)
+        targets = pre.read_targets("ZINC_test", indices_test)
         #targets.extend(pre.read_targets("ZINC_val", indices_val))
         #targets.extend(pre.read_targets("ZINC_test", indices_test))
 
@@ -233,7 +233,7 @@ class TUD_3_2_test(InMemoryDataset):
 
             # one_hot = np.eye(4529)[node_labels[i]]
             data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
-            data.y = data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
+            data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
 
