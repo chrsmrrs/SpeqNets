@@ -121,7 +121,7 @@ class TUD_3_2_2(InMemoryDataset):
             indices_train = line.split(",")
             indices_train = [int(i) for i in indices_train]
 
-        indices_train = indices_train[5000:10000]
+        #indices_train = indices_train[5000:10000]
 
         infile = open("val.index.txt", "r")
         for line in infile:
@@ -466,7 +466,7 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
-    train_dataset = ZINC_wl_all(path, transform=MyTransform())
+    train_dataset = TUD_3_2_2(path, transform=MyTransform())
     # path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
     # val_dataset = TUD_3_2_val(path, transform=MyTransform())
     # path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
