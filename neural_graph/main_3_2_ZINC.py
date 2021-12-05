@@ -123,15 +123,15 @@ class TUD_3_2_2(InMemoryDataset):
 
         indices_train = indices_train[5000:10000]
 
-        # infile = open("val.index.txt", "r")
-        # for line in infile:
-        #     indices_val = line.split(",")
-        #     indices_val = [int(i) for i in indices_val]
-        #
-        # infile = open("test.index.txt", "r")
-        # for line in infile:
-        #     indices_test = line.split(",")
-        #     indices_test = [int(i) for i in indices_test]
+        infile = open("val.index.txt", "r")
+        for line in infile:
+            indices_val = line.split(",")
+            indices_val = [int(i) for i in indices_val]
+
+        infile = open("test.index.txt", "r")
+        for line in infile:
+            indices_test = line.split(",")
+            indices_test = [int(i) for i in indices_test]
 
         dp.get_dataset("ZINC_train")
         dp.get_dataset("ZINC_test")
@@ -467,13 +467,15 @@ for _ in range(5):
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
     train_dataset = ZINC_wl_all(path, transform=MyTransform())
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
-    val_dataset = TUD_3_2_val(path, transform=MyTransform())
-    path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
-    test_dataset = TUD_3_2_test(path, transform=MyTransform())
+    # path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
+    # val_dataset = TUD_3_2_val(path, transform=MyTransform())
+    # path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
+    # test_dataset = TUD_3_2_test(path, transform=MyTransform())
 
 
     print(train_dataset.data.x.max())
+    print(len(train_dataset))
+    exit()
 
 
     batch_size = 25
