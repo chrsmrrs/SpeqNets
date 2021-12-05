@@ -145,7 +145,7 @@ class TUD_3_2_2(InMemoryDataset):
 
         matrices = pre.get_all_matrices_3_2("ZINC_train", indices_train)
         matrices.extend(pre.get_all_matrices_3_2("ZINC_val", indices_val))
-        matrices = pre.get_all_matrices_3_2("ZINC_test", indices_test)
+        matrices.extend(pre.get_all_matrices_3_2("ZINC_test", indices_test))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
