@@ -466,17 +466,21 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     plot_it = []
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgte')
-    train_dataset = TUD_3_2_2(path, transform=MyTransform())
+    dataset = TUD_3_2_2(path, transform=MyTransform())
     # path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
     # val_dataset = TUD_3_2_val(path, transform=MyTransform())
     # path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
     # test_dataset = TUD_3_2_test(path, transform=MyTransform())
 
 
-    print(train_dataset.data.x.max())
-    print(len(train_dataset))
-    exit()
 
+
+    print(dataset.data.x.max())
+    print(len(dataset))
+
+    train_dataset = dataset[0:10000]
+    val_dataset = dataset[10000:11000]
+    test_dataset = dataset[11000:12000]
 
     batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
