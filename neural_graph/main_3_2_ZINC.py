@@ -482,7 +482,8 @@ for _ in range(5):
     val_dataset = dataset[10000:11000]
     test_dataset = dataset[11000:12000]
 
-    batch_size = 25
+    # TODO
+    batch_size = 5
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
