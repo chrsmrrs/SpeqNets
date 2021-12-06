@@ -105,7 +105,7 @@ class Mol(InMemoryDataset):
                 node_features_t.append(np.concatenate(
                         [node_features[u], node_features[v], node_features[w], a, b, c, np.array([1, 0])], axis=-1))
 
-                for n in t.out_neighobr():
+                for n in t.out_neighbor():
                     i = edge_labels[(t,n)]
 
                     matrices[i].append([int(t), int(n)])
