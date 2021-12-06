@@ -107,7 +107,7 @@ class Mol(InMemoryDataset):
                 for n in t.out_neighbors():
                     i = edge_labels[(t,n)]
 
-                    matrices[i].append([int(t), int(n)])
+                    matrices[i-1].append([int(t), int(n)])
 
 
             data_new = Data()
