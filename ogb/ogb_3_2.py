@@ -32,17 +32,17 @@ class Mol(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "ogbg-moltoxcast"
+        return "ogbg-molsider"
 
     @property
     def processed_file_names(self):
-        return "ogbg-moltoxcast"
+        return "ogbg-molsider"
 
     def download(self):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-moltoxcast")
+        dataset = PygGraphPropPredDataset(name="ogbg-molsider")
 
         print(len(dataset))
         atom_encoder = AtomEncoder(50)
