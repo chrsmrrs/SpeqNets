@@ -45,7 +45,7 @@ class Mol(InMemoryDataset):
         dataset = PygGraphPropPredDataset(name="ogbg-molesol")
 
         print(len(dataset))
-        atom_encoder = AtomEncoder(50)
+        atom_encoder = AtomEncoder(300)
         bond_encoder = BondEncoder(50)
 
         data_list = []
@@ -157,27 +157,32 @@ class GNN(torch.nn.Module):
 
         self.conv_1_1 = GINConv(dim)
         self.conv_1_2 = GINConv(dim)
-        self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.conv_1_3 = GINConv(dim)
+        self.mlp_1 = Sequential(Linear(3 * dim, dim), ReLU(), Linear(dim, dim))
         self.bn_1 = torch.nn.BatchNorm1d(dim)
 
         self.conv_2_1 = GINConv(dim)
         self.conv_2_2 = GINConv(dim)
-        self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.conv_2_3 = GINConv(dim)
+        self.mlp_2 = Sequential(Linear(3 * dim, dim), ReLU(), Linear(dim, dim))
         self.bn_2 = torch.nn.BatchNorm1d(dim)
 
         self.conv_3_1 = GINConv(dim)
         self.conv_3_2 = GINConv(dim)
-        self.mlp_3 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.conv_3_3 = GINConv(dim)
+        self.mlp_3 = Sequential(Linear(3 * dim, dim), ReLU(), Linear(dim, dim))
         self.bn_3 = torch.nn.BatchNorm1d(dim)
 
         self.conv_4_1 = GINConv(dim)
         self.conv_4_2 = GINConv(dim)
-        self.mlp_4 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.conv_4_3 = GINConv(dim)
+        self.mlp_4 = Sequential(Linear(3 * dim, dim), ReLU(), Linear(dim, dim))
         self.bn_4 = torch.nn.BatchNorm1d(dim)
 
         self.conv_5_1 = GINConv(dim)
         self.conv_5_2 = GINConv(dim)
-        self.mlp_5 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+        self.conv_5_3 = GINConv(dim)
+        self.mlp_5 = Sequential(Linear(3 * dim, dim), ReLU(), Linear(dim, dim))
         self.bn_5 = torch.nn.BatchNorm1d(dim)
 
         self.pool = global_mean_pool
@@ -185,37 +190,42 @@ class GNN(torch.nn.Module):
         self.graph_pred_linear = torch.nn.Sequential(torch.nn.Linear(dim, dim), torch.nn.ReLU(), torch.nn.Linear(dim, num_tasks))
 
     def forward(self, batched_data):
-        x, edge_index_1, edge_index_2, batch = batched_data.x, batched_data.edge_index_1, batched_data.edge_index_2, batched_data.batch
+        x, edge_index_1, edge_index_2,  edge_index_3, batch = batched_data.x, batched_data.edge_index_1, batched_data.edge_index_2, batched_data.edge_index_3, batched_data.batch
 
         x_out = x
 
         x_1 = self.conv_1_1(x, edge_index_1)
         x_2 = self.conv_1_2(x, edge_index_2)
-        x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
+        x_3 = self.conv_1_3(x, edge_index_3)
+        x = self.mlp_1(torch.cat([x_1, x_2, x_3], dim=-1))
         x_1_out = self.bn_1(x)
         x_1_out = F.dropout(F.relu(x_1_out), 0.5, training=self.training)
 
         x_1 = self.conv_2_1(x_1_out, edge_index_1)
         x_2 = self.conv_2_2(x_1_out, edge_index_2)
-        x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
+        x_3 = self.conv_2_3(x_1_out, edge_index_3)
+        x = self.mlp_2(torch.cat([x_1, x_2, x_3], dim=-1))
         x_2_out = self.bn_1(x)
         x_2_out = F.dropout(F.relu(x_2_out), 0.5, training=self.training)
 
         x_1 = self.conv_3_1(x_2_out, edge_index_1)
         x_2 = self.conv_3_2(x_2_out, edge_index_2)
-        x = self.mlp_3(torch.cat([x_1, x_2], dim=-1))
+        x_3 = self.conv_3_3(x_2_out, edge_index_3)
+        x = self.mlp_3(torch.cat([x_1, x_2, x_3], dim=-1))
         x_3_out = self.bn_1(x)
         x_3_out = F.dropout(F.relu(x_3_out), 0.5, training=self.training)
 
         x_1 = self.conv_4_1(x_3_out, edge_index_1)
         x_2 = self.conv_4_2(x_3_out, edge_index_2)
-        x = self.mlp_4(torch.cat([x_1, x_2], dim=-1))
+        x_3 = self.conv_4_3(x_3_out, edge_index_3)
+        x = self.mlp_4(torch.cat([x_1, x_2, x_3], dim=-1))
         x_4_out = self.bn_1(x)
         x_4_out = F.dropout(F.relu(x_4_out), 0.5, training=self.training)
 
         x_1 = self.conv_5_1(x_4_out, edge_index_1)
         x_2 = self.conv_5_2(x_4_out, edge_index_2)
-        x = self.mlp_5(torch.cat([x_1, x_2], dim=-1))
+        x_3 = self.conv_5_3(x_4_out, edge_index_3)
+        x = self.mlp_5(torch.cat([x_1, x_2, x_3], dim=-1))
         x_5_out = self.bn_1(x)
         x_5_out = F.dropout(x_5_out, 0.5, training=self.training)
 
