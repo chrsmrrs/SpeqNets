@@ -4,7 +4,8 @@ import numpy
 import numpy as np
 import torch
 import torch.optim as optim
-from graph_tool.all import *
+#from graph_tool.all import *
+import graph_tool as gt
 from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
 from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
 from torch.nn import Sequential, Linear, ReLU
@@ -59,7 +60,7 @@ class Mol(InMemoryDataset):
             edge_index = data.edge_index.cpu().detach().numpy()
 
             # Create graph for easier processing.
-            g = Graph(directed=False)
+            g = gt.Graph(directed=False)
             num_nodes = x.shape[0]
 
             node_features = {}
@@ -98,7 +99,7 @@ class Mol(InMemoryDataset):
                 else:
                     c = numpy.zeros(50)
 
-
+                # TODO this needs to be changed
                 node_features_t.append(np.concatenate(
                         [node_features[u], node_features[v], node_features[w], a, b, c, np.array([1, 0])], axis=-1))
 

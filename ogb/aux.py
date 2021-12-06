@@ -2,7 +2,6 @@ import itertools
 from itertools import product, combinations, combinations_with_replacement
 
 import numpy as np
-from graph_tool.all import *
 import graph_tool as gt
 
 from scipy import sparse as sp
