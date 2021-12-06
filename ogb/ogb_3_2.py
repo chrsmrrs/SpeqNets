@@ -298,11 +298,11 @@ def main():
 
     evaluator = Evaluator("ogbg-molesol")
 
-    train_loader = DataLoader(dataset[split_idx["train"]], batch_size=32, shuffle=True,
+    train_loader = DataLoader(dataset[split_idx["train"]], batch_size=5, shuffle=True,
                               num_workers=0)
-    valid_loader = DataLoader(dataset[split_idx["valid"]], batch_size=32, shuffle=False,
+    valid_loader = DataLoader(dataset[split_idx["valid"]], batch_size=5, shuffle=False,
                               num_workers=0)
-    test_loader = DataLoader(dataset[split_idx["test"]], batch_size=32, shuffle=False,
+    test_loader = DataLoader(dataset[split_idx["test"]], batch_size=5, shuffle=False,
                              num_workers=0)
 
     model = GNN(dataset_base.num_tasks).to(device)
