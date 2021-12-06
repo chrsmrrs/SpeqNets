@@ -1,5 +1,6 @@
 import os.path as osp
 
+import numpy
 import numpy as np
 import torch
 import torch.optim as optim
@@ -28,17 +29,17 @@ class Mol(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "ogbg-molbbbp"
+        return "ogbg-moltoxcast"
 
     @property
     def processed_file_names(self):
-        return "ogbg-molbbbp"
+        return "ogbg-moltoxcast"
 
     def download(self):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-molbbbp")
+        dataset = PygGraphPropPredDataset(name="ogbg-moltoxcast")
 
         print(len(dataset))
         atom_encoder = AtomEncoder(50)
@@ -83,8 +84,23 @@ class Mol(InMemoryDataset):
                 u, v, w = node_to_tuple[t]
 
                 # TODO this needs to be changed
+
+                if g.edge(u,v):
+                    a = edge_features[g.edge(u, v)]
+                else:
+                    a = numpy.zeros(50)
+                if g.edge(u,w):
+                    b = edge_features[g.edge(u, v)]
+                else:
+                    b = numpy.zeros(50)
+                if g.edge(v,w):
+                    c = edge_features[g.edge(u, v)]
+                else:
+                    c = numpy.zeros(50)
+
+
                 node_features_t.append(np.concatenate(
-                        [node_features[u], node_features[v], node_features[w], edge_features[g.edge(u, v)], np.array([1, 0])], axis=-1))
+                        [node_features[u], node_features[v], node_features[w], a, b, c, np.array([1, 0])], axis=-1))
 
                 for n in t.out_neighobr():
                     i = edge_labels[(t,n)]
