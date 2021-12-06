@@ -6,6 +6,7 @@ import graph_tool as gt
 import torch
 import torch.optim as optim
 #from graph_tool.all import *
+from graph_tool.all import *
 
 from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
 from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder

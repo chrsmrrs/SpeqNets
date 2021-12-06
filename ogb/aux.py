@@ -3,7 +3,7 @@ from itertools import product, combinations, combinations_with_replacement
 
 import numpy as np
 import graph_tool as gt
-
+from graph_tool.all import *
 from scipy import sparse as sp
 
 
