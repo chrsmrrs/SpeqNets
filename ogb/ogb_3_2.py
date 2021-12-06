@@ -92,11 +92,11 @@ class Mol(InMemoryDataset):
                 else:
                     a = numpy.zeros(50)
                 if g.edge(u,w):
-                    b = edge_features[g.edge(u, v)]
+                    b = edge_features[g.edge(u, w)]
                 else:
                     b = numpy.zeros(50)
                 if g.edge(v,w):
-                    c = edge_features[g.edge(u, v)]
+                    c = edge_features[g.edge(v, w)]
                 else:
                     c = numpy.zeros(50)
 
