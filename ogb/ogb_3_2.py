@@ -87,7 +87,6 @@ class Mol(InMemoryDataset):
                 u, v, w = node_to_tuple[t]
 
                 # TODO this needs to be changed
-
                 if g.edge(u,v):
                     a = edge_features[g.edge(u, v)]
                 else:
@@ -105,7 +104,7 @@ class Mol(InMemoryDataset):
                 node_features_t.append(np.concatenate(
                         [node_features[u], node_features[v], node_features[w], a, b, c, np.array([1, 0])], axis=-1))
 
-                for n in t.out_neighbor():
+                for n in t.out_neighbors():
                     i = edge_labels[(t,n)]
 
                     matrices[i].append([int(t), int(n)])
