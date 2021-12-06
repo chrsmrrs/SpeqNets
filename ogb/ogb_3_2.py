@@ -32,17 +32,17 @@ class Mol(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "ogbg-molesol"
+        return "ogbg-molsider"
 
     @property
     def processed_file_names(self):
-        return "ogbg-molesol"
+        return "ogbg-molsider"
 
     def download(self):
         pass
 
     def process(self):
-        dataset = PygGraphPropPredDataset(name="ogbg-molesol")
+        dataset = PygGraphPropPredDataset(name="ogbg-molsider")
 
         print(len(dataset))
         atom_encoder = AtomEncoder(300)
@@ -296,7 +296,7 @@ class MyTransform(object):
 
 
 def main():
-    dataset_base = PygGraphPropPredDataset(name="ogbg-molesol")
+    dataset_base = PygGraphPropPredDataset(name="ogbg-molsider")
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'mol')
@@ -306,7 +306,7 @@ def main():
 
     split_idx = dataset_base.get_idx_split()
 
-    evaluator = Evaluator("ogbg-molesol")
+    evaluator = Evaluator("ogbg-molsider")
 
     train_loader = DataLoader(dataset[split_idx["train"]], batch_size=1, shuffle=True,
                               num_workers=0)
