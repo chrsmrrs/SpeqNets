@@ -2,10 +2,11 @@ import os.path as osp
 
 import numpy
 import numpy as np
+import graph_tool as gt
 import torch
 import torch.optim as optim
 #from graph_tool.all import *
-import graph_tool as gt
+
 from ogb.graphproppred import PygGraphPropPredDataset, Evaluator
 from ogb.graphproppred.mol_encoder import AtomEncoder, BondEncoder
 from torch.nn import Sequential, Linear, ReLU
