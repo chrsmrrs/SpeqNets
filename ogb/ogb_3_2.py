@@ -153,7 +153,7 @@ class GNN(torch.nn.Module):
     def __init__(self, num_tasks):
         super(GNN, self).__init__()
 
-        dim = 350
+        dim = 1100
 
         self.conv_1_1 = GINConv(dim)
         self.conv_1_2 = GINConv(dim)
