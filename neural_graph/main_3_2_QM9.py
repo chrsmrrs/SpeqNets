@@ -43,7 +43,7 @@ class QM9(InMemoryDataset):
         attributes = pre.get_all_attributes_3_2("QM9")
 
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
-        matrices = pre.get_all_matrices_3_2("QM9", list(range(129433)))
+        matrices = pre.get_all_matrices_3_2("QM9", list(range(20000)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -68,12 +68,11 @@ class QM9(InMemoryDataset):
             data.third = torch.from_numpy(np.array(attributes[i][2])[:, 0:13]).to(torch.float)
             data.third_coord = torch.from_numpy(np.array(attributes[i][2])[:, 13:]).to(torch.float)
 
+            data.dist_12 = torch.norm(data.first_coord - data.second_coord, p=2, dim=-1).view(-1, 1)
+            data.dist_13 = torch.norm(data.first_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
+            data.dist_23 = torch.norm(data.second_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
 
-
-            exit()
-
-            data.dist = torch.norm(data.first_coord - data.second_coord, p=2, dim=-1).view(-1, 1)
-            data.edge_attr = torch.from_numpy(np.array(attributes[i][2])).to(torch.float)
+            data.edge_attr = torch.from_numpy(np.array(attributes[i][3])).to(torch.float)
             data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
@@ -83,9 +82,9 @@ class QM9(InMemoryDataset):
 
 
 class MyData(Data):
-    def __inc__(self, key, value):
+    def __inc__(self, key, value, *args, **kwargs):
         return self.num_nodes if key in [
-            'edge_index_1', 'edge_index_2'
+            'edge_index_1', 'edge_index_2', 'edge_index_3'
         ] else 0
 
 
@@ -174,7 +173,7 @@ class NetGIN(torch.nn.Module):
         node_labels = self.type_encoder(node_labels)
 
         node_attributes = torch.cat([first, second], dim=-1)
-        node_attributes = self.node_attribute_encoder(node_attributes)
+        node_arttributes = self.node_attribute_encoder(node_attributes)
 
         edge_attributes = torch.cat([edge_attr, dist], dim=-1)
         edge_attributes = self.edge_encoder(edge_attributes)
@@ -221,6 +220,9 @@ for _ in range(5):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
     dataset = QM9(path, transform=MyTransform()).shuffle()
+
+    exit()
+
     dataset.data.y = dataset.data.y[:,0:12]
 
     mean = dataset.data.y.mean(dim=0, keepdim=True)
