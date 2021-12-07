@@ -918,7 +918,7 @@ PYBIND11_MODULE(preprocessing, m
     m.def("get_all_matrices_3_2", &get_all_matrices_3_2);
     m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
 
-    m.def("get_all_attributes_3_2", &get_all_attributes_3_2get_all_attributes_3_2);
+    m.def("get_all_attributes_3_2", &get_all_attributes_3_2);
 
     m.def("get_all_node_labels_allchem_3_2", &get_all_node_labels_allchem_3_2);
     m.def("get_all_node_labels_zinc_3_2", &get_all_node_labels_zinc_3_2);
