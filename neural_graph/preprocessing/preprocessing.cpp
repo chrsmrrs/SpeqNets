@@ -897,7 +897,7 @@ vector <vector<unsigned long>> get_all_node_labels_zinc_3_2(const bool use_node_
 
 vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const bool use_node_labels, const bool use_edge_labels) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
-    gdb.erase(gdb_1.begin() + 0);
+    gdb.erase(gdb.begin() + 0);
 
 
     vector <vector<unsigned long>> node_labels;
@@ -905,7 +905,7 @@ vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const 
     uint m_num_labels = 0;
     unordered_map<int, int> m_label_to_index;
 
-    for (auto &g: gdb_new) {
+    for (auto &g: gdb) {
         vector<unsigned long> colors = get_node_labels_3_2(g, use_node_labels, use_edge_labels);
         vector<unsigned long> new_color;
 
