@@ -4,12 +4,12 @@
 #include "src/Graph.h"
 
 // This might need to adapted to your specific system.
-//#include <pybind11/pybind11.h>
-//#include <pybind11/eigen.h>
-//#include <pybind11/stl.h>
-#include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
-#include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
-#include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/eigen.h>
+#include <pybind11/stl.h>
+//#include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
+//#include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
+//#include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
 
 namespace py = pybind11;
 using namespace std;
@@ -918,7 +918,7 @@ PYBIND11_MODULE(preprocessing, m
     m.def("get_all_matrices_3_2", &get_all_matrices_3_2);
     m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
 
-    m.def("get_all_attributes_3_2", &get_all_attributes_3_2);
+    m.def("get_all_attributes_3_2", &get_all_attributes_3_2get_all_attributes_3_2);
 
     m.def("get_all_node_labels_allchem_3_2", &get_all_node_labels_allchem_3_2);
     m.def("get_all_node_labels_zinc_3_2", &get_all_node_labels_zinc_3_2);
