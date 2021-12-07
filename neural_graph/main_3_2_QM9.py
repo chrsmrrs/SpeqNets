@@ -100,11 +100,11 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        self.node_attribute_encoder = Sequential(Linear(2*13, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+        self.node_attribute_encoder = Sequential(Linear(3*13, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
         self.type_encoder = Sequential(Linear(3, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                                        torch.nn.BatchNorm1d(dim), ReLU())
-        self.edge_encoder = Sequential(Linear(4+1, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+        self.edge_encoder = Sequential(Linear(4+3, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
         self.mlp = Sequential(Linear(3*dim, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
@@ -167,15 +167,19 @@ class NetGIN(torch.nn.Module):
         self.fc4 = Linear(dim, 12)
 
     def forward(self, data):
-        first, second, edge_attr, dist =  data.first, data.second, data.edge_attr, data.dist
+        first, second, third, edge_attr =  data.first, data.second, data.third, data.edge_attr
+
+        dist_12 = data.dist_12
+        dist_13 = data.dist_13
+        dist_23 = data.dist_23
 
         node_labels = data.x
         node_labels = self.type_encoder(node_labels)
 
-        node_attributes = torch.cat([first, second], dim=-1)
-        node_arttributes = self.node_attribute_encoder(node_attributes)
+        node_attributes = torch.cat([first, second, third], dim=-1)
+        node_attributes = self.node_attribute_encoder(node_attributes)
 
-        edge_attributes = torch.cat([edge_attr, dist], dim=-1)
+        edge_attributes = torch.cat([edge_attr, dist_12, dist_13, dist_23], dim=-1)
         edge_attributes = self.edge_encoder(edge_attributes)
 
         x = torch.cat([node_labels, node_attributes, edge_attributes], dim=-1)
