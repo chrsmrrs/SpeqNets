@@ -19,6 +19,7 @@ using Node = uint;
 using Nodes = vector<Node>;
 using Label = unsigned long;
 using Labels = vector<Label>;
+using Attribute = vector<float>;
 using Attributes = vector<vector<float>>;
 using Edge = tuple<Node, Node>;
 using EdgeLabels = unordered_map<Edge, uint>;

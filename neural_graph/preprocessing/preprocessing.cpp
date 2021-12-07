@@ -15,6 +15,180 @@ namespace py = pybind11;
 using namespace std;
 using namespace GraphLibrary;
 
+tuple <Attributes, Attributes, Attributes, Attributes> get_attributes_3_2(const Graph &g) {
+    size_t num_nodes = g.get_num_nodes();
+    // New graph to be generated.
+
+    // Get continious node and edge information.
+    Attributes attributes;
+    attributes = g.get_attributes();
+
+    EdgeAttributes edge_attributes;
+    edge_attributes = g.get_edge_attributes();
+
+    Attributes first;
+    Attributes second;
+    Attributes third;
+    Attributes fourth;
+
+    // Maps node in two set graph to correponding two set.
+    unordered_map<Node, ThreeTuple> node_to_three_tuple;
+    // Inverse of the above map.
+    unordered_map<ThreeTuple, Node> three_tuple_to_node;
+    unordered_map<Edge, uint> edge_type;
+    // Manages vertex ids
+    unordered_map<Edge, uint> vertex_id;
+    unordered_map<Edge, uint> local;
+
+    // Generate 1-multiset.
+    vector<Node> one_multiset;
+    for (Node i = 0; i < num_nodes; ++i) {
+        one_multiset.push_back(i);
+    }
+
+    vector<vector<Node>> two_multiset;
+
+    // Avoid duplicates.
+    unordered_map<vector<Node>, bool, VectorHasher> two_multiset_exits;
+
+    for (Node v: one_multiset) {
+        for (Node w: one_multiset) {
+            vector<Node> new_multiset = {v};
+            new_multiset.push_back(w);
+
+            std::sort(new_multiset.begin(), new_multiset.end());
+
+            auto t = two_multiset_exits.find(new_multiset);
+
+            // Check if not already exists.
+            if (t == two_multiset_exits.end()) {
+                two_multiset_exits.insert({{new_multiset, true}});
+
+                two_multiset.push_back(new_multiset);
+            }
+        }
+    }
+
+    vector<vector<Node>> three_multiset;
+    unordered_map<vector<Node>, bool, VectorHasher> three_multiset_exits;
+    for (vector<Node> ms: two_multiset) {
+        for (Node v: ms) {
+            for (Node w: g.get_neighbours(v)) {
+                vector<Node> new_multiset = {ms[0], ms[1]};
+                new_multiset.push_back(w);
+
+                std::sort(new_multiset.begin(), new_multiset.end());
+
+                auto t = three_multiset_exits.find(new_multiset);
+
+                // Check if not already exists.
+                if (t == three_multiset_exits.end()) {
+                    three_multiset_exits.insert({{new_multiset, true}});
+
+                    three_multiset.push_back(new_multiset);
+                }
+            }
+
+            vector<Node> new_multiset = {ms[0], ms[1]};
+            new_multiset.push_back(v);
+
+            std::sort(new_multiset.begin(), new_multiset.end());
+
+            auto t = three_multiset_exits.find(new_multiset);
+
+            // Check if not already exists.
+            if (t == three_multiset_exits.end()) {
+                three_multiset_exits.insert({{new_multiset, true}});
+
+                three_multiset.push_back(new_multiset);
+            }
+        }
+    }
+
+
+    vector<vector<Node>> three_tuples;
+    for (vector<Node> ms: three_multiset) {
+        three_tuples.push_back({{ms[0], ms[1], ms[2]}});
+        three_tuples.push_back({{ms[0], ms[2], ms[1]}});
+
+        three_tuples.push_back({{ms[1], ms[2], ms[0]}});
+        three_tuples.push_back({{ms[1], ms[0], ms[2]}});
+
+        three_tuples.push_back({{ms[2], ms[1], ms[0]}});
+        three_tuples.push_back({{ms[2], ms[0], ms[1]}});
+    }
+
+
+    size_t num_three_tuples = 0;
+    for (vector<Node> tuple: three_tuples) {
+        Node i = tuple[0];
+        Node j = tuple[1];
+        Node k = tuple[2];
+
+
+        node_to_three_tuple.insert({{num_three_tuples, make_tuple(i, j, k)}});
+        three_tuple_to_node.insert({{make_tuple(i, j, k), num_three_tuples}});
+        num_three_tuples++;
+
+        Attribute attr_i = attributes[i];
+        Attribute attr_j = attributes[j];
+        Attribute attr_k = attributes[k];
+
+        Attribute e_attr_ij;
+        Attribute e_attr_ik;
+        Attribute e_attr_jk;
+
+        if (g.has_edge(i, j)) {
+            e_attr_ij = edge_attributes.find(std::make_pair(i, j))->second;
+        } else {
+            e_attr_ij = vector<float>({{0, 0, 0, 0}});
+        }
+
+        if (g.has_edge(i, k)) {
+            e_attr_ik = edge_attributes.find(std::make_pair(i, k))->second;
+        } else {
+            e_attr_ik = vector<float>({{0, 0, 0, 0}});
+        }
+
+        if (g.has_edge(j, k)) {
+            e_attr_jk = edge_attributes.find(std::make_pair(j, k))->second;
+        } else {
+            e_attr_jk = vector<float>({{0, 0, 0, 0}});
+        }
+
+        Attribute e_all;
+        e_all.insert(e_all.end(), e_attr_ij.begin(), e_attr_ij.end());
+        e_all.insert(e_all.end(), e_attr_ik.begin(), e_attr_ik.end());
+        e_all.insert(e_all.end(), e_attr_jk.begin(), e_attr_jk.end());
+
+        first.push_back(attr_i);
+        second.push_back(attr_j);
+        third.push_back(attr_k);
+        fourth.push_back(e_all);
+    }
+
+    return std::make_tuple(first, second, third, fourth);
+}
+
+
+vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attributes_3_2(string name) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
+
+    vector <tuple<Attributes, Attributes, Attributes, Attributes>> attributes;
+
+    uint i = 1;
+    for (auto &g: gdb) {
+       attributes.push_back(get_attributes_3_2(g));
+       cout << i << endl;
+
+       i++;
+    }
+
+    return attributes;
+}
+
+
 // Generate sparse adjacency matrix representation of two-tuple graph of graph g.
 pair<vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_2_1(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
@@ -743,6 +917,8 @@ PYBIND11_MODULE(preprocessing, m
     m.def("get_all_matrices_2_2", &get_all_matrices_2_2);
     m.def("get_all_matrices_3_2", &get_all_matrices_3_2);
     m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
+
+    m.def("get_all_attributes_3_2", &get_all_attributes_3_2);
 
     m.def("get_all_node_labels_allchem_3_2", &get_all_node_labels_allchem_3_2);
     m.def("get_all_node_labels_zinc_3_2", &get_all_node_labels_zinc_3_2);
