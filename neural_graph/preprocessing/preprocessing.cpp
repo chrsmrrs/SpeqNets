@@ -895,6 +895,40 @@ vector <vector<unsigned long>> get_all_node_labels_zinc_3_2(const bool use_node_
 }
 
 
+vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const bool use_node_labels, const bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb_1.begin() + 0);
+
+
+    vector <vector<unsigned long>> node_labels;
+
+    uint m_num_labels = 0;
+    unordered_map<int, int> m_label_to_index;
+
+    for (auto &g: gdb_new) {
+        vector<unsigned long> colors = get_node_labels_3_2(g, use_node_labels, use_edge_labels);
+        vector<unsigned long> new_color;
+
+        for (auto &c: colors) {
+            const auto it(m_label_to_index.find(c));
+            if (it == m_label_to_index.end()) {
+                m_label_to_index.insert({{c, m_num_labels}});
+                new_color.push_back(m_num_labels);
+
+                m_num_labels++;
+            } else {
+                new_color.push_back(it->second);
+            }
+        }
+
+        node_labels.push_back(new_color);
+    }
+
+    cout << "Number of different labels: " << m_num_labels << endl;
+    return node_labels;
+}
+
+
 vector<int> read_classes(string data_set_name) {
     return AuxiliaryMethods::read_classes(data_set_name);
 }
@@ -917,6 +951,7 @@ PYBIND11_MODULE(preprocessing, m
     m.def("get_all_matrices_2_2", &get_all_matrices_2_2);
     m.def("get_all_matrices_3_2", &get_all_matrices_3_2);
     m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
+    m.def("get_all_node_labels_3_2", &get_all_node_labels_3_2);
 
     m.def("get_all_attributes_3_2", &get_all_attributes_3_2);
 
