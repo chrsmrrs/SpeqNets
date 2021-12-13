@@ -70,7 +70,7 @@ class TUD_3_2(InMemoryDataset):
 
         matrices = pre.get_all_matrices_3_1("ZINC_train", indices_train)
         matrices.extend(pre.get_all_matrices_3_1("ZINC_val", indices_val))
-        matrices = pre.get_all_matrices_3_1("ZINC_test", indices_test)
+        matrices.extend(pre.get_all_matrices_3_1("ZINC_test", indices_test))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -222,7 +222,7 @@ for _ in range(5):
     test_dataset = dataset[11000:12000]
 
     # TODO
-    batch_size = 1
+    batch_size = 25
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
