@@ -113,7 +113,7 @@ class NetGIN(torch.nn.Module):
     def __init__(self, dim):
         super(NetGIN, self).__init__()
 
-        num_features = 7481
+        num_features = 2168
 
         nn1_1 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
         nn1_2 = Sequential(Linear(num_features, dim), ReLU(), Linear(dim, dim))
@@ -161,12 +161,10 @@ class NetGIN(torch.nn.Module):
         x = data.x
         x = x.long()
 
-        x_new = torch.zeros(x.size(0), 7481).to(device)
+        x_new = torch.zeros(x.size(0), 2168).to(device)
         x_new[range(x_new.shape[0]), x.view(1, x.size(0))] = 1
 
         x = x_new
-
-
 
         x_1 = F.relu(self.conv1_1(x, data.edge_index_1))
         x_2 = F.relu(self.conv1_2(x, data.edge_index_2))
@@ -214,8 +212,6 @@ for _ in range(5):
     # val_dataset = TUD_3_2_val(path, transform=MyTransform())
     # path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'teetstktffgtfe')
     # test_dataset = TUD_3_2_test(path, transform=MyTransform())
-
-    exit()
 
 
     print(dataset.data.x.max())
