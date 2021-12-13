@@ -169,6 +169,8 @@ class NetGIN(torch.nn.Module):
     def forward(self, data):
         first, second, third, edge_attr = data.first, data.second, data.third, data.edge_attr
 
+
+
         dist_12 = data.dist_12
         dist_13 = data.dist_13
         dist_23 = data.dist_23
@@ -180,6 +182,11 @@ class NetGIN(torch.nn.Module):
         node_attributes = self.node_attribute_encoder(node_attributes)
 
         edge_attributes = torch.cat([edge_attr, dist_12, dist_13, dist_23], dim=-1)
+
+        print(edge_attributes.size())
+        exit()
+
+
         edge_attributes = self.edge_encoder(edge_attributes)
 
         x = torch.cat([node_labels, node_attributes, edge_attributes], dim=-1)
