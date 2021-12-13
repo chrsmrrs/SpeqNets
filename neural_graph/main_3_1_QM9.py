@@ -43,7 +43,7 @@ class QM9(InMemoryDataset):
         attributes = pre.get_all_attributes_3_1("QM9")
 
         node_labels = pre.get_all_node_labels_3_1("QM9", False, False)
-        matrices = pre.get_all_matrices_3_1("QM9", list(range(20000)))
+        matrices = pre.get_all_matrices_3_1("QM9", list(range(129433)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
