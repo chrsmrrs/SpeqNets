@@ -1415,7 +1415,7 @@ vector <vector<unsigned long>> get_all_node_labels_zinc_3_2(const bool use_node_
 }
 
 
-ector <vector<unsigned long>> get_all_node_labels_zinc_3_1(const bool use_node_labels, const bool use_edge_labels,
+vector <vector<unsigned long>> get_all_node_labels_zinc_3_1(const bool use_node_labels, const bool use_edge_labels,
                                                            const std::vector<int> &indices_train,
                                                            const std::vector<int> &indices_val,
                                                            const std::vector<int> &indices_test) {
