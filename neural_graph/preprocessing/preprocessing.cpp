@@ -1415,6 +1415,65 @@ vector <vector<unsigned long>> get_all_node_labels_zinc_3_2(const bool use_node_
 }
 
 
+ector <vector<unsigned long>> get_all_node_labels_zinc_3_1(const bool use_node_labels, const bool use_edge_labels,
+                                                           const std::vector<int> &indices_train,
+                                                           const std::vector<int> &indices_val,
+                                                           const std::vector<int> &indices_test) {
+    GraphDatabase gdb_1 = AuxiliaryMethods::read_graph_txt_file("ZINC_train");
+    gdb_1.erase(gdb_1.begin() + 0);
+
+    GraphDatabase gdb_2 = AuxiliaryMethods::read_graph_txt_file("ZINC_val");
+    gdb_2.erase(gdb_2.begin() + 0);
+
+    GraphDatabase gdb_3 = AuxiliaryMethods::read_graph_txt_file("ZINC_test");
+    gdb_3.erase(gdb_3.begin() + 0);
+
+
+    GraphDatabase gdb_new_1;
+    for (auto i : indices_train) {
+        gdb_new_1.push_back(gdb_1[int(i)]);
+    }
+    cout << gdb_new_1.size() << endl;
+
+    for (auto i : indices_val) {
+        gdb_new_1.push_back(gdb_2[int(i)]);
+    }
+    cout << gdb_new_1.size() << endl;
+
+    for (auto i : indices_test) {
+        gdb_new_1.push_back(gdb_3[int(i)]);
+    }
+    cout << gdb_new_1.size() << endl;
+
+    vector <vector<unsigned long>> node_labels;
+
+    uint m_num_labels = 0;
+    unordered_map<int, int> m_label_to_index;
+
+    for (auto &g: gdb_new_1) {
+        vector<unsigned long> colors = get_node_labels_3_1(g, use_node_labels, use_edge_labels);
+        vector<unsigned long> new_color;
+
+        for (auto &c: colors) {
+            const auto it(m_label_to_index.find(c));
+            if (it == m_label_to_index.end()) {
+                m_label_to_index.insert({{c, m_num_labels}});
+                new_color.push_back(m_num_labels);
+
+                m_num_labels++;
+            } else {
+                new_color.push_back(it->second);
+            }
+        }
+
+        node_labels.push_back(new_color);
+    }
+
+    cout << "Number of different labels: " << m_num_labels << endl;
+    return node_labels;
+}
+
+
 vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const bool use_node_labels, const bool use_edge_labels) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
     gdb.erase(gdb.begin() + 0);
@@ -1515,6 +1574,7 @@ PYBIND11_MODULE(preprocessing, m
 
     m.def("get_all_node_labels_allchem_3_2", &get_all_node_labels_allchem_3_2);
     m.def("get_all_node_labels_zinc_3_2", &get_all_node_labels_zinc_3_2);
+    m.def("get_all_node_labels_zinc_3_1", &get_all_node_labels_zinc_3_1);
 
     m.def("read_targets", &read_targets);
 }
