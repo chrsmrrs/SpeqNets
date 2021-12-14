@@ -401,6 +401,16 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
             second.push_back(attr_j);
             third.push_back(e_attr_ij);
         }
+
+        Attribute attr_i = attributes[i];
+        Attribute attr_j = attributes[i];
+
+        Attribute e_attr_ij;
+        e_attr_ij = vector<float>({{0, 0, 0, 0}});
+
+        first.push_back(attr_i);
+        second.push_back(attr_j);
+        third.push_back(e_attr_ij);
     }
 
     return std::make_tuple(first, second, third);
