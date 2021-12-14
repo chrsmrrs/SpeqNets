@@ -363,7 +363,29 @@ vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attribute
 }
 
 
-tuple <Attributes, Attributes, Attributes> get_attributes_3_1(const Graph &g) {
+
+vector <tuple<Attributes, Attributes, Attributes>> get_all_attributes_2_1(string name) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
+
+    vector <tuple<Attributes, Attributes, Attributes>> attributes;
+
+    uint i = 1;
+    for (auto &g: gdb) {
+       attributes.push_back(get_attributes_2_1(g));
+       cout << i << endl;
+
+       i++;
+    }
+
+    return attributes;
+}
+
+
+
+
+
+tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
 
     // Get continious node and edge information.
@@ -1222,8 +1244,6 @@ vector<unsigned long> get_node_labels_2_2(const Graph &g, const bool use_labels,
     return tuple_labels;
 }
 
-
-/ Generate node labels for two-tuple graph of graph g.
 vector<unsigned long> get_node_labels_2_1(const Graph &g, const bool use_labels, const bool use_edge_labels) {
     // Get node and edge labels.
     Labels labels;
