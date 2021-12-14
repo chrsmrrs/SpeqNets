@@ -364,24 +364,6 @@ vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attribute
 
 
 
-vector <tuple<Attributes, Attributes, Attributes>> get_all_attributes_2_1(string name) {
-    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
-    gdb.erase(gdb.begin() + 0);
-
-    vector <tuple<Attributes, Attributes, Attributes>> attributes;
-
-    uint i = 1;
-    for (auto &g: gdb) {
-       attributes.push_back(get_attributes_2_1(g));
-       cout << i << endl;
-
-       i++;
-    }
-
-    return attributes;
-}
-
-
 
 
 
@@ -423,6 +405,27 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
 
     return std::make_tuple(first, second, third);
 }
+
+
+vector <tuple<Attributes, Attributes, Attributes>> get_all_attributes_2_1(string name) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
+
+    vector <tuple<Attributes, Attributes, Attributes>> attributes;
+
+    uint i = 1;
+    for (auto &g: gdb) {
+       attributes.push_back(get_attributes_2_1(g));
+       cout << i << endl;
+
+       i++;
+    }
+
+    return attributes;
+}
+
+
+
 
 
 
