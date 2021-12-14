@@ -7,9 +7,9 @@
 //#include <pybind11/pybind11.h>
 //#include <pybind11/eigen.h>
 //#include <pybind11/stl.h>
-//#include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
-//#include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
-//#include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
+#include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
+#include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
+#include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
 
 namespace py = pybind11;
 using namespace std;
