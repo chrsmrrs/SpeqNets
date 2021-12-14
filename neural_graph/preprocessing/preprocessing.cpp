@@ -363,6 +363,47 @@ vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attribute
 }
 
 
+tuple <Attributes, Attributes, Attributes> get_attributes_3_1(const Graph &g) {
+    size_t num_nodes = g.get_num_nodes();
+
+    // Get continious node and edge information.
+    Attributes attributes;
+    attributes = g.get_attributes();
+
+    EdgeAttributes edge_attributes;
+    edge_attributes = g.get_edge_attributes();
+
+    Attributes first;
+    Attributes second;
+    Attributes third;
+
+    Node num_two_tuples = 0;
+    for (Node i = 0; i < num_nodes; ++i) {
+        for (Node j: g.get_neighbours(i)) {
+            // Map each pair to node in two set graph and also inverse.
+
+            Attribute attr_i = attributes[i];
+            Attribute attr_j = attributes[j];
+
+            Attribute e_attr_ij;
+            if (g.has_edge(i, j)) {
+                e_attr_ij = edge_attributes.find(std::make_pair(i, j))->second;
+                //cout << attr_i.size() << " " << e_attr_ij.size() << endl;
+            } else {
+                e_attr_ij = vector<float>({{0, 0, 0, 0}});
+            }
+
+            first.push_back(attr_i);
+            second.push_back(attr_j);
+            third.push_back(e_attr_ij);
+        }
+    }
+
+    return std::make_tuple(first, second, third);
+}
+
+
+
 // Generate sparse adjacency matrix representation of two-tuple graph of graph g.
 pair<vector<vector<uint>>, vector<vector<uint>>> generate_local_sparse_am_2_1(const Graph &g) {
     size_t num_nodes = g.get_num_nodes();
@@ -1182,6 +1223,65 @@ vector<unsigned long> get_node_labels_2_2(const Graph &g, const bool use_labels,
 }
 
 
+/ Generate node labels for two-tuple graph of graph g.
+vector<unsigned long> get_node_labels_2_1(const Graph &g, const bool use_labels, const bool use_edge_labels) {
+    // Get node and edge labels.
+    Labels labels;
+    vector<unsigned long> tuple_labels;
+    if (use_labels) {
+        labels = g.get_labels();
+    }
+
+    EdgeLabels edge_labels;
+    if (use_edge_labels) {
+        edge_labels = g.get_edge_labels();
+    }
+
+    size_t num_nodes = g.get_num_nodes();
+    // Compute labels of all tuples.
+    for (Node i = 0; i < num_nodes; ++i) {
+        for (Node j: g.get_neighbours(i)) {
+            Label c_i = 1;
+            Label c_j = 2;
+            if (use_labels) {
+                c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
+                c_j = AuxiliaryMethods::pairing(labels[j] + 1, c_j);
+            }
+
+            Label c;
+            if (g.has_edge(i, j)) {
+                if (use_edge_labels) {
+                    auto s = edge_labels.find(make_tuple(i, j));
+                    c = AuxiliaryMethods::pairing(3, s->second);
+                } else {
+                    c = 3;
+                }
+            } else if (i == j) {
+                c = 1;
+            } else {
+                c = 2;
+            }
+
+            Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), c);
+            tuple_labels.push_back(new_color);
+        }
+
+        Label c_i = 1;
+        Label c_j = 2;
+
+        if (use_labels) {
+            c_i = AuxiliaryMethods::pairing(labels[i] + 1, c_i);
+            c_j = AuxiliaryMethods::pairing(labels[i] + 1, c_j);
+        }
+
+        Label new_color = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
+        tuple_labels.push_back(new_color);
+    }
+
+    return tuple_labels;
+}
+
+
 
 
 
@@ -1280,6 +1380,39 @@ vector<vector<unsigned long>> get_all_node_labels_2_2(string name, const bool us
 
     for (auto &g: gdb) {
         vector<unsigned long> colors = get_node_labels_2_2(g, use_node_labels, use_edge_labels);
+        vector<unsigned long> new_color;
+
+        for (auto &c: colors) {
+            const auto it(m_label_to_index.find(c));
+            if (it == m_label_to_index.end()) {
+                m_label_to_index.insert({{c, m_num_labels}});
+                new_color.push_back(m_num_labels);
+
+                m_num_labels++;
+            } else {
+                new_color.push_back(it->second);
+            }
+        }
+
+        node_labels.push_back(new_color);
+    }
+
+    cout << "Number of different labels: " << m_num_labels << endl;
+    return node_labels;
+}
+
+
+// Get all node labels of two-tuple graphs in graph database.
+vector<vector<unsigned long>> get_all_node_labels_2_1(string name, const bool use_node_labels, const bool use_edge_labels) {
+    GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
+    gdb.erase(gdb.begin() + 0);
+    vector<vector<unsigned long>> node_labels;
+
+    uint m_num_labels = 0;
+    unordered_map<int, int> m_label_to_index;
+
+    for (auto &g: gdb) {
+        vector<unsigned long> colors = get_node_labels_2_1(g, use_node_labels, use_edge_labels);
         vector<unsigned long> new_color;
 
         for (auto &c: colors) {
@@ -1566,15 +1699,19 @@ PYBIND11_MODULE(preprocessing, m
     m.def("get_all_matrices_3_1", &get_all_matrices_3_1);
 
     m.def("get_all_node_labels_2_2", &get_all_node_labels_2_2);
+    m.def("get_all_node_labels_2_1", &get_all_node_labels_2_1);
     m.def("get_all_node_labels_3_1", &get_all_node_labels_3_1);
     m.def("get_all_node_labels_3_2", &get_all_node_labels_3_2);
 
     m.def("get_all_attributes_3_2", &get_all_attributes_3_2);
     m.def("get_all_attributes_3_1", &get_all_attributes_3_1);
+    m.def("get_all_attributes_2_1", &get_all_attributes_2_1);
 
     m.def("get_all_node_labels_allchem_3_2", &get_all_node_labels_allchem_3_2);
     m.def("get_all_node_labels_zinc_3_2", &get_all_node_labels_zinc_3_2);
     m.def("get_all_node_labels_zinc_3_1", &get_all_node_labels_zinc_3_1);
+
+
 
     m.def("read_targets", &read_targets);
 }
