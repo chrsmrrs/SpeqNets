@@ -5,7 +5,7 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
     </configurations>
   </component>
   <component name="ChangeListManager">
@@ -65,8 +65,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/neural_graph" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -90,9 +93,14 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.main_kernel (1)">
-    <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$/k_s_wl_cpp" PASS_PARENT_ENVS_2="true">
+    <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/k_s_wl_cpp" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="gcn" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -206,6 +214,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="CMake Application.main" />
       <item itemvalue="Python.main_ml" />
       <item itemvalue="Python.svm" />
       <item itemvalue="Python.main" />
@@ -305,14 +314,9 @@
       <workItem from="1638202823832" duration="120216000" />
       <workItem from="1638731147181" duration="2748000" />
       <workItem from="1638808466909" duration="26329000" />
-      <workItem from="1639396954732" duration="33799000" />
-    </task>
-    <task id="LOCAL-00774" summary="alc">
-      <created>1638818765496</created>
-      <option name="number" value="00774" />
-      <option name="presentableId" value="LOCAL-00774" />
-      <option name="project" value="LOCAL" />
-      <updated>1638818765497</updated>
+      <workItem from="1639396954732" duration="40857000" />
+      <workItem from="1639566454057" duration="171000" />
+      <workItem from="1639571478385" duration="1000" />
     </task>
     <task id="LOCAL-00775" summary="alc">
       <created>1638818963485</created>
@@ -650,7 +654,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639484115749</updated>
     </task>
-    <option name="localTasksCounter" value="823" />
+    <task id="LOCAL-00823" summary="r">
+      <created>1639484638740</created>
+      <option name="number" value="00823" />
+      <option name="presentableId" value="LOCAL-00823" />
+      <option name="project" value="LOCAL" />
+      <updated>1639484638741</updated>
+    </task>
+    <option name="localTasksCounter" value="824" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -685,14 +696,5 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/SeqGN$main_ml.coverage" NAME="main_ml Coverage Results" MODIFIED="1635792813576" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
-    <SUITE FILE_PATH="coverage/SeqGN$main_kernel.coverage" NAME="main_kernel Coverage Results" MODIFIED="1634597519830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../reconstruction-gnns/recon_wl" />
-    <SUITE FILE_PATH="coverage/SeqGN$main.coverage" NAME="main Coverage Results" MODIFIED="1635796141426" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
-    <SUITE FILE_PATH="coverage/SeqGN$test.coverage" NAME="test Coverage Results" MODIFIED="1628386011618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_simple" />
-    <SUITE FILE_PATH="coverage/SeqGN$svm.coverage" NAME="svm Coverage Results" MODIFIED="1636663810123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_cpp/svm" />
-    <SUITE FILE_PATH="coverage/SeqGN$gcn.coverage" NAME="gcn Coverage Results" MODIFIED="1636669412415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neural_node" />
-    <SUITE FILE_PATH="coverage/SeqGN$main_kernel__1_.coverage" NAME="main_kernel (1) Coverage Results" MODIFIED="1637268707132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/k_s_wl_cpp/implementation/tud_benchmark" />
   </component>
 </project>
