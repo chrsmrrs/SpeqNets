@@ -12,7 +12,7 @@ def main():
 
 
     ### Smaller datasets using LIBSVM.
-    dataset = [["MUTAG", True],]
+    dataset = [["ENZYMES", True],]
 
     #dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["PTC_MR", True], ["MUTAG", True],]
 
@@ -61,14 +61,14 @@ def main():
         # print(dataset + " " + "LWLP2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
         # results.append(dataset + " " + "WL2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
         #
-        all_matrices = []
-        for i in range(1, 6):
-            gm = kb.compute_lwlp_3_dense(dataset, i, use_labels, False)
-            gm_n = aux.normalize_gram_matrix(gm)
-            all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWLP3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
-        results.append(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        # all_matrices = []
+        # for i in range(1, 6):
+        #     gm = kb.compute_lwlp_3_dense(dataset, i, use_labels, False)
+        #     gm_n = aux.normalize_gram_matrix(gm)
+        #     all_matrices.append(gm_n)
+        # acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        # print(dataset + " " + "LWLP3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        # results.append(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
         #
         #
         # all_matrices = []
@@ -80,15 +80,15 @@ def main():
         # print(dataset + " " + "WL2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
         # results.append(dataset + " " + "WL2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
         #
-
-        all_matrices = []
-        for i in range(1, 6):
-            gm = kb.compute_wl_3_dense(dataset, i, use_labels, False)
-            gm_n = aux.normalize_gram_matrix(gm)
-            all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
-        results.append(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #
+        # all_matrices = []
+        # for i in range(1, 6):
+        #     gm = kb.compute_wl_3_dense(dataset, i, use_labels, False)
+        #     gm_n = aux.normalize_gram_matrix(gm)
+        #     all_matrices.append(gm_n)
+        # acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        # print(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        # results.append(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
 
         # all_matrices = []
         # for i in range(1, 6):
