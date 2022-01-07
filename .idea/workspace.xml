@@ -217,7 +217,6 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="CMake Application.main" />
       <item itemvalue="Python.main_ml" />
       <item itemvalue="Python.svm" />
       <item itemvalue="Python.main" />
@@ -320,14 +319,8 @@
       <workItem from="1639396954732" duration="40857000" />
       <workItem from="1639566454057" duration="171000" />
       <workItem from="1639571478385" duration="180000" />
-      <workItem from="1641506893080" duration="4325000" />
-    </task>
-    <task id="LOCAL-00779" summary="alc">
-      <created>1638828773779</created>
-      <option name="number" value="00779" />
-      <option name="presentableId" value="LOCAL-00779" />
-      <option name="project" value="LOCAL" />
-      <updated>1638828773779</updated>
+      <workItem from="1641506893080" duration="4642000" />
+      <workItem from="1641573889269" duration="538000" />
     </task>
     <task id="LOCAL-00780" summary="alc">
       <created>1638830357153</created>
@@ -665,7 +658,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641511251413</updated>
     </task>
-    <option name="localTasksCounter" value="828" />
+    <task id="LOCAL-00828" summary="r">
+      <created>1641512293392</created>
+      <option name="number" value="00828" />
+      <option name="presentableId" value="LOCAL-00828" />
+      <option name="project" value="LOCAL" />
+      <updated>1641512293392</updated>
+    </task>
+    <option name="localTasksCounter" value="829" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

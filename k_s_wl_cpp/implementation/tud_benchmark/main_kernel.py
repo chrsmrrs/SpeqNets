@@ -12,7 +12,7 @@ def main():
 
 
     ### Smaller datasets using LIBSVM.
-    dataset = [["ENZYMES", True],]
+    dataset = [["IMDB-BINARY", False], ["IMDB-MULTI", False]]
 
     #dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["IMDB-MULTI", False], ["PTC_MR", True], ["MUTAG", True],]
 
