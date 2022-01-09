@@ -12,7 +12,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="" />
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/main_1_1_QM9.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_1_1_QM9.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -320,13 +323,7 @@
       <workItem from="1641506893080" duration="4642000" />
       <workItem from="1641573889269" duration="6964000" />
       <workItem from="1641688915942" duration="692000" />
-    </task>
-    <task id="LOCAL-00782" summary="alc">
-      <created>1638830683035</created>
-      <option name="number" value="00782" />
-      <option name="presentableId" value="LOCAL-00782" />
-      <option name="project" value="LOCAL" />
-      <updated>1638830683036</updated>
+      <workItem from="1641752240107" duration="706000" />
     </task>
     <task id="LOCAL-00783" summary="alc">
       <created>1638831665754</created>
@@ -664,7 +661,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641695933917</updated>
     </task>
-    <option name="localTasksCounter" value="831" />
+    <task id="LOCAL-00831" summary="r">
+      <created>1641752373466</created>
+      <option name="number" value="00831" />
+      <option name="presentableId" value="LOCAL-00831" />
+      <option name="project" value="LOCAL" />
+      <updated>1641752373468</updated>
+    </task>
+    <option name="localTasksCounter" value="832" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
