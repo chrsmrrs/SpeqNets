@@ -53,7 +53,7 @@ class NetGINE(torch.nn.Module):
         super(NetGINE, self).__init__()
 
         # TODO
-        num_features = 13
+        num_features = 11
         dim = dim
 
         self.conv1 = GINConv(5, num_features, dim)
