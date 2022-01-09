@@ -56,12 +56,12 @@ class NetGINE(torch.nn.Module):
         num_features = 13
         dim = dim
 
-        self.conv1 = GINConv(6, num_features, dim)
-        self.conv2 = GINConv(6, dim, dim)
-        self.conv3 = GINConv(6, dim, dim)
-        self.conv4 = GINConv(6, dim, dim)
-        self.conv5 = GINConv(6, dim, dim)
-        self.conv6 = GINConv(6, dim, dim)
+        self.conv1 = GINConv(5, num_features, dim)
+        self.conv2 = GINConv(5, dim, dim)
+        self.conv3 = GINConv(5, dim, dim)
+        self.conv4 = GINConv(5, dim, dim)
+        self.conv5 = GINConv(5, dim, dim)
+        self.conv6 = GINConv(5, dim, dim)
 
         self.set2set = Set2Set(1 * dim, processing_steps=6)
 
@@ -70,9 +70,6 @@ class NetGINE(torch.nn.Module):
 
     def forward(self, data):
         x = data.x
-
-        print(data.edge_attr.size())
-        exit()
 
         x_1 = F.relu(self.conv1(x, data.edge_index, data.edge_attr))
         x_2 = F.relu(self.conv2(x_1, data.edge_index, data.edge_attr))
