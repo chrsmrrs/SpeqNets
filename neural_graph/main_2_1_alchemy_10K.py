@@ -23,11 +23,11 @@ class Alchemy_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "al_10_10k_2"
+        return "al_10_10k_2s"
 
     @property
     def processed_file_names(self):
-        return "al_10_10k_2"
+        return "al_10_10k_2s"
 
     def download(self):
         pass
