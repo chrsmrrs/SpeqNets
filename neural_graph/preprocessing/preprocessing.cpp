@@ -1843,7 +1843,7 @@ PYBIND11_MODULE(preprocessing, m
     m.def("get_all_attributes_2_2", &get_all_attributes_2_2);
 
     m.def("get_all_node_labels_allchem_3_2", &get_all_node_labels_allchem_3_2);
-    m.def("get_all_node_labels_allchem_2_2", &get_all_node_labels_allchem_2_1);
+    m.def("get_all_node_labels_allchem_2_1", &get_all_node_labels_allchem_2_1);
     m.def("get_all_node_labels_zinc_3_2", &get_all_node_labels_zinc_3_2);
     m.def("get_all_node_labels_zinc_3_1", &get_all_node_labels_zinc_3_1);
 
