@@ -23,11 +23,11 @@ class Alchemy_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "al_10_10k_2sw"
+        return "al_10_10k_2dsw"
 
     @property
     def processed_file_names(self):
-        return "al_10_10k_2sw"
+        return "al_10_10k_2sdw"
 
     def download(self):
         pass
@@ -222,7 +222,7 @@ class NetGIN(torch.nn.Module):
         return x
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'al10k')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ale10k')
 dataset = Alchemy_1(path, transform=MyTransform())
 
 
