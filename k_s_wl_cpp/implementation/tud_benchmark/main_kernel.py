@@ -14,8 +14,8 @@ def main():
 
 
     ### Smaller datasets using LIBSVM.
-    dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["NCI1", True]]
-    dataset = [["PROTEINS", True]]
+    dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["NCI1", True], ["PROTEINS", True]]
+    #dataset = [["PROTEINS", True]]
 
     # Number of repetitions of 10-CV.
     num_reps = 10
@@ -47,38 +47,38 @@ def main():
         # print(dataset + " " + "LWL2 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
         # results.append(dataset + " " + "WL2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
         #
-        all_matrices = []
-        for i in range(5, 6):
-            start_time = time.time()
-            gm = kb.compute_wl_3_dense(dataset, i, use_labels, False)
-            elapsed_time = time.time() - start_time
-            gm_n = aux.normalize_gram_matrix(gm)
-            all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
-
-
-        all_matrices = []
-        for i in range(5, 6):
-            start_time = time.time()
-            gm = kb.compute_lwl_3_dense(dataset, i, use_labels, False)
-            elapsed_time = time.time() - start_time
-            gm_n = aux.normalize_gram_matrix(gm)
-            all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWL3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "LWL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
-
-        for i in range(5, 6):
-            start_time = time.time()
-            gm = kb.compute_lwlp_3_dense(dataset, i, use_labels, False)
-            elapsed_time = time.time() - start_time
-            gm_n = aux.normalize_gram_matrix(gm)
-            all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWLP3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "LWLP3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        # all_matrices = []
+        # for i in range(5, 6):
+        #     start_time = time.time()
+        #     gm = kb.compute_wl_3_dense(dataset, i, use_labels, False)
+        #     elapsed_time = time.time() - start_time
+        #     gm_n = aux.normalize_gram_matrix(gm)
+        #     all_matrices.append(gm_n)
+        # acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        # print(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
+        # results.append(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #
+        #
+        # all_matrices = []
+        # for i in range(5, 6):
+        #     start_time = time.time()
+        #     gm = kb.compute_lwl_3_dense(dataset, i, use_labels, False)
+        #     elapsed_time = time.time() - start_time
+        #     gm_n = aux.normalize_gram_matrix(gm)
+        #     all_matrices.append(gm_n)
+        # acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        # print(dataset + " " + "LWL3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
+        # results.append(dataset + " " + "LWL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #
+        # for i in range(5, 6):
+        #     start_time = time.time()
+        #     gm = kb.compute_lwlp_3_dense(dataset, i, use_labels, False)
+        #     elapsed_time = time.time() - start_time
+        #     gm_n = aux.normalize_gram_matrix(gm)
+        #     all_matrices.append(gm_n)
+        # acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        # print(dataset + " " + "LWLP3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
+        # results.append(dataset + " " + "LWLP3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
 
         #
         # #
