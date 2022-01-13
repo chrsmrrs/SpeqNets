@@ -23,11 +23,11 @@ class Alchemy_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "al_10_10k_2s"
+        return "al_10_10k_2sss"
 
     @property
     def processed_file_names(self):
-        return "al_10_10k_2s"
+        return "al_10_10k_2sss"
 
     def download(self):
         pass
@@ -62,11 +62,11 @@ class Alchemy_1(InMemoryDataset):
         targets.extend(tmp_2)
         targets.extend(tmp_3)
 
-        node_labels = pre.get_all_node_labels_allchem_2_1(True, True, indices_train, indices_val, indices_test)
+        node_labels = pre.get_all_node_labels_allchem_2_2(True, True, indices_train, indices_val, indices_test)
 
-        matrices = pre.get_all_matrices_2_1("alchemy_full", indices_train)
-        matrices.extend(pre.get_all_matrices_2_1("alchemy_full", indices_val))
-        matrices.extend(pre.get_all_matrices_2_1("alchemy_full", indices_test))
+        matrices = pre.get_all_matrices_2_2("alchemy_full", indices_train)
+        matrices.extend(pre.get_all_matrices_2_2("alchemy_full", indices_val))
+        matrices.extend(pre.get_all_matrices_2_2("alchemy_full", indices_test))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
