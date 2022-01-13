@@ -15,6 +15,7 @@ def main():
 
     ### Smaller datasets using LIBSVM.
     dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["NCI1", True]]
+    dataset = [["PROTEINS", True]]
 
     # Number of repetitions of 10-CV.
     num_reps = 10
