@@ -205,7 +205,7 @@ def main():
             all_matrices.append(gm_n)
         acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
         print(dataset + " " + "WLP3_2 " + str(acc) + " " + str(s_1) + " " + str(s_2)+ " " + str(elapsed_time))
-        results.append(dataset + " " + "WLP3_2 " + str(acc) + " " + str(s_1) + " " + str(s_2)+ " " + str(elapsed_time)w)
+        results.append(dataset + " " + "WLP3_2 " + str(acc) + " " + str(s_1) + " " + str(s_2)+ " " + str(elapsed_time))
 
         # # WLOA kernel, number of iterations in [1:6].
         # all_matrices = []
