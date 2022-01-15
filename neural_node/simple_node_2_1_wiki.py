@@ -219,7 +219,8 @@ for i in range(5):
             if val_acc > best_val_acc:
                 best_val_acc = val_acc
                 test_acc = tmp_test_acc
-            print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
+            print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
+                     f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
 
         acc_total += test_acc
 
