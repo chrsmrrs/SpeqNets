@@ -30,7 +30,7 @@ class PPI_2_1(InMemoryDataset):
 
     def process(self):
 
-        dataset = 'squirrel'
+        dataset = 'chameleon'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
         dataset = WikipediaNetwork(path, dataset)
         data = dataset[0]
