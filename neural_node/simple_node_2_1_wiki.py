@@ -204,7 +204,6 @@ def test(i):
 
 
 acc_all = []
-
 for i in range(5):
     acc_total = 0
     for i in range(10):
@@ -219,10 +218,11 @@ for i in range(5):
             if val_acc > best_val_acc:
                 best_val_acc = val_acc
                 test_acc = tmp_test_acc
-            print(test_acc)
+            print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
+                     f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
 
         acc_total += test_acc
 
-    acc_all.append(acc_total / 10)
+    acc_all.append(acc_total/10)
 
 print(np.array(acc_all).mean(), np.array(acc_all).std())
