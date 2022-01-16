@@ -151,8 +151,8 @@ class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         dim = 256
-        self.conv_1_1 = GCNConv(3408, dim)
-        self.conv_1_2 = GCNConv(3408, dim)
+        self.conv_1_1 = GCNConv(4652, dim)
+        self.conv_1_2 = GCNConv(4652, dim)
 
         self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
@@ -166,9 +166,6 @@ class Net(torch.nn.Module):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
 
         index_1, index_2 = data.index_1, data.index_2
-
-        print(x.size())
-        exit()
 
         x_1 = F.relu(self.conv_1_1(x, edge_index_1))
         x_2 = F.relu(self.conv_1_2(x, edge_index_2))
