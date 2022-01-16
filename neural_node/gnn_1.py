@@ -7,7 +7,7 @@ from torch_geometric.datasets import WebKB
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
 
 
-dataset = 'wisconsin'
+dataset = 'texas'
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
 dataset = WebKB(path, dataset)
 data = dataset[0]
@@ -45,6 +45,10 @@ def test(i):
         acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
         accs.append(acc)
     return accs
+
+
+print(dataset.num_classes)
+exit()
 
 acc_all = []
 for i in range(5):
