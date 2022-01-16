@@ -72,3 +72,4 @@ for i in range(1):
     acc_all.append(acc_total/10)
 
 print(np.array(acc_all).mean(), np.array(acc_all).std())
+print(dataset.num_classes)
