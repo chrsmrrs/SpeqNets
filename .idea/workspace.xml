@@ -13,6 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_node/gnn_1_wiki.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/gnn_1_wiki.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +97,7 @@
       <recent name="$PROJECT_DIR$/neural" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.gnn_1_wiki">
+  <component name="RunManager" selected="Python.simple_node_2_1_wiki">
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -330,14 +332,7 @@
       <workItem from="1642090893907" duration="5465000" />
       <workItem from="1642109791388" duration="4545000" />
       <workItem from="1642170678023" duration="11383000" />
-      <workItem from="1642269483089" duration="16687000" />
-    </task>
-    <task id="LOCAL-00818" summary="r">
-      <created>1639482973656</created>
-      <option name="number" value="00818" />
-      <option name="presentableId" value="LOCAL-00818" />
-      <option name="project" value="LOCAL" />
-      <updated>1639482973658</updated>
+      <workItem from="1642269483089" duration="19137000" />
     </task>
     <task id="LOCAL-00819" summary="r">
       <created>1639483064308</created>
@@ -675,7 +670,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642290586528</updated>
     </task>
-    <option name="localTasksCounter" value="867" />
+    <task id="LOCAL-00867" summary="r">
+      <created>1642290631079</created>
+      <option name="number" value="00867" />
+      <option name="presentableId" value="LOCAL-00867" />
+      <option name="project" value="LOCAL" />
+      <updated>1642290631079</updated>
+    </task>
+    <option name="localTasksCounter" value="868" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -713,9 +715,9 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SeqGN$gnn_1.coverage" NAME="gnn_1 Coverage Results" MODIFIED="1642283936032" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neural_node" />
-    <SUITE FILE_PATH="coverage/SeqGN$simple_node_2_1_wiki.coverage" NAME="simple_node_2_1_wiki Coverage Results" MODIFIED="1642290134319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neural_node" />
+    <SUITE FILE_PATH="coverage/SeqGN$simple_node_2_1_wiki.coverage" NAME="simple_node_2_1_wiki Coverage Results" MODIFIED="1642293559293" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neural_node" />
     <SUITE FILE_PATH="coverage/SeqGN$simple_node_2_2.coverage" NAME="simple_node_2_2 Coverage Results" MODIFIED="1642283664231" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neural_node" />
-    <SUITE FILE_PATH="coverage/SeqGN$gnn_1_wiki.coverage" NAME="gnn_1_wiki Coverage Results" MODIFIED="1642289483946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neural_node" />
+    <SUITE FILE_PATH="coverage/SeqGN$gnn_1_wiki.coverage" NAME="gnn_1_wiki Coverage Results" MODIFIED="1642293412463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neural_node" />
     <SUITE FILE_PATH="coverage/SeqGN$simple_node.coverage" NAME="simple_node_2_1 Coverage Results" MODIFIED="1642289120267" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neural_node" />
   </component>
 </project>

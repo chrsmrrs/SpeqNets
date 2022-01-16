@@ -7,7 +7,7 @@ from torch_geometric.datasets import WebKB, WikipediaNetwork
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
 
 
-dataset = 'squirrel'
+dataset = 'chameleon'
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
 dataset = WikipediaNetwork(path, dataset)
 data = dataset[0]
