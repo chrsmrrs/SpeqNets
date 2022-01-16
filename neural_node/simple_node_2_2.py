@@ -30,7 +30,7 @@ class PPI_2_1(InMemoryDataset):
 
     def process(self):
 
-        dataset = 'Cornell'
+        dataset = 'cornell'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
         dataset = WebKB(path, dataset)
         data = dataset[0]
@@ -154,7 +154,7 @@ class Net(torch.nn.Module):
         self.conv_2_2 = GCNConv(dim, dim)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 7))
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 5))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
@@ -204,22 +204,28 @@ def test(i):
     return accs
 
 
-acc_total = 0
-for i in range(10):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model, data = Net().to(device), data.to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
+acc_all = []
 
-    best_val_acc = test_acc = 0
-    for epoch in range(1, 201):
-        train(i)
-        train_acc, val_acc, tmp_test_acc = test(i)
-        if val_acc > best_val_acc:
-            best_val_acc = val_acc
-            test_acc = tmp_test_acc
-        print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
-              f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
 
-    acc_total += test_acc
+for i in range(5):
+    acc_total = 0
+    for i in range(10):
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        model, data = Net().to(device), data.to(device)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
 
-print(acc_total / 10)
+        best_val_acc = test_acc = 0
+        for epoch in range(1, 201):
+            train(i)
+            train_acc, val_acc, tmp_test_acc = test(i)
+            if val_acc > best_val_acc:
+                best_val_acc = val_acc
+                test_acc = tmp_test_acc
+            print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
+                  f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
+
+        acc_total += test_acc*100
+
+    acc_all.append(acc_total/10)
+
+print(np.array(acc_all).mean(), np.array(acc_all).std())
