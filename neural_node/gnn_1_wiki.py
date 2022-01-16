@@ -47,7 +47,7 @@ def test(i):
     return accs
 
 acc_all = []
-for i in range(5):
+for i in range(1):
     acc_total = 0
     for i in range(10):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
