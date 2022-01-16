@@ -160,7 +160,7 @@ class Net(torch.nn.Module):
         self.conv_2_2 = GCNConv(dim, dim)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 7))
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 5))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
