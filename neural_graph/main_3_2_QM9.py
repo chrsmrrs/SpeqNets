@@ -225,7 +225,6 @@ for _ in range(5):
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
     dataset = QM9(path, transform=MyTransform()).shuffle()
 
-    exit()
 
     dataset.data.y = dataset.data.y[:,0:12]
 
