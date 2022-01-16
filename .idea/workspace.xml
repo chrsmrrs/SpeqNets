@@ -13,7 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/neural_node/gnn_1_wiki.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/gnn_1_wiki.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -331,14 +331,7 @@
       <workItem from="1642109791388" duration="4545000" />
       <workItem from="1642170678023" duration="11383000" />
       <workItem from="1642269483089" duration="26545000" />
-      <workItem from="1642303531638" duration="470000" />
-    </task>
-    <task id="LOCAL-00832" summary="r">
-      <created>1641752951819</created>
-      <option name="number" value="00832" />
-      <option name="presentableId" value="LOCAL-00832" />
-      <option name="project" value="LOCAL" />
-      <updated>1641752951819</updated>
+      <workItem from="1642303531638" duration="1209000" />
     </task>
     <task id="LOCAL-00833" summary="r">
       <created>1641753014616</created>
@@ -676,7 +669,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642303845140</updated>
     </task>
-    <option name="localTasksCounter" value="881" />
+    <task id="LOCAL-00881" summary="r">
+      <created>1642304147358</created>
+      <option name="number" value="00881" />
+      <option name="presentableId" value="LOCAL-00881" />
+      <option name="project" value="LOCAL" />
+      <updated>1642304147359</updated>
+    </task>
+    <option name="localTasksCounter" value="882" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
