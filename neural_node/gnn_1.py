@@ -7,7 +7,7 @@ from torch_geometric.datasets import WebKB
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
 
 
-dataset = 'texas'
+dataset = 'wisconsin'
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
 dataset = WebKB(path, dataset)
 data = dataset[0]
