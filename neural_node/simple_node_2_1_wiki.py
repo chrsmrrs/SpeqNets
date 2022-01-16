@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from graph_tool.all import *
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
-from torch_geometric.datasets import WikipediaNetwork
+from torch_geometric.datasets import WikipediaNetwork, Actor
 from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
 
@@ -19,11 +19,11 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squirrekfl"
+        return "squirrekgfl"
 
     @property
     def processed_file_names(self):
-        return "PPtI_2_1flefg"
+        return "PPtI_2_1flefgg"
 
     def download(self):
         pass
@@ -32,7 +32,8 @@ class PPI_2_1(InMemoryDataset):
 
         dataset = 'chameleon'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        dataset = WikipediaNetwork(path, dataset)
+        #dataset = WikipediaNetwork(path, dataset)
+        dataset = Actor(path)
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
@@ -159,6 +160,7 @@ class Net(torch.nn.Module):
         self.conv_2_1 = GCNConv(dim, dim)
         self.conv_2_2 = GCNConv(dim, dim)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
+
 
         self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 5))
 

@@ -3,16 +3,15 @@ import argparse
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch_geometric.datasets import WebKB, WikipediaNetwork
+from torch_geometric.datasets import WebKB, WikipediaNetwork, Actor
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
 
 
 dataset = 'chameleon'
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-dataset = WikipediaNetwork(path, dataset)
+dataset = Actor(path)
 
-print(dataset.num_classes)
-exit()
+
 data = dataset[0]
 
 class Net(torch.nn.Module):
@@ -44,7 +43,6 @@ def test(i):
     model.eval()
     logits, accs = model(), []
     for _, mask in data('train_mask', 'val_mask', 'test_mask'):
-
 
         pred = logits[mask[:,i]].max(1)[1]
         acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
