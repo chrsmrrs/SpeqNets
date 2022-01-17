@@ -64,8 +64,13 @@ class PPI_2_1(InMemoryDataset):
                 tuple_to_nodes[n] = (v, w)
                 nodes_to_tuple[(v, w)] = n
 
-                type[n] = np.concatenate(
-                    [node_features[v], node_features[w], np.array([1, 0])], axis=-1)
+                if v != w:
+                    type[n] = np.concatenate(
+                        [node_features[v], node_features[w], np.array([1, 0])], axis=-1)
+                else:
+                    type[n] = np.concatenate(
+                        [node_features[v], node_features[w], np.array([0, 1])], axis=-1)
+
 
 
         matrix_1 = []

@@ -197,8 +197,8 @@ class Net(torch.nn.Module):
 def train(i):
     model.train()
     optimizer.zero_grad()
-    F.nll_loss(model()[data.train_mask[:, i]], data.y[data.train_mask[:, i]]).backward()
 
+    F.nll_loss(model()[data.train_mask[:,i]], data.y[data.train_mask[:,i]]).backward()
     optimizer.step()
 
 
@@ -207,11 +207,11 @@ def test(i):
     model.eval()
     logits, accs = model(), []
     for _, mask in data('train_mask', 'val_mask', 'test_mask'):
-        pred = logits[mask[:, i]].max(1)[1]
-        acc = pred.eq(data.y[mask[:, i]]).sum().item() / mask[:, i].sum().item()
+
+        pred = logits[mask[:,i]].max(1)[1]
+        acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
         accs.append(acc)
     return accs
-
 
 acc_all = []
 for i in range(1):
@@ -219,7 +219,7 @@ for i in range(1):
     for i in range(10):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model, data = Net().to(device), data.to(device)
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=5e-3)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=5e-3)
 
         best_val_acc = test_acc = 0
         for epoch in range(1, 201):
