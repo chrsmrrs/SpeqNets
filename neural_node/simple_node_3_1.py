@@ -130,8 +130,8 @@ class PPI_2_1(InMemoryDataset):
                     type[t_v] = np.concatenate([node_features[t[i]] for i in range(k)], axis=-1)
 
                     # Manage mappings, back and forth.
-                    nodes_to_tuple[t_v] = t
-                    tuple_to_nodes[t] = t_v
+                    tuple_to_nodes[t_v] = t
+                    nodes_to_tuple[t] = t_v
 
         matrix_1 = []
         matrix_2 = []
