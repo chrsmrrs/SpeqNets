@@ -154,25 +154,25 @@ class PPI_2_1(InMemoryDataset):
                     t_v = tuple_graph.add_vertex()
 
 
+                    #
+                    # # TODO: add type
+                    # # Compute atomic type.
+                    # raw_type = compute_atomic_type(g, t)
+                    #
+                    # # Atomic type seen before.
+                    # if raw_type in atomic_type:
+                    #     at = atomic_type[raw_type]
+                    # else:  # Atomic type not seen before.
+                    #     at = atomic_counter
+                    #     atomic_type[raw_type] = atomic_counter
+                    #     atomic_counter += 1
 
-                    # TODO: add type
-                    # Compute atomic type.
-                    raw_type = compute_atomic_type(g, t)
+                    tmp = np.concatenate([node_features[i] for i in t], axis=-1)
+                    # one_hot = np.zeros(5)
+                    # one_hot[at]=1
 
-                    # Atomic type seen before.
-                    if raw_type in atomic_type:
-                        at = atomic_type[raw_type]
-                    else:  # Atomic type not seen before.
-                        at = atomic_counter
-                        atomic_type[raw_type] = atomic_counter
-                        atomic_counter += 1
-
-                    t = np.concatenate([node_features[i] for i in t], axis=-1)
-                    one_hot = np.zeros(5)
-                    one_hot[at]=1
-
-                    type[t_v] = np.concatenate([t,at], axis=-1)
-
+                    #type[t_v] = np.concatenate([t,at], axis=-1)
+                    type[t_v] = tmp
 
 
                     # Manage mappings, back and forth.
@@ -341,7 +341,7 @@ def test(i):
 acc_all = []
 
 
-for i in range(5):
+for i in range(1):
     acc_total = 0
     for i in range(10):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
