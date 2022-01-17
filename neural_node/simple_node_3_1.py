@@ -173,7 +173,7 @@ class PPI_2_1(InMemoryDataset):
 
                     print(one_hot.shape, tmp.shape)
 
-                    type[t_v] = np.concatenate([tmp,at], axis=0)
+                    type[t_v] = np.concatenate([tmp,at])
 
                     print(type[t_v].shape)
                     exit()
