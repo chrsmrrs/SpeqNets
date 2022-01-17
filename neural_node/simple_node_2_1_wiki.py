@@ -19,18 +19,18 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squirdrfekgtfl"
+        return "squirdrefekgtfl"
 
     @property
     def processed_file_names(self):
-        return "PPtdI_2_1fletffgg"
+        return "PPtdI_2_e1fletffgg"
 
     def download(self):
         pass
 
     def process(self):
 
-        dataset = 'chameleon'
+        dataset = 'squirrel'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
         dataset = WikipediaNetwork(path, dataset, geom_gcn_preprocess = True)
         data = dataset[0]
@@ -219,7 +219,8 @@ for i in range(1):
     for i in range(10):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model, data = Net().to(device), data.to(device)
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=5e-3)
+        # TODO
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
 
         best_val_acc = test_acc = 0
         for epoch in range(1, 201):
