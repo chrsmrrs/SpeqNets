@@ -154,25 +154,23 @@ class PPI_2_1(InMemoryDataset):
                     t_v = tuple_graph.add_vertex()
 
 
-                    #
-                    # # TODO: add type
-                    # # Compute atomic type.
-                    # raw_type = compute_atomic_type(g, t)
-                    #
-                    # # Atomic type seen before.
-                    # if raw_type in atomic_type:
-                    #     at = atomic_type[raw_type]
-                    # else:  # Atomic type not seen before.
-                    #     at = atomic_counter
-                    #     atomic_type[raw_type] = atomic_counter
-                    #     atomic_counter += 1
+                    # Compute atomic type.
+                    raw_type = compute_atomic_type(g, t)
+
+                    # Atomic type seen before.
+                    if raw_type in atomic_type:
+                        at = atomic_type[raw_type]
+                    else:  # Atomic type not seen before.
+                        at = atomic_counter
+                        atomic_type[raw_type] = atomic_counter
+                        atomic_counter += 1
 
                     tmp = np.concatenate([node_features[i] for i in t], axis=-1)
-                    # one_hot = np.zeros(5)
-                    # one_hot[at]=1
+                    one_hot = np.zeros(5)
+                    one_hot[int(at)]=1
 
-                    #type[t_v] = np.concatenate([t,at], axis=-1)
-                    type[t_v] = tmp
+                    type[t_v] = np.concatenate([tmp,at], axis=-1)
+                    #type[t_v] = tmp
 
 
                     # Manage mappings, back and forth.
