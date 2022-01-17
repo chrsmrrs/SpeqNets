@@ -220,7 +220,7 @@ for i in range(1):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model, data = Net().to(device), data.to(device)
         # TODO
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.1, weight_decay=5e-3)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
 
         best_val_acc = test_acc = 0
         for epoch in range(1, 201):
