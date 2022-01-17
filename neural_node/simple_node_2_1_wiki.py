@@ -167,8 +167,8 @@ class Net(torch.nn.Module):
 
 
 
-
-        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 5))
+        # TODO 
+        self.mlp = Sequential(Linear(1 * dim, dim), ReLU(), Linear(dim, 5))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
@@ -188,8 +188,8 @@ class Net(torch.nn.Module):
         index_1 = index_1.to(torch.int64)
         index_2 = index_2.to(torch.int64)
         x_1 = scatter(x, index_1, dim=0, reduce="mean")
-        x_2 = scatter(x, index_2, dim=0, reduce="mean")
-        x = self.mlp(torch.cat([x_1, x_2], dim=1))
+        #x_2 = scatter(x, index_2, dim=0, reduce="mean")
+        x = self.mlp(torch.cat([x_1], dim=1))
 
         return F.log_softmax(x, dim=1)
 
