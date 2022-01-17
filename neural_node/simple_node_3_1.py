@@ -167,11 +167,16 @@ class PPI_2_1(InMemoryDataset):
 
                     tmp = np.concatenate([node_features[i] for i in t], axis=-1)
                     one_hot = np.zeros((5,))
-                    print(one_hot.shape,tmp.shape)
+
 
                     one_hot[int(at)]=1
 
-                    type[t_v] = np.concatenate([tmp,at], axis=-1)
+                    print(one_hot.shape, tmp.shape)
+
+                    type[t_v] = np.concatenate([tmp,at], axis=0)
+
+                    print(type[t_v].shape)
+                    exit()
                     #type[t_v] = tmp
 
 
