@@ -32,7 +32,7 @@ class PPI_2_1(InMemoryDataset):
 
         dataset = 'squirrel'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        dataset = WikipediaNetwork(path, dataset, geom_gcn_preprocess = True)
+        dataset = Actor(path)
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
