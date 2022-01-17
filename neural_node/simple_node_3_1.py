@@ -12,6 +12,26 @@ from torch_scatter import scatter
 from itertools import product, combinations_with_replacement
 import itertools
 
+# Compute atomic type for ordered set of vertices of graph g.
+def compute_atomic_type(g, vertices):
+    edge_list = []
+
+    # Loop over all pairs of vertices.
+    for i, v in enumerate(vertices):
+        for j, w in enumerate(vertices):
+            # Check if edge or self loop.
+            if g.edge(v, w):
+                edge_list.append((i, j, 1))
+            elif not g.edge(v, w):
+                edge_list.append((i, j, 2))
+            elif v == w:
+                edge_list.append((i, j, 3))
+
+    edge_list.sort()
+
+    return hash(tuple(edge_list))
+
+
 class PPI_2_1(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
@@ -31,12 +51,16 @@ class PPI_2_1(InMemoryDataset):
 
     def process(self):
 
+
+
         dataset = 'wisconsin'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
         dataset = WebKB(path, dataset)
         data = dataset[0]
         k = 3
         s = 1
+
+
 
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
@@ -57,6 +81,12 @@ class PPI_2_1(InMemoryDataset):
             g.add_edge(i, j, add_missing=False)
 
         ### TODO
+
+        # Manage atomic types.
+        atomic_type = {}
+        atomic_counter = 0
+
+
 
         # True if connected multi-set has been found already.
         multiset_exists = {}
@@ -123,11 +153,27 @@ class PPI_2_1(InMemoryDataset):
                     # Add vertex to k-tuple graph representing tuple t.
                     t_v = tuple_graph.add_vertex()
 
-                    # Compute atomic type.
-                    #raw_type = compute_atomic_type(g, t, node_label)
+
 
                     # TODO: add type
-                    type[t_v] = np.concatenate([node_features[t[i]] for i in range(k)], axis=-1)
+                    # Compute atomic type.
+                    raw_type = compute_atomic_type(g, t)
+
+                    # Atomic type seen before.
+                    if raw_type in atomic_type:
+                        at = atomic_type[raw_type]
+                    else:  # Atomic type not seen before.
+                        at = atomic_counter
+                        atomic_type[raw_type] = atomic_counter
+                        atomic_counter += 1
+
+                    t = np.concatenate([node_features[i] for i in t], axis=-1)
+                    one_hot = np.zeros(5)
+                    one_hot[at]=1
+
+                    type[t_v] = np.concatenate([t,at], axis=-1)
+
+
 
                     # Manage mappings, back and forth.
                     tuple_to_nodes[t_v] = t
