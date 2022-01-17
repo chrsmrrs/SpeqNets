@@ -19,18 +19,18 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "PPI_2_r1wffrfrr"
+        return "PPI_2_r1wfftrfrr"
 
     @property
     def processed_file_names(self):
-        return "PPI_2_1rrfwefr"
+        return "PPI_2_1rrftwefr"
 
     def download(self):
         pass
 
     def process(self):
 
-        dataset = 'texas'
+        dataset = 'cornell'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
         dataset = WebKB(path, dataset)
         data = dataset[0]
