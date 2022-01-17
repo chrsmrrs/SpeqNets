@@ -165,6 +165,9 @@ class Net(torch.nn.Module):
         self.conv_2_2 = GCNConv(dim, dim)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
+
+
+
         self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 5))
 
     def forward(self):
