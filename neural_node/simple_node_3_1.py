@@ -173,7 +173,7 @@ class PPI_2_1(InMemoryDataset):
 
                     print(one_hot.shape, tmp.shape)
 
-                    type[t_v] = np.hstack([tmp,at])
+                    type[t_v] = np.vstack([tmp,at])
 
                     print(type[t_v].shape)
                     exit()
