@@ -221,8 +221,6 @@ path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ttertee')
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
-print(":)")
-exit()
 
 
 class Net(torch.nn.Module):
