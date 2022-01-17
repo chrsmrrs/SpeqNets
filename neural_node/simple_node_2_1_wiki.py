@@ -175,7 +175,8 @@ class Net(torch.nn.Module):
 
         index_1, index_2 = data.index_1, data.index_2
 
-        print(index_1[0:100])
+        print(index_1[0:500])
+        print(index_2[0:500])
 
         exit()
 
