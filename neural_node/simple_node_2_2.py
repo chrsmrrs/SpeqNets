@@ -19,11 +19,11 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "PPI_2_r1rfrr"
+        return "PPI_2_r1wrfrr"
 
     @property
     def processed_file_names(self):
-        return "PPI_2_1rrefr"
+        return "PPI_2_1rrwefr"
 
     def download(self):
         pass
