@@ -19,11 +19,11 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squirdrekgfl"
+        return "squirdrfekgtfl"
 
     @property
     def processed_file_names(self):
-        return "PPtdI_2_1flefgg"
+        return "PPtdI_2_1fletffgg"
 
     def download(self):
         pass
@@ -32,8 +32,7 @@ class PPI_2_1(InMemoryDataset):
 
         dataset = 'chameleon'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        #dataset = WikipediaNetwork(path, dataset)
-        dataset = Actor(path)
+        dataset = WikipediaNetwork(path, dataset, geom_gcn_preprocess = True)
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
