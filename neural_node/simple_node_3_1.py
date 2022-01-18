@@ -50,15 +50,13 @@ class PPI_2_1(InMemoryDataset):
 
     def process(self):
 
-
-
         dataset = 'cornell'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
         dataset = WebKB(path, dataset)
         data = dataset[0]
 
         k = 3
-        s = 1
+        s = 2
 
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
@@ -164,9 +162,7 @@ class PPI_2_1(InMemoryDataset):
 
                     one_hot = np.zeros((100,))
 
-                    print(at)
                     one_hot[int(at)] = 1
-
                     type[t_v] = np.concatenate([one_hot,tmp])
 
 
@@ -241,7 +237,6 @@ class PPI_2_1(InMemoryDataset):
 
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])
-
 
 
 
@@ -348,7 +343,7 @@ for i in range(1):
         optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
 
         best_val_acc = test_acc = 0
-        for epoch in range(1, 401):
+        for epoch in range(1, 201):
             train(i)
             train_acc, val_acc, tmp_test_acc = test(i)
             if val_acc > best_val_acc:
