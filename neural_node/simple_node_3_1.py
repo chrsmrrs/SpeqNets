@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from graph_tool.all import *
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
-from torch_geometric.datasets import WebKB
+from torch_geometric.datasets import WebKB, Actor
 from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
 from itertools import product, combinations_with_replacement
@@ -54,12 +54,10 @@ class PPI_2_1(InMemoryDataset):
 
         dataset = 'wisconsin'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        dataset = WebKB(path, dataset)
+        dataset = Actor(path)
         data = dataset[0]
         k = 3
         s = 1
-
-
 
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
@@ -79,13 +77,9 @@ class PPI_2_1(InMemoryDataset):
         for ind, (i, j) in enumerate(zip(rows, cols)):
             g.add_edge(i, j, add_missing=False)
 
-        ### TODO
-
         # Manage atomic types.
         atomic_type = {}
         atomic_counter = 0
-
-
 
         # True if connected multi-set has been found already.
         multiset_exists = {}
@@ -171,7 +165,6 @@ class PPI_2_1(InMemoryDataset):
 
                     print(at)
                     one_hot[int(at)] = 1
-
 
                     type[t_v] = np.concatenate([one_hot,tmp])
 
@@ -277,8 +270,7 @@ class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
 
-        # TODO
-        dim = 512
+        dim = 256
         self.conv_1_1 = GCNConv(5209, dim)
         self.conv_1_2 = GCNConv(5209, dim)
         self.conv_1_3 = GCNConv(5209, dim)
