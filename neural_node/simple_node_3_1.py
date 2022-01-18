@@ -276,7 +276,9 @@ data = dataset[0]
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        dim = 256
+
+        # TODO 
+        dim = 512
         self.conv_1_1 = GCNConv(5209, dim)
         self.conv_1_2 = GCNConv(5209, dim)
         self.conv_1_3 = GCNConv(5209, dim)
