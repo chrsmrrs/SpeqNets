@@ -40,7 +40,7 @@ def compute_atomic_type(g, vertices):
     #edge_list.sort()
 
     #return hash(tuple(edge_list))
-    return int(c/2)
+    return int(c/2)-1
 
 
 class PPI_2_1(InMemoryDataset):
