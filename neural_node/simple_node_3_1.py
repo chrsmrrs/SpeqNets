@@ -16,20 +16,31 @@ import itertools
 def compute_atomic_type(g, vertices):
     edge_list = []
 
+
+
+    # # Loop over all pairs of vertices.
+    # for i, v in enumerate(vertices):
+    #     for j, w in enumerate(vertices):
+    #         # Check if edge or self loop.
+    #         if g.edge(v, w):
+    #             edge_list.append((i, j, 1))
+    #         elif not g.edge(v, w):
+    #             edge_list.append((i, j, 2))
+    #         elif v == w:
+    #             edge_list.append((i, j, 3))
+
+    c = 0
     # Loop over all pairs of vertices.
     for i, v in enumerate(vertices):
         for j, w in enumerate(vertices):
             # Check if edge or self loop.
             if g.edge(v, w):
-                edge_list.append((i, j, 1))
-            elif not g.edge(v, w):
-                edge_list.append((i, j, 2))
-            elif v == w:
-                edge_list.append((i, j, 3))
+                c += 1
 
-    edge_list.sort()
+    #edge_list.sort()
 
-    return hash(tuple(edge_list))
+    #return hash(tuple(edge_list))
+    return c
 
 
 class PPI_2_1(InMemoryDataset):
@@ -157,19 +168,19 @@ class PPI_2_1(InMemoryDataset):
                     # Compute atomic type.
                     raw_type = compute_atomic_type(g, t)
 
-                    # Atomic type seen before.
-                    if raw_type in atomic_type:
-                        at = atomic_type[raw_type]
-                    else:  # Atomic type not seen before.
-                        at = atomic_counter
-                        atomic_type[raw_type] = atomic_counter
-                        atomic_counter += 1
+                    # # Atomic type seen before.
+                    # if raw_type in atomic_type:
+                    #     at = atomic_type[raw_type]
+                    # else:  # Atomic type not seen before.
+                    #     at = atomic_counter
+                    #     atomic_type[raw_type] = atomic_counter
+                    #     atomic_counter += 1
 
                     tmp = np.concatenate([node_features[i] for i in t], axis=-1)
 
-                    one_hot = np.zeros((30,))
+                    one_hot = np.zeros((5,))
 
-                    one_hot[int(at)] = 1
+                    one_hot[int(raw_type)] = 1
 
 
                     type[t_v] = np.concatenate([one_hot,tmp])
