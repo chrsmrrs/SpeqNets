@@ -185,7 +185,9 @@ class PPI_2_1(InMemoryDataset):
         index_2 = []
         index_3 = []
 
-        for t in tuple_graph.vertices():
+        for c, t in enumerate(tuple_graph.vertices()):
+
+            print(c, tuple_graph.num_vertices())
             # Get underlying nodes.
             v, w, u = tuple_to_nodes[t]
 
