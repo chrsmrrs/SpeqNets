@@ -277,9 +277,9 @@ class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         dim = 256
-        self.conv_1_1 = GCNConv(5114, dim)
-        self.conv_1_2 = GCNConv(5114, dim)
-        self.conv_1_3 = GCNConv(5114, dim)
+        self.conv_1_1 = GCNConv(5209, dim)
+        self.conv_1_2 = GCNConv(5209, dim)
+        self.conv_1_3 = GCNConv(5209, dim)
 
         self.mlp_1 = Sequential(Linear(3 * dim, dim), ReLU(), Linear(dim, dim))
 
