@@ -167,7 +167,7 @@ class PPI_2_1(InMemoryDataset):
 
                     tmp = np.concatenate([node_features[i] for i in t], axis=-1)
 
-                    one_hot = np.zeros((5,))
+                    one_hot = np.zeros((10,))
 
                     one_hot[int(at)] = 1
 
