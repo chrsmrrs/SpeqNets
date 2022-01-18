@@ -277,7 +277,7 @@ class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
 
-        # TODO 
+        # TODO
         dim = 512
         self.conv_1_1 = GCNConv(5209, dim)
         self.conv_1_2 = GCNConv(5209, dim)
@@ -355,7 +355,7 @@ for i in range(1):
         optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
 
         best_val_acc = test_acc = 0
-        for epoch in range(1, 201):
+        for epoch in range(1, 401):
             train(i)
             train_acc, val_acc, tmp_test_acc = test(i)
             if val_acc > best_val_acc:
