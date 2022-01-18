@@ -171,12 +171,10 @@ class PPI_2_1(InMemoryDataset):
 
                     one_hot[int(at)] = 1
 
-                    print(one_hot.shape, tmp.shape)
 
                     type[t_v] = np.concatenate([one_hot,tmp])
 
-                    print(type[t_v].shape)
-                    exit()
+
                     #type[t_v] = tmp
 
 
@@ -278,9 +276,9 @@ class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         dim = 256
-        self.conv_1_1 = GCNConv(5109, dim)
-        self.conv_1_2 = GCNConv(5109, dim)
-        self.conv_1_3 = GCNConv(5109, dim)
+        self.conv_1_1 = GCNConv(5114, dim)
+        self.conv_1_2 = GCNConv(5114, dim)
+        self.conv_1_3 = GCNConv(5114, dim)
 
         self.mlp_1 = Sequential(Linear(3 * dim, dim), ReLU(), Linear(dim, dim))
 
