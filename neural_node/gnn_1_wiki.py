@@ -3,13 +3,13 @@ import argparse
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch_geometric.datasets import WebKB, WikipediaNetwork, Actor
+from torch_geometric.datasets import WebKB, WikipediaNetwork, Actor, Twitch
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
 
 
 dataset = 'squirrel'
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-dataset = Actor(path)
+dataset = Twitch(path, name="PT")
 
 
 data = dataset[0]
