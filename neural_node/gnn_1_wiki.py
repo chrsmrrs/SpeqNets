@@ -5,14 +5,18 @@ import torch
 import torch.nn.functional as F
 from torch_geometric.datasets import WebKB, WikipediaNetwork, Actor, Twitch
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
+from sklearn.model_selection import train_test_split
 
 
-dataset = 'squirrel'
+
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
 dataset = Twitch(path, name="PT")
-
-
 data = dataset[0]
+
+
+print(len(data))
+exit()
+train_index, val_index = train_test_split(list(), test_size=0.1)
 
 class Net(torch.nn.Module):
     def __init__(self):

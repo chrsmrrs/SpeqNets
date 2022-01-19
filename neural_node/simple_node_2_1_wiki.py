@@ -6,9 +6,11 @@ import torch.nn.functional as F
 from graph_tool.all import *
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
-from torch_geometric.datasets import WikipediaNetwork, Actor
+from torch_geometric.datasets import WikipediaNetwork, Actor, Twitch
 from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
+from sklearn.model_selection import train_test_split
+
 
 
 class PPI_2_1(InMemoryDataset):
@@ -19,11 +21,11 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squirdrefekgtfl"
+        return "squitttrdrefekgtfl"
 
     @property
     def processed_file_names(self):
-        return "PPtdI_2_e1fletffgg"
+        return "PPtdI_t2_e1fletffgg"
 
     def download(self):
         pass
@@ -32,7 +34,7 @@ class PPI_2_1(InMemoryDataset):
 
         dataset = 'squirrel'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        dataset = Actor(path)
+        dataset = Twitch(path, )
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()

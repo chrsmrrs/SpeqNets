@@ -13,8 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_node/gnn_1_wiki.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/gnn_1_wiki.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -338,14 +338,7 @@
       <workItem from="1642455079169" duration="9843000" />
       <workItem from="1642472400788" duration="1877000" />
       <workItem from="1642521837965" duration="5242000" />
-      <workItem from="1642554777906" duration="349000" />
-    </task>
-    <task id="LOCAL-00919" summary="r">
-      <created>1642438441530</created>
-      <option name="number" value="00919" />
-      <option name="presentableId" value="LOCAL-00919" />
-      <option name="project" value="LOCAL" />
-      <updated>1642438441530</updated>
+      <workItem from="1642554777906" duration="888000" />
     </task>
     <task id="LOCAL-00920" summary="r">
       <created>1642438502826</created>
@@ -683,7 +676,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642544772189</updated>
     </task>
-    <option name="localTasksCounter" value="968" />
+    <task id="LOCAL-00968" summary="ghjhj">
+      <created>1642555183574</created>
+      <option name="number" value="00968" />
+      <option name="presentableId" value="LOCAL-00968" />
+      <option name="project" value="LOCAL" />
+      <updated>1642555183575</updated>
+    </task>
+    <option name="localTasksCounter" value="969" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
