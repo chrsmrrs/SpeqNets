@@ -119,10 +119,6 @@ class PPI_2_1(InMemoryDataset):
 
         data_new.y = data.y
 
-        data_new.train_mask = data.train_mask
-        data_new.test_mask = data.test_mask
-        data_new.val_mask = data.val_mask
-
         data_list.append(data_new)
 
         data, slices = self.collate(data_list)
@@ -144,9 +140,18 @@ class MyTransform(object):
         return new_data
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ttertee')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tterktee')
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
+
+l = len(data.x)
+l = list(range(l))
+train, test = train_test_split(l, test_size=0.1)
+train, val = train_test_split(train, test_size=0.1)
+
+train_mask = [True if i in train else False for i in l]
+val_mask = [True if i in val else False for i in l]
+test_mask = [True if i in test else False for i in l]
 
 
 class Net(torch.nn.Module):
@@ -159,8 +164,6 @@ class Net(torch.nn.Module):
         self.conv_1_1 = GCNConv(dim, dim)
         self.conv_1_2 = GCNConv(dim, dim)
 
-
-
         self.mlp_1 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
         self.conv_2_1 = GCNConv(dim, dim)
@@ -169,18 +172,12 @@ class Net(torch.nn.Module):
 
 
 
-        # TODO
-        self.mlp = Sequential(Linear(1 * dim, dim), ReLU(), Linear(dim, 5))
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 5))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
 
         index_1, index_2 = data.index_1, data.index_2
-
-        print(index_1[0:500])
-        print(index_2[0:500])
-
-        exit()
 
 
         x = self.mlp_init(x)
@@ -196,52 +193,48 @@ class Net(torch.nn.Module):
         index_1 = index_1.to(torch.int64)
         index_2 = index_2.to(torch.int64)
         x_1 = scatter(x, index_1, dim=0, reduce="mean")
-        #x_2 = scatter(x, index_2, dim=0, reduce="mean")
-        x = self.mlp(torch.cat([x_1], dim=1))
+        x_2 = scatter(x, index_2, dim=0, reduce="mean")
+        x = self.mlp(torch.cat([x_1, x_2], dim=1))
 
         return F.log_softmax(x, dim=1)
 
 
-def train(i):
+def train():
     model.train()
     optimizer.zero_grad()
 
-    F.nll_loss(model()[data.train_mask[:,i]], data.y[data.train_mask[:,i]]).backward()
+    F.nll_loss(model()[train_mask], data.y[train_mask]).backward()
     optimizer.step()
 
 
 @torch.no_grad()
-def test(i):
+def test():
     model.eval()
     logits, accs = model(), []
-    for _, mask in data('train_mask', 'val_mask', 'test_mask'):
+    for mask in [train_mask, val_mask, test_mask]:
 
-        pred = logits[mask[:,i]].max(1)[1]
-        acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
+        pred = logits[mask].max(1)[1]
+        acc = pred.eq(data.y[mask]).sum().item() / sum(mask)
         accs.append(acc)
     return accs
 
 acc_all = []
 for i in range(1):
     acc_total = 0
-    for i in range(10):
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        model, data = Net().to(device), data.to(device)
-        # TODO
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
 
-        best_val_acc = test_acc = 0
-        for epoch in range(1, 201):
-            train(i)
-            train_acc, val_acc, tmp_test_acc = test(i)
-            if val_acc > best_val_acc:
-                best_val_acc = val_acc
-                test_acc = tmp_test_acc
-            print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
-                     f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model, data = Net().to(device), data.to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
 
-        acc_total += test_acc
+    best_val_acc = test_acc = 0
+    for epoch in range(1, 201):
+        train()
+        train_acc, val_acc, tmp_test_acc = test()
+        if val_acc > best_val_acc:
+            best_val_acc = val_acc
+            test_acc = tmp_test_acc
+        print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
+                 f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
 
-    acc_all.append(acc_total/10)
 
-print(np.array(acc_all).mean(), np.array(acc_all).std())
+print(test_acc)
