@@ -171,7 +171,7 @@ class Net(torch.nn.Module):
 
 
 
-        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 5))
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 2))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
