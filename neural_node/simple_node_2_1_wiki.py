@@ -201,10 +201,6 @@ def train():
     model.train()
     optimizer.zero_grad()
 
-    print(model().size())
-    print(len(train_mask))
-    exit()
-
     F.nll_loss(model()[train_mask], data.y[train_mask]).backward()
     optimizer.step()
 
