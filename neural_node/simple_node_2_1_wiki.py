@@ -32,7 +32,7 @@ class PPI_2_1(InMemoryDataset):
 
     def process(self):
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "rrr")
         dataset = Twitch(path, "PT")
         data = dataset[0]
 
