@@ -14,7 +14,7 @@ dataset = Twitch(path, name="PT")
 data = dataset[0]
 
 
-print(len(data))
+print(len(data.x))
 exit()
 train_index, val_index = train_test_split(list(), test_size=0.1)
 
