@@ -75,3 +75,4 @@ for i in range(1):
 
 
 print(test_acc)
+print(dataset.num_classes)
