@@ -40,7 +40,7 @@ def train():
     model.train()
     optimizer.zero_grad()
 
-    F.nll_loss(model()[train_mask], data.y[test_mask]).backward()
+    F.nll_loss(model()[train_mask], data.y[train_mask]).backward()
     optimizer.step()
 
 
