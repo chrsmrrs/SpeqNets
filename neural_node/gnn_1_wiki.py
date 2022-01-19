@@ -51,7 +51,7 @@ def test():
     for mask in [train_mask, val_mask, test_mask]:
 
         pred = logits[mask].max(1)[1]
-        acc = pred.eq(data.y[mask]).sum().item() / mask.sum().item()
+        acc = pred.eq(data.y[mask]).sum().item() / sum(mask)
         accs.append(acc)
     return accs
 
