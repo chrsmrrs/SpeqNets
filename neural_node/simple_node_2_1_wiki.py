@@ -32,9 +32,8 @@ class PPI_2_1(InMemoryDataset):
 
     def process(self):
 
-        dataset = 'squirrel'
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-        dataset = Twitch(path, )
+        dataset = Twitch(path, "PT")
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
