@@ -39,11 +39,11 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "tetxftffttas"
+        return "tetxfeetffttas"
 
     @property
     def processed_file_names(self):
-        return "PPtI_2_t1ettffffdgs"
+        return "PPtI_2_t1eteetffffdgs"
 
     def download(self):
         pass
@@ -56,7 +56,7 @@ class PPI_2_1(InMemoryDataset):
         data = dataset[0]
 
         k = 3
-        s = 2
+        s = 1
 
         x = data.x.cpu().detach().numpy()
         edge_index = data.edge_index.cpu().detach().numpy()
@@ -160,7 +160,7 @@ class PPI_2_1(InMemoryDataset):
 
                     tmp = np.concatenate([node_features[i] for i in t], axis=-1)
 
-                    one_hot = np.zeros((100,))
+                    one_hot = np.zeros((20,))
 
                     one_hot[int(at)] = 1
                     type[t_v] = np.concatenate([one_hot,tmp])
@@ -337,7 +337,7 @@ def test(i):
 acc_all = []
 
 
-for i in range(1):
+for i in range(5):
     acc_total = 0
     for i in range(10):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
