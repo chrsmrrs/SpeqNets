@@ -39,11 +39,11 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "tetxfreetffttas"
+        return "tetxfreetfrfttas"
 
     @property
     def processed_file_names(self):
-        return "PPtI_2_t1eteretffffdgs"
+        return "PPtI_2_t1erteretffffdgs"
 
     def download(self):
         pass
