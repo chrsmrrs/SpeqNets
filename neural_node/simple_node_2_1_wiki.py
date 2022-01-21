@@ -147,7 +147,7 @@ path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trgtdeddrktee
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
-l = 9498
+l = 4648
 l = list(range(l))
 train, test = train_test_split(l, test_size=0.1)
 train, val = train_test_split(train, test_size=0.1)
