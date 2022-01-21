@@ -38,6 +38,13 @@ class Net(torch.nn.Module):
         x = self.conv2(x, edge_index, edge_weight)
         return F.log_softmax(x, dim=1)
 
+def train(i):
+    model.train()
+    optimizer.zero_grad()
+    F.nll_loss(model()[data.train_mask[:,i]], data.y[data.train_mask[:,i]]).backward()
+
+    optimizer.step()
+
 
 
 @torch.no_grad()
