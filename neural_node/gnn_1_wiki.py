@@ -13,6 +13,11 @@ path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "ff")
 dataset = LastFMAsia(path)
 data = dataset[0]
 
+
+print(data.x.size())
+
+exit()
+
 l = len(data.x)
 l = list(range(l))
 train, test = train_test_split(l, test_size=0.1)
