@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from graph_tool.all import *
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
-from torch_geometric.datasets import WikipediaNetwork, Actor, Twitch
+from torch_geometric.datasets import WikipediaNetwork, Actor, Twitch, LastFMAsia
 from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
 from sklearn.model_selection import train_test_split
@@ -21,19 +21,19 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squittetrdrefekgtfl"
+        return "squittetrfdrefekgtfl"
 
     @property
     def processed_file_names(self):
-        return "PPtdI_t2_e1fleetffgg"
+        return "PPtdI_t2_e1ffleetffgg"
 
     def download(self):
         pass
 
     def process(self):
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "rrr")
-        dataset = Twitch(path, "PT")
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "ff")
+        dataset = LastFMAsia(path)
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
