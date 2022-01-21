@@ -139,11 +139,11 @@ class MyTransform(object):
         return new_data
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'tterktee')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ttderktee')
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
-l = list(range(1912))
+l = list(range(7624))
 train, test = train_test_split(l, test_size=0.1)
 train, val = train_test_split(train, test_size=0.1)
 
@@ -170,7 +170,7 @@ class Net(torch.nn.Module):
 
 
 
-        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 2))
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 18))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
