@@ -21,19 +21,19 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squitdstetrfrdrfefrekgtfl"
+        return "squitdstfetrfrdrfefrekgtfl"
 
     @property
     def processed_file_names(self):
-        return "PPtdI_t2d_esrrr1fffleetffgg"
+        return "PPtdI_t2df_esrrr1fffleetffgg"
 
     def download(self):
         pass
 
     def process(self):
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "fefef")
-        dataset = Actor(path)
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
+        dataset = Twitch(path, name="DE")
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
@@ -147,6 +147,16 @@ path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trgtdeddrktee
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
+l = 9498
+l = list(range(l))
+train, test = train_test_split(l, test_size=0.1)
+train, val = train_test_split(train, test_size=0.1)
+
+train_mask = [True if i in train else False for i in l]
+val_mask = [True if i in val else False for i in l]
+test_mask = [True if i in test else False for i in l]
+
+
 
 
 class Net(torch.nn.Module):
@@ -193,7 +203,7 @@ class Net(torch.nn.Module):
 def train(i):
     model.train()
     optimizer.zero_grad()
-    F.nll_loss(model()[data.train_mask[:,i]], data.y[data.train_mask[:,i]]).backward()
+    F.nll_loss(model()[train_mask], data.y[train_mask]).backward()
 
     optimizer.step()
 
@@ -203,11 +213,11 @@ def train(i):
 def test(i):
     model.eval()
     logits, accs = model(), []
-    for _, mask in data('train_mask', 'val_mask', 'test_mask'):
+    for mask in [train_mask, val_mask, test_mask]:
 
 
-        pred = logits[mask[:,i]].max(1)[1]
-        acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
+        pred = logits[mask[:]].max(1)[1]
+        acc = pred.eq(data.y[mask]).sum().item() / sum(mask)
         accs.append(acc)
     return accs
 
@@ -215,12 +225,12 @@ def test(i):
 acc_all = []
 
 
-for i in range(5):
+for i in range(1):
     acc_total = 0
     for i in range(10):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model, data = Net().to(device), data.to(device)
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=5e-3)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
 
         best_val_acc = test_acc = 0
         for epoch in range(1, 201):
@@ -237,4 +247,5 @@ for i in range(5):
     acc_all.append(acc_total/10)
 
 print(np.array(acc_all).mean(), np.array(acc_all).std())
+
 print(test_acc)
