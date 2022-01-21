@@ -21,18 +21,18 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squitdstetrfrdrefrekgtfl"
+        return "squitdstetrfrdrfefrekgtfl"
 
     @property
     def processed_file_names(self):
-        return "PPtdI_t2d_esrrr1ffleetffgg"
+        return "PPtdI_t2d_esrrr1fffleetffgg"
 
     def download(self):
         pass
 
     def process(self):
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "fefef")
         dataset = Actor(path)
         data = dataset[0]
 
@@ -143,7 +143,7 @@ class MyTransform(object):
         return new_data
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trtdeddrktee')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trgtdeddrktee')
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
