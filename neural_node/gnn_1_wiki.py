@@ -3,14 +3,14 @@ import argparse
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch_geometric.datasets import WebKB, WikipediaNetwork, Actor, Twitch, LastFMAsia
+from torch_geometric.datasets import WebKB, WikipediaNetwork, Actor, Twitch, LastFMAsia, WikiCS
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
 from sklearn.model_selection import train_test_split
 
 
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "ff")
-dataset = LastFMAsia(path)
+dataset = WikiCS(path)
 data = dataset[0]
 
 
