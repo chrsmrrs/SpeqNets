@@ -10,4 +10,4 @@ export PYTHONUNBUFFERED=1
 module load cuda/10.2
 module load anaconda
 conda activate gc
-python simple_node_2_2.py
+python simple_node_3_2.py
