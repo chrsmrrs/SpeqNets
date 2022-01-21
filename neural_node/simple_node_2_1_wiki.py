@@ -21,19 +21,19 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squitdtetrfrdrefrekgtfl"
+        return "squitdstetrfrdrefrekgtfl"
 
     @property
     def processed_file_names(self):
-        return "PPtdI_t2d_errr1ffleetffgg"
+        return "PPtdI_t2d_esrrr1ffleetffgg"
 
     def download(self):
         pass
 
     def process(self):
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "frf")
-        dataset = WikiCS(path)
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
+        dataset = Planetoid(path, name="PubMed")
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
@@ -143,13 +143,6 @@ path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trtderktee')
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
-l = list(range(11701))
-train, test = train_test_split(l, test_size=0.1)
-train, val = train_test_split(train, test_size=0.1)
-
-train_mask = [True if i in train else False for i in l]
-val_mask = [True if i in val else False for i in l]
-test_mask = [True if i in test else False for i in l]
 
 
 class Net(torch.nn.Module):
@@ -168,9 +161,7 @@ class Net(torch.nn.Module):
         self.conv_2_2 = GCNConv(dim, dim)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-
-
-        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 10))
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 3))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2
@@ -200,8 +191,7 @@ class Net(torch.nn.Module):
 def train():
     model.train()
     optimizer.zero_grad()
-
-    F.nll_loss(model()[train_mask], data.y[train_mask]).backward()
+    F.nll_loss(model()[data.train_mask], data.y[data.train_mask]).backward()
     optimizer.step()
 
 
@@ -209,10 +199,9 @@ def train():
 def test():
     model.eval()
     logits, accs = model(), []
-    for mask in [train_mask, val_mask, test_mask]:
-
+    for _, mask in data('train_mask', 'val_mask', 'test_mask'):
         pred = logits[mask].max(1)[1]
-        acc = pred.eq(data.y[mask]).sum().item() / sum(mask)
+        acc = pred.eq(data.y[mask]).sum().item() / mask.sum().item()
         accs.append(acc)
     return accs
 
