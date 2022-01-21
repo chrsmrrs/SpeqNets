@@ -33,7 +33,7 @@ class PPI_2_1(InMemoryDataset):
     def process(self):
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
-        dataset = Twitch(path, name="DE")
+        dataset = Twitch(path, name="ES")
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
@@ -175,7 +175,7 @@ class Net(torch.nn.Module):
         self.conv_2_2 = GCNConv(dim, dim)
         self.mlp_2 = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, dim))
 
-        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 5))
+        self.mlp = Sequential(Linear(2 * dim, dim), ReLU(), Linear(dim, 2))
 
     def forward(self):
         x, edge_index_1, edge_index_2 = data.x, data.edge_index_1, data.edge_index_2

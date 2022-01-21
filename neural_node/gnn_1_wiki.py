@@ -9,8 +9,8 @@ from sklearn.model_selection import train_test_split
 
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
-dataset = Twitch(path, name="DE")
+path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feedf")
+dataset = Twitch(path, name="ES")
 data = dataset[0]
 
 
