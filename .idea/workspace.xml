@@ -14,7 +14,7 @@
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_node/gnn" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/gnn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +73,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/neural_node" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/neural_graph/zinc" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -85,13 +85,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/neural_graph/zinc" />
       <recent name="$PROJECT_DIR$/neural_node" />
       <recent name="$PROJECT_DIR$/neural_graph" />
       <recent name="$PROJECT_DIR$/ogb" />
       <recent name="$PROJECT_DIR$/k_s_wl_cpp/implementation/tud_benchmark" />
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/neural_graph" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/neural" />
     </key>
@@ -340,14 +341,7 @@
       <workItem from="1642521837965" duration="5242000" />
       <workItem from="1642554777906" duration="5076000" />
       <workItem from="1642632703606" duration="2047000" />
-      <workItem from="1642707456281" duration="9757000" />
-    </task>
-    <task id="LOCAL-00943" summary="ghjhj">
-      <created>1642464036426</created>
-      <option name="number" value="00943" />
-      <option name="presentableId" value="LOCAL-00943" />
-      <option name="project" value="LOCAL" />
-      <updated>1642464036427</updated>
+      <workItem from="1642707456281" duration="17018000" />
     </task>
     <task id="LOCAL-00944" summary="ghjhj">
       <created>1642464295478</created>
@@ -685,7 +679,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642723648935</updated>
     </task>
-    <option name="localTasksCounter" value="992" />
+    <task id="LOCAL-00992" summary="ghjhj">
+      <created>1642729169928</created>
+      <option name="number" value="00992" />
+      <option name="presentableId" value="LOCAL-00992" />
+      <option name="project" value="LOCAL" />
+      <updated>1642729169928</updated>
+    </task>
+    <option name="localTasksCounter" value="993" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
