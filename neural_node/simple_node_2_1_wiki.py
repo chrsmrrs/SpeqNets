@@ -21,18 +21,18 @@ class PPI_2_1(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "squitdtetrfrdrefekgtfl"
+        return "squitdtetrfrdrefrekgtfl"
 
     @property
     def processed_file_names(self):
-        return "PPtdI_t2d_err1ffleetffgg"
+        return "PPtdI_t2d_errr1ffleetffgg"
 
     def download(self):
         pass
 
     def process(self):
 
-        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "ff")
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "frf")
         dataset = WikiCS(path)
         data = dataset[0]
 
@@ -139,7 +139,7 @@ class MyTransform(object):
         return new_data
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ttderktee')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trtderktee')
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
