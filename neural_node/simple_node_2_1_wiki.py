@@ -172,7 +172,6 @@ class Net(torch.nn.Module):
 
         index_1, index_2 = data.index_1, data.index_2
 
-
         x = self.mlp_init(x)
 
         x_1 = F.relu(self.conv_1_1(x, edge_index_1))
@@ -221,7 +220,7 @@ for i in range(5):
     for i in range(10):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model, data = Net().to(device), data.to(device)
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-3)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=5e-3)
 
         best_val_acc = test_acc = 0
         for epoch in range(1, 201):
