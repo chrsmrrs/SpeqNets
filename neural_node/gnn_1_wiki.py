@@ -16,15 +16,15 @@ data = dataset[0]
 
 print(data.x.size())
 
-#
-# l = len(data.x)
-# l = list(range(l))
-# train, test = train_test_split(l, test_size=0.1)
-# train, val = train_test_split(train, test_size=0.1)
 
-# train_mask = [True if i in train else False for i in l]
-# val_mask = [True if i in val else False for i in l]
-# test_mask = [True if i in test else False for i in l]
+l = len(data.x)
+l = list(range(l))
+train, test = train_test_split(l, test_size=0.1)
+train, val = train_test_split(train, test_size=0.1)
+
+train_mask = [True if i in train else False for i in l]
+val_mask = [True if i in val else False for i in l]
+test_mask = [True if i in test else False for i in l]
 
 class Net(torch.nn.Module):
     def __init__(self):
@@ -41,7 +41,7 @@ class Net(torch.nn.Module):
 def train(i):
     model.train()
     optimizer.zero_grad()
-    F.nll_loss(model()[data.train_mask[:,i]], data.y[data.train_mask[:,i]]).backward()
+    F.nll_loss(model()[train_mask], data.y[train_mask]).backward()
 
     optimizer.step()
 
@@ -51,11 +51,11 @@ def train(i):
 def test(i):
     model.eval()
     logits, accs = model(), []
-    for _, mask in data('train_mask', 'val_mask', 'test_mask'):
+    for mask in [train_mask, val_mask, test_mask]:
 
 
-        pred = logits[mask[:,i]].max(1)[1]
-        acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
+        pred = logits[mask[:]].max(1)[1]
+        acc = pred.eq(data.y[mask]).sum().item() / sum(mask)
         accs.append(acc)
     return accs
 
