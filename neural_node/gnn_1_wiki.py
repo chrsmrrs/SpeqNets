@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
-dataset = Actor(path)
+dataset = Twitch(path, name="DE")
 data = dataset[0]
 
 
