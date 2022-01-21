@@ -13,6 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_node/simple_node_2_1_wiki.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -340,21 +341,7 @@
       <workItem from="1642521837965" duration="5242000" />
       <workItem from="1642554777906" duration="5076000" />
       <workItem from="1642632703606" duration="2047000" />
-      <workItem from="1642707456281" duration="18446000" />
-    </task>
-    <task id="LOCAL-00952" summary="ghjhj">
-      <created>1642465707394</created>
-      <option name="number" value="00952" />
-      <option name="presentableId" value="LOCAL-00952" />
-      <option name="project" value="LOCAL" />
-      <updated>1642465707395</updated>
-    </task>
-    <task id="LOCAL-00953" summary="ghjhj">
-      <created>1642465905074</created>
-      <option name="number" value="00953" />
-      <option name="presentableId" value="LOCAL-00953" />
-      <option name="project" value="LOCAL" />
-      <updated>1642465905074</updated>
+      <workItem from="1642707456281" duration="19351000" />
     </task>
     <task id="LOCAL-00954" summary="ghjhj">
       <created>1642466004616</created>
@@ -685,7 +672,21 @@
       <option name="project" value="LOCAL" />
       <updated>1642786651010</updated>
     </task>
-    <option name="localTasksCounter" value="1001" />
+    <task id="LOCAL-01001" summary="ghjhj">
+      <created>1642786819204</created>
+      <option name="number" value="01001" />
+      <option name="presentableId" value="LOCAL-01001" />
+      <option name="project" value="LOCAL" />
+      <updated>1642786819205</updated>
+    </task>
+    <task id="LOCAL-01002" summary="ghjhj">
+      <created>1642787023614</created>
+      <option name="number" value="01002" />
+      <option name="presentableId" value="LOCAL-01002" />
+      <option name="project" value="LOCAL" />
+      <updated>1642787023617</updated>
+    </task>
+    <option name="localTasksCounter" value="1003" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
