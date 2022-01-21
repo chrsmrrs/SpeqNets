@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from graph_tool.all import *
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
-from torch_geometric.datasets import WikipediaNetwork, Actor, Twitch, LastFMAsia, WikiCS
+from torch_geometric.datasets import WikipediaNetwork, Actor, Twitch, LastFMAsia, WikiCS, Planetoid
 from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
 from sklearn.model_selection import train_test_split

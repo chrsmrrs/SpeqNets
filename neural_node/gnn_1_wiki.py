@@ -3,14 +3,14 @@ import argparse
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch_geometric.datasets import WebKB, WikipediaNetwork, Actor, Twitch, LastFMAsia, WikiCS
+from torch_geometric.datasets import WebKB, WikipediaNetwork, Actor, Twitch, LastFMAsia, WikiCS, Planetoid
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
 from sklearn.model_selection import train_test_split
 
 
 
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
-dataset = WikiCS(path)
+dataset = Planetoid(path, name= "PubMed")
 data = dataset[0]
 
 
