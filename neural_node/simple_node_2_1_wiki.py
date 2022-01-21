@@ -33,7 +33,7 @@ class PPI_2_1(InMemoryDataset):
     def process(self):
 
         path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
-        dataset = Planetoid(path, name="PubMed")
+        dataset = Actor(path)
         data = dataset[0]
 
         x = data.x.cpu().detach().numpy()
@@ -143,7 +143,7 @@ class MyTransform(object):
         return new_data
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trtderktee')
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'trtdeddrktee')
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
 
