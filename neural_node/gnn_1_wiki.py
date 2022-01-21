@@ -9,14 +9,13 @@ from sklearn.model_selection import train_test_split
 
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "ff")
+path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', "feef")
 dataset = WikiCS(path)
 data = dataset[0]
 
 
 print(data.x.size())
 
-exit()
 
 l = len(data.x)
 l = list(range(l))
