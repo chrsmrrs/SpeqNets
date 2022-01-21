@@ -118,9 +118,9 @@ class PPI_2_1(InMemoryDataset):
 
         data_new.y = data.y
 
-        data_new.train_mask = data.train_mask
-        data_new.val_mask = data.val_mask
-        data_new.test_mask = data.test_mask
+        # data_new.train_mask = data.train_mask
+        # data_new.val_mask = data.val_mask
+        # data_new.test_mask = data.test_mask
 
         data_list.append(data_new)
 
