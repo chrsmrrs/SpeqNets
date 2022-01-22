@@ -43,7 +43,7 @@ class QM9(InMemoryDataset):
         attributes = pre.get_all_attributes_3_2("QM9")
 
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
-        matrices = pre.get_all_matrices_3_2("QM9")
+        matrices = pre.get_all_matrices_3_2("QM9", list(range(129433)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -55,8 +55,9 @@ class QM9(InMemoryDataset):
             data.edge_index_2 = edge_index_2
             data.edge_index_3 = edge_index_3
 
-            one_hot = np.eye(50)[node_labels[i]]
-            data.x = torch.from_numpy(one_hot).to(torch.float)
+            # one_hot = np.eye(50)[node_labels[i]]
+            # data.x = torch.from_numpy(one_hot).to(torch.float)
+            data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
 
             # Continuous information.
             data.first = torch.from_numpy(np.array(attributes[i][0])[:,0:13]).to(torch.float)
