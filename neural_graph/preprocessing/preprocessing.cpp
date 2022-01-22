@@ -335,7 +335,7 @@ vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attribute
 
     GraphDatabase gdb_new_1;
     for (auto i : indices) {
-        gdb_new_1.push_back(gdb_1[int(i)]);
+        gdb_new_1.push_back(gdb[int(i)]);
     }
     cout << gdb_new_1.size() << endl;
 
