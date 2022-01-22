@@ -327,14 +327,22 @@ tuple <Attributes, Attributes, Attributes, Attributes> get_attributes_3_1(const 
 }
 
 
-vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attributes_3_2(string name) {
+vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attributes_3_2(string name, const std::vector<int> &indices) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
     gdb.erase(gdb.begin() + 0);
 
     vector <tuple<Attributes, Attributes, Attributes, Attributes>> attributes;
 
+    GraphDatabase gdb_new_1;
+    for (auto i : indices) {
+        gdb_new_1.push_back(gdb_1[int(i)]);
+    }
+    cout << gdb_new_1.size() << endl;
+
+
+
     uint i = 1;
-    for (auto &g: gdb) {
+    for (auto &g: gdb_new_1) {
        attributes.push_back(get_attributes_3_2(g));
        cout << i << endl;
 
