@@ -28,12 +28,12 @@ class QM9(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "QM9_2te"
+        return "QM9_2tew"
 
 
     @property
     def processed_file_names(self):
-        return "QM9_2et"
+        return "QM9_2etg"
 
     def download(self):
         pass
