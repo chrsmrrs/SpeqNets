@@ -297,7 +297,7 @@ for epoch in range(1, 201):
     scheduler.step(val_error)
 
     if best_val_error is None or val_error <= best_val_error:
-        test_error = test(test_loader)
+        test_error, _ = test(test_loader)
         best_val_error = val_error
 
     print('Epoch: {:03d}, LR: {:.7f}, Loss: {:.7f}, Validation MAE: {:.7f}, '
