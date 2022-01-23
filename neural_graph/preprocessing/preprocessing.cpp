@@ -391,7 +391,7 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
 
     Node num_two_tuples = 0;
     for (Node i = 0; i < num_nodes; ++i) {
-        for (Node j = 0; j < num_nodes; ++j) {
+        for (Node j: g.get_neighbours(i)) {
             // Map each pair to node in two set graph and also inverse.
 
             Attribute attr_i = attributes[i];
@@ -409,6 +409,16 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
             second.push_back(attr_j);
             third.push_back(e_attr_ij);
         }
+
+            Attribute attr_i = attributes[i];
+            Attribute attr_j = attributes[i];
+
+            Attribute e_attr_ij;
+            e_attr_ij = vector<float>({{0, 0, 0, 0}});
+
+            first.push_back(attr_i);
+            second.push_back(attr_j);
+            third.push_back(e_attr_ij);
     }
 
     return std::make_tuple(first, second, third);
