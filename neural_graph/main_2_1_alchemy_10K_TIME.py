@@ -300,9 +300,9 @@ for epoch in range(1, 201):
     if best_val_error is None or val_error <= best_val_error:
         test_error, _ = test(test_loader)
         best_val_error = val_error
-    print(i)
-    # print('Epoch: {:03d}, LR: {:.7f}, Loss: {:.7f}, Validation MAE: {:.7f}, '
-    #       'Test MAE: {:.7f}'.format(epoch, lr, loss, val_error, test_error))
+
+    print('Epoch: {:03d}, LR: {:.7f}, Loss: {:.7f}, Validation MAE: {:.7f}, '
+          'Test MAE: {:.7f}'.format(epoch, lr, loss, val_error, test_error))
 
     if lr < 0.000001:
         print("Converged.")
@@ -311,4 +311,3 @@ torch.cuda.synchronize()
 stop = timer()
 delta = stop - start
 print(delta, delta / i)
-
