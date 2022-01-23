@@ -294,7 +294,7 @@ for epoch in range(1, 201):
     i += 1
     lr = scheduler.optimizer.param_groups[0]['lr']
     loss = train()
-    val_error = test(val_loader)
+    val_error, _ = test(val_loader)
     scheduler.step(val_error)
 
     if best_val_error is None or val_error <= best_val_error:
