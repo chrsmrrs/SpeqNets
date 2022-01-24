@@ -19,10 +19,10 @@ from torch_geometric.data import (InMemoryDataset, Data)
 from torch_geometric.data import DataLoader
 import torch.nn.functional as F
 
-class QM9(InMemoryDataset):
+class QM9_1(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
-        super(QM9, self).__init__(root, transform, pre_transform, pre_filter)
+        super(QM9_1, self).__init__(root, transform, pre_transform, pre_filter)
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property
@@ -44,6 +44,196 @@ class QM9(InMemoryDataset):
 
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
         matrices = pre.get_all_matrices_3_2("QM9", list(range(30000)))
+
+        for i, m in enumerate(matrices):
+            edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
+            edge_index_2 = torch.tensor(matrices[i][1]).t().contiguous()
+            edge_index_3 = torch.tensor(matrices[i][2]).t().contiguous()
+
+            data = Data()
+            data.edge_index_1 = edge_index_1
+            data.edge_index_2 = edge_index_2
+            data.edge_index_3 = edge_index_3
+
+            # one_hot = np.eye(50)[node_labels[i]]
+            # data.x = torch.from_numpy(one_hot).to(torch.float)
+            data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
+
+            # Continuous information.
+            data.first = torch.from_numpy(np.array(attributes[i][0])[:,0:13]).to(torch.float)
+            data.first_coord = torch.from_numpy(np.array(attributes[i][0])[:, 13:]).to(torch.float)
+
+            data.second = torch.from_numpy(np.array(attributes[i][1])[:, 0:13]).to(torch.float)
+            data.second_coord = torch.from_numpy(np.array(attributes[i][1])[:, 13:]).to(torch.float)
+
+            data.third = torch.from_numpy(np.array(attributes[i][2])[:, 0:13]).to(torch.float)
+            data.third_coord = torch.from_numpy(np.array(attributes[i][2])[:, 13:]).to(torch.float)
+
+            data.dist_12 = torch.norm(data.first_coord - data.second_coord, p=2, dim=-1).view(-1, 1)
+            data.dist_13 = torch.norm(data.first_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
+            data.dist_23 = torch.norm(data.second_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
+
+            data.edge_attr = torch.from_numpy(np.array(attributes[i][3])).to(torch.float)
+            data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
+
+            data_list.append(data)
+
+        data, slices = self.collate(data_list)
+        torch.save((data, slices), self.processed_paths[0])
+
+
+class QM9_2(InMemoryDataset):
+    def __init__(self, root, transform=None, pre_transform=None,
+                 pre_filter=None):
+        super(QM9_2, self).__init__(root, transform, pre_transform, pre_filter)
+        self.data, self.slices = torch.load(self.processed_paths[0])
+
+    @property
+    def raw_file_names(self):
+        return "QM9_2trttt"
+
+
+    @property
+    def processed_file_names(self):
+        return "QM9_2ttrtt"
+
+    def download(self):
+        pass
+
+    def process(self):
+        data_list = []
+        targets = dp.get_dataset("QM9", multigregression=True).tolist()
+        attributes = pre.get_all_attributes_3_2("QM9", list(range(30000, 60000)))
+
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
+        matrices = pre.get_all_matrices_3_2("QM9", list(range(30000, 60000)))
+
+        for i, m in enumerate(matrices):
+            edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
+            edge_index_2 = torch.tensor(matrices[i][1]).t().contiguous()
+            edge_index_3 = torch.tensor(matrices[i][2]).t().contiguous()
+
+            data = Data()
+            data.edge_index_1 = edge_index_1
+            data.edge_index_2 = edge_index_2
+            data.edge_index_3 = edge_index_3
+
+            # one_hot = np.eye(50)[node_labels[i]]
+            # data.x = torch.from_numpy(one_hot).to(torch.float)
+            data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
+
+            # Continuous information.
+            data.first = torch.from_numpy(np.array(attributes[i][0])[:,0:13]).to(torch.float)
+            data.first_coord = torch.from_numpy(np.array(attributes[i][0])[:, 13:]).to(torch.float)
+
+            data.second = torch.from_numpy(np.array(attributes[i][1])[:, 0:13]).to(torch.float)
+            data.second_coord = torch.from_numpy(np.array(attributes[i][1])[:, 13:]).to(torch.float)
+
+            data.third = torch.from_numpy(np.array(attributes[i][2])[:, 0:13]).to(torch.float)
+            data.third_coord = torch.from_numpy(np.array(attributes[i][2])[:, 13:]).to(torch.float)
+
+            data.dist_12 = torch.norm(data.first_coord - data.second_coord, p=2, dim=-1).view(-1, 1)
+            data.dist_13 = torch.norm(data.first_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
+            data.dist_23 = torch.norm(data.second_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
+
+            data.edge_attr = torch.from_numpy(np.array(attributes[i][3])).to(torch.float)
+            data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
+
+            data_list.append(data)
+
+        data, slices = self.collate(data_list)
+        torch.save((data, slices), self.processed_paths[0])
+
+
+
+class QM9_3(InMemoryDataset):
+    def __init__(self, root, transform=None, pre_transform=None,
+                 pre_filter=None):
+        super(QM9_3, self).__init__(root, transform, pre_transform, pre_filter)
+        self.data, self.slices = torch.load(self.processed_paths[0])
+
+    @property
+    def raw_file_names(self):
+        return "QM9_2tttt"
+
+
+    @property
+    def processed_file_names(self):
+        return "QM9_2tttt"
+
+    def download(self):
+        pass
+
+    def process(self):
+        data_list = []
+        targets = dp.get_dataset("QM9", multigregression=True).tolist()
+        attributes = pre.get_all_attributes_3_2("QM9", list(range(60000, 90000)))
+
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
+        matrices = pre.get_all_matrices_3_2("QM9", list(range(60000, 90000)))
+
+        for i, m in enumerate(matrices):
+            edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
+            edge_index_2 = torch.tensor(matrices[i][1]).t().contiguous()
+            edge_index_3 = torch.tensor(matrices[i][2]).t().contiguous()
+
+            data = Data()
+            data.edge_index_1 = edge_index_1
+            data.edge_index_2 = edge_index_2
+            data.edge_index_3 = edge_index_3
+
+            # one_hot = np.eye(50)[node_labels[i]]
+            # data.x = torch.from_numpy(one_hot).to(torch.float)
+            data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
+
+            # Continuous information.
+            data.first = torch.from_numpy(np.array(attributes[i][0])[:,0:13]).to(torch.float)
+            data.first_coord = torch.from_numpy(np.array(attributes[i][0])[:, 13:]).to(torch.float)
+
+            data.second = torch.from_numpy(np.array(attributes[i][1])[:, 0:13]).to(torch.float)
+            data.second_coord = torch.from_numpy(np.array(attributes[i][1])[:, 13:]).to(torch.float)
+
+            data.third = torch.from_numpy(np.array(attributes[i][2])[:, 0:13]).to(torch.float)
+            data.third_coord = torch.from_numpy(np.array(attributes[i][2])[:, 13:]).to(torch.float)
+
+            data.dist_12 = torch.norm(data.first_coord - data.second_coord, p=2, dim=-1).view(-1, 1)
+            data.dist_13 = torch.norm(data.first_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
+            data.dist_23 = torch.norm(data.second_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
+
+            data.edge_attr = torch.from_numpy(np.array(attributes[i][3])).to(torch.float)
+            data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
+
+            data_list.append(data)
+
+        data, slices = self.collate(data_list)
+        torch.save((data, slices), self.processed_paths[0])
+
+
+class QM9_4(InMemoryDataset):
+    def __init__(self, root, transform=None, pre_transform=None,
+                 pre_filter=None):
+        super(QM9_4, self).__init__(root, transform, pre_transform, pre_filter)
+        self.data, self.slices = torch.load(self.processed_paths[0])
+
+    @property
+    def raw_file_names(self):
+        return "QM9_2tttt"
+
+
+    @property
+    def processed_file_names(self):
+        return "QM9_2tttt"
+
+    def download(self):
+        pass
+
+    def process(self):
+        data_list = []
+        targets = dp.get_dataset("QM9", multigregression=True).tolist()
+        attributes = pre.get_all_attributes_3_2("QM9", list(range(90000, 129433)))
+
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
+        matrices = pre.get_all_matrices_3_2("QM9", list(range(90000, 129433)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -176,7 +366,7 @@ class NetGIN(torch.nn.Module):
 
         x = data.x
 
-        node_labels = torch.zeros(x.size(0), 83).to(device)
+        node_labels = torch.zeros(x.size(0), 14).to(device)
         node_labels[range(node_labels.shape[0]), x.view(1, x.size(0))] = 1
 
         node_labels = self.type_encoder(node_labels)
@@ -223,12 +413,21 @@ class NetGIN(torch.nn.Module):
         return x
 
 
+path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
+
+dataset = QM9_1(path, transform=MyTransform())
+dataset = QM9_2(path, transform=MyTransform())
+dataset = QM9_3(path, transform=MyTransform())
+dataset = QM9_4(path, transform=MyTransform())
+
+exit()
+
 results = []
 results_log = []
-for _ in range(5):
+for _ in range(3):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
-    dataset = QM9(path, transform=MyTransform()).shuffle()
+    dataset = QM9_1(path, transform=MyTransform()).shuffle()
 
 
     dataset.data.y = dataset.data.y[:,0:12]
