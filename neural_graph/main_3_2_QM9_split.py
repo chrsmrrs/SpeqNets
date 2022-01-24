@@ -40,10 +40,10 @@ class QM9(InMemoryDataset):
     def process(self):
         data_list = []
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
-        attributes = pre.get_all_attributes_3_2("QM9", list(range(50000)))
+        attributes = pre.get_all_attributes_3_2("QM9", list(range(30000)))
 
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
-        matrices = pre.get_all_matrices_3_2("QM9", list(range(50000)))
+        matrices = pre.get_all_matrices_3_2("QM9", list(range(30000)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -174,7 +174,11 @@ class NetGIN(torch.nn.Module):
         dist_13 = data.dist_13
         dist_23 = data.dist_23
 
-        node_labels = data.x
+        x = data.x
+
+        node_labels = torch.zeros(x.size(0), 83).to(device)
+        node_labels[range(node_labels.shape[0]), x.view(1, x.size(0))] = 1
+
         node_labels = self.type_encoder(node_labels)
 
         node_attributes = torch.cat([first, second, third], dim=-1)
