@@ -76,9 +76,6 @@ class QM9_1(InMemoryDataset):
             data.edge_attr = torch.from_numpy(np.array(attributes[i][3])).to(torch.float)
 
 
-            print(data.x.size())
-            print(data.edge_attr.size())
-
             data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
