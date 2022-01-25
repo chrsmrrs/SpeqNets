@@ -300,7 +300,8 @@ class QM9_all(InMemoryDataset):
         dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2, dataset_3, dataset_4])
         data_list = []
 
-        for data in dataset:
+        for i,data in enumerate(dataset):
+            print(i)
             data_list.append(data)
 
         data, slices = self.collate(data_list)
