@@ -13,7 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_graph/main_3_2_QM9_split.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_3_2_QM9_split.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -345,14 +345,7 @@
       <workItem from="1642809569959" duration="2967000" />
       <workItem from="1642886857710" duration="17729000" />
       <workItem from="1642951887378" duration="5594000" />
-      <workItem from="1643038379501" duration="31411000" />
-    </task>
-    <task id="LOCAL-01005" summary="ghjhj">
-      <created>1642788316309</created>
-      <option name="number" value="01005" />
-      <option name="presentableId" value="LOCAL-01005" />
-      <option name="project" value="LOCAL" />
-      <updated>1642788316311</updated>
+      <workItem from="1643038379501" duration="31762000" />
     </task>
     <task id="LOCAL-01006" summary="ghjhj">
       <created>1642788453488</created>
@@ -690,7 +683,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643119497470</updated>
     </task>
-    <option name="localTasksCounter" value="1054" />
+    <task id="LOCAL-01054" summary="ghjhj">
+      <created>1643121233734</created>
+      <option name="number" value="01054" />
+      <option name="presentableId" value="LOCAL-01054" />
+      <option name="project" value="LOCAL" />
+      <updated>1643121233738</updated>
+    </task>
+    <option name="localTasksCounter" value="1055" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

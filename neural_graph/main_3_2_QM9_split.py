@@ -332,7 +332,7 @@ class NetGIN(torch.nn.Module):
 
         self.node_attribute_encoder = Sequential(Linear(3*13, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
-        self.type_encoder = Sequential(Linear(3, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
+        self.type_encoder = Sequential(Linear(14, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                                        torch.nn.BatchNorm1d(dim), ReLU())
         self.edge_encoder = Sequential(Linear(4+3, dim), torch.nn.BatchNorm1d(dim), ReLU(), Linear(dim, dim),
                            torch.nn.BatchNorm1d(dim), ReLU())
