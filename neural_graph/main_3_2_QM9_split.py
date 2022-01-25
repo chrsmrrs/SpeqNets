@@ -40,11 +40,13 @@ class QM9_1(InMemoryDataset):
     def process(self):
         data_list = []
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
-        attributes = pre.get_all_attributes_3_2("QM9", list(range(100)))
+        attributes = pre.get_all_attributes_3_2("QM9", list(range(10)))
 
-        node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(100)))
+        print(attributes)
 
-        print(len(attributes[0]))
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(10)))
+
+        print(len(attributes[0][0]))
         print(len(node_labels[0]))
         exit()
 
