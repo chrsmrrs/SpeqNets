@@ -4,12 +4,12 @@
 #include "src/Graph.h"
 
 // This might need to adapted to your specific system.
-#include <pybind11/pybind11.h>
-#include <pybind11/eigen.h>
-#include <pybind11/stl.h>
-//#include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
-//#include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
-//#include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
+//#include <pybind11/pybind11.h>
+//#include <pybind11/eigen.h>
+//#include <pybind11/stl.h>
+#include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
+#include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
+#include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
 
 namespace py = pybind11;
 using namespace std;
@@ -1866,9 +1866,16 @@ vector <vector<unsigned long>> get_all_node_labels_zinc_3_1(const bool use_node_
 }
 
 
-vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const bool use_node_labels, const bool use_edge_labels) {
+vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const bool use_node_labels, const bool use_edge_labels, const std::vector<int> &indices) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(name);
     gdb.erase(gdb.begin() + 0);
+
+
+    GraphDatabase gdb_new;
+    for (auto i : indices_train) {
+        gdb_new.push_back(gdb[int(i)]);
+    }
+    cout << gdb_new_1.size() << endl;
 
 
     vector <vector<unsigned long>> node_labels;
@@ -1876,7 +1883,7 @@ vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const 
     uint m_num_labels = 0;
     unordered_map<int, int> m_label_to_index;
 
-    for (auto &g: gdb) {
+    for (auto &g: gdb_new) {
         vector<unsigned long> colors = get_node_labels_3_2(g, use_node_labels, use_edge_labels);
         vector<unsigned long> new_color;
 

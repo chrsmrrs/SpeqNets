@@ -42,7 +42,7 @@ class QM9_1(InMemoryDataset):
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
         attributes = pre.get_all_attributes_3_2("QM9", list(range(30000)))
 
-        node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(30000)))
         matrices = pre.get_all_matrices_3_2("QM9", list(range(30000)))
 
         for i, m in enumerate(matrices):
@@ -105,7 +105,7 @@ class QM9_2(InMemoryDataset):
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
         attributes = pre.get_all_attributes_3_2("QM9", list(range(30000, 60000)))
 
-        node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(30000, 60000)))
         matrices = pre.get_all_matrices_3_2("QM9", list(range(30000, 60000)))
 
         for i, m in enumerate(matrices):
@@ -168,7 +168,7 @@ class QM9_3(InMemoryDataset):
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
         attributes = pre.get_all_attributes_3_2("QM9", list(range(60000, 90000)))
 
-        node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(60000, 90000)))
         matrices = pre.get_all_matrices_3_2("QM9", list(range(60000, 90000)))
 
         for i, m in enumerate(matrices):
@@ -231,7 +231,7 @@ class QM9_4(InMemoryDataset):
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
         attributes = pre.get_all_attributes_3_2("QM9", list(range(90000, 129433)))
 
-        node_labels = pre.get_all_node_labels_3_2("QM9", False, False)
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(90000, 129433)))
         matrices = pre.get_all_matrices_3_2("QM9", list(range(90000, 129433)))
 
         for i, m in enumerate(matrices):
