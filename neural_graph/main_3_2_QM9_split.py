@@ -415,6 +415,11 @@ class NetGIN(torch.nn.Module):
         node_attributes = self.node_attribute_encoder(node_attributes)
 
         edge_attributes = torch.cat([edge_attr, dist_12, dist_13, dist_23], dim=-1)
+
+
+        print(edge_attributes.size())
+        exit()
+
         edge_attributes = self.edge_encoder(edge_attributes)
 
         x = torch.cat([node_labels, node_attributes, edge_attributes], dim=-1)
