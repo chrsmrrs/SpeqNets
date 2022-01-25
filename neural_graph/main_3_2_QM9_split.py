@@ -404,6 +404,7 @@ class NetGIN(torch.nn.Module):
         dist_23 = data.dist_23
 
         x = data.x
+        x = x.long()
 
         node_labels = torch.zeros(x.size(0), 14).to(device)
         node_labels[range(node_labels.shape[0]), x.view(1, x.size(0))] = 1
