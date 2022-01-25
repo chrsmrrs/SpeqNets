@@ -41,11 +41,7 @@ class QM9_1(InMemoryDataset):
         data_list = []
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
         attributes = pre.get_all_attributes_3_2("QM9", list(range(30000)))
-
-
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(30000)))
-
-
         matrices = pre.get_all_matrices_3_2("QM9", list(range(30000)))
 
         for i, m in enumerate(matrices):
@@ -303,10 +299,10 @@ class QM9_all(InMemoryDataset):
         # TODO?? no transform
         dataset_1 = QM9_1(path)
         dataset_2 = QM9_2(path)
-        dataset_3 = QM9_3(path)
-        dataset_4 = QM9_4(path)
+        #dataset_3 = QM9_3(path)
+        #dataset_4 = QM9_4(path)
 
-        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2, dataset_3, dataset_4])
+        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2])
         data_list = []
 
         for i,data in enumerate(dataset):
@@ -475,7 +471,7 @@ results_log = []
 for _ in range(3):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
-    dataset = QM9_1(path, transform=MyTransform()).shuffle()
+    dataset = QM9_all(path, transform=MyTransform()).shuffle()
 
 
     dataset.data.y = dataset.data.y[:,0:12]
