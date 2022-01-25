@@ -1875,7 +1875,7 @@ vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const 
     for (auto i : indices_train) {
         gdb_new.push_back(gdb[int(i)]);
     }
-    cout << gdb_new_1.size() << endl;
+    cout << gdb_new.size() << endl;
 
 
     vector <vector<unsigned long>> node_labels;
