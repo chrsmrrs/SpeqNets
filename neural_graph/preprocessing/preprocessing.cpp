@@ -1062,7 +1062,7 @@ vector<unsigned long> get_node_labels_3_2(const Graph &g, const bool use_labels,
         if (g.has_edge(i, j)) {
             a = AuxiliaryMethods::pairing(AuxiliaryMethods::pairing(c_i, c_j), 1);
 
-            if (use_edge_labels) {
+        if (use_edge_labels) {
                 a = AuxiliaryMethods::pairing(a, edge_labels.find(make_tuple(i, j))->second);
             }
         } else if (i == j) {
