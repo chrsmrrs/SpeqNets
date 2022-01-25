@@ -155,12 +155,12 @@ class QM9_3(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "QM9_2tttt77"
+        return "QM9_2tt3tt77"
 
 
     @property
     def processed_file_names(self):
-        return "QM9_2t77ttt"
+        return "QM9_2t377ttt"
 
     def download(self):
         pass
@@ -218,12 +218,12 @@ class QM9_4(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "QM966_2tttt"
+        return "QM9663_2tttt"
 
 
     @property
     def processed_file_names(self):
-        return "QM966_2tttt"
+        return "QM9636_2tttt"
 
     def download(self):
         pass
@@ -281,11 +281,11 @@ class QM9_all(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "ZIgNC_trairn_all"
+        return "ZIgN4C_trairn_all"
 
     @property
     def processed_file_names(self):
-        return "ZIgNC_trrain_all"
+        return "ZI4gNC_trrain_all"
 
     def download(self):
         pass
@@ -296,10 +296,10 @@ class QM9_all(InMemoryDataset):
         # TODO?? no transform
         dataset_1 = QM9_1(path)
         dataset_2 = QM9_2(path)
-        #dataset_3 = QM9_3(path)
+        dataset_3 = QM9_3(path)
         #dataset_4 = QM9_4(path)
 
-        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2])
+        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2, dataset_3])
         data_list = []
 
         for i,data in enumerate(dataset):
