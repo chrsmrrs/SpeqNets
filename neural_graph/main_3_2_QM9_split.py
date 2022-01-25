@@ -43,6 +43,11 @@ class QM9_1(InMemoryDataset):
         attributes = pre.get_all_attributes_3_2("QM9", list(range(30000)))
 
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(30000)))
+
+        print(attributes[2].shape)
+        print(node_labels[2].shape)
+        exit()
+
         matrices = pre.get_all_matrices_3_2("QM9", list(range(30000)))
 
         for i, m in enumerate(matrices):
