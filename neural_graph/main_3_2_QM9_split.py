@@ -40,16 +40,13 @@ class QM9_1(InMemoryDataset):
     def process(self):
         data_list = []
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
-        attributes = pre.get_all_attributes_3_2("QM9", list(range(10)))
+        attributes = pre.get_all_attributes_3_2("QM9", list(range(100)))
 
 
-        node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(10)))
+        node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(100)))
 
-        print(len(attributes[1][0]))
-        print(len(node_labels[1]))
-        exit()
 
-        matrices = pre.get_all_matrices_3_2("QM9", list(range(30000)))
+        matrices = pre.get_all_matrices_3_2("QM9", list(range(100)))
 
         for i, m in enumerate(matrices):
             edge_index_1 = torch.tensor(matrices[i][0]).t().contiguous()
@@ -471,7 +468,7 @@ results_log = []
 for _ in range(3):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
-    dataset = QM9_all(path, transform=MyTransform()).shuffle()
+    dataset = QM9_1(path, transform=MyTransform()).shuffle()
 
 
     dataset.data.y = dataset.data.y[:,0:12]
