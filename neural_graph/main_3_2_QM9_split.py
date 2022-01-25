@@ -452,9 +452,6 @@ class NetGIN(torch.nn.Module):
 
 
 
-
-exit()
-
 results = []
 results_log = []
 for _ in range(3):
