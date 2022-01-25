@@ -44,8 +44,8 @@ class QM9_1(InMemoryDataset):
 
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(30000)))
 
-        print(len(attributes[0][2]))
-        print(len(node_labels[2]))
+        print(len(attributes[0]))
+        print(len(node_labels[0]))
         exit()
 
         matrices = pre.get_all_matrices_3_2("QM9", list(range(30000)))
