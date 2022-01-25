@@ -1872,7 +1872,7 @@ vector <vector<unsigned long>> get_all_node_labels_3_2(const string name, const 
 
 
     GraphDatabase gdb_new;
-    for (auto i : indices_train) {
+    for (auto i : indices) {
         gdb_new.push_back(gdb[int(i)]);
     }
     cout << gdb_new.size() << endl;
