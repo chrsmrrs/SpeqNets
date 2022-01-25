@@ -62,6 +62,7 @@ class QM9_1(InMemoryDataset):
             # data.x = torch.from_numpy(one_hot).to(torch.float)
             data.x = torch.from_numpy(np.array(node_labels[i])).to(torch.float)
 
+
             # Continuous information.
             data.first = torch.from_numpy(np.array(attributes[i][0])[:,0:13]).to(torch.float)
             data.first_coord = torch.from_numpy(np.array(attributes[i][0])[:, 13:]).to(torch.float)
@@ -77,6 +78,11 @@ class QM9_1(InMemoryDataset):
             data.dist_23 = torch.norm(data.second_coord - data.third_coord, p=2, dim=-1).view(-1, 1)
 
             data.edge_attr = torch.from_numpy(np.array(attributes[i][3])).to(torch.float)
+
+
+            print(data.x.size())
+            print(data.edge_attr.size())
+
             data.y = torch.from_numpy(np.array([targets[i]])).to(torch.float)
 
             data_list.append(data)
@@ -460,6 +466,7 @@ class NetGIN(torch.nn.Module):
         x = F.relu(self.fc1(x))
         x = self.fc4(x)
         return x
+
 
 
 
