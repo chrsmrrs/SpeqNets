@@ -44,7 +44,7 @@ class QM9_1(InMemoryDataset):
 
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(30000)))
 
-        print(attributes[2].shape)
+        print(attributes[0][2].shape)
         print(node_labels[2].shape)
         exit()
 
