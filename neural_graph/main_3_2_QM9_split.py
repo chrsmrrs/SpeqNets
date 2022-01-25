@@ -42,7 +42,6 @@ class QM9_1(InMemoryDataset):
         targets = dp.get_dataset("QM9", multigregression=True).tolist()
         attributes = pre.get_all_attributes_3_2("QM9", list(range(10)))
 
-        print(attributes)
 
         node_labels = pre.get_all_node_labels_3_2("QM9", False, False, list(range(10)))
 
