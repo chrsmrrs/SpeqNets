@@ -145,7 +145,6 @@ class QM9_2(InMemoryDataset):
         torch.save((data, slices), self.processed_paths[0])
 
 
-
 class QM9_3(InMemoryDataset):
     def __init__(self, root, transform=None, pre_transform=None,
                  pre_filter=None):
@@ -270,6 +269,45 @@ class QM9_4(InMemoryDataset):
 
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])
+
+
+class QM9_all(InMemoryDataset):
+    def __init__(self, root, transform=None, pre_transform=None,
+                 pre_filter=None):
+        super(QM9_all, self).__init__(root, transform, pre_transform, pre_filter)
+        self.data, self.slices = torch.load(self.processed_paths[0])
+
+    @property
+    def raw_file_names(self):
+        return "ZIgNC_trairn_all"
+
+    @property
+    def processed_file_names(self):
+        return "ZIgNC_trrain_all"
+
+    def download(self):
+        pass
+
+    def process(self):
+        path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
+
+        # TODO?? no transform
+        dataset_1 = QM9_1(path)
+        dataset_2 = QM9_2(path)
+        dataset_3 = QM9_3(path)
+        dataset_4 = QM9_4(path)
+
+        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2, dataset_3, dataset_4])
+        data_list = []
+
+        for data in dataset:
+            data_list.append(data)
+
+        data, slices = self.collate(data_list)
+        torch.save((data, slices), self.processed_paths[0])
+
+
+
 
 
 class MyData(Data):
@@ -413,12 +451,7 @@ class NetGIN(torch.nn.Module):
         return x
 
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
 
-dataset = QM9_1(path, transform=MyTransform())
-dataset = QM9_2(path, transform=MyTransform())
-dataset = QM9_3(path, transform=MyTransform())
-dataset = QM9_4(path, transform=MyTransform())
 
 exit()
 
@@ -427,7 +460,7 @@ results_log = []
 for _ in range(3):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'QM9')
-    dataset = QM9_1(path, transform=MyTransform()).shuffle()
+    dataset = QM9_all(path, transform=MyTransform()).shuffle()
 
 
     dataset.data.y = dataset.data.y[:,0:12]
