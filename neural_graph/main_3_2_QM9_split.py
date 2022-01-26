@@ -362,8 +362,10 @@ class QM9_all(InMemoryDataset):
         dataset_1 = QM9_1(path)
         dataset_2 = QM9_2(path)
         dataset_3 = QM9_3(path)
-        dataset_4 = QM9_4(path)
+        #dataset_4 = QM9_4(path)
+        print("fff")
         dataset_5 = QM9_5(path)
+        exit()
 
         dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2, dataset_3, dataset_4, dataset_5])
         data_list = []
