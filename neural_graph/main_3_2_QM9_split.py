@@ -281,11 +281,11 @@ class QM9_all(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "ZIgN4C_trairn_all"
+        return "ZIgN4C_trrairn_all"
 
     @property
     def processed_file_names(self):
-        return "ZI4gNC_trrain_all"
+        return "ZI4gNC_trrrain_all"
 
     def download(self):
         pass
@@ -299,7 +299,7 @@ class QM9_all(InMemoryDataset):
         dataset_3 = QM9_3(path)
         dataset_4 = QM9_4(path)
 
-        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2, dataset_3])
+        dataset = torch.utils.data.ConcatDataset([dataset_1, dataset_2, dataset_3, dataset_4])
         data_list = []
 
         for i,data in enumerate(dataset):
