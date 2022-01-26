@@ -218,12 +218,12 @@ class QM9_4(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        return "QM9663_2tttt"
+        return "QrrM9663_2tttt"
 
 
     @property
     def processed_file_names(self):
-        return "QM9636_2tttt"
+        return "QMrr9636_2tttt"
 
     def download(self):
         pass
