@@ -15,7 +15,7 @@ Code for "_SpeqNets: Sparsity-aware Permutation-equivariant Graph Networks_".
 
 All results in the paper and the appendix can be reproduced by the following the steps below. 
 
-## Reproducing the kernel experiments from scratch (Table 1, 5) 
+## Reproducing the kernel experiments (Table 1, 5) 
 You first need to build the Python package:
 - `cd k_s_wl_cpp/implementation/tud_benchmark/kernel_baselines`
 - You might need to adjust the path to `pybind` in `kernel_baselines.cpp`, then run 
