@@ -12,7 +12,6 @@ Code for "_SpeqNets: Sparsity-aware Permutation-equivariant Graph Networks_".
 - `torch-geometric 2.0.x`
 - `pybind11`
 - `libsvm`
-- Linux system 
 
 All results in the paper and the appendix can be reproduced by the following the steps below. 
 
