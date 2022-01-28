@@ -1,8 +1,3 @@
-/**********************************************************************
- * Copyright (C) 2020 Christopher Morris <christopher.morris@udo.edu>
- *********************************************************************/
-
-
 #ifndef WLFAST_COLORREFINEMENTKERNEL_H
 #define WLFAST_COLORREFINEMENTKERNEL_H
 

@@ -1,4 +1,3 @@
-
 #include "AuxiliaryMethods.h"
 #include "GenerateThree.h"
 #include <algorithm>

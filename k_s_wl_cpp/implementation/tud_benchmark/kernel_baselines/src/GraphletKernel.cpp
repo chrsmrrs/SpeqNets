@@ -1,8 +1,3 @@
-/**********************************************************************
- * Copyright (C) 2020 Christopher Morris <christopher.morris@udo.edu>
- *********************************************************************/
-
-
 #include "GraphletKernel.h"
 
 namespace GraphletKernel {

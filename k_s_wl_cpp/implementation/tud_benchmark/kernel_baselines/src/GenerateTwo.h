@@ -1,5 +1,3 @@
-
-
 #ifndef WLFAST_GENERATETWO_H
 #define WLFAST_GENERATETWO_H
 

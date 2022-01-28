@@ -71,8 +71,6 @@ class PPI_2_1(InMemoryDataset):
                     type[n] = np.concatenate(
                         [node_features[v], node_features[w], np.array([0, 1])], axis=-1)
 
-
-
         matrix_1 = []
         matrix_2 = []
         node_features = []
@@ -170,7 +168,6 @@ class Net(torch.nn.Module):
         x_2 = F.relu(self.conv_1_2(x, edge_index_2))
         x = self.mlp_1(torch.cat([x_1, x_2], dim=-1))
 
-
         x_1 = F.relu(self.conv_2_1(x, edge_index_1))
         x_2 = F.relu(self.conv_2_2(x, edge_index_2))
         x = self.mlp_2(torch.cat([x_1, x_2], dim=-1))
@@ -185,13 +182,10 @@ class Net(torch.nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-
-
-
 def train(i):
     model.train()
     optimizer.zero_grad()
-    F.nll_loss(model()[data.train_mask[:,i]], data.y[data.train_mask[:,i]]).backward()
+    F.nll_loss(model()[data.train_mask[:, i]], data.y[data.train_mask[:, i]]).backward()
 
     optimizer.step()
 
@@ -201,16 +195,13 @@ def test(i):
     model.eval()
     logits, accs = model(), []
     for _, mask in data('train_mask', 'val_mask', 'test_mask'):
-
-
-        pred = logits[mask[:,i]].max(1)[1]
-        acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
+        pred = logits[mask[:, i]].max(1)[1]
+        acc = pred.eq(data.y[mask[:, i]]).sum().item() / mask[:, i].sum().item()
         accs.append(acc)
     return accs
 
 
 acc_all = []
-
 
 for i in range(5):
     acc_total = 0
@@ -227,10 +218,10 @@ for i in range(5):
                 best_val_acc = val_acc
                 test_acc = tmp_test_acc
             print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
-                  f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
+                     f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
 
-        acc_total += test_acc*100
+        acc_total += test_acc * 100
 
-    acc_all.append(acc_total/10)
+    acc_all.append(acc_total / 10)
 
 print(np.array(acc_all).mean(), np.array(acc_all).std())

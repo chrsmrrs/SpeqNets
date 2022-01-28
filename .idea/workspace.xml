@@ -12,9 +12,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="ghjhj">
+    <list default="true" id="346160e1-bfca-4214-9cee-ecb160f0a65c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_graph/main_3_2_QM9_split.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_graph/main_3_2_QM9_split.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,21 +345,7 @@
       <workItem from="1642809569959" duration="2967000" />
       <workItem from="1642886857710" duration="17729000" />
       <workItem from="1642951887378" duration="5594000" />
-      <workItem from="1643038379501" duration="76076000" />
-    </task>
-    <task id="LOCAL-01034" summary="ghjhj">
-      <created>1642902299444</created>
-      <option name="number" value="01034" />
-      <option name="presentableId" value="LOCAL-01034" />
-      <option name="project" value="LOCAL" />
-      <updated>1642902299445</updated>
-    </task>
-    <task id="LOCAL-01035" summary="ghjhj">
-      <created>1642902389453</created>
-      <option name="number" value="01035" />
-      <option name="presentableId" value="LOCAL-01035" />
-      <option name="project" value="LOCAL" />
-      <updated>1642902389453</updated>
+      <workItem from="1643038379501" duration="85575000" />
     </task>
     <task id="LOCAL-01036" summary="ghjhj">
       <created>1642902457604</created>
@@ -691,7 +676,21 @@
       <option name="project" value="LOCAL" />
       <updated>1643167980014</updated>
     </task>
-    <option name="localTasksCounter" value="1083" />
+    <task id="LOCAL-01083" summary="ghjhj">
+      <created>1643223063683</created>
+      <option name="number" value="01083" />
+      <option name="presentableId" value="LOCAL-01083" />
+      <option name="project" value="LOCAL" />
+      <updated>1643223063684</updated>
+    </task>
+    <task id="LOCAL-01084" summary="ghjhj">
+      <created>1643223263182</created>
+      <option name="number" value="01084" />
+      <option name="presentableId" value="LOCAL-01084" />
+      <option name="project" value="LOCAL" />
+      <updated>1643223263182</updated>
+    </task>
+    <option name="localTasksCounter" value="1085" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

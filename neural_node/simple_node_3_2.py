@@ -1,4 +1,6 @@
+import itertools
 import os.path as osp
+from itertools import combinations_with_replacement
 
 import numpy as np
 import torch
@@ -6,11 +8,10 @@ import torch.nn.functional as F
 from graph_tool.all import *
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.data import (InMemoryDataset, Data)
-from torch_geometric.datasets import WebKB, Actor
+from torch_geometric.datasets import WebKB
 from torch_geometric.nn import GCNConv
 from torch_scatter import scatter
-from itertools import product, combinations_with_replacement
-import itertools
+
 
 # Compute atomic type for ordered set of vertices of graph g.
 def compute_atomic_type(g, vertices):
@@ -145,7 +146,6 @@ class PPI_2_1(InMemoryDataset):
                     # Add vertex to k-tuple graph representing tuple t.
                     t_v = tuple_graph.add_vertex()
 
-
                     # Compute atomic type.
                     raw_type = compute_atomic_type(g, t)
 
@@ -163,11 +163,9 @@ class PPI_2_1(InMemoryDataset):
                     one_hot = np.zeros((80,))
 
                     one_hot[int(at)] = 1
-                    type[t_v] = np.concatenate([one_hot,tmp])
+                    type[t_v] = np.concatenate([one_hot, tmp])
 
-
-                    #type[t_v] = tmp
-
+                    # type[t_v] = tmp
 
                     # Manage mappings, back and forth.
                     tuple_to_nodes[t_v] = t
@@ -192,7 +190,6 @@ class PPI_2_1(InMemoryDataset):
             index_1.append(int(v))
             index_2.append(int(w))
             index_3.append(int(u))
-
 
             # 1 neighbors.
             for n in v.out_neighbors():
@@ -241,11 +238,10 @@ class PPI_2_1(InMemoryDataset):
         torch.save((data, slices), self.processed_paths[0])
 
 
-
 class MyData(Data):
     def __inc__(self, key, value, *args, **kwargs):
         return self.num_nodes if key in [
-            'edge_index_1', 'edge_index_2', 'edge_index_3', 'index_1', 'index_2',  'index_3'
+            'edge_index_1', 'edge_index_2', 'edge_index_3', 'index_1', 'index_2', 'index_3'
 
         ] else 0
 
@@ -261,7 +257,6 @@ class MyTransform(object):
 path = osp.join(osp.dirname(osp.realpath(__file__)), '.', 'data', 'ttertee')
 dataset = PPI_2_1(path, transform=MyTransform())
 data = dataset[0]
-
 
 
 class Net(torch.nn.Module):
@@ -292,7 +287,6 @@ class Net(torch.nn.Module):
         x_3 = F.relu(self.conv_1_3(x, edge_index_3))
         x = self.mlp_1(torch.cat([x_1, x_2, x_3], dim=-1))
 
-
         x_1 = F.relu(self.conv_2_1(x, edge_index_1))
         x_2 = F.relu(self.conv_2_2(x, edge_index_2))
         x_3 = F.relu(self.conv_2_3(x, edge_index_3))
@@ -309,13 +303,10 @@ class Net(torch.nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-
-
-
 def train(i):
     model.train()
     optimizer.zero_grad()
-    F.nll_loss(model()[data.train_mask[:,i]], data.y[data.train_mask[:,i]]).backward()
+    F.nll_loss(model()[data.train_mask[:, i]], data.y[data.train_mask[:, i]]).backward()
 
     optimizer.step()
 
@@ -325,17 +316,13 @@ def test(i):
     model.eval()
     logits, accs = model(), []
     for _, mask in data('train_mask', 'val_mask', 'test_mask'):
-
-
-        pred = logits[mask[:,i]].max(1)[1]
-        acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
+        pred = logits[mask[:, i]].max(1)[1]
+        acc = pred.eq(data.y[mask[:, i]]).sum().item() / mask[:, i].sum().item()
         accs.append(acc)
     return accs
 
 
-
 acc_all = []
-
 
 for i in range(5):
     acc_total = 0
@@ -352,10 +339,10 @@ for i in range(5):
                 best_val_acc = val_acc
                 test_acc = tmp_test_acc
             print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
-                  f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
+                     f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
 
-        acc_total += test_acc*100
+        acc_total += test_acc * 100
 
-    acc_all.append(acc_total/10)
+    acc_all.append(acc_total / 10)
 
 print(np.array(acc_all).mean(), np.array(acc_all).std())

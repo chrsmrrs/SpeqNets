@@ -1,8 +1,3 @@
-/**********************************************************************
- * Copyright (C) 2020 Christopher Morris <christopher.morris@udo.edu>
- *********************************************************************/
-
-
 #include <cstdio>
 #include "src/AuxiliaryMethods.h"
 
@@ -53,6 +48,7 @@ MatrixXd compute_wl_2_dense(string ds, int num_iterations,  bool use_labels,  bo
 
     return MatrixXd(gm);
 }
+
 
 MatrixXd compute_wlp_2_dense(string ds, int num_iterations,  bool use_labels,  bool use_edge_labels) {
     GraphDatabase gdb = AuxiliaryMethods::read_graph_txt_file(ds);

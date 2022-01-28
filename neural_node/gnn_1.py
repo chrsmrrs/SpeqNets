@@ -1,16 +1,16 @@
 import os.path as osp
-import argparse
+
 import numpy as np
 import torch
 import torch.nn.functional as F
 from torch_geometric.datasets import WebKB
 from torch_geometric.nn import GCNConv, ChebConv  # noqa
 
-
 dataset = 'texas'
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
 dataset = WebKB(path, dataset)
 data = dataset[0]
+
 
 class Net(torch.nn.Module):
     def __init__(self):
@@ -25,12 +25,11 @@ class Net(torch.nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-
 def train(i):
     model.train()
     optimizer.zero_grad()
 
-    F.nll_loss(model()[data.train_mask[:,i]], data.y[data.train_mask[:,i]]).backward()
+    F.nll_loss(model()[data.train_mask[:, i]], data.y[data.train_mask[:, i]]).backward()
     optimizer.step()
 
 
@@ -39,16 +38,11 @@ def test(i):
     model.eval()
     logits, accs = model(), []
     for _, mask in data('train_mask', 'val_mask', 'test_mask'):
-
-
-        pred = logits[mask[:,i]].max(1)[1]
-        acc = pred.eq(data.y[mask[:,i]]).sum().item() / mask[:,i].sum().item()
+        pred = logits[mask[:, i]].max(1)[1]
+        acc = pred.eq(data.y[mask[:, i]]).sum().item() / mask[:, i].sum().item()
         accs.append(acc)
     return accs
 
-
-print(dataset.num_classes)
-exit()
 
 acc_all = []
 for i in range(5):
@@ -66,10 +60,10 @@ for i in range(5):
                 best_val_acc = val_acc
                 test_acc = tmp_test_acc
             print(i, f'Epoch: {epoch:03d}, Train: {train_acc:.4f}, '
-                  f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
+                     f'Val: {best_val_acc:.4f}, Test: {test_acc:.4f}')
 
-        acc_total += test_acc*100.0
+        acc_total += test_acc * 100.0
 
-    acc_all.append(acc_total/10)
+    acc_all.append(acc_total / 10)
 
 print(np.array(acc_all).mean(), np.array(acc_all).std())

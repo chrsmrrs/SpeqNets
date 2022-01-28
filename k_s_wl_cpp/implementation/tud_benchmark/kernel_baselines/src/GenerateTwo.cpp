@@ -1,5 +1,3 @@
-
-
 #include "AuxiliaryMethods.h"
 #include "GenerateTwo.h"
 
