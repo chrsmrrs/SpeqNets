@@ -12,15 +12,13 @@ Code for "_SpeqNets: Sparsity-aware Permutation-equivariant Graph Networks_".
 - `torch-geometric 2.0.x`
 - `pybind11`
 - `libsvm`
-- Linux system 
 
 All results in the paper and the appendix can be reproduced by the following the steps below. 
 
-## Reproducing the kernel experiments from scratch (Table 1, 5) 
+## Reproducing the kernel experiments (Table 1, 5) 
 You first need to build the Python package:
 - `cd k_s_wl_cpp/implementation/tud_benchmark/kernel_baselines`
 - You might need to adjust the path to `pybind` in `kernel_baselines.cpp`, then run 
-Run
     - MaxOS: c++ -O3 -shared -std=c++11 -undefined dynamic_lookup `python3 -m pybind11 --includes`  kernel_baselines.cpp src/*cpp -o ../preprocessing`python3-config --extension-suffix` 
     - Linux: c++ -O3  -shared -std=c++11 -fPIC `python3 -m pybind11 --includes`  kernel_baselines.cpp src/*cpp -o ../preprocessing`python3-config --extension-suffix`
 - `cd ..`
@@ -40,4 +38,4 @@ You first need to build the Python package:
 
 ## Reproducing the node classification experiments (Tables 2(b))
 - `cd neural_node`
-- Run `python gnn_1.py`, `python simple_node_21.py`, ... 
+- Run `python gnn_1.py`, `python simple_node_2_1.py`, ... 
