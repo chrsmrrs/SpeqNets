@@ -11,9 +11,12 @@
 #include <chrono>
 
 #ifdef __linux__
-    #include <pybind11/pybind11.h>
-    #include <pybind11/eigen.h>
-    #include <pybind11/stl.h>
+//    #include <pybind11/pybind11.h>
+//    #include <pybind11/eigen.h>
+//    #include <pybind11/stl.h>
+    #include </home/morrchri/.local/include/python3.8/pybind11/pybind11.h>
+    #include </home/morrchri/.local/include/python3.8/pybind11/eigen.h>
+    #include </home/morrchri/.local/include/python3.8/pybind11/stl.h>
 #else
     #include </usr/local/include/pybind11/pybind11.h>
     #include </usr/local/include/pybind11/stl.h>
