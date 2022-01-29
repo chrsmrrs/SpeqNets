@@ -19,8 +19,8 @@ All results in the paper and the appendix can be reproduced by the following the
 You first need to build the Python package:
 - `cd k_s_wl_cpp/implementation/tud_benchmark/kernel_baselines`
 - You might need to adjust the path to `pybind` in `kernel_baselines.cpp`, then run 
-    - MaxOS: c++ -O3 -shared -std=c++11 -undefined dynamic_lookup `python3 -m pybind11 --includes`  kernel_baselines.cpp src/*cpp -o ../preprocessing`python3-config --extension-suffix` 
-    - Linux: c++ -O3  -shared -std=c++11 -fPIC `python3 -m pybind11 --includes`  kernel_baselines.cpp src/*cpp -o ../preprocessing`python3-config --extension-suffix`
+    - MaxOS: c++ -O3 -shared -std=c++11 -undefined dynamic_lookup `python3 -m pybind11 --includes`  kernel_baselines.cpp src/*cpp -o ../kernel_baselines`python3-config --extension-suffix` 
+    - Linux: c++ -O3  -shared -std=c++11 -fPIC `python3 -m pybind11 --includes`  kernel_baselines.cpp src/*cpp -o ../kernel_baselines`python3-config --extension-suffix`
 - `cd ..`
 - Run `python main_kernel.py` and ` python main_gnn.py`
 

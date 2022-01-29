@@ -223,6 +223,20 @@ tuple <Attributes, Attributes, Attributes, Attributes> get_attributes_3_1(const 
                 two_multiset.push_back(new_multiset);
             }
         }
+
+        vector<Node> new_multiset = {v};
+        new_multiset.push_back(v);
+
+        std::sort(new_multiset.begin(), new_multiset.end());
+
+        auto t = two_multiset_exits.find(new_multiset);
+
+        // Check if not already exists.
+        if (t == two_multiset_exits.end()) {
+            two_multiset_exits.insert({{new_multiset, true}});
+
+            two_multiset.push_back(new_multiset);
+        }
     }
 
     vector<vector<Node>> three_multiset;
@@ -261,7 +275,6 @@ tuple <Attributes, Attributes, Attributes, Attributes> get_attributes_3_1(const 
         }
     }
 
-
     vector<vector<Node>> three_tuples;
     for (vector<Node> ms: three_multiset) {
         three_tuples.push_back({{ms[0], ms[1], ms[2]}});
@@ -274,13 +287,11 @@ tuple <Attributes, Attributes, Attributes, Attributes> get_attributes_3_1(const 
         three_tuples.push_back({{ms[2], ms[0], ms[1]}});
     }
 
-
     size_t num_three_tuples = 0;
     for (vector<Node> tuple: three_tuples) {
         Node i = tuple[0];
         Node j = tuple[1];
         Node k = tuple[2];
-
 
         node_to_three_tuple.insert({{num_three_tuples, make_tuple(i, j, k)}});
         three_tuple_to_node.insert({{make_tuple(i, j, k), num_three_tuples}});
@@ -340,7 +351,6 @@ vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attribute
     cout << gdb_new_1.size() << endl;
 
 
-
     uint i = 1;
     for (auto &g: gdb_new_1) {
        attributes.push_back(get_attributes_3_2(g));
@@ -369,10 +379,6 @@ vector <tuple<Attributes, Attributes, Attributes, Attributes>> get_all_attribute
 
     return attributes;
 }
-
-
-
-
 
 
 tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
@@ -410,15 +416,15 @@ tuple <Attributes, Attributes, Attributes> get_attributes_2_1(const Graph &g) {
             third.push_back(e_attr_ij);
         }
 
-            Attribute attr_i = attributes[i];
-            Attribute attr_j = attributes[i];
+        Attribute attr_i = attributes[i];
+        Attribute attr_j = attributes[i];
 
-            Attribute e_attr_ij;
-            e_attr_ij = vector<float>({{0, 0, 0, 0}});
+        Attribute e_attr_ij;
+        e_attr_ij = vector<float>({{0, 0, 0, 0}});
 
-            first.push_back(attr_i);
-            second.push_back(attr_j);
-            third.push_back(e_attr_ij);
+        first.push_back(attr_i);
+        second.push_back(attr_j);
+        third.push_back(e_attr_ij);
     }
 
     return std::make_tuple(first, second, third);
@@ -500,10 +506,6 @@ vector <tuple<Attributes, Attributes, Attributes>> get_all_attributes_2_2(string
 
     return attributes;
 }
-
-
-
-
 
 
 // Generate sparse adjacency matrix representation of two-tuple graph of graph g.
@@ -816,6 +818,20 @@ tuple<vector<vector<uint>>, vector<vector<uint>>, vector<vector<uint>>> generate
 
                 two_multiset.push_back(new_multiset);
             }
+        }
+
+        vector<Node> new_multiset = {v};
+        new_multiset.push_back(v);
+
+        std::sort(new_multiset.begin(), new_multiset.end());
+
+        auto t = two_multiset_exits.find(new_multiset);
+
+        // Check if not already exists.
+        if (t == two_multiset_exits.end()) {
+            two_multiset_exits.insert({{new_multiset, true}});
+
+            two_multiset.push_back(new_multiset);
         }
     }
 
@@ -1157,6 +1173,20 @@ vector<unsigned long> get_node_labels_3_1(const Graph &g, const bool use_labels,
                 two_multiset.push_back(new_multiset);
             }
         }
+
+        vector<Node> new_multiset = {v};
+        new_multiset.push_back(v);
+
+        std::sort(new_multiset.begin(), new_multiset.end());
+
+        auto t = two_multiset_exits.find(new_multiset);
+
+        // Check if not already exists.
+        if (t == two_multiset_exits.end()) {
+            two_multiset_exits.insert({{new_multiset, true}});
+
+            two_multiset.push_back(new_multiset);
+        }
     }
 
     vector<vector<Node>> three_multiset;
@@ -1380,8 +1410,6 @@ vector<unsigned long> get_node_labels_2_1(const Graph &g, const bool use_labels,
 
     return tuple_labels;
 }
-
-
 
 
 
