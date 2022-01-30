@@ -1,0 +1,13 @@
+#!/bin/bash
+#SBATCH --job-name=gnn_2_1
+#SBATCH --ntasks=1
+#SBATCH --time=48:00:00
+#SBATCH --mem=32G
+#SBATCH --gres=gpu:48gb:1
+#SBATCH --partition=main
+
+export PYTHONUNBUFFERED=1
+module load cuda/10.2
+module load anaconda
+conda activate gc
+python main_3_1_alchemy_10K.py
