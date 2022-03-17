@@ -16,7 +16,7 @@ def main():
 
     results = []
     for dataset, use_labels in dataset:
-        classes = dp.get_dataset(dataset)
+        #classes = dp.get_dataset(dataset)
 
         all_matrices = []
         for i in range(5, 6):
@@ -25,9 +25,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL_1 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL_1 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WL_1 " + str(elapsed_time))
+        results.append(dataset + " " + "WL_1 " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -36,9 +36,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL2 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WL2 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "WL2 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -47,9 +47,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WL3 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "WL3 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -58,9 +58,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWL2 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "LWL2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "LWL2 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "LWL2 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -69,9 +69,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWLP2 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "LWLP2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "LWLP2 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "LWLP2 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -80,9 +80,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWL3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "LWL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "LWL3 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "LWL3 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -91,9 +91,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWLP3 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL3 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "LWLP3 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "LWLP3 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -102,9 +102,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL2_1 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL2_1 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WL2_1 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "WL2_1 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -113,9 +113,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WLP2_1 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WLP2_1 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WLP2_1 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "WLP2_1 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -124,9 +124,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL3_1 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL3_1 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WL3_1 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "WL3_1 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -135,9 +135,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WLP3_1 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WLP3_1 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WLP3_1 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "WLP3_1 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -146,9 +146,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL3_2 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL3_2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WL3_2 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "WL3_2 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -157,9 +157,9 @@ def main():
             elapsed_time = time.time() - start_time
             gm_n = aux.normalize_gram_matrix(gm)
             all_matrices.append(gm_n)
-        acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WLP3_2 " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
-        results.append(dataset + " " + "WLP3_2 " + str(acc) + " " + str(s_1) + " " + str(s_2))
+        # acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        print(dataset + " " + "WLP3_2 " + " " + str(elapsed_time))
+        results.append(dataset + " " + "WLP3_2 " + " " + str(elapsed_time))
 
 
         # # Graphlet kernel.
