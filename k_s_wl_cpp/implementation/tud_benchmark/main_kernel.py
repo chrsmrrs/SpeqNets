@@ -1,7 +1,7 @@
 import time
 
 import auxiliarymethods.auxiliary_methods as aux
-import auxiliarymethods.datasets as dp
+#import auxiliarymethods.datasets as dp
 import kernel_baselines as kb
 from auxiliarymethods.kernel_evaluation import kernel_svm_evaluation
 
@@ -16,7 +16,7 @@ def main():
 
     results = []
     for dataset, use_labels in dataset:
-        classes = dp.get_dataset(dataset)
+        #classes = dp.get_dataset(dataset)
 
         all_matrices = []
         for i in range(5, 6):
