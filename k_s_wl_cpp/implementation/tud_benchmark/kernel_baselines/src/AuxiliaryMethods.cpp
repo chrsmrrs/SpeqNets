@@ -25,7 +25,7 @@ namespace AuxiliaryMethods {
 
         vector<uint> graph_indicator;
         ifstream myfile(
-                path + "/datasets/"+ data_set_name +  "/"  + data_set_name +  "/raw/" + data_set_name + "_graph_indicator.txt");
+                path + "/datasets/"+ data_set_name +  "/" + data_set_name + "_graph_indicator.txt");
         if (myfile.is_open()) {
             while (getline(myfile, line)) {
                 graph_indicator.push_back(stoi(line));
@@ -43,7 +43,7 @@ namespace AuxiliaryMethods {
         string label;
         Labels node_labels;
         ifstream labels(
-                path + "/datasets/"+ data_set_name +  "/"  + data_set_name + "/raw/" + data_set_name + "_node_labels.txt");
+                path + "/datasets/"+ data_set_name +  "/" + data_set_name +  "_node_labels.txt");
         if (labels.is_open()) {
             while (getline(labels, label)) {
                 node_labels.push_back(stoul(label));
@@ -81,7 +81,7 @@ namespace AuxiliaryMethods {
         // Get labels from for each node.
         bool edge_label_data = true;
         Labels edge_labels;
-        ifstream elabels(path + "/datasets/"+ data_set_name +  "/"  + data_set_name + "/raw/" + data_set_name + "_edge_labels.txt");
+        ifstream elabels(path + "/datasets/"+ data_set_name +  "/" + data_set_name + "_edge_labels.txt");
         if (elabels.is_open()) {
             while (getline(elabels, label)) {
                 edge_labels.push_back(stoul(label));
@@ -100,7 +100,7 @@ namespace AuxiliaryMethods {
 
         uint c = 0;
         vector<int> edges;
-        ifstream edge_file(path + "/datasets/" + data_set_name +  "/" + data_set_name + "/raw/" + data_set_name + "_A.txt");
+        ifstream edge_file(path + "/datasets/"+ data_set_name +  "/" + data_set_name + "_A.txt");
         if (edge_file.is_open()) {
             while (getline(edge_file, line)) {
                 vector<int> r = split_string(line);
