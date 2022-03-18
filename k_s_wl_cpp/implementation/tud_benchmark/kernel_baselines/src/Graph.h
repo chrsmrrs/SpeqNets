@@ -2,8 +2,8 @@
 #define WLFAST_GRAPH_H
 
 #ifdef __linux__
-//#include "../eigen-3.4.0/Eigen/Sparse"
-#include <eigen3/Eigen/Sparse>
+#include "../eigen-3.4.0/Eigen/Sparse"
+//#include <eigen3/Eigen/Sparse>
 #else
 #include "../eigen-3.4.0/Eigen/Sparse"
 #endif
