@@ -9,13 +9,13 @@ from auxiliarymethods.kernel_evaluation import kernel_svm_evaluation
 def main():
     num_reps = 10
 
-    dataset = [["ENZYMES", True], ["IMDB-BINARY", False], ["NCI1", True]]
+    datasets = [["ENZYMES", True], ["IMDB-BINARY", False], ["NCI1", True]]
 
     # Number of repetitions of 10-CV.
     num_reps = 10
 
     results = []
-    for dataset, use_labels in dataset:
+    for dataset, use_labels in datasets:
         #classes = dp.get_dataset(dataset)
 
         all_matrices = []

@@ -4,7 +4,9 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from torch_geometric.datasets import WebKB
-from torch_geometric.nn import GCNConv
+from torch_geometric.nn import GCNConv, GINConv
+import torch.nn.functional as F
+from torch.nn import BatchNorm1d, Linear, ReLU, Sequential
 
 dataset = 'texas'
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
@@ -15,8 +17,12 @@ data = dataset[0]
 class Net(torch.nn.Module):
     def __init__(self):
         super().__init__()
-        self.conv1 = GCNConv(dataset.num_features, 16, cached=True)
-        self.conv2 = GCNConv(16, dataset.num_classes, cached=True)
+        self.conv1 = GINConv(Sequential(Linear(dataset.num_features, 16), BatchNorm1d(16), ReLU(),
+                       Linear(16, 16), ReLU()))
+
+        self.conv2 = GINConv(Sequential(Linear(16, 16), BatchNorm1d(16), ReLU(),
+                       Linear(16, dataset.num_classes)))
+
 
     def forward(self):
         x, edge_index, edge_weight = data.x, data.edge_index, data.edge_attr
