@@ -8,7 +8,7 @@ from torch_geometric.nn import GCNConv, GINConv
 import torch.nn.functional as F
 from torch.nn import BatchNorm1d, Linear, ReLU, Sequential
 
-dataset = 'texas'
+dataset = 'wisconsin'
 path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
 dataset = WebKB(path, dataset)
 data = dataset[0]
