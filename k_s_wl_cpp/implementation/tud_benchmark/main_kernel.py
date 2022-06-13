@@ -184,9 +184,6 @@ def main():
         # print(dataset + " " + "SP " + str(acc) + " " + str(s_1) + " " + str(s_2) + " " + str(elapsed_time))
         # results.append(dataset + " " + "SP " + str(acc) + " " + str(s_1) + " " + str(s_2))
 
-        for r in results:
-            print(r)
-
 
 if __name__ == "__main__":
     main()
