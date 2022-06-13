@@ -56,7 +56,7 @@ namespace GenerateTwo {
 
         Graph tuple_graph(false);
         if (algorithm == "local" or algorithm == "localp") {
-            tuple_graph = generate_local_graph(g, use_labels, use_edge_labels)
+            tuple_graph = generate_local_graph(g, use_labels, use_edge_labels);
         } else if (algorithm == "local1" or algorithm == "local1p") {
             tuple_graph = generate_local_graph_1(g, use_labels, use_edge_labels);
         } else if (algorithm == "wl") {
