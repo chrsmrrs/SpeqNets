@@ -56,7 +56,7 @@ namespace GenerateTwo {
 
         Graph tuple_graph(false);
         if (algorithm == "local" or algorithm == "localp") {
-            tuple_graph = generate_local_graph(g, use_labels, use_edge_labels);
+            tuple_graph = generate_local_graph(g, use_labels, use_edge_labels)
         } else if (algorithm == "local1" or algorithm == "local1p") {
             tuple_graph = generate_local_graph_1(g, use_labels, use_edge_labels);
         } else if (algorithm == "wl") {
@@ -66,6 +66,7 @@ namespace GenerateTwo {
         } else if (algorithm == "malkin1") {
             tuple_graph = generate_global_graph_malkin_1(g, use_labels, use_edge_labels);
         }
+
 
 
         unordered_map<Node, TwoTuple> node_to_two_tuple;

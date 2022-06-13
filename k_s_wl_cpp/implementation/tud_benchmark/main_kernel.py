@@ -9,7 +9,7 @@ from auxiliarymethods.kernel_evaluation import kernel_svm_evaluation
 def main():
     num_reps = 10
 
-    datasets = [["ENZYMES", True], ["IMDB-BINARY", False], ["NCI1", True]]
+    datasets = [["MUTAG", True], ["PTC_MR", True], ["IMDB-BINARY", True]]
 
     # Number of repetitions of 10-CV.
     num_reps = 10
