@@ -10,7 +10,6 @@ def main():
     num_reps = 10
 
     datasets = [["MUTAG", True], ["PTC_MR", True], ["IMDB-MULTI", False]]
-
     datasets = [["PROTEINS", True],]
 
     # Number of repetitions of 10-CV.
