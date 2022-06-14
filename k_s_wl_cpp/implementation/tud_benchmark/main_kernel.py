@@ -11,6 +11,8 @@ def main():
 
     datasets = [["MUTAG", True], ["PTC_MR", True], ["IMDB-MULTI", False]]
 
+    datasets = [["PROTEINS", True],]
+
     # Number of repetitions of 10-CV.
     num_reps = 10
 
@@ -40,16 +42,16 @@ def main():
         print(dataset + " " + "WL2 " + " " + str(elapsed_time))
         results.append(dataset + " " + "WL2 " + " " + str(elapsed_time))
 
-        all_matrices = []
-        for i in range(5, 6):
-            start_time = time.time()
-            gm = kb.compute_wl_3_dense(dataset, i, use_labels, False)
-            elapsed_time = time.time() - start_time
-            gm_n = aux.normalize_gram_matrix(gm)
-            all_matrices.append(gm_n)
-        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "WL3 " + " " + str(elapsed_time))
-        results.append(dataset + " " + "WL3 " + " " + str(elapsed_time))
+        # all_matrices = []
+        # for i in range(5, 6):
+        #     start_time = time.time()
+        #     gm = kb.compute_wl_3_dense(dataset, i, use_labels, False)
+        #     elapsed_time = time.time() - start_time
+        #     gm_n = aux.normalize_gram_matrix(gm)
+        #     all_matrices.append(gm_n)
+        # #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        # print(dataset + " " + "WL3 " + " " + str(elapsed_time))
+        # results.append(dataset + " " + "WL3 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
@@ -73,27 +75,27 @@ def main():
         print(dataset + " " + "LWLP2 " + " " + str(elapsed_time))
         results.append(dataset + " " + "LWLP2 " + " " + str(elapsed_time))
 
-        all_matrices = []
-        for i in range(5, 6):
-            start_time = time.time()
-            gm = kb.compute_lwl_3_dense(dataset, i, use_labels, False)
-            elapsed_time = time.time() - start_time
-            gm_n = aux.normalize_gram_matrix(gm)
-            all_matrices.append(gm_n)
-        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWL3 " + " " + str(elapsed_time))
-        results.append(dataset + " " + "LWL3 " + " " + str(elapsed_time))
+        # all_matrices = []
+        # for i in range(5, 6):
+        #     start_time = time.time()
+        #     gm = kb.compute_lwl_3_dense(dataset, i, use_labels, False)
+        #     elapsed_time = time.time() - start_time
+        #     gm_n = aux.normalize_gram_matrix(gm)
+        #     all_matrices.append(gm_n)
+        # #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        # print(dataset + " " + "LWL3 " + " " + str(elapsed_time))
+        # results.append(dataset + " " + "LWL3 " + " " + str(elapsed_time))
 
-        all_matrices = []
-        for i in range(5, 6):
-            start_time = time.time()
-            gm = kb.compute_lwlp_3_dense(dataset, i, use_labels, False)
-            elapsed_time = time.time() - start_time
-            gm_n = aux.normalize_gram_matrix(gm)
-            all_matrices.append(gm_n)
-        #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
-        print(dataset + " " + "LWLP3 " + " " + str(elapsed_time))
-        results.append(dataset + " " + "LWLP3 " + " " + str(elapsed_time))
+        # all_matrices = []
+        # for i in range(5, 6):
+        #     start_time = time.time()
+        #     gm = kb.compute_lwlp_3_dense(dataset, i, use_labels, False)
+        #     elapsed_time = time.time() - start_time
+        #     gm_n = aux.normalize_gram_matrix(gm)
+        #     all_matrices.append(gm_n)
+        # #acc, s_1, s_2 = kernel_svm_evaluation(all_matrices, classes, num_repetitions=num_reps, all_std=True)
+        # print(dataset + " " + "LWLP3 " + " " + str(elapsed_time))
+        # results.append(dataset + " " + "LWLP3 " + " " + str(elapsed_time))
 
         all_matrices = []
         for i in range(5, 6):
