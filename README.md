@@ -1,5 +1,5 @@
 # SpeqNets
-Code for "_SpeqNets: Sparsity-aware Permutation-equivariant Graph Networks_".
+Code for the ICML 2022 paper "_SpeqNets: Sparsity-aware Permutation-equivariant Graph Networks_".
 
 ## Requirements
 - `Python 3.9`
